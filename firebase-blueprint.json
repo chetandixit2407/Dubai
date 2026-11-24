@@ -1,0 +1,244 @@
+{
+  "entities": {
+    "Project": {
+      "title": "UAE Real Estate Project",
+      "description": "Verified real estate development project across the seven UAE Emirates with real-time inventory metadata.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "slug": { "type": "string", "maxLength": 160 },
+        "name": { "type": "string", "maxLength": 180 },
+        "nameAr": { "type": "string", "maxLength": 180 },
+        "developerId": { "type": "string", "maxLength": 128 },
+        "developerName": { "type": "string", "maxLength": 140 },
+        "emirate": {
+          "type": "string",
+          "enum": ["Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah", "Fujairah", "Umm Al Quwain"]
+        },
+        "city": { "type": "string", "maxLength": 120 },
+        "community": { "type": "string", "maxLength": 140 },
+        "neighbourhood": { "type": "string", "maxLength": 140 },
+        "buildingName": { "type": "string", "maxLength": 140 },
+        "waterfront": { "type": "boolean" },
+        "brandedResidence": { "type": "boolean" },
+        "category": {
+          "type": "string",
+          "enum": ["Off-plan", "Ready-to-move", "Under-construction", "Upcoming launch"]
+        },
+        "tenure": { "type": "string", "enum": ["Freehold", "Leasehold"] },
+        "furnished": { "type": "string", "enum": ["Furnished", "Unfurnished", "Semi-Furnished"] },
+        "startingPriceAed": { "type": "number" },
+        "maxPriceAed": { "type": "number" },
+        "pricePerSqFtAed": { "type": "number" },
+        "minSizeSqFt": { "type": "number" },
+        "maxSizeSqFt": { "type": "number" },
+        "paymentPlan": { "type": "string", "maxLength": 120 },
+        "downPaymentPct": { "type": "number" },
+        "handoverDate": { "type": "string", "maxLength": 40 },
+        "handoverYear": { "type": "number" },
+        "launchDate": { "type": "string", "maxLength": 40 },
+        "constructionPct": { "type": "number" },
+        "status": { "type": "string", "maxLength": 60 },
+        "registrationNumber": { "type": "string", "maxLength": 80 },
+        "verified": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "heroImage": { "type": "string", "maxLength": 250000 },
+        "heroImageHash": { "type": "string", "maxLength": 128 },
+        "heroClassification": {
+          "type": "string",
+          "enum": ["actual_photograph", "developer_render", "illustrative_image", "construction_photo"]
+        },
+        "heroSourceName": { "type": "string", "maxLength": 200 },
+        "projectUrl": { "type": "string", "maxLength": 500 },
+        "brochureUrl": { "type": "string", "maxLength": 500 },
+        "masterPlanNotes": { "type": "string", "maxLength": 1000 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "descriptionAr": { "type": "string", "maxLength": 4000 },
+        "sourceOrigin": { "type": "string", "enum": ["excel_import", "manual_admin", "catalog_seed"] },
+        "importBatchId": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "slug", "name", "developerId", "developerName", "emirate", "community", "category", "startingPriceAed", "verified"]
+    },
+    "Developer": {
+      "title": "UAE Property Developer",
+      "description": "Verified real estate developer operating in the UAE.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 140 },
+        "nameAr": { "type": "string", "maxLength": 140 },
+        "emirate": { "type": "string", "maxLength": 60 },
+        "registrationId": { "type": "string", "maxLength": 80 },
+        "website": { "type": "string", "maxLength": 300 },
+        "contactEmail": { "type": "string", "maxLength": 160 },
+        "contactPhone": { "type": "string", "maxLength": 40 },
+        "foundedYear": { "type": "number" },
+        "history": { "type": "string", "maxLength": 2000 },
+        "verified": { "type": "boolean" }
+      },
+      "required": ["id", "name", "emirate", "verified"]
+    },
+    "InventoryLog": {
+      "title": "Inventory Update Audit Entry",
+      "description": "Immutable history of unit inventory changes and synchronization runs.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "projectName": { "type": "string", "maxLength": 180 },
+        "previousAvailable": { "type": "number" },
+        "newAvailable": { "type": "number" },
+        "previousSold": { "type": "number" },
+        "newSold": { "type": "number" },
+        "previousReserved": { "type": "number" },
+        "newReserved": { "type": "number" },
+        "source": { "type": "string", "maxLength": 180 },
+        "syncType": { "type": "string", "enum": ["webhook", "scheduled", "manual_refresh", "admin_edit", "csv_import"] },
+        "actorEmail": { "type": "string", "maxLength": 160 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectId", "projectName", "source", "syncType", "timestamp"]
+    },
+    "SyncProvider": {
+      "title": "Inventory Data Provider",
+      "description": "Authorized developer API, DLD/REST integration, or broker CRM feed configuration.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 140 },
+        "providerType": { "type": "string", "enum": ["dld_registry", "developer_api", "broker_crm", "uae_authority"] },
+        "endpointUrl": { "type": "string", "maxLength": 400 },
+        "syncFrequencyMinutes": { "type": "number" },
+        "enabled": { "type": "boolean" },
+        "lastSyncAt": { "type": "string", "maxLength": 60 },
+        "lastStatus": { "type": "string", "enum": ["healthy", "warning", "error"] },
+        "lastError": { "type": "string", "maxLength": 500 },
+        "recordsSynced": { "type": "number" }
+      },
+      "required": ["id", "name", "providerType", "enabled", "lastStatus"]
+    },
+    "Enquiry": {
+      "title": "Customer Property Enquiry",
+      "description": "Callback request, WhatsApp enquiry, viewing schedule, virtual consultation, or availability alert.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "projectName": { "type": "string", "maxLength": 180 },
+        "enquiryType": {
+          "type": "string",
+          "enum": ["callback", "whatsapp", "visit", "virtual_consultation", "investment", "brochure", "availability_alert"]
+        },
+        "fullName": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 160 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "preferredDate": { "type": "string", "maxLength": 40 },
+        "budgetAed": { "type": "number" },
+        "message": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["new", "contacted", "scheduled", "closed"] },
+        "assignedAgentName": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["enquiryType", "fullName", "email", "status", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Authenticated customer or staff profile with RBAC role.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 160 },
+        "displayName": { "type": "string", "maxLength": 120 },
+        "role": { "type": "string", "enum": ["customer", "sales_agent", "inventory_manager", "admin", "super_admin"] },
+        "preferredCurrency": { "type": "string", "maxLength": 10 },
+        "preferredLanguage": { "type": "string", "maxLength": 10 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "UserFavorite": {
+      "title": "Saved Project Favorite",
+      "description": "Customer's saved project bookmark.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "projectName": { "type": "string", "maxLength": 180 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "projectId", "createdAt"]
+    },
+    "SavedSearch": {
+      "title": "Saved Property Search",
+      "description": "Saved search criteria with price/availability alert preference.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 140 },
+        "emirate": { "type": "string", "maxLength": 60 },
+        "maxBudgetAed": { "type": "number" },
+        "propertyType": { "type": "string", "maxLength": 60 },
+        "alertsEnabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "alertsEnabled", "createdAt"]
+    },
+    "AdminAuditLog": {
+      "title": "Administrator Action Audit Log",
+      "description": "Audit trail of admin mutations, lead assignments, and role updates.",
+      "type": "object",
+      "properties": {
+        "actorUid": { "type": "string", "maxLength": 128 },
+        "actorEmail": { "type": "string", "maxLength": 160 },
+        "action": { "type": "string", "maxLength": 120 },
+        "targetCollection": { "type": "string", "maxLength": 80 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "summary": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["actorUid", "actorEmail", "action", "targetCollection", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Publicly browsable UAE real estate projects with live inventory and media metadata."
+    },
+    "/developers/{developerId}": {
+      "schema": { "$ref": "#/entities/Developer" },
+      "description": "Verified UAE property developers directory."
+    },
+    "/inventoryLogs/{logId}": {
+      "schema": { "$ref": "#/entities/InventoryLog" },
+      "description": "Non-PII inventory synchronization and change audit history."
+    },
+    "/syncProviders/{providerId}": {
+      "schema": { "$ref": "#/entities/SyncProvider" },
+      "description": "Admin-only authorized inventory provider configurations."
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": { "$ref": "#/entities/Enquiry" },
+      "description": "Customer leads and enquiries isolated to owner and authorized White Collar Realty staff."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user account profiles and RBAC role assignments."
+    },
+    "/users/{userId}/favorites/{projectId}": {
+      "schema": { "$ref": "#/entities/UserFavorite" },
+      "description": "Customer saved favourite projects."
+    },
+    "/users/{userId}/savedSearches/{searchId}": {
+      "schema": { "$ref": "#/entities/SavedSearch" },
+      "description": "Customer saved search queries and alert preferences."
+    },
+    "/adminLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AdminAuditLog" },
+      "description": "Admin-only audit log of platform mutations."
+    }
+  }
+}

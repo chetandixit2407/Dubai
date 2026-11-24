@@ -1,0 +1,8 @@
+{
+  "name": "WHITE COLLAR REALTY",
+  "description": "UAE Real Estate Intelligence, Verified Project Inventory & Investment Discovery Platform across Dubai, Abu Dhabi, and all seven Emirates.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

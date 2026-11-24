@@ -1,0 +1,330 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default-Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection health check document (contains no data)
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // =========================================================================
+    // Global Primitives & Role Helpers
+    // =========================================================================
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isBootstrappedAdmin() {
+      return isEmailVerified() && request.auth.token.email == 'chetandixit9968@gmail.com';
+    }
+
+    function hasUserRole(allowedRoles) {
+      return isEmailVerified()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in allowedRoles;
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdmin() || hasUserRole(['super_admin', 'admin']);
+    }
+
+    function isInventoryManager() {
+      return isAdmin() || hasUserRole(['inventory_manager']);
+    }
+
+    function isStaff() {
+      return isAdmin() || hasUserRole(['inventory_manager', 'sales_agent']);
+    }
+
+    function isOwner(userId) {
+      return isEmailVerified() && request.auth.uid == userId;
+    }
+
+    // =========================================================================
+    // Validation Blueprints
+    // =========================================================================
+    function isValidProject(data) {
+      return data.keys().hasAll([
+          'id', 'slug', 'name', 'developerId', 'developerName',
+          'emirate', 'community', 'category', 'startingPriceAed', 'verified'
+        ])
+        && data.keys().hasOnly([
+          'id', 'slug', 'name', 'nameAr', 'developerId', 'developerName',
+          'emirate', 'city', 'community', 'neighbourhood', 'buildingName',
+          'waterfront', 'brandedResidence', 'category', 'propertyTypes', 'tenure', 'furnished',
+          'startingPriceAed', 'maxPriceAed', 'pricePerSqFtAed',
+          'minSizeSqFt', 'maxSizeSqFt', 'paymentPlan', 'downPaymentPct',
+          'handoverDate', 'handoverYear', 'launchDate', 'constructionPct',
+          'status', 'registrationNumber', 'verified', 'featured',
+          'coordinates', 'nearbyLandmarks', 'heroImage', 'heroImageHash', 'heroClassification', 'heroSourceName',
+          'galleryImages', 'constructionImages', 'mediaItems',
+          'projectUrl', 'brochureUrl', 'masterPlanUrl', 'masterPlanNotes',
+          'floorPlans', 'floorAvailability', 'amenities',
+          'virtualTour', 'investment', 'inventory',
+          'description', 'descriptionAr', 'sourceOrigin', 'importBatchId', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.slug is string && data.slug.size() >= 2 && data.slug.size() <= 160
+        && data.name is string && data.name.size() >= 2 && data.name.size() <= 180
+        && data.developerId is string && data.developerId.size() <= 128
+        && data.developerName is string && data.developerName.size() <= 140
+        && data.emirate in ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain']
+        && data.community is string && data.community.size() <= 140
+        && data.category in ['Off-plan', 'Ready-to-move', 'Under-construction', 'Upcoming launch']
+        && data.startingPriceAed is number && data.startingPriceAed >= 0
+        && data.verified is bool
+        && (!('heroImage' in data) || (data.heroImage is string && data.heroImage.size() <= 250000))
+        && (!('heroImageHash' in data) || (data.heroImageHash is string && data.heroImageHash.size() <= 128))
+        && (!('heroClassification' in data) || data.heroClassification in ['actual_photograph', 'developer_render', 'illustrative_image', 'construction_photo'])
+        && (!('heroSourceName' in data) || (data.heroSourceName is string && data.heroSourceName.size() <= 200))
+        && (!('projectUrl' in data) || (data.projectUrl is string && data.projectUrl.size() <= 500))
+        && (!('brochureUrl' in data) || (data.brochureUrl is string && data.brochureUrl.size() <= 500))
+        && (!('sourceOrigin' in data) || data.sourceOrigin in ['excel_import', 'manual_admin', 'catalog_seed'])
+        && (!('importBatchId' in data) || (data.importBatchId is string && data.importBatchId.size() <= 128))
+        && (!('propertyTypes' in data) || (data.propertyTypes is list && data.propertyTypes.size() <= 15 && (data.propertyTypes.size() == 0 || data.propertyTypes[0] is string)))
+        && (!('galleryImages' in data) || (data.galleryImages is list && data.galleryImages.size() <= 20 && (data.galleryImages.size() == 0 || data.galleryImages[0] is string)))
+        && (!('constructionImages' in data) || (data.constructionImages is list && data.constructionImages.size() <= 20 && (data.constructionImages.size() == 0 || data.constructionImages[0] is string)))
+        && (!('mediaItems' in data) || (data.mediaItems is list && data.mediaItems.size() <= 40))
+        && (!('amenities' in data) || (data.amenities is list && data.amenities.size() <= 30 && (data.amenities.size() == 0 || data.amenities[0] is string)))
+        && (!('nearbyLandmarks' in data) || (data.nearbyLandmarks is list && data.nearbyLandmarks.size() <= 15))
+        && (!('floorPlans' in data) || (data.floorPlans is list && data.floorPlans.size() <= 15))
+        && (!('floorAvailability' in data) || (data.floorAvailability is list && data.floorAvailability.size() <= 20));
+    }
+
+    function isValidDeveloper(data) {
+      return data.keys().hasAll(['id', 'name', 'emirate', 'verified'])
+        && data.keys().hasOnly([
+          'id', 'name', 'nameAr', 'emirate', 'registrationId',
+          'website', 'contactEmail', 'contactPhone', 'foundedYear',
+          'history', 'historyAr', 'completedProjects', 'activeProjects',
+          'verified', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.name is string && data.name.size() >= 2 && data.name.size() <= 140
+        && data.emirate is string && data.emirate.size() <= 60
+        && data.verified is bool;
+    }
+
+    function isValidInventoryLog(data) {
+      return data.keys().hasAll(['projectId', 'projectName', 'source', 'syncType', 'timestamp'])
+        && data.keys().hasOnly([
+          'id', 'projectId', 'projectName', 'previousAvailable', 'newAvailable',
+          'previousSold', 'newSold', 'previousReserved', 'newReserved',
+          'source', 'syncType', 'actorUid', 'actorEmail', 'notes', 'timestamp'
+        ])
+        && isValidId(data.projectId)
+        && data.projectName is string && data.projectName.size() <= 180
+        && data.source is string && data.source.size() <= 180
+        && data.syncType in ['webhook', 'scheduled', 'manual_refresh', 'admin_edit', 'csv_import']
+        && data.timestamp is string && data.timestamp.size() <= 60;
+    }
+
+    function isValidSyncProvider(data) {
+      return data.keys().hasAll(['id', 'name', 'providerType', 'enabled', 'lastStatus'])
+        && data.keys().hasOnly([
+          'id', 'name', 'providerType', 'endpointUrl', 'syncFrequencyMinutes',
+          'enabled', 'lastSyncAt', 'lastStatus', 'lastError', 'recordsSynced', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.name is string && data.name.size() <= 140
+        && data.providerType in ['dld_registry', 'developer_api', 'broker_crm', 'uae_authority']
+        && data.enabled is bool
+        && data.lastStatus in ['healthy', 'warning', 'error'];
+    }
+
+    function isValidEnquiry(data) {
+      return data.keys().hasAll(['enquiryType', 'fullName', 'email', 'status', 'createdAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'projectId', 'projectName', 'enquiryType',
+          'fullName', 'email', 'phone', 'preferredDate', 'budgetAed',
+          'message', 'status', 'assignedAgentName', 'assignedAgentUid',
+          'staffNotes', 'createdAt', 'updatedAt'
+        ])
+        && data.enquiryType in ['callback', 'whatsapp', 'visit', 'virtual_consultation', 'investment', 'brochure', 'availability_alert']
+        && data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 120
+        && data.email is string && data.email.size() >= 5 && data.email.size() <= 160
+        && data.status in ['new', 'contacted', 'scheduled', 'closed']
+        && (!('phone' in data) || (data.phone is string && data.phone.size() <= 40))
+        && (!('message' in data) || (data.message is string && data.message.size() <= 2000))
+        && (!('projectName' in data) || (data.projectName is string && data.projectName.size() <= 180))
+        && data.createdAt is string && data.createdAt.size() <= 60;
+    }
+
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'email', 'role'])
+        && data.keys().hasOnly([
+          'uid', 'email', 'displayName', 'role',
+          'preferredCurrency', 'preferredLanguage', 'createdAt', 'updatedAt'
+        ])
+        && data.uid is string && data.uid.size() >= 1 && data.uid.size() <= 128
+        && data.email is string && data.email.size() >= 5 && data.email.size() <= 160
+        && data.role in ['customer', 'sales_agent', 'inventory_manager', 'admin', 'super_admin']
+        && (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 120));
+    }
+
+    function isValidFavorite(data, userId) {
+      return data.keys().hasAll(['userId', 'projectId', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'projectId', 'projectName', 'createdAt'])
+        && data.userId == userId
+        && isValidId(data.projectId)
+        && data.createdAt is string && data.createdAt.size() <= 60;
+    }
+
+    function isValidSavedSearch(data, userId) {
+      return data.keys().hasAll(['userId', 'title', 'alertsEnabled', 'createdAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'title', 'emirate', 'maxBudgetAed',
+          'propertyType', 'category', 'alertsEnabled', 'createdAt'
+        ])
+        && data.userId == userId
+        && data.title is string && data.title.size() >= 2 && data.title.size() <= 140
+        && data.alertsEnabled is bool
+        && data.createdAt is string && data.createdAt.size() <= 60;
+    }
+
+    function isValidAdminAuditLog(data) {
+      return data.keys().hasAll(['actorUid', 'actorEmail', 'action', 'targetCollection', 'timestamp'])
+        && data.keys().hasOnly([
+          'id', 'actorUid', 'actorEmail', 'action', 'targetCollection', 'targetId', 'summary', 'timestamp'
+        ])
+        && data.actorUid is string && data.actorUid.size() <= 128
+        && data.actorEmail is string && data.actorEmail.size() <= 160
+        && data.action is string && data.action.size() <= 120
+        && data.targetCollection is string && data.targetCollection.size() <= 80
+        && data.timestamp is string && data.timestamp.size() <= 60;
+    }
+
+    // =========================================================================
+    // Collection Rules
+    // =========================================================================
+
+    // Public Real Estate Project Catalog (zero PII)
+    match /projects/{projectId} {
+      allow get: if isValidId(projectId);
+      allow list: if true;
+      allow create: if isValidId(projectId) && isAdmin() && isValidProject(incoming());
+      allow update: if isValidId(projectId) && isValidProject(incoming()) && (
+        isAdmin() ||
+        (isInventoryManager() && incoming().diff(existing()).affectedKeys().hasOnly(['inventory', 'updatedAt']))
+      );
+      allow delete: if isValidId(projectId) && isAdmin();
+    }
+
+    // Verified UAE Developers Directory (public business info)
+    match /developers/{developerId} {
+      allow get: if isValidId(developerId);
+      allow list: if true;
+      allow create: if isValidId(developerId) && isAdmin() && isValidDeveloper(incoming());
+      allow update: if isValidId(developerId) && isAdmin() && isValidDeveloper(incoming());
+      allow delete: if isValidId(developerId) && isAdmin();
+    }
+
+    // Immutable Inventory Change Audit History (non-PII transparency feed)
+    match /inventoryLogs/{logId} {
+      allow get: if isValidId(logId);
+      allow list: if true;
+      allow create: if isValidId(logId) && isInventoryManager() && isValidInventoryLog(incoming())
+        && incoming().actorUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // Authorized Data Sync Providers (Admin & Inventory Manager only)
+    match /syncProviders/{providerId} {
+      allow get: if isValidId(providerId) && isInventoryManager();
+      allow list: if isBootstrappedAdmin();
+      allow create: if isValidId(providerId) && isAdmin() && isValidSyncProvider(incoming());
+      allow update: if isValidId(providerId) && isInventoryManager() && isValidSyncProvider(incoming());
+      allow delete: if isValidId(providerId) && isAdmin();
+    }
+
+    // Customer Leads & Enquiries (PII protected)
+    match /enquiries/{enquiryId} {
+      allow get: if isValidId(enquiryId) && (
+        isStaff() || (isEmailVerified() && existing().userId == request.auth.uid)
+      );
+      allow list: if isBootstrappedAdmin() || (
+        isEmailVerified() && resource.data.userId == request.auth.uid
+      );
+      allow create: if isValidId(enquiryId) && isValidEnquiry(incoming())
+        && incoming().status == 'new'
+        && (
+          (isEmailVerified() && incoming().userId == request.auth.uid) ||
+          (!isSignedIn() && !('userId' in incoming()))
+        );
+      allow update: if isValidId(enquiryId) && isValidEnquiry(incoming()) && (
+        (isAdmin() && incoming().createdAt == existing().createdAt) ||
+        (isStaff() && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'assignedAgentName', 'assignedAgentUid', 'staffNotes', 'updatedAt']))
+      );
+      allow delete: if isValidId(enquiryId) && isAdmin();
+    }
+
+    // User Profiles & RBAC (PII protected, anti-escalation)
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isBootstrappedAdmin();
+      allow create: if isValidId(userId) && isOwner(userId) && isValidUserProfile(incoming())
+        && incoming().uid == request.auth.uid
+        && (incoming().role == 'customer' || isBootstrappedAdmin());
+      allow update: if isValidId(userId) && isValidUserProfile(incoming())
+        && incoming().uid == existing().uid
+        && (
+          isAdmin() ||
+          (isOwner(userId)
+            && incoming().role == existing().role
+            && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'preferredCurrency', 'preferredLanguage', 'updatedAt']))
+        );
+      allow delete: if isValidId(userId) && isAdmin();
+
+      // Saved Favorites subcollection
+      match /favorites/{projectId} {
+        allow get: if isValidId(projectId) && (isOwner(userId) || isAdmin());
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(projectId) && isOwner(userId) && isValidFavorite(incoming(), userId);
+        allow update: if false;
+        allow delete: if isValidId(projectId) && isOwner(userId);
+      }
+
+      // Saved Searches subcollection
+      match /savedSearches/{searchId} {
+        allow get: if isValidId(searchId) && (isOwner(userId) || isAdmin());
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(searchId) && isOwner(userId) && isValidSavedSearch(incoming(), userId);
+        allow update: if isValidId(searchId) && isOwner(userId) && isValidSavedSearch(incoming(), userId)
+          && incoming().userId == existing().userId
+          && incoming().diff(existing()).affectedKeys().hasOnly(['alertsEnabled', 'title']);
+        allow delete: if isValidId(searchId) && isOwner(userId);
+      }
+    }
+
+    // Immutable Administrator Audit Log
+    match /adminLogs/{logId} {
+      allow get: if isValidId(logId) && isAdmin();
+      allow list: if isBootstrappedAdmin();
+      allow create: if isValidId(logId) && isStaff() && isValidAdminAuditLog(incoming())
+        && incoming().actorUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+  }
+}
