@@ -11,20 +11,29 @@ import {
   Building2,
   Calendar,
   Camera,
+  Check,
   Compass,
   Download,
   ExternalLink,
+  FileSpreadsheet,
   GitCompare,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
   Layers,
   Mail,
   MapPin,
   MessageCircle,
   Phone,
+  Printer,
   RefreshCw,
   Share2,
   ShieldCheck,
+  ShoppingBag,
+  Train,
   Video,
 } from 'lucide-react';
+import { exportSingleProjectToExcel } from '../utils/exportUtils.ts';
 import {
   Area,
   AreaChart,
@@ -258,6 +267,27 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
 
             <button
               type="button"
+              onClick={() => exportSingleProjectToExcel(project, developer)}
+              className="h-9 px-3 border border-[#E5E2DC] bg-white text-xs font-medium text-[#111827] hover:border-[#9A7B3C] flex items-center gap-1.5"
+              title="Download detailed Excel spreadsheet dossier"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-[#047857]" />
+              <span>Export Excel</span>
+            </button>
+
+            <a
+              href={project.brochureUrl || `/api/projects/${encodeURIComponent(project.slug)}/brochure`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-9 px-3 border border-[#E5E2DC] bg-white text-xs font-medium text-[#111827] hover:border-[#9A7B3C] flex items-center gap-1.5"
+              title="Download / Print Institutional PDF Dossier"
+            >
+              <Download className="w-3.5 h-3.5 text-[#9A7B3C]" />
+              <span>PDF Dossier</span>
+            </a>
+
+            <button
+              type="button"
               onClick={handleCopyShare}
               className="h-9 px-3 border border-[#E5E2DC] bg-white text-xs font-medium text-[#111827] hover:border-[#9A7B3C] flex items-center gap-1.5"
             >
@@ -396,17 +426,32 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   <ShieldCheck className="w-3.5 h-3.5" />
                   {project.verified ? 'Verified Registry' : 'Pending Verification'}
                 </span>
+                <span aria-hidden="true">·</span>
+                <span className="text-[11px] text-[#6B7280]">
+                  Verified {new Date(project.lastVerifiedAt || project.updatedAt).toLocaleDateString()}
+                </span>
               </div>
 
               <h1 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] leading-tight">
                 {displayName}
               </h1>
-              <p className="text-sm text-[#4B5563] mt-1.5 flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-[#9A7B3C]" />
-                <span>
-                  {project.buildingName}, {project.neighbourhood}, {project.community}, {project.emirate}
-                </span>
-              </p>
+              <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-sm text-[#4B5563] flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-[#9A7B3C] shrink-0" />
+                  <span>
+                    {project.fullAddress || `${project.buildingName}, ${project.neighbourhood}, ${project.community}, ${project.emirate}`}
+                  </span>
+                </p>
+                <a
+                  href={project.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${project.coordinates.lat},${project.coordinates.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold text-[#9A7B3C] hover:underline flex items-center gap-1"
+                >
+                  <span>Google Maps</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
 
               <div className="grid grid-cols-2 gap-4 my-6 py-5 border-y border-[#E5E2DC]">
                 <div>
@@ -414,33 +459,61 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   <p className="font-mono-tabular text-xl font-semibold text-[#111827] mt-0.5">
                     {formatProjectPrice(project.startingPriceAed, currency)}
                   </p>
-                  <p className="text-[11px] font-mono-tabular text-[#6B7280] mt-0.5">
+                  {currency !== 'INR' && project.startingPriceAed > 0 && (
+                    <p className="text-xs font-mono-tabular text-[#9A7B3C] font-semibold mt-0.5">
+                      ≈ {formatCurrency(project.startingPriceAed, 'INR')}
+                    </p>
+                  )}
+                  {currency === 'INR' && project.startingPriceAed > 0 && (
+                    <p className="text-xs font-mono-tabular text-[#9A7B3C] font-semibold mt-0.5">
+                      ≈ AED {project.startingPriceAed.toLocaleString()}
+                    </p>
+                  )}
+                  <p className="text-[11px] font-mono-tabular text-[#6B7280] mt-1">
                     {project.maxPriceAed > 0
                       ? `Up to ${formatProjectPrice(project.maxPriceAed, currency)}`
                       : 'Official developer pricing sheet on request'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-[#6B7280]">Avg. Price / Sq.Ft</p>
-                  <p className="font-mono-tabular text-xl font-semibold text-[#111827] mt-0.5">
-                    {formatProjectPrice(project.pricePerSqFtAed, currency)}
+                  <p className="text-xs text-[#6B7280]">Booking Amount / Down Payment</p>
+                  <p className="font-mono-tabular text-xl font-semibold text-[#047857] mt-0.5">
+                    {project.bookingAmountAed
+                      ? formatProjectPrice(project.bookingAmountAed, currency)
+                      : `${project.downPaymentPct || 10}%`}
                   </p>
-                  <p className="text-[11px] font-mono-tabular text-[#6B7280] mt-0.5">
-                    {project.minSizeSqFt > 0
-                      ? `${project.minSizeSqFt.toLocaleString()}–${project.maxSizeSqFt.toLocaleString()} sq.ft`
-                      : 'Sizes available on request'}
+                  {currency !== 'INR' && project.bookingAmountAed && project.bookingAmountAed > 0 && (
+                    <p className="text-xs font-mono-tabular text-[#9A7B3C] font-semibold mt-0.5">
+                      ≈ {formatCurrency(project.bookingAmountAed, 'INR')}
+                    </p>
+                  )}
+                  <p className="text-[11px] text-[#4B5563] mt-1">
+                    {project.downPaymentPct || 10}% initial booking allocation
                   </p>
                 </div>
               </div>
 
               {/* Key Project Specs Grid */}
-              <dl className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs">
+              <dl className="grid grid-cols-2 gap-y-3.5 gap-x-4 text-xs">
                 <div>
-                  <dt className="text-[#6B7280]">Developer</dt>
-                  <dd className="font-semibold text-[#111827] mt-0.5">{project.developerName}</dd>
+                  <dt className="text-[#6B7280]">Master Developer</dt>
+                  <dd className="font-semibold text-[#111827] mt-0.5 flex items-center gap-1">
+                    <span>{project.developerName}</span>
+                    {developer?.website && (
+                      <a
+                        href={developer.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#9A7B3C] hover:text-[#7D622D]"
+                        title="Official Developer Website"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </dd>
                 </div>
                 <div>
-                  <dt className="text-[#6B7280]">Registration No.</dt>
+                  <dt className="text-[#6B7280]">RERA Registration No.</dt>
                   <dd className="font-mono-tabular font-semibold text-[#111827] mt-0.5">
                     {project.registrationNumber}
                   </dd>
@@ -458,12 +531,45 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[#6B7280]">Launch Date</dt>
-                  <dd className="font-mono-tabular text-[#111827] mt-0.5">{project.launchDate}</dd>
+                  <dt className="text-[#6B7280]">Unit Configurations</dt>
+                  <dd className="font-semibold text-[#111827] mt-0.5">
+                    {project.propertyTypes.slice(0, 3).join(', ')}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[#6B7280]">Bathrooms</dt>
+                  <dd className="font-semibold text-[#111827] mt-0.5">
+                    {project.bathrooms || '1 - 3 Bathrooms'}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[#6B7280]">Expected Rental ROI</dt>
+                  <dd className="font-mono-tabular font-semibold text-[#047857] mt-0.5">
+                    {project.investment.grossYieldPct
+                      ? `${project.investment.grossYieldPct}% Gross / ${project.investment.netYieldPct}% Net`
+                      : 'Estimate on request'}
+                  </dd>
                 </div>
                 <div>
                   <dt className="text-[#6B7280]">Payment Plan</dt>
                   <dd className="font-medium text-[#111827] mt-0.5">{project.paymentPlan}</dd>
+                </div>
+                <div>
+                  <dt className="text-[#6B7280]">Developer Sales Office</dt>
+                  <dd className="text-[#111827] mt-0.5 text-[11px] leading-tight">
+                    {project.salesOfficeAddress || developer?.salesOfficeAddress || 'Dubai Corporate Sales Gallery'}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[#6B7280]">Verified Sales Hotline</dt>
+                  <dd className="text-[#111827] font-semibold mt-0.5">
+                    <a
+                      href={`tel:${project.salesOfficePhone || developer?.salesOfficePhone || '+918810286629'}`}
+                      className="hover:text-[#9A7B3C]"
+                    >
+                      {project.salesOfficePhone || developer?.salesOfficePhone || '+91 88102 86629'}
+                    </a>
+                  </dd>
                 </div>
                 {project.projectUrl && (
                   <div className="col-span-2 pt-2 border-t border-[#E5E2DC]">
@@ -959,31 +1065,51 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
           {project.floorPlans.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {project.floorPlans.map((fp) => (
-                <div key={fp.id} className="border border-[#E5E2DC] bg-[#FAF9F6] p-4 flex flex-col justify-between">
+                <div key={fp.id} className="border border-[#E5E2DC] bg-[#FAF9F6] p-4 flex flex-col justify-between hover:border-[#9A7B3C] transition-colors">
                   <div>
-                    <p className="text-xs font-semibold text-[#9A7B3C]">{fp.bedrooms}</p>
-                    <h3 className="font-display text-xl font-semibold text-[#111827] mt-0.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold text-[#9A7B3C]">{fp.bedrooms}</p>
+                      {fp.bathrooms && (
+                        <span className="text-[11px] text-[#4B5563] font-medium bg-white px-2 py-0.5 border border-[#E5E2DC]">
+                          {fp.bathrooms}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-display text-lg font-semibold text-[#111827] mt-1.5 line-clamp-1">
                       {fp.name}
                     </h3>
                     <p className="text-xs text-[#4B5563] mt-1">
                       {fp.floorRange} · {fp.exposure}
                     </p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-[#E5E2DC] space-y-1 text-xs font-mono-tabular">
+                  <div className="mt-4 pt-3 border-t border-[#E5E2DC] space-y-1.5 text-xs font-mono-tabular">
                     <div className="flex justify-between">
                       <span className="text-[#6B7280]">Size</span>
-                      <span className="font-semibold">{fp.sizeSqFt.toLocaleString()} sq.ft</span>
+                      <span className="font-semibold text-[#111827]">{fp.sizeSqFt.toLocaleString()} sq.ft</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6B7280]">Price</span>
-                      <span className="font-semibold">{formatProjectPrice(fp.priceAed, currency)}</span>
+                      <span className="text-[#6B7280]">Starting Price</span>
+                      <span className="font-semibold text-[#111827]">{formatProjectPrice(fp.priceAed, currency)}</span>
                     </div>
+                    {currency !== 'INR' && fp.priceAed > 0 && (
+                      <div className="flex justify-between text-[#9A7B3C] font-semibold text-[11px]">
+                        <span>Approx. INR</span>
+                        <span>≈ {formatCurrency(fp.priceAed, 'INR')}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
-                      <span className="text-[#6B7280]">Available</span>
+                      <span className="text-[#6B7280]">Availability</span>
                       <span className="font-semibold text-[#047857]">
                         {fp.availableCount !== null ? `${fp.availableCount} units` : 'On Request'}
                       </span>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => onOpenEnquiry('brochure', project)}
+                      className="w-full mt-2.5 py-1.5 bg-[#111827] text-white text-[11px] font-sans font-medium hover:bg-[#9A7B3C] transition-colors text-center"
+                    >
+                      Enquire Layout & Availability
+                    </button>
                   </div>
                 </div>
               ))}
@@ -1015,16 +1141,21 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <section className="lg:col-span-7 bg-white border border-[#E5E2DC] p-6 sm:p-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-2xl font-semibold text-[#111827]">
-                Verified Location & Nearby Infrastructure
-              </h2>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#9A7B3C]">
+                  Verified Connectivity & Proximity
+                </p>
+                <h2 className="font-display text-2xl font-semibold text-[#111827] mt-0.5">
+                  Location & Nearby Infrastructure
+                </h2>
+              </div>
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}`}
+                href={project.googleMapsUrl || `https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium text-[#9A7B3C] hover:underline flex items-center gap-1"
+                className="text-xs font-semibold text-[#9A7B3C] hover:underline flex items-center gap-1"
               >
-                <span>Open Directions</span>
+                <span>Google Maps Directions</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
@@ -1054,30 +1185,50 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                     {project.coordinates.lng.toFixed(4)}° E
                   </p>
                   <p className="mt-1">
-                    {project.community}, {project.emirate}
+                    {project.fullAddress || `${project.community}, ${project.emirate}`}
                   </p>
                 </div>
               )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {project.nearbyLandmarks.map((lm) => (
-                <div
-                  key={lm.name}
-                  className="border border-[#E5E2DC] bg-[#FAF9F6] px-4 py-3 flex items-center justify-between text-xs"
-                >
-                  <div>
-                    <span className="uppercase text-[10px] font-semibold text-[#9A7B3C]">
-                      {lm.category}
-                    </span>
-                    <p className="font-medium text-[#111827] mt-0.5">{lm.name}</p>
+              {project.nearbyLandmarks.map((lm) => {
+                const getIcon = () => {
+                  switch (lm.category) {
+                    case 'metro':
+                      return <Train className="w-4 h-4 text-[#9A7B3C]" />;
+                    case 'school':
+                      return <GraduationCap className="w-4 h-4 text-[#047857]" />;
+                    case 'hospital':
+                      return <HeartPulse className="w-4 h-4 text-[#DC2626]" />;
+                    case 'mall':
+                      return <ShoppingBag className="w-4 h-4 text-[#2563EB]" />;
+                    default:
+                      return <Landmark className="w-4 h-4 text-[#9A7B3C]" />;
+                  }
+                };
+
+                return (
+                  <div
+                    key={lm.name}
+                    className="border border-[#E5E2DC] bg-[#FAF9F6] p-3.5 flex items-center justify-between text-xs"
+                  >
+                    <div className="flex items-start gap-2.5 min-w-0 pr-2">
+                      <div className="mt-0.5 shrink-0">{getIcon()}</div>
+                      <div className="min-w-0">
+                        <span className="uppercase text-[10px] font-semibold text-[#9A7B3C] block">
+                          {lm.category}
+                        </span>
+                        <p className="font-semibold text-[#111827] mt-0.5 truncate">{lm.name}</p>
+                      </div>
+                    </div>
+                    <div className="text-right font-mono-tabular text-[#4B5563] shrink-0">
+                      <span className="block font-semibold text-[#111827]">{lm.distanceKm} km</span>
+                      <span>{lm.travelTimeMin} min</span>
+                    </div>
                   </div>
-                  <div className="text-right font-mono-tabular text-[#4B5563]">
-                    <span className="block font-semibold text-[#111827]">{lm.distanceKm} km</span>
-                    <span>{lm.travelTimeMin} min</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
@@ -1110,34 +1261,46 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       </span>
                     </div>
                   </div>
-                  <div className="text-xs space-y-1.5 text-[#4B5563]">
-                    <p>
-                      Official Advisory:{' '}
+                  <div className="text-xs space-y-2 text-[#4B5563]">
+                    <div>
+                      <span className="font-semibold text-[#111827] block">Sales Office & Experience Gallery:</span>
+                      <span className="text-xs text-[#4B5563]">
+                        {developer.salesOfficeAddress || project.salesOfficeAddress || 'Dubai Corporate Gallery'}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      <p>
+                        Official Hotline:{' '}
+                        <a
+                          href={`tel:${developer.salesOfficePhone || project.salesOfficePhone || '+918810286629'}`}
+                          className="text-[#111827] font-semibold hover:text-[#9A7B3C]"
+                        >
+                          {developer.salesOfficePhone || project.salesOfficePhone || '+91 88102 86629'}
+                        </a>
+                      </p>
+                      <p>
+                        WhatsApp:{' '}
+                        <a
+                          href={`https://wa.me/${(developer.salesOfficeWhatsapp || project.salesOfficeWhatsapp || '918810286629').replace(/[^0-9]/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#047857] font-semibold hover:underline"
+                        >
+                          {developer.salesOfficeWhatsapp || project.salesOfficeWhatsapp || '+91 88102 86629'}
+                        </a>
+                      </p>
+                    </div>
+                    <div className="pt-1">
                       <a
-                        href={COMPANY_INFO.phoneHref}
-                        className="text-[#111827] font-semibold hover:text-[#9A7B3C]"
+                        href={developer.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[#9A7B3C] hover:underline font-semibold"
                       >
-                        {COMPANY_INFO.phone}
+                        <span>Official Developer Portal</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
                       </a>
-                    </p>
-                    <p>
-                      Direct Email:{' '}
-                      <a
-                        href={COMPANY_INFO.emailHref}
-                        className="text-[#111827] font-semibold hover:text-[#9A7B3C]"
-                      >
-                        {COMPANY_INFO.email}
-                      </a>
-                    </p>
-                    <a
-                      href={developer.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[#9A7B3C] hover:underline font-medium pt-1"
-                    >
-                      <span>Official Developer Website</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                    </div>
                   </div>
                 </>
               )}

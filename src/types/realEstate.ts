@@ -106,11 +106,13 @@ export interface FloorPlanItem {
   id: string;
   name: string;
   bedrooms: string;
+  bathrooms?: string;
   sizeSqFt: number;
   priceAed: number;
   availableCount: number | null;
   floorRange: string;
   exposure: string;
+  planImageUrl?: string;
 }
 
 export interface FloorAvailabilityRow {
@@ -183,6 +185,7 @@ export interface VirtualTourConfig {
   provider?: 'Matterport' | 'WhiteCollar360' | 'DeveloperOfficial' | 'WebXR' | string;
   embedUrl?: string;
   directUrl?: string;
+  matterportUrl?: string;
   walkthroughVideoUrl?: string;
   webXrUrl?: string;
   tourType?: '360_panorama' | 'matterport_3d' | 'video_walkthrough' | 'webxr' | 'developer_official';
@@ -283,6 +286,18 @@ export interface Project {
   inventory: InventoryData;
   description: string;
   descriptionAr: string;
+  bathrooms?: string;
+  bookingAmountAed?: number;
+  bookingAmountPct?: number;
+  salesOfficeAddress?: string;
+  salesOfficePhone?: string;
+  salesOfficeWhatsapp?: string;
+  salesOfficeEmail?: string;
+  fullAddress?: string;
+  googleMapsUrl?: string;
+  lastVerifiedAt?: string;
+  verificationSource?: string;
+  walkthroughVideoUrl?: string;
   sourceOrigin?: 'excel_import' | 'manual_admin' | 'catalog_seed';
   importBatchId?: string;
   createdAt?: string;
@@ -342,6 +357,10 @@ export interface Developer {
   website: string;
   contactEmail: string;
   contactPhone: string;
+  salesOfficeAddress?: string;
+  salesOfficePhone?: string;
+  salesOfficeWhatsapp?: string;
+  salesOfficeEmail?: string;
   foundedYear: number;
   history: string;
   historyAr: string;

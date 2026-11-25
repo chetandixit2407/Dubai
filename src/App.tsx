@@ -8,6 +8,7 @@ import {
   Building2,
   Compass,
   ExternalLink,
+  FileSpreadsheet,
   GitCompare,
   Globe,
   Mail,
@@ -58,6 +59,7 @@ import {
   MISSING_PROJECT_PHOTO_LABEL,
   TOUR_STATUS_LABELS,
 } from './utils/mediaValidation.ts';
+import { exportCatalogToExcel } from './utils/exportUtils.ts';
 import { auth, googleAuthProvider, testFirestoreConnection } from './lib/firebase.ts';
 import {
   createSavedSearch,
@@ -1151,8 +1153,19 @@ export default function App() {
                   </h2>
                 </div>
 
-                {/* Clean Segment Selector */}
-                <div className="flex flex-wrap items-center gap-1.5 border border-[#E5E2DC] bg-white p-1">
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => exportCatalogToExcel(filteredProjects, developers)}
+                    className="h-9 px-3.5 border border-[#E5E2DC] bg-white text-xs font-semibold text-[#111827] hover:border-[#9A7B3C] hover:text-[#9A7B3C] transition-colors flex items-center gap-2 shrink-0 shadow-xs"
+                    title="Export filtered property intelligence & developer directory to Excel (.xlsx)"
+                  >
+                    <FileSpreadsheet className="w-3.5 h-3.5 text-[#047857]" />
+                    <span>Export to Excel ({filteredProjects.length})</span>
+                  </button>
+
+                  {/* Clean Segment Selector */}
+                  <div className="flex flex-wrap items-center gap-1.5 border border-[#E5E2DC] bg-white p-1">
                   {(
                     [
                       ['all', 'All Projects'],
@@ -1176,6 +1189,7 @@ export default function App() {
                       {segLabel}
                     </button>
                   ))}
+                  </div>
                 </div>
               </div>
 

@@ -282,3 +282,42 @@ export async function fetchCompanyInfoServer(): Promise<any> {
   return res.json();
 }
 
+export async function refreshProjectTelemetryOnServer(projectId?: string): Promise<{
+  ok: boolean;
+  totalRefreshed?: number;
+  lastVerifiedAt?: string;
+  source?: string;
+  status: string;
+  message?: string;
+}> {
+  const res = await fetch('/api/projects/refresh-telemetry', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ projectId }),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to refresh telemetry');
+  }
+  return data;
+}
+
+export async function fetchCompletenessReportServer(): Promise<{
+  totalProperties: number;
+  fullyVerifiedProfiles: number;
+  propertiesWithVerifiedPhotos: number;
+  propertiesWith3dVirtualTours: number;
+  propertiesAwaiting3dTourRelease: number;
+  propertiesWithFloorPlans: number;
+  propertiesWithNearbyLandmarks: number;
+  propertiesWithSalesOfficeContacts: number;
+  emiratesBreakdown: Record<string, number>;
+  generatedAt: string;
+  standards: string;
+}> {
+  const res = await fetch('/api/projects/completeness-report');
+  if (!res.ok) throw new Error('Failed to fetch completeness report');
+  return res.json();
+}
+
+

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bookmark, Building2, Compass, GitCompare, MapPin } from 'lucide-react';
 import { CurrencyCode, Language, Project } from '../types/realEstate.ts';
-import { formatProjectPrice } from '../utils/currency.ts';
+import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 import { TRANSLATIONS } from '../i18n/translations.ts';
 import {
   getEffectiveTourStatus,
@@ -162,16 +162,26 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               <p className="font-mono-tabular text-base font-semibold text-[#111827]">
                 {formatProjectPrice(project.startingPriceAed, currency)}
               </p>
+              {currency !== 'INR' && project.startingPriceAed > 0 && (
+                <p className="text-[11px] font-mono-tabular text-[#9A7B3C] font-medium mt-0.5">
+                  ≈ {formatCurrency(project.startingPriceAed, 'INR')}
+                </p>
+              )}
+              {currency === 'INR' && project.startingPriceAed > 0 && (
+                <p className="text-[11px] font-mono-tabular text-[#9A7B3C] font-medium mt-0.5">
+                  ≈ AED {project.startingPriceAed.toLocaleString()}
+                </p>
+              )}
             </div>
             <div>
-              <p className="text-xs text-[#6B7280] mb-0.5">Est. Gross Yield / Size</p>
-              <p className="font-mono-tabular text-sm font-medium text-[#111827]">
+              <p className="text-xs text-[#6B7280] mb-0.5">Est. Gross ROI / Bathrooms</p>
+              <p className="font-mono-tabular text-sm font-semibold text-[#047857]">
                 {project.investment.grossYieldPct
-                  ? `${project.investment.grossYieldPct.toFixed(1)}% · `
-                  : ''}
-                {project.minSizeSqFt > 0
-                  ? `${project.minSizeSqFt.toLocaleString()} sq.ft+`
-                  : 'On Request'}
+                  ? `${project.investment.grossYieldPct.toFixed(1)}% Gross Yield`
+                  : 'Yield on Request'}
+              </p>
+              <p className="text-[11px] text-[#4B5563] mt-0.5 truncate">
+                {project.bathrooms || '1 - 3 Bathrooms'}
               </p>
             </div>
           </div>

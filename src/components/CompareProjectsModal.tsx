@@ -1,7 +1,7 @@
 import React from 'react';
 import { GitCompare, Trash2, X } from 'lucide-react';
 import { CurrencyCode, Project } from '../types/realEstate.ts';
-import { formatProjectPrice } from '../utils/currency.ts';
+import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 
 interface CompareProjectsModalProps {
   projects: Project[];
@@ -79,6 +79,24 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4 font-mono-tabular font-semibold text-[#111827]">
                       {formatProjectPrice(p.startingPriceAed, currency)}
+                      {p.startingPriceAed > 0 && (
+                        <span className="block text-xs font-semibold text-[#9A7B3C] font-mono-tabular mt-0.5">
+                          ≈ {formatCurrency(p.startingPriceAed, 'INR')}
+                        </span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Booking / Down Payment</td>
+                  {projects.map((p) => (
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#047857] font-semibold">
+                      {p.bookingAmountAed ? formatProjectPrice(p.bookingAmountAed, currency) : `${p.downPaymentPct}%`}
+                      {p.bookingAmountAed && (
+                        <span className="block text-xs text-[#9A7B3C] font-mono-tabular">
+                          ≈ {formatCurrency(p.bookingAmountAed, 'INR')} ({p.downPaymentPct}%)
+                        </span>
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -91,9 +109,21 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   ))}
                 </tr>
                 <tr>
+                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Configurations</td>
+                  {projects.map((p) => (
+                    <td key={p.id} className="py-3 px-4">{p.propertyTypes.join(', ')}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Bathrooms</td>
+                  {projects.map((p) => (
+                    <td key={p.id} className="py-3 px-4 font-medium text-[#111827]">{p.bathrooms || '1 - 3 Bathrooms'}</td>
+                  ))}
+                </tr>
+                <tr>
                   <td className="py-3 pr-4 font-medium text-[#4B5563]">Developer</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4">{p.developerName}</td>
+                    <td key={p.id} className="py-3 px-4 font-semibold">{p.developerName}</td>
                   ))}
                 </tr>
                 <tr>
@@ -141,15 +171,17 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                 <tr>
                   <td className="py-3 pr-4 font-medium text-[#4B5563]">Construction Progress</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular">{p.constructionPct}%</td>
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular">{p.constructionPct}% ({p.status})</td>
                   ))}
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-medium text-[#4B5563]">Gross / Net Yield (Est.)</td>
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4 font-mono-tabular">
-                      {p.investment.grossYieldPct ? `${p.investment.grossYieldPct}% Gross` : 'N/A'} ·{' '}
-                      {p.investment.netYieldPct ? `${p.investment.netYieldPct}% Net` : ''}
+                      <span className="font-semibold text-[#047857]">
+                        {p.investment.grossYieldPct ? `${p.investment.grossYieldPct}% Gross` : 'N/A'}
+                      </span>{' '}
+                      · {p.investment.netYieldPct ? `${p.investment.netYieldPct}% Net` : ''}
                     </td>
                   ))}
                 </tr>
@@ -162,10 +194,36 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   ))}
                 </tr>
                 <tr>
+                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Virtual 3D Tour</td>
+                  {projects.map((p) => (
+                    <td key={p.id} className="py-3 px-4 text-xs font-semibold">
+                      {p.virtualTour.tourStatus === '3d_available' || p.virtualTour.tourStatus === '360_available' ? (
+                        <span className="text-[#9A7B3C] font-semibold">3D Model / 360 Available</span>
+                      ) : (
+                        <span className="text-[#6B7280]">Unavailable</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+                <tr>
                   <td className="py-3 pr-4 font-medium text-[#4B5563]">Key Amenities</td>
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4 text-xs text-[#4B5563]">
                       {p.amenities.slice(0, 4).join(' · ')}
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Action</td>
+                  {projects.map((p) => (
+                    <td key={p.id} className="py-3 px-4">
+                      <button
+                        type="button"
+                        onClick={() => onOpenProject(p)}
+                        className="py-1.5 px-3 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] transition-colors"
+                      >
+                        Open Property Profile
+                      </button>
                     </td>
                   ))}
                 </tr>
