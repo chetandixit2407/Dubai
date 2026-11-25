@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-xs: 26.25rem;
+}
+
 @layer base {
   :root {
     --bg-obsidian: #080808;
@@ -15,16 +19,36 @@
     color-scheme: dark;
   }
 
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   html {
     scroll-behavior: smooth;
     background-color: #080808;
     color: #F5F1E8;
     font-family: 'Plus Jakarta Sans', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   body {
     background-color: #080808;
     color: #F5F1E8;
+    overflow-x: clip;
+    max-width: 100%;
+    min-height: 100dvh;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
   }
 
   [dir="rtl"] body {
@@ -36,6 +60,7 @@
   input,
   textarea {
     color-scheme: dark;
+    max-width: 100%;
   }
 
   select option {
@@ -55,6 +80,23 @@
 
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Custom Luxury Scrollbar */

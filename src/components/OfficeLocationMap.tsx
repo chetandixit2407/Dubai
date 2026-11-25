@@ -19,7 +19,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
     <div className={`bg-[#121212] border border-[#D4AF72]/25 overflow-hidden ${className}`}>
       <div className="grid grid-cols-1 lg:grid-cols-12">
         {/* Office Details & Action Strip */}
-        <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+        <div className="lg:col-span-5 min-w-0 p-5 sm:p-8 flex flex-col justify-between space-y-6">
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72] mb-2">
               <Building2 className="w-4 h-4" />
@@ -53,33 +53,37 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
             <div className="mt-5 space-y-2.5 text-xs">
               <a
                 href={company.phoneHref}
-                className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] text-[#F5F1E8] font-medium transition-colors"
+                className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] text-[#F5F1E8] font-medium transition-colors min-w-0"
               >
-                <Phone className="w-3.5 h-3.5 text-[#D4AF72]" />
-                <span className="font-mono-tabular">{company.primaryPhone}</span>
-                <span className="ml-auto text-[11px] text-[#A5A19A]">Direct Line</span>
+                <Phone className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+                <span className="font-mono-tabular truncate">{company.primaryPhone}</span>
+                <span className="ml-auto text-[11px] text-[#A5A19A] shrink-0 hidden xs:inline">
+                  Direct Line
+                </span>
               </a>
 
               <a
                 href={company.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#34D399] text-[#F5F1E8] font-medium transition-colors"
+                className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#34D399] text-[#F5F1E8] font-medium transition-colors min-w-0"
               >
-                <Send className="w-3.5 h-3.5 text-[#6EE7B7]" />
-                <span className="font-mono-tabular">{company.whatsappNumber}</span>
-                <span className="ml-auto text-[11px] text-[#6EE7B7] font-semibold">
+                <Send className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
+                <span className="font-mono-tabular truncate">{company.whatsappNumber}</span>
+                <span className="ml-auto text-[11px] text-[#6EE7B7] font-semibold shrink-0 hidden xs:inline">
                   WhatsApp Desk
                 </span>
               </a>
 
               <a
                 href={company.emailHref}
-                className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] text-[#F5F1E8] font-medium transition-colors"
+                className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] text-[#F5F1E8] font-medium transition-colors min-w-0"
               >
-                <Mail className="w-3.5 h-3.5 text-[#D4AF72]" />
-                <span className="font-mono-tabular">{company.email}</span>
-                <span className="ml-auto text-[11px] text-[#A5A19A]">Official Email</span>
+                <Mail className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+                <span className="font-mono-tabular truncate min-w-0 flex-1">{company.email}</span>
+                <span className="ml-auto text-[11px] text-[#A5A19A] shrink-0 hidden sm:inline">
+                  Official Email
+                </span>
               </a>
             </div>
           </div>
@@ -90,11 +94,11 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
               href={company.mapsDirectionsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3.5 px-4 bg-[#D4AF72] text-[#080808] hover:bg-[#E6C77A] text-xs font-semibold tracking-wider uppercase flex items-center justify-center gap-2 transition-colors"
+              className="w-full py-3.5 px-4 bg-[#D4AF72] text-[#080808] hover:bg-[#E6C77A] text-xs font-semibold tracking-wider uppercase flex items-center justify-center gap-2 transition-colors text-center"
             >
-              <Navigation className="w-4 h-4" />
-              <span>GET DIRECTIONS TO WHITE COLLAR REALTY</span>
-              <ExternalLink className="w-3.5 h-3.5 ml-1" />
+              <Navigation className="w-4 h-4 shrink-0" />
+              <span className="truncate">GET DIRECTIONS TO WHITE COLLAR REALTY</span>
+              <ExternalLink className="w-3.5 h-3.5 ml-1 shrink-0" />
             </a>
             <p className="text-[11px] text-[#A5A19A] text-center mt-2">
               Opens Google Maps with turn-by-turn navigation to M3M Urbana Business Park
@@ -103,7 +107,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
         </div>
 
         {/* Interactive Google Map */}
-        <div className="lg:col-span-7 h-[360px] lg:h-auto min-h-[360px] relative border-t lg:border-t-0 lg:border-l border-[#D4AF72]/20 bg-[#080808]">
+        <div className="lg:col-span-7 min-w-0 h-[280px] sm:h-[360px] lg:h-auto lg:min-h-[360px] relative border-t lg:border-t-0 lg:border-l border-[#D4AF72]/20 bg-[#080808]">
           {apiKey && !quotaExceeded ? (
             <APIProvider apiKey={apiKey} libraries={['marker']} language="en" region="IN">
               <GoogleMap

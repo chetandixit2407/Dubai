@@ -59,16 +59,16 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {/* Header Banner */}
-      <div className="bg-[#121212] text-[#F5F1E8] p-6 border border-[#D4AF72]/25">
+      <div className="bg-[#121212] text-[#F5F1E8] p-4 sm:p-6 border border-[#D4AF72]/25 min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#D4AF72]">
-              <ShieldCheck className="w-4 h-4" />
+              <ShieldCheck className="w-4 h-4 shrink-0" />
               <span>Official Corporate Registry & Contact Configuration</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold mt-1 text-[#F5F1E8]">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold mt-1 text-[#F5F1E8]">
               White Collar Realty Institutional Master Profile
             </h3>
             <p className="text-xs text-[#A5A19A] mt-1 max-w-2xl leading-relaxed">
@@ -83,8 +83,8 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                 onClick={onReplayIntro}
                 className="px-3.5 py-2 border border-[#D4AF72]/40 bg-[#1B1B1B] text-[#D4AF72] text-xs font-medium hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 transition-colors cursor-pointer"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Replay Website Intro Animation</span>
+                <RotateCcw className="w-3.5 h-3.5 shrink-0" />
+                <span>Replay Intro</span>
               </button>
             )}
             <button
@@ -92,8 +92,8 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
               onClick={handleResetDefaults}
               className="px-3.5 py-2 border border-[#D4AF72]/25 text-[#F5F1E8] text-xs hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-[#D4AF72]" />
-              <span>Reset to Verified Defaults</span>
+              <RotateCcw className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+              <span>Reset Defaults</span>
             </button>
           </div>
         </div>
@@ -109,11 +109,11 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
       )}
 
       {/* Quick Verified Reference Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
-          <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 text-xs">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between min-w-0">
+          <div className="min-w-0">
             <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">Primary Phone</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1">
+            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 break-all">
               {info.primaryPhone}
             </span>
           </div>
@@ -132,10 +132,10 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
           </div>
         </div>
 
-        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
-          <div>
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between min-w-0">
+          <div className="min-w-0">
             <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">WhatsApp Desk</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#6EE7B7] block mt-1">
+            <span className="font-mono-tabular font-bold text-sm text-[#6EE7B7] block mt-1 break-all">
               {info.whatsappNumber}
             </span>
           </div>
@@ -159,10 +159,10 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
           </div>
         </div>
 
-        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
-          <div>
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between min-w-0">
+          <div className="min-w-0">
             <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">Official Email</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 truncate">
+            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 break-all">
               {info.email}
             </span>
           </div>
@@ -181,10 +181,10 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
           </div>
         </div>
 
-        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
-          <div>
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between min-w-0">
+          <div className="min-w-0">
             <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">Official Website</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 truncate">
+            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 break-all">
               {info.website}
             </span>
           </div>
@@ -210,8 +210,8 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
       </div>
 
       {/* Address & Configuration Form */}
-      <form onSubmit={handleSave} className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-5">
-        <h4 className="font-display text-xl font-semibold text-[#F5F1E8]">
+      <form onSubmit={handleSave} className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-5 min-w-0">
+        <h4 className="font-display text-lg sm:text-xl font-semibold text-[#F5F1E8]">
           Corporate Identity & Registered Office
         </h4>
 

@@ -227,40 +227,40 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     <div className="bg-[#080808] text-[#F5F1E8] min-h-screen pb-24">
       {/* Top Breadcrumb Bar */}
       <div className="bg-[#121212] border-b border-[#D4AF72]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <button
             type="button"
             onClick={onBack}
-            className="text-xs font-semibold text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-2 transition-colors"
+            className="text-xs font-semibold text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-2 transition-colors min-h-[36px]"
           >
-            <ArrowLeft className="w-4 h-4 text-[#D4AF72]" />
+            <ArrowLeft className="w-4 h-4 text-[#D4AF72] shrink-0" />
             <span>Back to All UAE Projects</span>
           </button>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 max-w-full">
             <button
               type="button"
               onClick={() => onToggleSave(project)}
-              className={`h-9 px-3.5 border text-xs font-medium flex items-center gap-1.5 transition-colors ${
+              className={`h-9 px-3 sm:px-3.5 border text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap ${
                 isSaved
                   ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72] font-semibold'
                   : 'bg-[#1B1B1B] border-[#D4AF72]/25 text-[#F5F1E8] hover:border-[#D4AF72]'
               }`}
             >
-              <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
+              <Bookmark className={`w-3.5 h-3.5 shrink-0 ${isSaved ? 'fill-current' : ''}`} />
               <span>{isSaved ? 'Saved' : 'Save Favourite'}</span>
             </button>
 
             <button
               type="button"
               onClick={() => onToggleCompare(project)}
-              className={`h-9 px-3.5 border text-xs font-medium flex items-center gap-1.5 transition-colors ${
+              className={`h-9 px-3 sm:px-3.5 border text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap ${
                 isCompared
                   ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72] font-semibold'
                   : 'bg-[#1B1B1B] border-[#D4AF72]/25 text-[#F5F1E8] hover:border-[#D4AF72]'
               }`}
             >
-              <GitCompare className="w-3.5 h-3.5" />
+              <GitCompare className="w-3.5 h-3.5 shrink-0" />
               <span>{isCompared ? 'In Comparison' : 'Compare'}</span>
             </button>
 
@@ -268,28 +268,30 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               href={whatsappShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#34D399] flex items-center gap-1.5 transition-colors"
+              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#34D399] flex items-center gap-1.5 transition-colors whitespace-nowrap"
             >
-              <MessageCircle className="w-3.5 h-3.5 text-[#6EE7B7]" />
-              <span>Share WhatsApp</span>
+              <MessageCircle className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
+              <span className="hidden sm:inline">Share WhatsApp</span>
+              <span className="sm:hidden">WhatsApp</span>
             </a>
 
             <a
               href={emailShareUrl}
-              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors"
+              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors whitespace-nowrap"
             >
-              <Mail className="w-3.5 h-3.5 text-[#D4AF72]" />
+              <Mail className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
               <span>Email</span>
             </a>
 
             <button
               type="button"
               onClick={() => exportSingleProjectToExcel(project, developer)}
-              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#34D399] flex items-center gap-1.5 transition-colors"
+              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#34D399] flex items-center gap-1.5 transition-colors whitespace-nowrap"
               title="Download detailed Excel spreadsheet dossier"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5 text-[#6EE7B7]" />
-              <span>Export Excel</span>
+              <FileSpreadsheet className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
+              <span className="hidden xs:inline">Export Excel</span>
+              <span className="xs:hidden">Excel</span>
             </button>
 
             <a
@@ -299,19 +301,19 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               }
               target="_blank"
               rel="noopener noreferrer"
-              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors"
+              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors whitespace-nowrap"
               title="Download / Print Institutional PDF Dossier"
             >
-              <Download className="w-3.5 h-3.5 text-[#D4AF72]" />
+              <Download className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
               <span>PDF Dossier</span>
             </a>
 
             <button
               type="button"
               onClick={handleCopyShare}
-              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors"
+              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors whitespace-nowrap"
             >
-              <Share2 className="w-3.5 h-3.5 text-[#D4AF72]" />
+              <Share2 className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
               <span>{copiedLink ? 'Link Copied' : 'Copy URL'}</span>
             </button>
           </div>
@@ -319,10 +321,10 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
       </div>
 
       {/* Main Content Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-10">
+      <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-8 sm:space-y-10">
         {/* Project Header & Hero Media Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          <div className="lg:col-span-7 flex flex-col gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+          <div className="lg:col-span-7 min-w-0 flex flex-col gap-3">
             <div className="relative aspect-[16/10] w-full bg-[#121212] border border-[#D4AF72]/25 overflow-hidden">
               {activePhoto ? (
                 <img
@@ -332,12 +334,14 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-[#121212] text-[#F5F1E8] p-8 text-center">
-                  <Camera className="w-10 h-10 text-[#D4AF72] mb-3" />
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
+                <div className="w-full h-full flex flex-col items-center justify-center bg-[#121212] text-[#F5F1E8] p-6 sm:p-8 text-center">
+                  <Camera className="w-9 h-9 sm:w-10 sm:h-10 text-[#D4AF72] mb-2.5 sm:mb-3" />
+                  <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                     PROJECT PHOTOGRAPHS NOT AVAILABLE
                   </p>
-                  <p className="font-display text-2xl font-medium mt-2">{displayName}</p>
+                  <p className="font-display text-xl sm:text-2xl font-medium mt-2 break-words">
+                    {displayName}
+                  </p>
                   <p className="text-xs text-[#A5A19A] max-w-md mt-2 leading-relaxed">
                     White Collar Realty never substitutes photos from other developments. Official
                     site photographs or developer media for this project are pending verification.
@@ -345,18 +349,18 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 </div>
               )}
               {activeMedia && (
-                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#080808]/90 border border-[#D4AF72]/30 text-[#F5F1E8] text-[11px] font-semibold">
+                <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 max-w-[calc(100%-1.25rem)] truncate px-2 sm:px-2.5 py-1 bg-[#080808]/90 border border-[#D4AF72]/30 text-[#F5F1E8] text-[10px] sm:text-[11px] font-semibold">
                   {MEDIA_CLASSIFICATION_LABELS[activeMedia.classification]} ·{' '}
                   {MEDIA_CATEGORY_LABELS[activeMedia.category]}
                 </div>
               )}
-              <div className="absolute bottom-4 right-4 flex items-center gap-2">
+              <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-4 sm:left-4 sm:right-4 flex items-center justify-end gap-2">
                 {effectiveTourStatus === '360_available' ||
                 effectiveTourStatus === '3d_available' ? (
                   <button
                     type="button"
                     onClick={() => onOpenVirtualTour(project)}
-                    className="px-4 py-2.5 bg-[#080808]/95 text-[#F5F1E8] text-xs font-semibold hover:bg-[#D4AF72] hover:text-[#080808] transition-colors flex items-center gap-2 border border-[#D4AF72] shadow-lg cursor-pointer"
+                    className="px-3 sm:px-4 py-2 sm:py-2.5 bg-[#080808]/95 text-[#F5F1E8] text-[11px] sm:text-xs font-semibold hover:bg-[#D4AF72] hover:text-[#080808] transition-colors flex items-center gap-1.5 sm:gap-2 border border-[#D4AF72] shadow-lg cursor-pointer max-w-full"
                   >
                     <Compass className="w-4 h-4 text-[#D4AF72] group-hover:text-current" />
                     <span>EXPLORE 3D VIRTUAL TOUR</span>
@@ -427,7 +431,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
 
             {/* Thumbnail Strip */}
             {projectMediaList.length > 0 && (
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 xs:grid-cols-4 gap-2 sm:gap-3">
                 {projectMediaList.slice(0, 8).map((item) => (
                   <button
                     key={item.id}
@@ -456,7 +460,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
           </div>
 
           {/* Right Summary Dossier */}
-          <div className="lg:col-span-5 bg-[#121212] border border-[#D4AF72]/25 p-6 sm:p-8 flex flex-col justify-between">
+          <div className="lg:col-span-5 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-5 sm:p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center gap-2 text-xs text-[#A5A19A] mb-2">
                 <span className="font-semibold text-[#D4AF72]">{project.category}</span>
@@ -474,13 +478,13 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 </span>
               </div>
 
-              <h1 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight">
+              <h1 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight break-words">
                 {displayName}
               </h1>
               <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-                <p className="text-sm text-[#A5A19A] flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-[#D4AF72] shrink-0" />
-                  <span>
+                <p className="text-xs sm:text-sm text-[#A5A19A] flex items-start gap-1.5 min-w-0">
+                  <MapPin className="w-4 h-4 text-[#D4AF72] shrink-0 mt-0.5" />
+                  <span className="break-words">
                     {project.fullAddress ||
                       `${project.buildingName}, ${project.neighbourhood}, ${project.community}, ${project.emirate}`}
                   </span>
@@ -492,17 +496,17 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-semibold text-[#D4AF72] hover:underline flex items-center gap-1"
+                  className="text-xs font-semibold text-[#D4AF72] hover:underline flex items-center gap-1 shrink-0"
                 >
                   <span>Google Maps</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 my-6 py-5 border-y border-[#D4AF72]/20">
-                <div>
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 my-6 py-5 border-y border-[#D4AF72]/20">
+                <div className="min-w-0">
                   <p className="text-xs text-[#A5A19A]">Starting Price</p>
-                  <p className="font-mono-tabular text-xl font-semibold text-[#F5F1E8] mt-0.5">
+                  <p className="font-mono-tabular text-lg sm:text-xl font-semibold text-[#F5F1E8] mt-0.5 break-words">
                     {formatProjectPrice(project.startingPriceAed, currency)}
                   </p>
                   {currency !== 'INR' && project.startingPriceAed > 0 && (
@@ -528,9 +532,9 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       : 'Official developer pricing sheet on request'}
                   </p>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs text-[#A5A19A]">Booking Amount / Down Payment</p>
-                  <p className="font-mono-tabular text-xl font-semibold text-[#6EE7B7] mt-0.5">
+                  <p className="font-mono-tabular text-lg sm:text-xl font-semibold text-[#6EE7B7] mt-0.5 break-words">
                     {project.bookingAmountAed
                       ? formatProjectPrice(project.bookingAmountAed, currency)
                       : `${project.downPaymentPct || 10}%`}
@@ -549,17 +553,17 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               </div>
 
               {/* Key Project Specs Grid */}
-              <dl className="grid grid-cols-2 gap-y-3.5 gap-x-4 text-xs">
-                <div>
+              <dl className="grid grid-cols-1 xs:grid-cols-2 gap-y-3.5 gap-x-4 text-xs">
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Master Developer</dt>
-                  <dd className="font-semibold text-[#F5F1E8] mt-0.5 flex items-center gap-1">
+                  <dd className="font-semibold text-[#F5F1E8] mt-0.5 flex items-center gap-1 break-words">
                     <span>{project.developerName}</span>
                     {developer?.website && (
                       <a
                         href={developer.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#D4AF72] hover:text-[#E6C77A]"
+                        className="text-[#D4AF72] hover:text-[#E6C77A] shrink-0"
                         title="Official Developer Website"
                       >
                         <ExternalLink className="w-3 h-3" />
@@ -567,57 +571,57 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                     )}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">RERA Registration No.</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5">
+                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5 break-all">
                     {project.registrationNumber}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Construction Progress</dt>
                   <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5">
                     {project.constructionPct}% ({project.status})
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Expected Handover</dt>
                   <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5">
                     {project.handoverDate}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Unit Configurations</dt>
-                  <dd className="font-semibold text-[#F5F1E8] mt-0.5">
+                  <dd className="font-semibold text-[#F5F1E8] mt-0.5 break-words">
                     {project.propertyTypes.slice(0, 3).join(', ')}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Bathrooms</dt>
                   <dd className="font-semibold text-[#F5F1E8] mt-0.5">
                     {project.bathrooms || '1 - 3 Bathrooms'}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Estimated Rental ROI</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#6EE7B7] mt-0.5">
+                  <dd className="font-mono-tabular font-semibold text-[#6EE7B7] mt-0.5 break-words">
                     {project.investment.grossYieldPct
                       ? `${project.investment.grossYieldPct}% Est. Gross / ${project.investment.netYieldPct}% Est. Net`
                       : 'Estimate on request'}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Payment Plan</dt>
-                  <dd className="font-medium text-[#F5F1E8] mt-0.5">{project.paymentPlan}</dd>
+                  <dd className="font-medium text-[#F5F1E8] mt-0.5 break-words">{project.paymentPlan}</dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Developer Sales Office</dt>
-                  <dd className="text-[#F5F1E8] mt-0.5 text-[11px] leading-tight">
+                  <dd className="text-[#F5F1E8] mt-0.5 text-[11px] leading-tight break-words">
                     {project.salesOfficeAddress ||
                       developer?.salesOfficeAddress ||
                       'Dubai Corporate Sales Gallery'}
                   </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Verified Sales Hotline</dt>
                   <dd className="text-[#F5F1E8] font-semibold mt-0.5">
                     <a
@@ -631,7 +635,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   </dd>
                 </div>
                 {project.projectUrl && (
-                  <div className="col-span-2 pt-2 border-t border-[#D4AF72]/15">
+                  <div className="xs:col-span-2 pt-2 border-t border-[#D4AF72]/15 min-w-0">
                     <dt className="text-[#A5A19A]">Official Project Reference URL</dt>
                     <dd className="mt-0.5">
                       <a
@@ -650,7 +654,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
             </div>
 
             {/* Direct Customer Conversion Actions */}
-            <div className="mt-6 pt-6 border-t border-[#D4AF72]/20 grid grid-cols-2 gap-2.5">
+            <div className="mt-6 pt-6 border-t border-[#D4AF72]/20 grid grid-cols-1 xs:grid-cols-2 gap-2.5">
               <button
                 type="button"
                 onClick={() => onOpenEnquiry('callback', project)}
@@ -1257,7 +1261,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
 
           {inv.status === 'verified_live' && inv.availableUnits !== null ? (
             <div className="mt-6 space-y-6">
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-3">
                 <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5">
                   <span className="text-xs text-[#A5A19A] block">Total Units</span>
                   <span className="font-mono-tabular text-xl font-semibold text-[#F5F1E8]">
@@ -1498,9 +1502,9 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
         </section>
 
         {/* Location Map & Nearby Landmarks + Developer Profile */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <section className="lg:col-span-7 bg-[#121212] border border-[#D4AF72]/25 p-6 sm:p-8">
-            <div className="flex items-center justify-between mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+          <section className="lg:col-span-7 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6 lg:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                   Verified Connectivity &amp; Proximity
@@ -1597,7 +1601,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
           </section>
 
           {/* Developer Profile */}
-          <section className="lg:col-span-5 bg-[#121212] border border-[#D4AF72]/25 p-6 sm:p-8 flex flex-col justify-between">
+          <section className="lg:col-span-5 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                 Verified Master Developer
@@ -1706,25 +1710,25 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
         </div>
 
         {/* Historical Area Price Trends & Comparables */}
-        <section className="bg-[#121212] border border-[#D4AF72]/25 p-6 sm:p-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-7">
+        <section className="bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6 lg:p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+            <div className="lg:col-span-7 min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                 Historical Transaction Benchmark
               </p>
-              <h2 className="font-display text-2xl font-medium text-[#F5F1E8] mt-0.5">
+              <h2 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mt-0.5">
                 {project.community} Price / Sq.Ft Trajectory
               </h2>
               <p className="text-xs text-[#A5A19A] mt-1 mb-4">
                 Source: {project.investment.dataCitation}
               </p>
               {project.investment.historicalTransactions.length > 0 ? (
-                <div className="h-60 w-full">
+                <div className="h-56 sm:h-60 w-full min-w-0">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={project.investment.historicalTransactions}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
-                      <XAxis dataKey="quarter" tick={{ fontSize: 12, fill: '#A5A19A' }} />
-                      <YAxis tick={{ fontSize: 11, fill: '#A5A19A' }} />
+                      <XAxis dataKey="quarter" tick={{ fontSize: 11, fill: '#A5A19A' }} />
+                      <YAxis width={45} tick={{ fontSize: 11, fill: '#A5A19A' }} />
                       <Tooltip
                         contentStyle={{
                           backgroundColor: '#121212',
@@ -1760,12 +1764,12 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               )}
             </div>
 
-            <div className="lg:col-span-5 flex flex-col justify-between">
+            <div className="lg:col-span-5 min-w-0 flex flex-col justify-between">
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72] mb-3">
                   Estimated Investment Indicators &amp; Service Charges
                 </h3>
-                <div className="grid grid-cols-2 gap-3 mb-6 font-mono-tabular">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 mb-6 font-mono-tabular">
                   <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5">
                     <span className="text-xs font-sans text-[#A5A19A] block">
                       Est. Gross Yield

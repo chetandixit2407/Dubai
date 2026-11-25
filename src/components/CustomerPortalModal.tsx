@@ -65,24 +65,24 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-4xl max-h-[90vh] flex flex-col">
-        <div className="px-6 py-4 border-b border-[#D4AF72]/20 bg-[#080808] flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <User className="w-5 h-5 text-[#D4AF72]" />
-            <div>
-              <h2 className="font-display text-2xl font-medium text-[#F5F1E8]">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
+      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-4xl max-h-[92dvh] flex flex-col">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#D4AF72]/20 bg-[#080808] flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+            <User className="w-5 h-5 text-[#D4AF72] shrink-0" />
+            <div className="min-w-0">
+              <h2 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] truncate">
                 Private Client Portal
               </h2>
               {userProfile && (
-                <p className="text-xs text-[#A5A19A]">
+                <p className="text-xs text-[#A5A19A] truncate">
                   {userProfile.displayName} · {userProfile.email} · Role: {userProfile.role}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {onReplayIntro && (
               <button
                 type="button"
@@ -90,17 +90,17 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                   onClose();
                   onReplayIntro();
                 }}
-                className="h-9 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors"
+                className="h-9 px-2.5 sm:px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors"
               >
                 <Film className="w-3.5 h-3.5 text-[#D4AF72]" />
-                <span>Replay Intro</span>
+                <span className="hidden xs:inline">Replay Intro</span>
               </button>
             )}
             {userProfile && (
               <button
                 type="button"
                 onClick={onSignOut}
-                className="h-9 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#A5A19A] hover:text-[#F5F1E8] flex items-center gap-1.5 transition-colors"
+                className="h-9 px-2.5 sm:px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#A5A19A] hover:text-[#F5F1E8] flex items-center gap-1.5 transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Sign Out</span>
@@ -110,7 +110,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
               type="button"
               onClick={onClose}
               aria-label="Close Client Portal"
-              className="w-9 h-9 bg-[#1B1B1B] border border-[#D4AF72]/25 flex items-center justify-center hover:border-[#D4AF72] transition-colors"
+              className="w-9 h-9 bg-[#1B1B1B] border border-[#D4AF72]/25 flex items-center justify-center hover:border-[#D4AF72] transition-colors shrink-0"
             >
               <X className="w-4 h-4" />
             </button>
@@ -170,11 +170,11 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
           </div>
         ) : (
           <>
-            <div className="px-6 border-b border-[#D4AF72]/20 flex flex-wrap items-center gap-6 bg-[#1B1B1B]">
+            <div className="px-4 sm:px-6 border-b border-[#D4AF72]/20 flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-4 sm:gap-6 bg-[#1B1B1B] shrink-0">
               <button
                 type="button"
                 onClick={() => setActiveTab('favorites')}
-                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors ${
+                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
                   activeTab === 'favorites'
                     ? 'border-[#D4AF72] text-[#F5F1E8]'
                     : 'border-transparent text-[#A5A19A] hover:text-[#F5F1E8]'
@@ -186,7 +186,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveTab('recent')}
-                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors ${
+                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
                   activeTab === 'recent'
                     ? 'border-[#D4AF72] text-[#F5F1E8]'
                     : 'border-transparent text-[#A5A19A] hover:text-[#F5F1E8]'
@@ -198,7 +198,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveTab('searches')}
-                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors ${
+                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
                   activeTab === 'searches'
                     ? 'border-[#D4AF72] text-[#F5F1E8]'
                     : 'border-transparent text-[#A5A19A] hover:text-[#F5F1E8]'
@@ -210,7 +210,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveTab('enquiries')}
-                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors ${
+                className={`py-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
                   activeTab === 'enquiries'
                     ? 'border-[#D4AF72] text-[#F5F1E8]'
                     : 'border-transparent text-[#A5A19A] hover:text-[#F5F1E8]'
@@ -221,7 +221,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               {activeTab === 'favorites' && (
                 <div className="space-y-3">
                   {savedProjectsList.length === 0 ? (

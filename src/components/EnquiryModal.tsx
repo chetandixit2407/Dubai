@@ -83,25 +83,25 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-xl p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
+      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-xl p-4 sm:p-6 lg:p-8 relative max-h-[92dvh] overflow-y-auto">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close Enquiry Modal"
-          className="absolute top-4 right-4 w-9 h-9 bg-[#1B1B1B] border border-[#D4AF72]/25 flex items-center justify-center hover:border-[#D4AF72] transition-colors"
+          className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-9 h-9 bg-[#1B1B1B] border border-[#D4AF72]/25 flex items-center justify-center hover:border-[#D4AF72] transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
 
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72] pr-11">
           WHITE COLLAR REALTY Private Advisory
         </p>
-        <h2 className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-1">
+        <h2 className="font-display text-xl sm:text-3xl font-medium text-[#F5F1E8] mt-1 pr-11 break-words">
           {ENQUIRY_LABELS[enquiryType]}
         </h2>
         {project && (
-          <p className="text-xs text-[#A5A19A] mt-1">
+          <p className="text-xs text-[#A5A19A] mt-1 pr-11 break-words">
             Project: <strong className="text-[#F5F1E8]">{project.name}</strong> ·{' '}
             {project.emirate}
           </p>
@@ -248,18 +248,18 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
 
             {error && <p className="text-xs text-[#F87171] font-medium">{error}</p>}
 
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
               <a
                 href={COMPANY_INFO.whatsappDeskUrl(whatsappText)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-medium text-[#6EE7B7] hover:underline flex items-center gap-1.5"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4 shrink-0" />
                 <span>Direct WhatsApp ({COMPANY_INFO.phone})</span>
               </a>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={onClose}
@@ -270,7 +270,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors disabled:opacity-60"
+                  className="px-5 sm:px-6 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors disabled:opacity-60"
                 >
                   {submitting ? 'Submitting...' : 'Submit Enquiry'}
                 </button>

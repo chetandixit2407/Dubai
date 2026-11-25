@@ -19,26 +19,26 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
   onClose,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-6xl max-h-[90vh] flex flex-col">
-        <div className="px-6 py-4 border-b border-[#D4AF72]/20 flex items-center justify-between bg-[#080808]">
-          <div className="flex items-center gap-2">
-            <GitCompare className="w-5 h-5 text-[#D4AF72]" />
-            <h2 className="font-display text-2xl font-medium text-[#F5F1E8]">
-              Side-by-Side Project Comparison ({projects.length})
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
+      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-6xl max-h-[92dvh] flex flex-col">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#D4AF72]/20 flex items-center justify-between gap-2 bg-[#080808]">
+          <div className="flex items-center gap-2 min-w-0">
+            <GitCompare className="w-5 h-5 text-[#D4AF72] shrink-0" />
+            <h2 className="font-display text-lg sm:text-2xl font-medium text-[#F5F1E8] truncate">
+              Side-by-Side Comparison ({projects.length})
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close Comparison"
-            className="w-9 h-9 border border-[#D4AF72]/25 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors"
+            className="w-9 h-9 border border-[#D4AF72]/25 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors shrink-0"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-3.5 sm:p-6">
           {projects.length === 0 ? (
             <p className="text-sm text-[#A5A19A] text-center py-12">
               Select up to 4 projects using the Compare button on any project card.
@@ -47,11 +47,11 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
             <table className="w-full border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-[#D4AF72]/25">
-                  <th className="py-3 pr-4 w-48 text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
+                  <th className="py-3 pr-3 sm:pr-4 w-28 sm:w-48 min-w-[112px] sm:min-w-[180px] sticky left-0 bg-[#121212] z-10 text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                     Metric
                   </th>
                   {projects.map((p) => (
-                    <th key={p.id} className="py-3 px-4 min-w-[210px] align-top">
+                    <th key={p.id} className="py-3 px-3 sm:px-4 min-w-[170px] sm:min-w-[210px] align-top">
                       <div className="flex items-start justify-between gap-2">
                         <button
                           type="button"

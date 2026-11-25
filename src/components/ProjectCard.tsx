@@ -100,65 +100,68 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/90 via-[#080808]/25 to-transparent pointer-events-none" />
 
-        {/* Honest Media Classification Label (Top Left) */}
-        {!imgFailed && project.heroImage && mediaClassLabel && (
-          <div className="absolute top-3 left-3 bg-[#080808]/85 border border-[#D4AF72]/30 text-[#F5F1E8] px-2.5 py-1 text-[11px] font-medium">
-            {mediaClassLabel}
-          </div>
-        )}
+        {/* Top Overlay Row: Classification Badge + Action Affordances */}
+        <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2 z-10 pointer-events-none">
+          {!imgFailed && project.heroImage && mediaClassLabel ? (
+            <div className="pointer-events-auto bg-[#080808]/85 border border-[#D4AF72]/30 text-[#F5F1E8] px-2 py-1 text-[10px] sm:text-[11px] font-medium truncate min-w-0 max-w-[52%]">
+              {mediaClassLabel}
+            </div>
+          ) : (
+            <span />
+          )}
 
-        {/* Action Affordances (Top Right) */}
-        <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
-          <button
-            type="button"
-            onClick={(e) => onToggleCompare(project, e)}
-            title={isCompared ? t.comparingBtn : t.compareBtn}
-            className={`h-9 px-3 text-xs font-medium flex items-center gap-1.5 transition-colors duration-200 whitespace-nowrap shrink-0 border ${
-              isCompared
-                ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
-                : 'bg-[#080808]/85 text-[#F5F1E8] border-[#D4AF72]/35 hover:border-[#D4AF72] hover:text-[#D4AF72]'
-            }`}
-          >
-            <GitCompare className="w-3.5 h-3.5" />
-            <span>{isCompared ? t.comparingBtn : t.compareBtn}</span>
-          </button>
-          <button
-            type="button"
-            onClick={(e) => onToggleSave(project, e)}
-            aria-label={isSaved ? t.savedBtn : t.saveBtn}
-            className={`w-9 h-9 flex items-center justify-center transition-colors duration-200 border ${
-              isSaved
-                ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
-                : 'bg-[#080808]/85 text-[#F5F1E8] border-[#D4AF72]/35 hover:border-[#D4AF72] hover:text-[#D4AF72]'
-            }`}
-          >
-            <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
-          </button>
+          <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={(e) => onToggleCompare(project, e)}
+              title={isCompared ? t.comparingBtn : t.compareBtn}
+              className={`h-9 px-2.5 sm:px-3 text-xs font-medium flex items-center gap-1.5 transition-colors duration-200 whitespace-nowrap shrink-0 border ${
+                isCompared
+                  ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
+                  : 'bg-[#080808]/85 text-[#F5F1E8] border-[#D4AF72]/35 hover:border-[#D4AF72] hover:text-[#D4AF72]'
+              }`}
+            >
+              <GitCompare className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden xs:inline">{isCompared ? t.comparingBtn : t.compareBtn}</span>
+            </button>
+            <button
+              type="button"
+              onClick={(e) => onToggleSave(project, e)}
+              aria-label={isSaved ? t.savedBtn : t.saveBtn}
+              className={`w-9 h-9 flex items-center justify-center transition-colors duration-200 border shrink-0 ${
+                isSaved
+                  ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
+                  : 'bg-[#080808]/85 text-[#F5F1E8] border-[#D4AF72]/35 hover:border-[#D4AF72] hover:text-[#D4AF72]'
+              }`}
+            >
+              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+            </button>
+          </div>
         </div>
 
         {/* Bottom Scrim Location & Section 8 Media Availability Badge */}
-        <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-2 text-[#F5F1E8]">
-          <p className="text-xs text-[#F5F1E8]/90 flex items-center gap-1.5 min-w-0 truncate">
+        <div className="absolute bottom-3 left-3 right-3 flex flex-wrap xs:flex-nowrap items-end justify-between gap-2 text-[#F5F1E8]">
+          <p className="text-xs text-[#F5F1E8]/90 flex items-center gap-1.5 min-w-0 flex-1">
             <MapPin className="w-3.5 h-3.5 shrink-0 text-[#D4AF72]" />
             <span className="truncate">
               {project.community} · {project.emirate}
             </span>
           </p>
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0 max-w-full">
             {tourStatus === '3d_available' || tourStatus === '360_available' ? (
-              <span className="text-[11px] font-semibold text-[#080808] bg-[#D4AF72] px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap shadow-sm">
-                <Compass className="w-3 h-3" />
-                <span>{tourLabel}</span>
+              <span className="text-[10px] sm:text-[11px] font-semibold text-[#080808] bg-[#D4AF72] px-2 sm:px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap shadow-sm">
+                <Compass className="w-3 h-3 shrink-0" />
+                <span className="truncate">{tourLabel}</span>
               </span>
             ) : tourStatus === 'video_available' ? (
-              <span className="text-[11px] font-semibold text-[#ECFDF5] bg-[#064E3B]/95 border border-[#34D399]/45 px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap shadow-sm">
-                <Video className="w-3 h-3 text-[#6EE7B7]" />
-                <span>{tourLabel}</span>
+              <span className="text-[10px] sm:text-[11px] font-semibold text-[#ECFDF5] bg-[#064E3B]/95 border border-[#34D399]/45 px-2 sm:px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap shadow-sm">
+                <Video className="w-3 h-3 text-[#6EE7B7] shrink-0" />
+                <span className="truncate">{tourLabel}</span>
               </span>
             ) : (
-              <span className="text-[11px] font-medium text-[#A5A19A] bg-[#080808]/85 border border-[#D4AF72]/20 px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap">
-                <Compass className="w-3 h-3 text-[#A5A19A]" />
-                <span>{tourLabel}</span>
+              <span className="text-[10px] sm:text-[11px] font-medium text-[#A5A19A] bg-[#080808]/85 border border-[#D4AF72]/20 px-2 sm:px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap">
+                <Compass className="w-3 h-3 text-[#A5A19A] shrink-0" />
+                <span className="truncate">{tourLabel}</span>
               </span>
             )}
           </div>
@@ -166,18 +169,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Content Body */}
-      <div className="p-5 flex-1 flex flex-col justify-between">
-        <div>
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between min-w-0">
+        <div className="min-w-0">
           {/* Clean Unboxed Metadata */}
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#A5A19A] mb-2">
             <span className="font-medium text-[#D4AF72]">{project.category}</span>
             <span aria-hidden="true">·</span>
-            <span>{project.developerName}</span>
+            <span className="break-words">{project.developerName}</span>
             <span aria-hidden="true">·</span>
             <span className="tabular-nums">{project.handoverDate}</span>
           </div>
 
-          <h3 className="font-display text-2xl font-medium text-[#F5F1E8] leading-snug mb-1.5 group-hover:text-[#D4AF72] transition-colors duration-200">
+          <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] leading-snug mb-1.5 group-hover:text-[#D4AF72] transition-colors duration-200 break-words">
             {displayName}
           </h3>
 
@@ -186,17 +189,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </p>
 
           {/* Pricing & Yield Row */}
-          <div className="grid grid-cols-2 gap-4 py-3.5 border-y border-[#D4AF72]/15 mb-4">
-            <div>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 py-3.5 border-y border-[#D4AF72]/15 mb-4">
+            <div className="min-w-0">
               <p className="text-[11px] uppercase tracking-wider text-[#A5A19A] mb-0.5">
                 Starting Price
               </p>
-              <p className="font-mono-tabular text-base font-semibold text-[#F5F1E8]">
+              <p className="font-mono-tabular text-sm sm:text-base font-semibold text-[#F5F1E8] break-words">
                 {formatProjectPrice(project.startingPriceAed, currency)}
               </p>
               {currency !== 'INR' && project.startingPriceAed > 0 && (
                 <p
-                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5"
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5 truncate"
                   title={formatInrTimestampNote()}
                 >
                   ≈ {formatCurrency(project.startingPriceAed, 'INR')}
@@ -204,18 +207,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               )}
               {currency === 'INR' && project.startingPriceAed > 0 && (
                 <p
-                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5"
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5 truncate"
                   title={formatInrTimestampNote()}
                 >
                   ≈ AED {project.startingPriceAed.toLocaleString()}
                 </p>
               )}
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-[11px] uppercase tracking-wider text-[#A5A19A] mb-0.5">
                 Est. Yield / Baths
               </p>
-              <p className="font-mono-tabular text-sm font-semibold text-[#6EE7B7]">
+              <p className="font-mono-tabular text-sm font-semibold text-[#6EE7B7] truncate">
                 {project.investment.grossYieldPct
                   ? `${project.investment.grossYieldPct.toFixed(1)}% Est. Gross`
                   : 'Yield on Request'}
@@ -230,26 +233,26 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className="mb-4">
             {inv.status === 'verified_live' && inv.availableUnits !== null ? (
               <div className="bg-[#121212] border border-[#D4AF72]/20 p-3">
-                <div className="flex items-center justify-between text-xs mb-1.5">
+                <div className="flex flex-wrap items-center justify-between gap-1 text-xs mb-1.5">
                   <span className="font-semibold text-[#6EE7B7]">Verified Live Inventory</span>
                   <span className="font-mono-tabular text-[#A5A19A]">
                     {inv.availabilityPct !== null ? `${inv.availabilityPct}% Available` : ''}
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-2 text-xs font-mono-tabular">
-                  <div>
+                <div className="grid grid-cols-2 xs:grid-cols-4 gap-2 text-xs font-mono-tabular">
+                  <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Total</span>
                     <span className="font-semibold text-[#F5F1E8]">{inv.totalRegisteredUnits}</span>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Available</span>
                     <span className="font-semibold text-[#6EE7B7]">{inv.availableUnits}</span>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Reserved</span>
                     <span className="font-semibold text-[#D4AF72]">{inv.reservedUnits ?? 0}</span>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Sold</span>
                     <span className="font-semibold text-[#A5A19A]">{inv.soldUnits ?? 0}</span>
                   </div>

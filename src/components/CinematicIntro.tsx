@@ -92,14 +92,14 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ open, onComplete
       />
 
       {/* Top Bar with Visible Skip Intro */}
-      <div className="relative z-30 max-w-7xl mx-auto px-6 lg:px-10 pt-6 flex items-center justify-between">
-        <div className="text-[10px] uppercase tracking-[0.28em] text-[#D4AF72]/75 font-mono-tabular">
+      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-5 sm:pt-6 pt-safe flex items-center justify-between gap-3">
+        <div className="text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.28em] text-[#D4AF72]/75 font-mono-tabular truncate">
           Dubai · Abu Dhabi · UAE
         </div>
         <button
           type="button"
           onClick={handleFinish}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#121212]/80 backdrop-blur-md border border-[#D4AF72]/35 text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] text-[11px] uppercase tracking-[0.2em] font-medium transition-colors duration-200 cursor-pointer"
+          className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#121212]/80 backdrop-blur-md border border-[#D4AF72]/35 text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.2em] font-medium transition-colors duration-200 cursor-pointer shrink-0"
         >
           <span>Skip Intro</span>
           <ArrowRight className="w-3.5 h-3.5 text-[#D4AF72]" />
@@ -245,19 +245,19 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ open, onComplete
       </div>
 
       {/* Editorial Brand Reveal Overlay */}
-      <div className="relative z-20 h-full flex flex-col items-center justify-center px-6 text-center pb-24">
+      <div className="relative z-20 h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center pb-20 sm:pb-24 pb-safe">
         <div
           style={{
             opacity: isBrandVisible ? 1 : 0,
             transform: isBrandVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, 18px, 0)',
             transition: 'opacity 850ms cubic-bezier(0.22, 1, 0.36, 1), transform 850ms cubic-bezier(0.22, 1, 0.36, 1)',
           }}
-          className="max-w-3xl"
+          className="max-w-3xl w-full"
         >
-          <p className="text-[11px] uppercase tracking-[0.38em] text-[#D4AF72] font-medium mb-4">
+          <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] sm:tracking-[0.38em] text-[#D4AF72] font-medium mb-3 sm:mb-4">
             Private Real Estate Advisory
           </p>
-          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-medium tracking-[0.06em] text-[#F5F1E8] leading-tight">
+          <h1 className="font-display text-3xl xs:text-4xl sm:text-6xl md:text-7xl font-medium tracking-[0.06em] text-[#F5F1E8] leading-tight">
             WHITE COLLAR REALTY
           </h1>
           <div

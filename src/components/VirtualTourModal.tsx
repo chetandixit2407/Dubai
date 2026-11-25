@@ -482,22 +482,22 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-0 md:p-4">
       <div
         ref={containerRef}
-        className={`bg-[#080808] text-white flex flex-col border border-[#D4AF72]/20 ${
-          isFullscreen ? 'w-full h-full' : 'w-full max-w-7xl h-[94vh] md:h-[88vh]'
+        className={`bg-[#080808] text-white flex flex-col border border-[#D4AF72]/20 pt-safe pb-safe ${
+          isFullscreen ? 'w-full h-[100dvh]' : 'w-full max-w-7xl h-[100dvh] md:h-[90dvh]'
         }`}
       >
         {/* Top Interactive Control Header */}
-        <div className="px-5 py-3.5 border-b border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-3 bg-[#121212] shrink-0">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#D4AF72] uppercase tracking-wider font-semibold">
+        <div className="px-3.5 sm:px-5 py-2.5 sm:py-3.5 border-b border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 bg-[#121212] shrink-0">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-[#D4AF72] uppercase tracking-wider font-semibold">
               <span>{TOUR_STATUS_LABELS[effectiveStatus]}</span>
               {isPreview && <span className="px-1.5 py-0.5 bg-[#D4AF72] text-[#080808]">ADMIN PREVIEW</span>}
-              {project.virtualTour.provider && <span>· {project.virtualTour.provider}</span>}
-              <span>
+              {project.virtualTour.provider && <span className="hidden xs:inline">· {project.virtualTour.provider}</span>}
+              <span className="hidden sm:inline">
                 · {project.community}, {project.emirate}
               </span>
             </div>
-            <h2 className="font-display text-xl sm:text-2xl font-semibold truncate mt-0.5">
+            <h2 className="font-display text-lg sm:text-2xl font-semibold truncate mt-0.5">
               {project.name}
             </h2>
           </div>
@@ -780,7 +780,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
               onWheel={handleWheel}
-              className={`flex-1 relative overflow-hidden select-none touch-none ${
+              className={`flex-1 min-h-[280px] relative overflow-hidden select-none touch-none ${
                 isDragging ? 'cursor-grabbing' : 'cursor-grab'
               }`}
             >
@@ -800,14 +800,14 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
               )}
 
               {/* Subtle Top Controls HUD (Floor & View Category Selectors) */}
-              <div className="absolute top-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-                <div className="flex flex-wrap items-center gap-1.5 pointer-events-auto">
+              <div className="absolute top-2.5 left-2.5 right-2.5 sm:top-4 sm:left-4 sm:right-4 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+                <div className="flex flex-wrap items-center gap-1.5 pointer-events-auto max-w-full">
                   {floors.length > 1 && (
                     <select
                       value={floorFilter}
                       onChange={(e) => setFloorFilter(e.target.value)}
                       aria-label="Filter by floor level"
-                      className="h-8 px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#D4AF72]"
+                      className="h-8 px-2 sm:px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#D4AF72]"
                     >
                       <option value="all">All Floors ({floors.length})</option>
                       {floors.map((fl) => (
@@ -821,7 +821,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
                     aria-label="Filter by view type"
-                    className="h-8 px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#D4AF72]"
+                    className="h-8 px-2 sm:px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#D4AF72]"
                   >
                     <option value="all">All Tour Areas</option>
                     <option value="interior">Interiors</option>
@@ -831,7 +831,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   </select>
                 </div>
 
-                <div className="bg-black/75 border border-white/20 px-3 py-1.5 text-[11px] font-mono-tabular flex items-center gap-2">
+                <div className="hidden sm:flex bg-black/75 border border-white/20 px-3 py-1.5 text-[11px] font-mono-tabular items-center gap-2">
                   <Move className="w-3.5 h-3.5 text-[#D4AF72]" />
                   <span>
                     Drag to Look · Yaw {Math.round(yawDeg)}° · FOV {fovDeg}°
@@ -889,18 +889,18 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
               )}
 
               {/* Bottom Room Details Overlay */}
-              <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-end justify-between gap-3 pointer-events-none">
-                <div className="bg-black/80 border border-[#D4AF72]/20 p-3.5 max-w-md pointer-events-auto">
-                  <p className="text-[11px] text-[#D4AF72] font-semibold uppercase tracking-wider">
+              <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-4 sm:left-4 sm:right-4 flex flex-wrap items-end justify-between gap-2 sm:gap-3 pointer-events-none">
+                <div className="bg-black/80 border border-[#D4AF72]/20 p-2.5 sm:p-3.5 max-w-md pointer-events-auto">
+                  <p className="text-[10px] sm:text-[11px] text-[#D4AF72] font-semibold uppercase tracking-wider">
                     {activeRoom.floorLevel || 'Main Level'} · {activeRoom.viewCategory.replace('_', ' / ')}
                   </p>
-                  <h4 className="font-display text-lg sm:text-xl font-semibold mt-0.5">
+                  <h4 className="font-display text-base sm:text-xl font-semibold mt-0.5">
                     {activeRoom.label}
                   </h4>
                   {activeRoom.description && (
-                    <p className="text-xs text-white/80 mt-1">{activeRoom.description}</p>
+                    <p className="hidden sm:block text-xs text-white/80 mt-1">{activeRoom.description}</p>
                   )}
-                  <p className="text-[11px] text-white/60 mt-1.5">
+                  <p className="text-[10px] sm:text-[11px] text-white/60 mt-1">
                     Source: {activeRoom.sourceName}
                   </p>
                 </div>
@@ -910,9 +910,9 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     href={project.virtualTour.webXrUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto px-3.5 py-2 bg-[#121212]/90 border border-[#D4AF72] text-xs font-medium text-[#D4AF72] hover:bg-[#D4AF72] hover:text-white flex items-center gap-1.5"
+                    className="pointer-events-auto px-3 sm:px-3.5 py-2 bg-[#121212]/90 border border-[#D4AF72] text-xs font-medium text-[#D4AF72] hover:bg-[#D4AF72] hover:text-white flex items-center gap-1.5"
                   >
-                    <span>Open WebXR Experience</span>
+                    <span>Open WebXR</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 )}
@@ -922,7 +922,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
           {/* Interactive Floor Plan Side Drawer */}
           {showFloorPlans && project.floorPlans.length > 0 && (
-            <aside className="w-full md:w-80 bg-[#1B1B1B] border-t md:border-t-0 md:border-l border-[#D4AF72]/20 p-4 overflow-y-auto shrink-0">
+            <aside className="w-full md:w-80 max-h-[36dvh] md:max-h-none bg-[#1B1B1B] border-t md:border-t-0 md:border-l border-[#D4AF72]/20 p-3.5 sm:p-4 overflow-y-auto shrink-0">
               <h4 className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72] mb-1">
                 Interactive Floor Plan Explorer
               </h4>

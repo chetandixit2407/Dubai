@@ -15,6 +15,7 @@ import {
   Globe,
   Mail,
   MapPin,
+  Menu,
   MessageCircle,
   Phone,
   Shield,
@@ -260,6 +261,7 @@ export default function App() {
   }>({ open: false, type: 'callback', project: null });
   const [showPortalModal, setShowPortalModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
   // Quick Direct Contact Desk Form State
@@ -931,23 +933,23 @@ export default function App() {
       )}
 
       {/* Top Official Contact Bar */}
-      <div className="bg-[#121212] text-[#A5A19A] text-[11px] border-b border-[#D4AF72]/15 hidden sm:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <span className="text-[#D4AF72] font-semibold tracking-wider uppercase text-[10px]">
+      <div className="bg-[#121212] text-[#A5A19A] text-[11px] border-b border-[#D4AF72]/15 hidden md:block">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <span className="text-[#D4AF72] font-semibold tracking-wider uppercase text-[10px] whitespace-nowrap shrink-0">
               WHITE COLLAR REALTY · Official Advisory
             </span>
-            <span className="text-[#D4AF72]/30">|</span>
-            <span className="flex items-center gap-1.5 text-[#A5A19A]">
+            <span className="text-[#D4AF72]/30 shrink-0 hidden lg:inline">|</span>
+            <span className="hidden lg:flex items-center gap-1.5 text-[#A5A19A] min-w-0">
               <MapPin className="w-3 h-3 text-[#D4AF72] shrink-0" />
-              <span className="truncate max-w-xs md:max-w-md">{COMPANY_INFO.shortAddress}</span>
+              <span className="truncate">{COMPANY_INFO.shortAddress}</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-4 shrink-0 font-medium">
+          <div className="flex items-center gap-3 lg:gap-4 shrink-0 font-medium">
             <a
               href={COMPANY_INFO.phoneHref}
-              className="hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors text-[#F5F1E8]"
+              className="hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
               <Phone className="w-3 h-3 text-[#D4AF72]" />
               <span>{COMPANY_INFO.phone}</span>
@@ -956,14 +958,14 @@ export default function App() {
               href={COMPANY_INFO.whatsappDeskUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#6EE7B7] flex items-center gap-1.5 transition-colors text-[#F5F1E8]"
+              className="hover:text-[#6EE7B7] flex items-center gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
               <MessageCircle className="w-3 h-3 text-[#6EE7B7]" />
               <span>WhatsApp Desk</span>
             </a>
             <a
               href={COMPANY_INFO.emailHref}
-              className="hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors text-[#F5F1E8]"
+              className="hidden xl:flex hover:text-[#D4AF72] items-center gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
               <Mail className="w-3 h-3 text-[#D4AF72]" />
               <span>{COMPANY_INFO.email}</span>
@@ -972,7 +974,7 @@ export default function App() {
               href={COMPANY_INFO.googleMapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#D4AF72] hover:underline flex items-center gap-1"
+              className="text-[#D4AF72] hover:underline flex items-center gap-1 whitespace-nowrap"
             >
               <span>Get Directions</span>
               <ExternalLink className="w-2.5 h-2.5" />
@@ -981,25 +983,36 @@ export default function App() {
         </div>
       </div>
 
-      {/* Top Navigation Bar (Strict 3-Zone Contract: Brand | <=5 Nav Links | 1 Primary CTA) */}
-      <header className="sticky top-0 z-40 bg-[#080808]/95 backdrop-blur-md border-b border-[#D4AF72]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              closeProjectPage();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="flex items-center gap-2.5 shrink-0 whitespace-nowrap"
-          >
-            <Building2 className="w-5 h-5 text-[#D4AF72]" />
-            <span className="font-display text-xl sm:text-2xl font-medium tracking-wide text-[#F5F1E8]">
-              {t.brand}
-            </span>
-          </a>
+      {/* Top Navigation Bar (Strict 3-Zone Contract: Brand | <=5 Nav Links | 1 Primary CTA + Mobile/Tablet Drawer Toggle) */}
+      <header className="sticky top-0 z-40 bg-[#080808]/95 backdrop-blur-md border-b border-[#D4AF72]/20 pt-safe">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
+          <div className="flex items-center gap-2 min-w-0">
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={mobileNavOpen}
+              className="lg:hidden w-10 h-10 -ml-1 flex items-center justify-center border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors shrink-0"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                closeProjectPage();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="flex items-center gap-2 min-w-0"
+            >
+              <Building2 className="w-5 h-5 text-[#D4AF72] shrink-0" />
+              <span className="font-display text-base xs:text-lg sm:text-xl lg:text-2xl font-medium tracking-wide text-[#F5F1E8] truncate">
+                {t.brand}
+              </span>
+            </a>
+          </div>
 
-          <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-7">
+          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-6 xl:gap-8">
             <a
               href="#projects"
               onClick={closeProjectPage}
@@ -1037,11 +1050,11 @@ export default function App() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <a
               href={COMPANY_INFO.phoneHref}
               aria-label={`Call ${COMPANY_INFO.phone}`}
-              className="md:hidden w-8 h-8 border border-[#D4AF72]/30 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72]"
+              className="md:hidden w-9 h-9 border border-[#D4AF72]/30 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72]"
             >
               <Phone className="w-3.5 h-3.5" />
             </a>
@@ -1050,86 +1063,235 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp White Collar Realty"
-              className="md:hidden w-8 h-8 border border-[#D4AF72]/30 flex items-center justify-center text-[#6EE7B7] hover:border-[#D4AF72]"
+              className="md:hidden w-9 h-9 border border-[#D4AF72]/30 flex items-center justify-center text-[#6EE7B7] hover:border-[#D4AF72]"
             >
               <MessageCircle className="w-3.5 h-3.5" />
             </a>
             <button
               type="button"
               onClick={() => setEnquiryModalState({ open: true, type: 'callback', project: null })}
-              className="h-9 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors duration-200 whitespace-nowrap shrink-0"
+              className="h-9 sm:h-10 px-2.5 xs:px-3.5 sm:px-4 bg-[#D4AF72] text-[#080808] text-[11px] sm:text-xs font-semibold hover:bg-[#E6C77A] transition-colors duration-200 whitespace-nowrap shrink-0"
             >
-              {t.primaryCta}
+              <span className="xs:hidden">Enquire</span>
+              <span className="hidden xs:inline">{t.primaryCta}</span>
             </button>
           </div>
         </div>
       </header>
 
+      {/* Mobile & Tablet Slide-Over Navigation Drawer (< 1024px) */}
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden flex" role="dialog" aria-modal="true" aria-label="Navigation menu">
+          <div
+            className="fixed inset-0 bg-[#080808]/80 backdrop-blur-sm"
+            onClick={() => setMobileNavOpen(false)}
+          />
+          <aside className="relative z-10 w-80 max-w-[85vw] h-[100dvh] bg-[#121212] border-r border-[#D4AF72]/25 flex flex-col justify-between overflow-y-auto pt-safe pb-safe">
+            <div>
+              <div className="px-5 py-4 border-b border-[#D4AF72]/20 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Building2 className="w-5 h-5 text-[#D4AF72] shrink-0" />
+                  <span className="font-display text-lg font-medium text-[#F5F1E8] truncate">
+                    {t.brand}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileNavOpen(false)}
+                  aria-label="Close navigation menu"
+                  className="w-10 h-10 flex items-center justify-center border border-[#D4AF72]/25 text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] shrink-0"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <nav aria-label="Mobile navigation" className="p-4 space-y-1">
+                {[
+                  { href: '#projects', label: t.navProjects },
+                  { href: '#uae-map', label: t.navMap },
+                  { href: '#developers', label: t.navDevelopers },
+                  { href: '#calculator', label: t.navCalculator },
+                  { href: '#insights', label: t.navInsights },
+                  { href: '#contact', label: t.contactHeading },
+                ].map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => {
+                      closeProjectPage();
+                      setMobileNavOpen(false);
+                    }}
+                    className="flex items-center justify-between px-3.5 py-3 text-sm font-medium text-[#F5F1E8] hover:bg-[#1B1B1B] hover:text-[#D4AF72] border border-transparent hover:border-[#D4AF72]/20 transition-colors"
+                  >
+                    <span>{item.label}</span>
+                    <ArrowUpRight className="w-4 h-4 text-[#D4AF72]" />
+                  </a>
+                ))}
+              </nav>
+
+              <div className="px-4 py-3 border-t border-[#D4AF72]/15 space-y-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#D4AF72] px-1">
+                  Platform Tools
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileNavOpen(false);
+                    setShowCompareModal(true);
+                  }}
+                  className="w-full px-3.5 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] flex items-center justify-between hover:border-[#D4AF72]"
+                >
+                  <span className="flex items-center gap-2">
+                    <GitCompare className="w-4 h-4 text-[#D4AF72]" />
+                    <span>Compare Properties</span>
+                  </span>
+                  <span className="font-mono-tabular text-[#D4AF72]">{compareIds.length}/4</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileNavOpen(false);
+                    setShowPortalModal(true);
+                  }}
+                  className="w-full px-3.5 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] flex items-center justify-between hover:border-[#D4AF72]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Bookmark className="w-4 h-4 text-[#D4AF72]" />
+                    <span>{userProfile ? `${t.navPortal} (${favorites.length})` : t.signInGoogle}</span>
+                  </span>
+                </button>
+                {userProfile && isStaffRole(userProfile.role, userProfile.email) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileNavOpen(false);
+                      setShowAdminModal(true);
+                    }}
+                    className="w-full px-3.5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold flex items-center gap-2"
+                  >
+                    <Shield className="w-4 h-4" />
+                    <span>{t.navAdmin}</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileNavOpen(false);
+                    handleReplayIntro();
+                  }}
+                  className="w-full px-3.5 py-2.5 bg-[#080808] border border-[#D4AF72]/25 text-xs font-medium text-[#D4AF72] flex items-center gap-2"
+                >
+                  <Film className="w-4 h-4" />
+                  <span>Replay Skyline Intro</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-[#D4AF72]/20 bg-[#080808]/60 space-y-2 text-xs">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
+                Advisory Desk
+              </p>
+              <a
+                href={COMPANY_INFO.phoneHref}
+                className="flex items-center gap-2 text-[#F5F1E8] hover:text-[#D4AF72] py-1"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+                <span className="font-mono-tabular">{COMPANY_INFO.phone}</span>
+              </a>
+              <a
+                href={COMPANY_INFO.whatsappDeskUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#6EE7B7] py-1"
+              >
+                <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+                <span>WhatsApp Advisory Desk</span>
+              </a>
+              <p className="text-[11px] text-[#A5A19A] leading-relaxed break-words">
+                {COMPANY_INFO.shortAddress}
+              </p>
+            </div>
+          </aside>
+        </div>
+      )}
+
       {/* Workspace Utility Strip (Language, Multi-Currency, Portal, Compare, Admin) */}
       <div className="bg-[#121212] border-b border-[#D4AF72]/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-[#A5A19A] hidden sm:inline">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-2 sm:gap-3 text-xs">
+          <div className="hidden lg:flex items-center gap-3 min-w-0">
+            <span className="text-[#A5A19A] truncate">
               Dubai · Abu Dhabi · Sharjah · Ajman · RAK · Fujairah · UAQ
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            {/* Language Switcher */}
-            <button
-              type="button"
-              onClick={() => setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'))}
-              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors"
-            >
-              <Globe className="w-3.5 h-3.5 text-[#D4AF72]" />
-              <span>{language === 'en' ? 'EN | العربية' : 'العربية | EN'}</span>
-            </button>
-
-            {/* Currency Switcher */}
-            <select
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-              aria-label="Select display currency"
-              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
-            >
-              {CURRENCIES.map((cur) => (
-                <option key={cur} value={cur}>
-                  {cur}
-                </option>
-              ))}
-            </select>
-
-            {/* Compare Trigger */}
-            <button
-              type="button"
-              onClick={() => setShowCompareModal(true)}
-              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors"
-            >
-              <GitCompare className="w-3.5 h-3.5 text-[#D4AF72]" />
-              <span>Compare ({compareIds.length}/4)</span>
-            </button>
-
-            {/* Client Portal / Sign In */}
-            <button
-              type="button"
-              onClick={() => setShowPortalModal(true)}
-              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors"
-            >
-              <Bookmark className="w-3.5 h-3.5 text-[#D4AF72]" />
-              <span>{userProfile ? `${t.navPortal} (${favorites.length})` : t.signInGoogle}</span>
-            </button>
-
-            {/* Role-Gated Staff / Admin Console */}
-            {userProfile && isStaffRole(userProfile.role, userProfile.email) && (
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 w-full lg:w-auto justify-between sm:justify-end">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* Language Switcher */}
               <button
                 type="button"
-                onClick={() => setShowAdminModal(true)}
-                className="h-8 px-3 bg-[#D4AF72] text-[#080808] border border-[#D4AF72] hover:bg-[#E6C77A] flex items-center gap-1.5 font-semibold transition-colors"
+                onClick={() => setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'))}
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors whitespace-nowrap"
               >
-                <Shield className="w-3.5 h-3.5" />
-                <span>{t.navAdmin}</span>
+                <Globe className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+                <span className="xs:hidden">{language === 'en' ? 'EN' : 'AR'}</span>
+                <span className="hidden xs:inline">
+                  {language === 'en' ? 'EN | العربية' : 'العربية | EN'}
+                </span>
               </button>
-            )}
+
+              {/* Currency Switcher */}
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+                aria-label="Select display currency"
+                className="h-9 px-2 sm:px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+              >
+                {CURRENCIES.map((cur) => (
+                  <option key={cur} value={cur}>
+                    {cur}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* Compare Trigger */}
+              <button
+                type="button"
+                onClick={() => setShowCompareModal(true)}
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors whitespace-nowrap"
+              >
+                <GitCompare className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+                <span className="xs:hidden">({compareIds.length})</span>
+                <span className="hidden xs:inline">Compare ({compareIds.length}/4)</span>
+              </button>
+
+              {/* Client Portal / Sign In */}
+              <button
+                type="button"
+                onClick={() => setShowPortalModal(true)}
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors whitespace-nowrap"
+              >
+                <Bookmark className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
+                <span className="sm:hidden">{userProfile ? t.navPortal : 'Sign In'}</span>
+                <span className="hidden sm:inline">
+                  {userProfile ? `${t.navPortal} (${favorites.length})` : t.signInGoogle}
+                </span>
+              </button>
+
+              {/* Role-Gated Staff / Admin Console */}
+              {userProfile && isStaffRole(userProfile.role, userProfile.email) && (
+                <button
+                  type="button"
+                  onClick={() => setShowAdminModal(true)}
+                  className="h-9 px-2.5 sm:px-3 bg-[#D4AF72] text-[#080808] border border-[#D4AF72] hover:bg-[#E6C77A] flex items-center gap-1.5 font-semibold transition-colors whitespace-nowrap"
+                >
+                  <Shield className="w-3.5 h-3.5 shrink-0" />
+                  <span className="xs:hidden">Admin</span>
+                  <span className="hidden xs:inline">{t.navAdmin}</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -1200,32 +1362,32 @@ export default function App() {
                   </g>
                 </svg>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 w-full">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-                    <div className="lg:col-span-8">
-                      <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#D4AF72] mb-4">
+                <div className="relative z-10 max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 w-full">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end">
+                    <div className="lg:col-span-8 min-w-0">
+                      <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] sm:tracking-[0.26em] text-[#D4AF72] mb-3 sm:mb-4">
                         {t.heroKicker}
                       </p>
                       <h1
-                        style={{ fontSize: 'clamp(2.5rem, 4.6vw, 4.4rem)' }}
-                        className="font-display font-medium leading-[1.06] tracking-tight text-[#F5F1E8] mb-5"
+                        style={{ fontSize: 'clamp(1.85rem, 4.4vw, 4.4rem)' }}
+                        className="font-display font-medium leading-[1.08] tracking-tight text-[#F5F1E8] mb-4 sm:mb-5 break-words"
                       >
                         {t.heroTitle}
                       </h1>
-                      <p className="text-sm sm:text-base text-[#A5A19A] leading-relaxed max-w-2xl mb-8">
+                      <p className="text-sm sm:text-base text-[#A5A19A] leading-relaxed max-w-2xl mb-6 sm:mb-8">
                         {t.heroSubtitle}
                       </p>
 
                       <div className="flex flex-wrap items-center gap-3">
                         <a
                           href="#projects"
-                          className="px-6 py-3.5 bg-[#D4AF72] text-[#080808] text-xs sm:text-sm font-semibold hover:bg-[#E6C77A] transition-colors duration-200"
+                          className="px-5 sm:px-6 py-3 sm:py-3.5 bg-[#D4AF72] text-[#080808] text-xs sm:text-sm font-semibold hover:bg-[#E6C77A] transition-colors duration-200"
                         >
                           {t.exploreProjects}
                         </a>
                         <a
                           href="#uae-map"
-                          className="px-6 py-3.5 bg-[#121212]/80 border border-[#D4AF72]/40 text-[#F5F1E8] text-xs sm:text-sm font-medium hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors duration-200"
+                          className="px-5 sm:px-6 py-3 sm:py-3.5 bg-[#121212]/80 border border-[#D4AF72]/40 text-[#F5F1E8] text-xs sm:text-sm font-medium hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors duration-200"
                         >
                           {t.openMap}
                         </a>
@@ -1233,28 +1395,28 @@ export default function App() {
                     </div>
 
                     {/* Architectural Portfolio Telemetry Metrics */}
-                    <div className="lg:col-span-4 grid grid-cols-3 lg:grid-cols-1 gap-3 border-t lg:border-t-0 lg:border-l border-[#D4AF72]/25 pt-6 lg:pt-0 lg:pl-8">
-                      <div>
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#A5A19A]">
+                    <div className="lg:col-span-4 min-w-0 grid grid-cols-1 xs:grid-cols-3 lg:grid-cols-1 gap-4 border-t lg:border-t-0 lg:border-l border-[#D4AF72]/25 pt-5 lg:pt-0 lg:pl-8">
+                      <div className="min-w-0">
+                        <p className="text-[11px] uppercase tracking-[0.16em] text-[#A5A19A]">
                           Verified Developments
                         </p>
-                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#D4AF72] mt-0.5">
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#D4AF72] mt-0.5 tabular-nums">
                           <AnimatedNumber value={projects.length} />
                         </p>
                       </div>
-                      <div>
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#A5A19A]">
+                      <div className="min-w-0">
+                        <p className="text-[11px] uppercase tracking-[0.16em] text-[#A5A19A]">
                           Master Developers
                         </p>
-                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-0.5">
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-0.5 tabular-nums">
                           <AnimatedNumber value={developers.length} />
                         </p>
                       </div>
-                      <div>
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#A5A19A]">
+                      <div className="min-w-0">
+                        <p className="text-[11px] uppercase tracking-[0.16em] text-[#A5A19A]">
                           Live Inventory Feeds
                         </p>
-                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#6EE7B7] mt-0.5">
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#6EE7B7] mt-0.5 tabular-nums">
                           <AnimatedNumber value={liveInventoryCount} />
                         </p>
                       </div>
@@ -1264,7 +1426,7 @@ export default function App() {
               </div>
 
               {/* 2. ADVANCED PROPERTY SEARCH ENGINE */}
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-12 z-20 pb-10">
+              <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 relative -mt-6 sm:-mt-10 lg:-mt-12 z-20 pb-8 sm:pb-10">
                 <SearchEngineBar
                   filters={filters}
                   developers={developers}
@@ -1283,7 +1445,7 @@ export default function App() {
 
             {/* RECENTLY VIEWED RESIDENCES (when user has visited projects) */}
             {recentlyViewedProjects.length > 0 && (
-              <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 border-b border-[#D4AF72]/15">
+              <section className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 pb-8 border-b border-[#D4AF72]/15">
                 <div className="flex items-center justify-between gap-4 mb-4">
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-[#D4AF72]" />
@@ -1345,9 +1507,9 @@ export default function App() {
             )}
 
             {/* 3. VERIFIED UAE PROJECTS CATALOG, CURATED SEGMENTS & PAGINATION */}
-            <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <section id="projects" className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-10 sm:py-14">
               {/* Emirate Directory Tabs */}
-              <div className="mb-6 pb-4 border-b border-[#D4AF72]/15 flex flex-wrap items-center gap-2">
+              <div className="mb-6 pb-4 border-b border-[#D4AF72]/15 flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-2">
                 {PRIMARY_EMIRATE_PAGES.map(({ emirate, label }) => {
                   const active = filters.emirate === emirate;
                   const count = emirateCounts[emirate] ?? 0;
@@ -1417,7 +1579,7 @@ export default function App() {
               </div>
 
               {/* Clean Collection Segment Selector */}
-              <div className="mb-7 flex flex-wrap items-center gap-1.5 border border-[#D4AF72]/20 bg-[#121212] p-1.5">
+              <div className="mb-7 flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-1.5 border border-[#D4AF72]/20 bg-[#121212] p-1.5">
                 {(
                   [
                     ['all', 'All Projects'],
@@ -1435,7 +1597,7 @@ export default function App() {
                     key={segKey}
                     type="button"
                     onClick={() => setSegment(segKey)}
-                    className={`px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap ${
+                    className={`px-3 py-2 sm:py-1.5 text-xs font-medium transition-colors whitespace-nowrap shrink-0 ${
                       segment === segKey
                         ? 'bg-[#D4AF72] text-[#080808] font-semibold'
                         : 'text-[#A5A19A] hover:text-[#F5F1E8]'
@@ -1447,7 +1609,7 @@ export default function App() {
               </div>
 
               {filteredProjects.length === 0 ? (
-                <div className="bg-[#121212] border border-[#D4AF72]/25 p-12 text-center">
+                <div className="bg-[#121212] border border-[#D4AF72]/25 p-8 sm:p-12 text-center">
                   <h3 className="font-display text-2xl font-medium text-[#F5F1E8]">
                     No UAE projects match your exact filter criteria
                   </h3>
@@ -1468,7 +1630,7 @@ export default function App() {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 lg:gap-6">
                     {visibleCatalogProjects.map((project, idx) => (
                       <ScrollReveal key={project.id} delayMs={(idx % 6) * 45}>
                         <ProjectCard
@@ -1549,16 +1711,16 @@ export default function App() {
             </section>
 
             {/* 4. EXPLORE BY EMIRATE (ALL 7 UAE EMIRATES) */}
-            <section className="bg-[#121212] border-y border-[#D4AF72]/20 py-14">
-              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-[#121212] border-y border-[#D4AF72]/20 py-12 sm:py-14">
+              <ScrollReveal className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                   National Coverage
                 </p>
-                <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1 mb-8">
+                <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1 mb-6 sm:mb-8">
                   {t.byEmirateHeading}
                 </h2>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
                   {EMIRATES_LIST.map((em) => {
                     const emProjects = projects.filter((p) => p.emirate === em);
                     const priced = emProjects.map((p) => p.startingPriceAed).filter((n) => n > 0);
@@ -1601,14 +1763,14 @@ export default function App() {
             </section>
 
             {/* 5. EXPLORE BY VERIFIED DEVELOPER */}
-            <section id="developers" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <section id="developers" className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-12 sm:py-14">
               <ScrollReveal>
                 <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                       RERA, ADM, SRERD &amp; Municipal Registries
                     </p>
-                    <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                    <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
                       {t.byDeveloperHeading}
                     </h2>
                   </div>
@@ -1623,7 +1785,7 @@ export default function App() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                   {developers.map((dev) => {
                     const devProjCount = projects.filter((p) => p.developerId === dev.id).length;
                     const active = filters.developerId === dev.id;
@@ -1699,13 +1861,13 @@ export default function App() {
             </section>
 
             {/* 6. INTERACTIVE UAE PROPERTY MAP */}
-            <section id="uae-map" className="bg-[#121212] border-y border-[#D4AF72]/20 py-14">
-              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="uae-map" className="bg-[#121212] border-y border-[#D4AF72]/20 py-12 sm:py-14">
+              <ScrollReveal className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8">
                 <div className="mb-6">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                     Geospatial Discovery
                   </p>
-                  <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                  <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
                     {t.mapSectionHeading}
                   </h2>
                 </div>
@@ -1719,14 +1881,14 @@ export default function App() {
             </section>
 
             {/* 7. VIRTUAL TOUR SHOWCASE */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <section className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-12 sm:py-14">
               <ScrollReveal>
                 <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                       360° &amp; 3D Interactive Walkthroughs
                     </p>
-                    <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                    <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
                       {t.virtualTourHeading}
                     </h2>
                   </div>
@@ -1736,7 +1898,7 @@ export default function App() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
                   {tourShowcaseProjects.map((proj) => {
                     const effStatus = getEffectiveTourStatus(proj);
                     const hasLiveTour = effStatus !== 'coming_soon';
@@ -1823,39 +1985,39 @@ export default function App() {
             </section>
 
             {/* 8. INSTITUTIONAL INVESTMENT CALCULATOR */}
-            <section id="calculator" className="bg-[#080808] border-y border-[#D4AF72]/20 py-14">
-              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="calculator" className="bg-[#080808] border-y border-[#D4AF72]/20 py-12 sm:py-14">
+              <ScrollReveal className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8">
                 <InvestmentCalculator currency={currency} />
               </ScrollReveal>
             </section>
 
             {/* 9. UAE MARKET INSIGHTS & LIVE INVENTORY FEED */}
-            <section id="insights" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <section id="insights" className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-12 sm:py-14">
               <ScrollReveal>
                 <div className="mb-8">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                     DLD, ADM, SRERD &amp; Municipal Intelligence
                   </p>
-                  <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                  <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
                     {t.insightsHeading}
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                  <div className="lg:col-span-7 bg-[#121212] border border-[#D4AF72]/25 p-6">
-                    <h3 className="font-display text-2xl font-medium text-[#F5F1E8] mb-1">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                  <div className="lg:col-span-7 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6">
+                    <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mb-1">
                       Average Price per Sq.Ft (AED) Across All 7 Emirates
                     </h3>
                     <p className="text-xs text-[#A5A19A] mb-5">
                       Derived from verified registered developments in White Collar Realty’s live
                       database.
                     </p>
-                    <div className="h-72 w-full">
+                    <div className="h-64 sm:h-72 w-full min-w-0">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={emirateInsightsData}>
                           <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
-                          <XAxis dataKey="emirate" tick={{ fontSize: 12, fill: '#A5A19A' }} />
-                          <YAxis tick={{ fontSize: 12, fill: '#A5A19A' }} />
+                          <XAxis dataKey="emirate" tick={{ fontSize: 11, fill: '#A5A19A' }} />
+                          <YAxis width={45} tick={{ fontSize: 11, fill: '#A5A19A' }} />
                           <Tooltip
                             contentStyle={{
                               backgroundColor: '#121212',
@@ -1875,9 +2037,9 @@ export default function App() {
                   </div>
 
                   {/* Recent Audited Inventory Feed */}
-                  <div className="lg:col-span-5 bg-[#121212] border border-[#D4AF72]/25 p-6 flex flex-col justify-between">
+                  <div className="lg:col-span-5 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-display text-2xl font-medium text-[#F5F1E8] mb-1">
+                      <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mb-1">
                         Live Inventory Synchronization Ledger
                       </h3>
                       <p className="text-xs text-[#A5A19A] mb-4">
@@ -1890,16 +2052,16 @@ export default function App() {
                             key={log.id}
                             className="border-b border-[#D4AF72]/15 pb-3 text-xs space-y-1"
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="font-semibold text-[#F5F1E8]">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <span className="font-semibold text-[#F5F1E8] break-words">
                                 {log.projectName}
                               </span>
-                              <span className="font-mono-tabular text-[#6EE7B7] font-semibold">
+                              <span className="font-mono-tabular text-[#6EE7B7] font-semibold shrink-0">
                                 {log.previousAvailable ?? 'N/A'} → {log.newAvailable ?? 'N/A'}{' '}
                                 avail
                               </span>
                             </div>
-                            <p className="text-[#A5A19A]">
+                            <p className="text-[#A5A19A] break-words">
                               {log.syncType} · {log.source}
                             </p>
                             <p className="font-mono-tabular text-[11px] text-[#A5A19A]/80">
@@ -1915,14 +2077,14 @@ export default function App() {
             </section>
 
             {/* 10. ABOUT WHITE COLLAR REALTY & DIRECT CONTACT / WHATSAPP DESK */}
-            <section id="contact" className="bg-[#121212] border-t border-[#D4AF72]/20 py-16">
-              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                  <div className="lg:col-span-6 space-y-4">
+            <section id="contact" className="bg-[#121212] border-t border-[#D4AF72]/20 py-12 sm:py-16">
+              <ScrollReveal className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+                  <div className="lg:col-span-6 min-w-0 space-y-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF72]">
                       {t.aboutHeading}
                     </p>
-                    <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight">
+                    <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight">
                       Private Real Estate Intelligence Across Every UAE Emirate
                     </h2>
                     <p className="text-sm text-[#A5A19A] leading-relaxed">
@@ -1930,7 +2092,7 @@ export default function App() {
                       developers with transparent unit-level inventory verification, DLD/ADM/SRERD
                       registration tracking, Golden Visa advisory, and real-time yield analytics.
                     </p>
-                    <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#D4AF72]/20 font-mono-tabular">
+                    <div className="grid grid-cols-1 xs:grid-cols-3 gap-4 pt-4 border-t border-[#D4AF72]/20 font-mono-tabular">
                       <div>
                         <span className="block text-2xl font-semibold text-[#D4AF72]">7</span>
                         <span className="text-xs text-[#A5A19A] font-sans">
@@ -2099,7 +2261,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-[#080808] text-[#A5A19A] border-t border-[#D4AF72]/20 py-12 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Col 1: Brand & Charter */}
             <div className="space-y-3">
@@ -2245,39 +2407,41 @@ export default function App() {
 
       {/* Compact Floating Compare Tray */}
       {compareIds.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/50 px-4 py-2.5 shadow-2xl flex items-center gap-4 max-w-[95vw]">
+        <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-40 bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/50 px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xl flex items-center justify-between sm:justify-start gap-2.5 sm:gap-4 w-[calc(100vw-1.5rem)] sm:w-auto max-w-md">
           <span className="text-xs font-medium whitespace-nowrap">
-            Comparing <strong className="text-[#D4AF72]">{compareIds.length}</strong> / 4 projects
+            Comparing <strong className="text-[#D4AF72]">{compareIds.length}</strong>/4
           </span>
-          <button
-            type="button"
-            onClick={() => setShowCompareModal(true)}
-            className="px-3.5 py-1.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] whitespace-nowrap"
-          >
-            Compare Side-by-Side
-          </button>
-          <button
-            type="button"
-            onClick={() => setCompareIds([])}
-            aria-label="Clear comparison selection"
-            className="text-[#A5A19A] hover:text-[#F5F1E8]"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => setShowCompareModal(true)}
+              className="h-9 px-3 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] whitespace-nowrap"
+            >
+              Compare Now
+            </button>
+            <button
+              type="button"
+              onClick={() => setCompareIds([])}
+              aria-label="Clear comparison selection"
+              className="w-8 h-8 flex items-center justify-center text-[#A5A19A] hover:text-[#F5F1E8]"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       )}
 
       {/* Non-Intrusive Real-Time Toast Notification */}
       {toast && (
-        <div className="fixed bottom-16 right-4 z-50 bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/40 px-4 py-3 text-xs shadow-2xl max-w-sm flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+        <div className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-3 right-3 sm:left-auto sm:right-4 z-50 bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/40 px-4 py-3 text-xs shadow-2xl sm:max-w-sm flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 min-w-0">
             <Bell className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-            <span>{toast}</span>
+            <span className="break-words">{toast}</span>
           </div>
           <button
             type="button"
             onClick={() => setToast(null)}
-            className="text-[#A5A19A] hover:text-[#F5F1E8]"
+            className="text-[#A5A19A] hover:text-[#F5F1E8] shrink-0"
           >
             <X className="w-3.5 h-3.5" />
           </button>

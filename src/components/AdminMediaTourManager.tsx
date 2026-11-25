@@ -387,35 +387,35 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {/* 1. MEDIA COMPLETENESS DASHBOARD */}
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+      <div className="space-y-4 min-w-0">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 min-w-0">
             <p className="text-xs text-[#A5A19A]">Total Listed Projects</p>
             <p className="font-mono-tabular text-2xl font-semibold text-[#F5F1E8] mt-1">
               {dashboardMetrics.total}
             </p>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 min-w-0">
             <p className="text-xs text-[#A5A19A]">Media Validation Passing</p>
             <p className="font-mono-tabular text-2xl font-semibold text-[#6EE7B7] mt-1">
               {dashboardMetrics.ready} / {dashboardMetrics.total}
             </p>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 min-w-0">
             <p className="text-xs text-[#A5A19A]">Verified Actual Site Photos</p>
             <p className="font-mono-tabular text-2xl font-semibold text-[#F5F1E8] mt-1">
               {dashboardMetrics.withActual}
             </p>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 min-w-0">
             <p className="text-xs text-[#A5A19A]">Live 360° / 3D / Video Tours</p>
             <p className="font-mono-tabular text-2xl font-semibold text-[#D4AF72] mt-1">
               {dashboardMetrics.liveTours}
             </p>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 min-w-0">
             <p className="text-xs text-[#A5A19A]">Media Not Available</p>
             <p className="font-mono-tabular text-2xl font-semibold text-[#FCD34D] mt-1">
               {dashboardMetrics.comingSoon}
@@ -423,10 +423,10 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-5">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-5 min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-            <div>
-              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+            <div className="min-w-0">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8]">
                 Media Completeness & Anti-Fake-Tour Audit Matrix
               </h3>
               <p className="text-xs text-[#A5A19A] mt-0.5">
@@ -516,23 +516,23 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
 
       {/* 2. PROJECT-SPECIFIC MEDIA & 360 TOUR WORKSPACE */}
       {draft && draftReport && (
-        <div ref={workspaceRef} className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-6">
+        <div ref={workspaceRef} className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-6 min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#D4AF72]/15">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72] break-all">
                 Project-Bound Media & Tour Console (ID: {draft.id})
               </p>
-              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8] break-words">
                 {draft.name}
               </h3>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto min-w-0">
               <select
                 value={draft.id}
                 onChange={(e) => setSelectedId(e.target.value)}
                 aria-label="Select project to manage media"
-                className="h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] text-xs font-medium"
+                className="w-full sm:w-auto max-w-full min-w-0 h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] text-xs font-medium"
               >
                 {projects.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -620,7 +620,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       setPhotoUrl(e.target.value);
                       setPhotoImageHash('');
                     }}
-                    className="flex-1 min-w-[200px] h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
+                    className="w-full sm:flex-1 min-w-0 h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                 </div>
                 {photoUrl && (
@@ -629,7 +629,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   </p>
                 )}
 
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
                     <label className="block text-[#A5A19A] mb-1">Space Category</label>
                     <select
@@ -965,27 +965,27 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                 <h5 className="font-semibold text-[#F5F1E8]">
                   Add True 360° Equirectangular Scene (2:1 Panorama Only)
                 </h5>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <input
                     type="text"
                     placeholder="Scene Name (e.g. Sky Lounge)"
                     value={roomLabel}
                     onChange={(e) => setRoomLabel(e.target.value)}
-                    className="h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
+                    className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60 min-w-0"
                   />
                   <input
                     type="text"
                     placeholder="Floor Level (e.g. Level 28)"
                     value={roomFloor}
                     onChange={(e) => setRoomFloor(e.target.value)}
-                    className="h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
+                    className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60 min-w-0"
                   />
                   <select
                     value={roomCategory}
                     onChange={(e) =>
                       setRoomCategory(e.target.value as VirtualTourRoom['viewCategory'])
                     }
-                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
+                    className="w-full h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] min-w-0"
                   >
                     <option value="interior">Interior Room</option>
                     <option value="exterior">Building Exterior</option>
@@ -995,7 +995,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   <select
                     value={roomFloorPlanId}
                     onChange={(e) => setRoomFloorPlanId(e.target.value)}
-                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
+                    className="w-full h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] min-w-0"
                   >
                     <option value="">Link Floor Plan (Optional)</option>
                     {draft.floorPlans.map((fp) => (
@@ -1017,7 +1017,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     placeholder="Or paste 2:1 equirectangular URL..."
                     value={roomImageUrl.startsWith('data:') ? '' : roomImageUrl}
                     onChange={(e) => setRoomImageUrl(e.target.value)}
-                    className="flex-1 min-w-[180px] h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
+                    className="w-full sm:flex-1 min-w-0 h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                 </div>
 
@@ -1046,15 +1046,15 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               </div>
 
               {/* Interactive Hotspots Builder */}
-              <div className="border border-[#D4AF72]/20 bg-[#121212] p-4 space-y-3">
+              <div className="border border-[#D4AF72]/20 bg-[#121212] p-4 space-y-3 min-w-0">
                 <h5 className="font-semibold text-[#F5F1E8]">
                   Connect Interactive Hotspots & Room Jumps
                 </h5>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <select
                     value={hsTargetRoomIdx}
                     onChange={(e) => setHsTargetRoomIdx(Number(e.target.value))}
-                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] col-span-2"
+                    className="w-full h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] sm:col-span-2 min-w-0"
                   >
                     {(draft.virtualTour.rooms || []).length === 0 ? (
                       <option value={0}>No 360° rooms created yet</option>

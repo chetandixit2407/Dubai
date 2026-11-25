@@ -318,15 +318,15 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {/* 1. LIVE DATABASE MEDIA, DUPLICATE-IMAGE & 360° AUDIT REPORT */}
-      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-4">
+      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-4 min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
               Strict Anti-Duplication & Media Verification Report
             </p>
-            <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8]">
               Database Media, URL & 360° Tour Integrity Audit
             </h3>
           </div>
@@ -338,15 +338,15 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                 auditReport
               )
             }
-            className="h-9 px-3.5 border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] text-xs font-medium flex items-center gap-1.5 cursor-pointer"
+            className="h-9 px-3.5 border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] text-xs font-medium flex items-center gap-1.5 cursor-pointer shrink-0"
           >
             <Download className="w-3.5 h-3.5 text-[#D4AF72]" />
             <span>Download Audit JSON</span>
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 text-xs">
-          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 text-xs">
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3 min-w-0">
             <p className="text-[#A5A19A]">Total Projects</p>
             <p className="font-mono-tabular text-xl font-semibold text-[#F5F1E8] mt-1">
               {auditReport.totalProjects}
@@ -441,14 +441,14 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
       </div>
 
       {/* 2. EXCEL WORKBOOK (.XLSX / .XLS / .CSV) 182+ RECORD SYNCHRONIZATION */}
-      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-5">
+      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-5 min-w-0">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl min-w-0">
             <div className="flex items-center gap-2 text-[#D4AF72] text-xs font-semibold uppercase tracking-wider">
-              <FileSpreadsheet className="w-4 h-4" />
+              <FileSpreadsheet className="w-4 h-4 shrink-0" />
               <span>Excel Workbook Synchronization</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold text-[#F5F1E8] mt-1">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8] mt-1">
               Import & Sync UAE Projects Workbook (.xlsx / .xls / .csv)
             </h3>
             <p className="text-xs text-[#A5A19A] mt-1 leading-relaxed">
@@ -457,7 +457,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
           </div>
 
           <label
-            className={`h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] cursor-pointer flex items-center gap-2 transition-colors ${
+            className={`h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] cursor-pointer flex items-center gap-2 transition-colors shrink-0 ${
               !canManageProjects || parsing ? 'opacity-50 pointer-events-none' : ''
             }`}
           >
@@ -475,13 +475,13 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
 
         {/* Import Verification Report */}
         {importReport && (
-          <div className="border border-[#D4AF72]/20 bg-[#121212] p-5 space-y-4">
+          <div className="border border-[#D4AF72]/20 bg-[#121212] p-4 sm:p-5 space-y-4 min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                   Mandatory Excel Import Verification Report
                 </p>
-                <h4 className="font-display text-xl font-semibold text-[#F5F1E8]">
+                <h4 className="font-display text-lg sm:text-xl font-semibold text-[#F5F1E8] break-words">
                   {importReport.fileName} · Batch {importReport.batchId}
                 </h4>
               </div>
@@ -548,8 +548,8 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
                 <span className="text-[#A5A19A] block">Total Excel Records</span>
                 <strong className="font-mono-tabular text-lg text-[#F5F1E8]">
                   {importReport.totalExcelRecords}
@@ -620,7 +620,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
             )}
 
             {stagedProjects.length > 0 && (
-              <div className="max-h-64 overflow-y-auto border border-[#D4AF72]/20 bg-[#080808]">
+              <div className="max-h-64 overflow-x-auto overflow-y-auto border border-[#D4AF72]/20 bg-[#080808]">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
                     <tr className="border-b border-[#D4AF72]/20 bg-[#121212] text-[#A5A19A]">
@@ -658,14 +658,14 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
       </div>
 
       {/* 3. PROJECT-URL VERIFIED METADATA, BROCHURE, UNIQUE PHOTO & 360° LINK RETRIEVER */}
-      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-4">
+      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-4 min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl min-w-0">
             <div className="flex items-center gap-2 text-[#D4AF72] text-xs font-semibold uppercase tracking-wider">
-              <Globe className="w-4 h-4" />
+              <Globe className="w-4 h-4 shrink-0" />
               <span>Project-URL Verification & Unique Photo Retrieval</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold text-[#F5F1E8] mt-1">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8] mt-1">
               Retrieve Verified Info & Unique Photos from Project URLs
             </h3>
             <p className="text-xs text-[#A5A19A] mt-1">

@@ -305,16 +305,16 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
   }, [scanItems, statusFilter, filterQuery]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {/* Top Banner & Automated Scan Controls */}
-      <div className="bg-[#121212] text-[#F5F1E8] p-6 border border-[#D4AF72]/25">
+      <div className="bg-[#121212] text-[#F5F1E8] p-4 sm:p-6 border border-[#D4AF72]/25 min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#D4AF72]">
-              <Layers className="w-4 h-4" />
+              <Layers className="w-4 h-4 shrink-0" />
               <span>Automated 360° Tour Discovery & Link Health System</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold mt-1 text-[#F5F1E8]">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold mt-1 text-[#F5F1E8]">
               UAE 182-Project Virtual Tour Tracking Engine
             </h3>
             <p className="text-xs text-[#A5A19A] mt-1 max-w-2xl leading-relaxed">
@@ -327,7 +327,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
               type="button"
               disabled={loading || probingNetwork}
               onClick={() => runScan(false)}
-              className="px-4 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/30 text-[#F5F1E8] text-xs font-semibold hover:border-[#D4AF72] flex items-center gap-2 disabled:opacity-60 cursor-pointer"
+              className="px-3.5 sm:px-4 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/30 text-[#F5F1E8] text-xs font-semibold hover:border-[#D4AF72] flex items-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-[#D4AF72] ${loading ? 'animate-spin' : ''}`} />
               <span>{loading ? 'Scanning 182 Projects...' : 'Refresh 182 Status'}</span>
@@ -337,7 +337,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
               type="button"
               disabled={loading || probingNetwork}
               onClick={() => runScan(true)}
-              className="px-4 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-2 disabled:opacity-60 cursor-pointer"
+              className="px-3.5 sm:px-4 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               <Globe className={`w-3.5 h-3.5 ${probingNetwork ? 'animate-spin' : ''}`} />
               <span>{probingNetwork ? 'Probing Links...' : 'Deep Network Recheck'}</span>
@@ -346,28 +346,28 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
         </div>
 
         {/* 6 Metrics KPI strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t border-[#D4AF72]/15 font-mono-tabular">
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-[#D4AF72]/15 font-mono-tabular">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
             <span className="text-[11px] font-sans text-[#A5A19A] block">Total Scanned</span>
             <span className="text-xl font-bold text-[#F5F1E8]">{metrics.total}</span>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
             <span className="text-[11px] font-sans text-[#6EE7B7] block">Verified & Active</span>
             <span className="text-xl font-bold text-[#6EE7B7]">{metrics.verified}</span>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
             <span className="text-[11px] font-sans text-[#D4AF72] block">Iframe Embeddable</span>
             <span className="text-xl font-bold text-[#D4AF72]">{metrics.embeddable}</span>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
             <span className="text-[11px] font-sans text-[#FCD34D] block">Awaiting Verification</span>
             <span className="text-xl font-bold text-[#FCD34D]">{metrics.awaiting}</span>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
             <span className="text-[11px] font-sans text-[#FCA5A5] block">Broken / Unreachable</span>
             <span className="text-xl font-bold text-[#FCA5A5]">{metrics.broken}</span>
           </div>
-          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3 min-w-0">
             <span className="text-[11px] font-sans text-[#A5A19A] block">No Tour Available</span>
             <span className="text-xl font-bold text-[#A5A19A]">{metrics.unavailable}</span>
           </div>
@@ -388,12 +388,12 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
       )}
 
       {/* Filter and Search Bar */}
-      <div className="bg-[#1B1B1B] p-4 border border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div className="flex flex-wrap items-center gap-1.5">
+      <div className="bg-[#1B1B1B] p-3.5 sm:p-4 border border-[#D4AF72]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs min-w-0">
+        <div className="flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-1.5 min-w-0">
           <button
             type="button"
             onClick={() => setStatusFilter('all')}
-            className={`px-3 py-1.5 font-medium border cursor-pointer ${
+            className={`px-3 py-1.5 font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
               statusFilter === 'all'
                 ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
                 : 'bg-[#121212] border-[#D4AF72]/20 text-[#A5A19A] hover:border-[#D4AF72] hover:text-[#F5F1E8]'
@@ -404,7 +404,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
           <button
             type="button"
             onClick={() => setStatusFilter('verified')}
-            className={`px-3 py-1.5 font-medium border cursor-pointer ${
+            className={`px-3 py-1.5 font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
               statusFilter === 'verified'
                 ? 'bg-[#064E3B] text-[#6EE7B7] border-[#34D399]/50'
                 : 'bg-[#121212] border-[#D4AF72]/20 text-[#6EE7B7] hover:border-[#34D399]/50'
@@ -415,7 +415,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
           <button
             type="button"
             onClick={() => setStatusFilter('awaiting_verification')}
-            className={`px-3 py-1.5 font-medium border cursor-pointer ${
+            className={`px-3 py-1.5 font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
               statusFilter === 'awaiting_verification'
                 ? 'bg-[#78350F] text-[#FCD34D] border-[#FBBF24]/50'
                 : 'bg-[#121212] border-[#D4AF72]/20 text-[#FCD34D] hover:border-[#FBBF24]/50'
@@ -426,7 +426,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
           <button
             type="button"
             onClick={() => setStatusFilter('broken')}
-            className={`px-3 py-1.5 font-medium border cursor-pointer ${
+            className={`px-3 py-1.5 font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
               statusFilter === 'broken'
                 ? 'bg-[#7F1D1D] text-[#FCA5A5] border-[#F87171]/50'
                 : 'bg-[#121212] border-[#D4AF72]/20 text-[#FCA5A5] hover:border-[#F87171]/50'
@@ -437,7 +437,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
           <button
             type="button"
             onClick={() => setStatusFilter('unavailable')}
-            className={`px-3 py-1.5 font-medium border cursor-pointer ${
+            className={`px-3 py-1.5 font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
               statusFilter === 'unavailable'
                 ? 'bg-[#2A2A2A] text-[#F5F1E8] border-[#D4AF72]/50'
                 : 'bg-[#121212] border-[#D4AF72]/20 text-[#A5A19A] hover:border-[#D4AF72]'
@@ -447,7 +447,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
           </button>
         </div>
 
-        <div className="relative min-w-[240px]">
+        <div className="relative w-full sm:w-64 min-w-0 shrink-0">
           <Search className="w-3.5 h-3.5 text-[#A5A19A] absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
@@ -668,9 +668,9 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
 
       {/* Attach / Replace Tour Modal */}
       {editModal?.open && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1B1B1B] max-w-lg w-full p-6 border border-[#D4AF72]/35 space-y-4">
-            <h4 className="font-display text-xl font-semibold text-[#F5F1E8]">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
+          <div className="bg-[#1B1B1B] max-w-lg w-full max-h-[92dvh] overflow-y-auto p-4 sm:p-6 border border-[#D4AF72]/35 space-y-4">
+            <h4 className="font-display text-lg sm:text-xl font-semibold text-[#F5F1E8]">
               Attach / Replace 360° Tour Link
             </h4>
             <p className="text-xs text-[#A5A19A]">

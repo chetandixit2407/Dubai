@@ -11,6 +11,10 @@ import {
   ExternalLink,
   FileSpreadsheet,
   History,
+  MapPin,
+  Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
   Plus,
   RefreshCw,
   Shield,
@@ -75,7 +79,6 @@ import { AdminMediaTourManager } from './AdminMediaTourManager.tsx';
 import { AdminExcelImportPanel } from './AdminExcelImportPanel.tsx';
 import { AdminTourDiscoveryPanel } from './AdminTourDiscoveryPanel.tsx';
 import { AdminCompanySettingsPanel } from './AdminCompanySettingsPanel.tsx';
-import { MapPin } from 'lucide-react';
 
 interface AdminDashboardProps {
   userProfile: UserProfile;
@@ -144,6 +147,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const canManageInventory = isInventoryManagerRole(userProfile.role, userProfile.email);
 
   const [activeTab, setActiveTab] = useState<AdminTab>('overview');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [bannerMsg, setBannerMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -817,20 +822,30 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#080808] text-[#F5F1E8] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 h-[100dvh] bg-[#080808] text-[#F5F1E8] flex flex-col overflow-hidden pt-safe pb-safe">
       {/* Admin Top Header */}
-      <header className="bg-[#121212] text-[#F5F1E8] px-6 py-4 flex items-center justify-between border-b border-[#D4AF72]/20 shrink-0">
-        <div>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[#D4AF72]">
-            WHITE COLLAR REALTY · Operations Console
-          </p>
-          <h2 className="font-display text-2xl font-semibold text-[#F5F1E8]">
-            UAE Inventory, CRM & Developer Governance
-          </h2>
+      <header className="bg-[#121212] text-[#F5F1E8] px-3.5 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 border-b border-[#D4AF72]/20 shrink-0">
+        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(true)}
+            aria-label="Open admin navigation drawer"
+            className="lg:hidden w-9 h-9 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] hover:border-[#D4AF72] flex items-center justify-center shrink-0 cursor-pointer"
+          >
+            <Menu className="w-4 h-4 text-[#D4AF72]" />
+          </button>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#D4AF72] truncate">
+              WHITE COLLAR REALTY · Operations Console
+            </p>
+            <h2 className="font-display text-base sm:text-xl lg:text-2xl font-semibold text-[#F5F1E8] truncate">
+              UAE Inventory, CRM & Developer Governance
+            </h2>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="hidden sm:inline text-xs text-[#A5A19A]">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <span className="hidden xl:inline text-xs text-[#A5A19A]">
             {userProfile.email} · Role: <strong className="text-[#D4AF72]">{userProfile.role}</strong>
           </span>
           {canManageProjects && (
@@ -838,45 +853,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               type="button"
               onClick={handleSeedCatalog}
               disabled={busy}
-              className="h-9 px-3 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] whitespace-nowrap cursor-pointer"
+              className="hidden sm:inline-flex items-center h-9 px-3 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] whitespace-nowrap cursor-pointer"
             >
-              Sync Baseline Catalog
+              Sync Catalog
             </button>
           )}
           <button
             type="button"
             onClick={onClose}
-            className="h-9 px-3.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="h-9 px-3 sm:px-3.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
           >
             <X className="w-4 h-4" />
-            <span>Exit Console</span>
+            <span className="hidden xs:inline">Exit Console</span>
+            <span className="xs:hidden">Exit</span>
           </button>
         </div>
       </header>
 
-      {/* Navigation Tabs */}
-      <nav className="bg-[#121212] border-b border-[#D4AF72]/15 px-6 flex items-center gap-4 overflow-x-auto shrink-0">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setActiveTab(tab.id)}
-            className={`py-3.5 text-xs font-semibold border-b-2 flex items-center gap-1.5 whitespace-nowrap transition-colors cursor-pointer ${
-              activeTab === tab.id
-                ? 'border-[#D4AF72] text-[#D4AF72]'
-                : 'border-transparent text-[#A5A19A] hover:text-[#F5F1E8]'
-            }`}
-          >
-            {tab.icon}
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </nav>
-
       {/* Feedback Banner */}
       {bannerMsg && (
         <div
-          className={`px-6 py-2.5 text-xs font-medium flex items-center gap-2 shrink-0 ${
+          className={`px-4 sm:px-6 py-2.5 text-xs font-medium flex items-center gap-2 shrink-0 ${
             bannerMsg.type === 'ok'
               ? 'bg-[#064E3B]/45 text-[#6EE7B7] border-b border-[#34D399]/35'
               : 'bg-[#7F1D1D]/45 text-[#FCA5A5] border-b border-[#F87171]/35'
@@ -887,47 +884,148 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           ) : (
             <AlertTriangle className="w-4 h-4 shrink-0" />
           )}
-          <span>{bannerMsg.text}</span>
+          <span className="min-w-0 break-words">{bannerMsg.text}</span>
         </div>
       )}
 
-      {/* Main Scrollable Workspace */}
-      <div className="flex-1 overflow-y-auto p-6 max-w-7xl w-full mx-auto space-y-6">
+      {/* Admin Sidebar + Content Workspace */}
+      <div className="flex-1 min-h-0 flex relative overflow-hidden">
+        {mobileSidebarOpen && (
+          <div
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs lg:hidden"
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+        )}
+
+        <aside
+          className={`fixed inset-y-0 left-0 z-[60] lg:static lg:z-auto flex flex-col bg-[#121212] border-r border-[#D4AF72]/20 shrink-0 transition-all duration-200 pt-safe pb-safe ${
+            mobileSidebarOpen ? 'translate-x-0 w-72 max-w-[85vw]' : '-translate-x-full w-72 max-w-[85vw]'
+          } lg:translate-x-0 ${sidebarCollapsed ? 'lg:w-[72px]' : 'lg:w-64'}`}
+        >
+          <div className="px-3 py-3 border-b border-[#D4AF72]/15 flex items-center justify-between gap-2 shrink-0">
+            {!sidebarCollapsed && (
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72] truncate">
+                Workspace Modules
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => setSidebarCollapsed((c) => !c)}
+              aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              className="hidden lg:flex w-8 h-8 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#A5A19A] hover:text-[#D4AF72] hover:border-[#D4AF72] items-center justify-center shrink-0 mx-auto lg:mx-0 cursor-pointer"
+            >
+              {sidebarCollapsed ? (
+                <PanelLeftOpen className="w-4 h-4" />
+              ) : (
+                <PanelLeftClose className="w-4 h-4" />
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileSidebarOpen(false)}
+              aria-label="Close navigation drawer"
+              className="lg:hidden w-8 h-8 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#A5A19A] hover:text-[#F5F1E8] flex items-center justify-center shrink-0 cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <nav className="flex-1 overflow-y-auto py-2.5 px-2 space-y-1">
+            {tabs.map((tab) => {
+              const active = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  title={tab.label}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setMobileSidebarOpen(false);
+                  }}
+                  className={`w-full px-3 py-2.5 text-xs font-semibold border flex items-center gap-2.5 transition-colors cursor-pointer text-left ${
+                    sidebarCollapsed ? 'lg:justify-center lg:px-0' : ''
+                  } ${
+                    active
+                      ? 'bg-[#D4AF72]/15 border-[#D4AF72]/45 text-[#D4AF72]'
+                      : 'bg-transparent border-transparent text-[#A5A19A] hover:text-[#F5F1E8] hover:bg-[#1B1B1B]'
+                  }`}
+                >
+                  <span className="shrink-0">{tab.icon}</span>
+                  <span className={`truncate ${sidebarCollapsed ? 'lg:hidden' : ''}`}>
+                    {tab.label}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <div className="p-3 border-t border-[#D4AF72]/15 bg-[#0E0E0E] space-y-2 shrink-0">
+            {!sidebarCollapsed ? (
+              <div className="text-[11px] leading-snug min-w-0">
+                <p className="text-[#F5F1E8] font-medium truncate">{userProfile.email}</p>
+                <p className="text-[#D4AF72] uppercase tracking-wider text-[10px] mt-0.5">
+                  {userProfile.role.replace('_', ' ')}
+                </p>
+              </div>
+            ) : (
+              <div className="hidden lg:flex justify-center" title={`${userProfile.email} (${userProfile.role})`}>
+                <Shield className="w-4 h-4 text-[#D4AF72]" />
+              </div>
+            )}
+            {canManageProjects && (
+              <button
+                type="button"
+                onClick={() => {
+                  handleSeedCatalog();
+                  setMobileSidebarOpen(false);
+                }}
+                disabled={busy}
+                className="sm:hidden w-full h-9 px-3 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] cursor-pointer"
+              >
+                Sync Baseline Catalog
+              </button>
+            )}
+          </div>
+        </aside>
+
+        {/* Main Scrollable Workspace */}
+        <main className="flex-1 min-w-0 overflow-y-auto p-3.5 sm:p-5 lg:p-6">
+          <div className="max-w-[1440px] w-full mx-auto space-y-6 min-w-0">
         {/* 1. ANALYTICS OVERVIEW */}
         {activeTab === 'overview' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-5">
+          <div className="space-y-6 min-w-0">
+            <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-5 min-w-0">
                 <p className="text-xs text-[#A5A19A]">Total UAE Projects</p>
-                <p className="font-mono-tabular text-3xl font-semibold text-[#F5F1E8] mt-1">
+                <p className="font-mono-tabular text-2xl sm:text-3xl font-semibold text-[#F5F1E8] mt-1">
                   {projects.length}
                 </p>
               </div>
-              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-5">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-5 min-w-0">
                 <p className="text-xs text-[#A5A19A]">Verified Live Available Units</p>
-                <p className="font-mono-tabular text-3xl font-semibold text-[#6EE7B7] mt-1">
+                <p className="font-mono-tabular text-2xl sm:text-3xl font-semibold text-[#6EE7B7] mt-1">
                   {totalLiveAvailable}
                 </p>
               </div>
-              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-5">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-5 min-w-0">
                 <p className="text-xs text-[#A5A19A]">Open Client Enquiries</p>
-                <p className="font-mono-tabular text-3xl font-semibold text-[#D4AF72] mt-1">
+                <p className="font-mono-tabular text-2xl sm:text-3xl font-semibold text-[#D4AF72] mt-1">
                   {enquiries.filter((e) => e.status !== 'closed').length}
                 </p>
               </div>
-              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-5">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-5 min-w-0">
                 <p className="text-xs text-[#A5A19A]">Active Sync Feeds</p>
-                <p className="font-mono-tabular text-3xl font-semibold text-[#F5F1E8] mt-1">
+                <p className="font-mono-tabular text-2xl sm:text-3xl font-semibold text-[#F5F1E8] mt-1">
                   {syncProviders.filter((s) => s.enabled).length} / {syncProviders.length}
                 </p>
               </div>
             </div>
 
-            <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6">
-              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8] mb-4">
+            <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 min-w-0">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8] mb-4">
                 Projects & Verified Available Units by Emirate
               </h3>
-              <div className="h-72 w-full">
+              <div className="h-64 sm:h-72 w-full min-w-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={emirateChartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#D4AF72" strokeOpacity={0.14} />
@@ -948,14 +1046,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
 
             {/* 182 Property Quality & Verification Audit Section */}
-            <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-6">
+            <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-5 sm:space-y-6 min-w-0">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-[#D4AF72]/15">
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72] flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#6EE7B7]" />
+                    <CheckCircle2 className="w-4 h-4 text-[#6EE7B7] shrink-0" />
                     <span>RERA & DLD Compliance Engine</span>
                   </p>
-                  <h3 className="font-display text-2xl font-semibold text-[#F5F1E8] mt-0.5">
+                  <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8] mt-0.5">
                     182 Property Quality & Verification Audit
                   </h3>
                   <p className="text-xs text-[#A5A19A] mt-1 max-w-2xl leading-relaxed">
@@ -967,15 +1065,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     type="button"
                     onClick={handleRefreshAllTelemetry}
                     disabled={refreshingTelemetry}
-                    className="h-10 px-4 bg-[#121212] border border-[#D4AF72]/35 text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center gap-2 transition-colors disabled:opacity-60 cursor-pointer"
+                    className="h-10 px-3.5 sm:px-4 bg-[#121212] border border-[#D4AF72]/35 text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center gap-2 transition-colors disabled:opacity-60 cursor-pointer"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 text-[#D4AF72] ${refreshingTelemetry ? 'animate-spin' : ''}`} />
-                    <span>{refreshingTelemetry ? 'Refreshing Telemetry...' : 'Refresh All 182 Telemetry'}</span>
+                    <span>{refreshingTelemetry ? 'Refreshing...' : 'Refresh All 182 Telemetry'}</span>
                   </button>
                   <button
                     type="button"
                     onClick={handleExportAudit}
-                    className="h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-2 transition-colors cursor-pointer"
+                    className="h-10 px-3.5 sm:px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-2 transition-colors cursor-pointer"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Export Audit (Excel)</span>
@@ -984,7 +1082,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
 
               {/* Quality Audit Cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
                 <div className="border border-[#D4AF72]/15 bg-[#121212] p-4">
                   <span className="text-[11px] font-semibold uppercase text-[#A5A19A] block">Full Specifications</span>
                   <p className="font-mono-tabular text-2xl font-semibold text-[#6EE7B7] mt-1">
@@ -1018,12 +1116,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
 
               {/* Filter & Search Bar */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
-                <div className="flex flex-wrap items-center gap-1.5">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 min-w-0">
+                <div className="flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-1.5 min-w-0">
                   <button
                     type="button"
                     onClick={() => setAuditFilter('all')}
-                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
                       auditFilter === 'all'
                         ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
                         : 'bg-[#121212] text-[#A5A19A] border-[#D4AF72]/20 hover:border-[#D4AF72] hover:text-[#F5F1E8]'
@@ -1034,7 +1132,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <button
                     type="button"
                     onClick={() => setAuditFilter('3d')}
-                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
                       auditFilter === '3d'
                         ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
                         : 'bg-[#121212] text-[#A5A19A] border-[#D4AF72]/20 hover:border-[#D4AF72] hover:text-[#F5F1E8]'
@@ -1045,7 +1143,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <button
                     type="button"
                     onClick={() => setAuditFilter('video')}
-                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
                       auditFilter === 'video'
                         ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
                         : 'bg-[#121212] text-[#A5A19A] border-[#D4AF72]/20 hover:border-[#D4AF72] hover:text-[#F5F1E8]'
@@ -1056,7 +1154,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <button
                     type="button"
                     onClick={() => setAuditFilter('missing_media')}
-                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
                       auditFilter === 'missing_media'
                         ? 'bg-[#78350F] text-[#FCD34D] border-[#FBBF24]/50'
                         : 'bg-[#121212] text-[#FCD34D] border-[#D4AF72]/20 hover:border-[#FBBF24]/50'
@@ -1067,7 +1165,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <button
                     type="button"
                     onClick={() => setAuditFilter('live_inventory')}
-                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-medium border cursor-pointer whitespace-nowrap shrink-0 ${
                       auditFilter === 'live_inventory'
                         ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
                         : 'bg-[#121212] text-[#A5A19A] border-[#D4AF72]/20 hover:border-[#D4AF72] hover:text-[#F5F1E8]'
@@ -1383,17 +1481,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {/* 3. CSV BULK IMPORTER */}
         {activeTab === 'csv' && (
-          <div className="bg-[#121212] border border-[#D4AF72]/20 p-6 space-y-5">
+          <div className="bg-[#121212] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-5 min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+              <div className="min-w-0">
+                <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8]">
                   Bulk CSV Project &amp; Inventory Importer
                 </h3>
                 <p className="text-xs text-[#A5A19A] mt-0.5">
                   Leave unit-count columns empty when a project lacks an authorized unit feed; the platform automatically marks inventory as unavailable instead of guessing.
                 </p>
               </div>
-              <label className="h-9 px-3.5 border border-[#D4AF72]/35 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] cursor-pointer flex items-center gap-1.5 transition-colors">
+              <label className="h-9 px-3.5 border border-[#D4AF72]/35 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] cursor-pointer flex items-center gap-1.5 transition-colors shrink-0">
                 <Upload className="w-3.5 h-3.5 text-[#D4AF72]" />
                 <span>Upload .CSV File</span>
                 <input
@@ -1416,7 +1514,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               className="w-full p-3 bg-[#080808] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={handleValidateCsv}
@@ -1438,22 +1536,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
 
             {csvPreview && (
-              <div className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-4 space-y-3 text-xs text-[#F5F1E8]">
+              <div className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-4 space-y-3 text-xs text-[#F5F1E8] min-w-0">
                 <p className="font-semibold text-[#D4AF72]">
                   Validation Summary: {csvPreview.parsedProjects.length} valid · {csvPreview.errors.length} skipped
                 </p>
                 {csvPreview.errors.map((err, i) => (
-                  <p key={i} className="text-[#FCA5A5]">
+                  <p key={i} className="text-[#FCA5A5] break-words">
                     Row {err.row}: {err.message}
                   </p>
                 ))}
                 {csvPreview.parsedProjects.map((row) => (
-                  <div key={String(row.id)} className="border-t border-[#D4AF72]/15 pt-2 flex justify-between">
-                    <span className="text-[#F5F1E8]">
+                  <div key={String(row.id)} className="border-t border-[#D4AF72]/15 pt-2 flex flex-col sm:flex-row sm:justify-between gap-1">
+                    <span className="text-[#F5F1E8] break-words">
                       <strong>{String(row.name)}</strong> ({String(row.emirate)}) —{' '}
                       <span className="text-[#A5A19A]">{String(row.dataSource)}</span>
                     </span>
-                    <span className="font-mono-tabular text-[#D4AF72]">
+                    <span className="font-mono-tabular text-[#D4AF72] shrink-0">
                       AED {Number(row.startingPriceAed).toLocaleString()} ·{' '}
                       {row.hasUnitFeed ? `${row.availableUnits} avail` : 'No unit feed'}
                     </span>
@@ -1466,21 +1564,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {/* 4. SYNC PROVIDERS, WEBHOOK & INVENTORY LOGS */}
         {activeTab === 'sync' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 bg-[#121212] border border-[#D4AF72]/20 p-6 space-y-4">
-                <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+          <div className="space-y-6 min-w-0">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
+              <div className="lg:col-span-2 bg-[#121212] border border-[#D4AF72]/20 p-4 sm:p-6 space-y-4 min-w-0">
+                <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8]">
                   Authorized Developer &amp; Registry Sync Providers
                 </h3>
                 <div className="space-y-3">
                   {syncProviders.map((prov) => (
-                    <div key={prov.id} className="border border-[#D4AF72]/20 p-4 bg-[#1B1B1B]">
+                    <div key={prov.id} className="border border-[#D4AF72]/20 p-4 bg-[#1B1B1B] min-w-0">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div>
-                          <p className="text-sm font-semibold text-[#F5F1E8]">{prov.name}</p>
-                          <p className="text-xs font-mono-tabular text-[#A5A19A]">{prov.endpointUrl}</p>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold text-[#F5F1E8] break-words">{prov.name}</p>
+                          <p className="text-xs font-mono-tabular text-[#A5A19A] break-all">{prov.endpointUrl}</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2 shrink-0">
                           <span
                             className={`text-xs font-semibold ${
                               prov.lastStatus === 'healthy'
@@ -1510,7 +1608,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         </div>
                       </div>
                       {prov.lastError && (
-                        <p className="text-xs text-[#FCD34D] mt-2">{prov.lastError}</p>
+                        <p className="text-xs text-[#FCD34D] mt-2 break-words">{prov.lastError}</p>
                       )}
                       <p className="text-[11px] font-mono-tabular text-[#A5A19A] mt-2">
                         Frequency: Every {prov.syncFrequencyMinutes}m · Last Sync:{' '}
@@ -1621,9 +1719,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {/* 5. DEVELOPERS DIRECTORY */}
         {activeTab === 'developers' && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+          <div className="space-y-4 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8]">
                 Verified UAE Developers Registry
               </h3>
               {canManageProjects && (
@@ -1654,13 +1752,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {developers.map((dev) => (
-                <div key={dev.id} className="bg-[#121212] border border-[#D4AF72]/20 p-5 space-y-2">
+                <div key={dev.id} className="bg-[#121212] border border-[#D4AF72]/20 p-4 sm:p-5 space-y-2 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-xs text-[#D4AF72] font-semibold">
+                    <div className="min-w-0">
+                      <p className="text-xs text-[#D4AF72] font-semibold truncate">
                         {dev.emirate} · {dev.registrationId}
                       </p>
-                      <h4 className="font-display text-xl font-semibold text-[#F5F1E8]">
+                      <h4 className="font-display text-lg sm:text-xl font-semibold text-[#F5F1E8] break-words">
                         {dev.name}
                       </h4>
                     </div>
@@ -1668,14 +1766,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       <button
                         type="button"
                         onClick={() => setDevForm(dev)}
-                        className="px-2.5 py-1 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs hover:border-[#D4AF72] transition-colors"
+                        className="px-2.5 py-1 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs hover:border-[#D4AF72] transition-colors shrink-0"
                       >
                         Edit
                       </button>
                     )}
                   </div>
                   <p className="text-xs text-[#A5A19A] line-clamp-2">{dev.history}</p>
-                  <p className="text-xs font-mono-tabular text-[#A5A19A]">
+                  <p className="text-xs font-mono-tabular text-[#A5A19A] break-all">
                     Completed: {dev.completedProjects} · Active: {dev.activeProjects} ·{' '}
                     {dev.contactEmail}
                   </p>
@@ -1895,23 +1993,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
           </div>
         )}
+          </div>
+        </main>
       </div>
 
       {/* Project Edit/Create Modal */}
       {editingProject && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
           <form
             onSubmit={handleSaveProject}
-            className="bg-[#1B1B1B] border border-[#D4AF72]/35 text-[#F5F1E8] w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto space-y-4 shadow-2xl"
+            className="bg-[#1B1B1B] border border-[#D4AF72]/35 text-[#F5F1E8] w-full max-w-2xl p-4 sm:p-6 max-h-[92dvh] overflow-y-auto space-y-4 shadow-2xl"
           >
-            <div className="flex items-center justify-between border-b border-[#D4AF72]/20 pb-3">
-              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+            <div className="flex items-center justify-between gap-2 border-b border-[#D4AF72]/20 pb-3">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#F5F1E8] min-w-0 truncate">
                 {isNewProject ? 'Register New UAE Project' : `Edit ${editingProject.name}`}
               </h3>
               <button
                 type="button"
                 onClick={() => setEditingProject(null)}
-                className="p-1.5 border border-[#D4AF72]/30 bg-[#121212] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] transition-colors"
+                className="p-1.5 border border-[#D4AF72]/30 bg-[#121212] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] transition-colors shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2191,19 +2291,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       {/* Manual Inventory Audit Modal */}
       {inventoryTarget && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
           <form
             onSubmit={handleSaveInventory}
-            className="bg-[#1B1B1B] border border-[#D4AF72]/35 text-[#F5F1E8] w-full max-w-lg p-6 space-y-4 shadow-2xl"
+            className="bg-[#1B1B1B] border border-[#D4AF72]/35 text-[#F5F1E8] w-full max-w-lg max-h-[92dvh] overflow-y-auto p-4 sm:p-6 space-y-4 shadow-2xl"
           >
-            <div className="flex items-center justify-between border-b border-[#D4AF72]/20 pb-3">
-              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
+            <div className="flex items-center justify-between gap-2 border-b border-[#D4AF72]/20 pb-3">
+              <h3 className="font-display text-lg sm:text-2xl font-semibold text-[#F5F1E8] min-w-0 truncate">
                 Audited Inventory — {inventoryTarget.name}
               </h3>
               <button
                 type="button"
                 onClick={() => setInventoryTarget(null)}
-                className="p-1.5 border border-[#D4AF72]/30 bg-[#121212] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] transition-colors"
+                className="p-1.5 border border-[#D4AF72]/30 bg-[#121212] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] transition-colors shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2230,7 +2330,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </select>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
                 <div>
                   <label className="block font-medium text-[#A5A19A] mb-1">Total Registered</label>
                   <input
@@ -2346,31 +2446,31 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       {/* Developer Editor Modal */}
       {devForm && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
           <form
             onSubmit={handleSaveDeveloper}
-            className="bg-[#1B1B1B] border border-[#D4AF72]/35 text-[#F5F1E8] w-full max-w-lg p-6 space-y-3 text-xs shadow-2xl"
+            className="bg-[#1B1B1B] border border-[#D4AF72]/35 text-[#F5F1E8] w-full max-w-lg max-h-[92dvh] overflow-y-auto p-4 sm:p-6 space-y-3 text-xs shadow-2xl"
           >
-            <div className="flex items-center justify-between border-b border-[#D4AF72]/20 pb-2">
-              <h3 className="font-display text-xl font-semibold text-[#F5F1E8]">
+            <div className="flex items-center justify-between gap-2 border-b border-[#D4AF72]/20 pb-2">
+              <h3 className="font-display text-lg sm:text-xl font-semibold text-[#F5F1E8] min-w-0 truncate">
                 {devForm.id ? 'Edit Developer' : 'Register Developer'}
               </h3>
               <button
                 type="button"
                 onClick={() => setDevForm(null)}
-                className="p-1 text-[#A5A19A] hover:text-[#F5F1E8] transition-colors"
+                className="p-1 text-[#A5A19A] hover:text-[#F5F1E8] transition-colors shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input
                 type="text"
                 required
                 placeholder="Developer Name"
                 value={devForm.name || ''}
                 onChange={(e) => setDevForm({ ...devForm, name: e.target.value })}
-                className="h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] placeholder:text-[#A5A19A]/50 col-span-2 focus:outline-none focus:border-[#D4AF72]"
+                className="h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] placeholder:text-[#A5A19A]/50 sm:col-span-2 focus:outline-none focus:border-[#D4AF72]"
               />
               <input
                 type="text"

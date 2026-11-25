@@ -137,10 +137,10 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
       }`}
     >
       {/* Map Control & Filter Header */}
-      <div className="p-4 border-b border-[#D4AF72]/20 bg-[#1B1B1B] flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-[#F5F1E8] uppercase tracking-wider">
-            <Layers className="w-4 h-4 text-[#D4AF72]" />
+      <div className="p-3.5 sm:p-4 border-b border-[#D4AF72]/20 bg-[#1B1B1B] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3 min-w-0">
+          <div className="xs:col-span-2 sm:col-span-1 flex items-center gap-1.5 text-xs font-semibold text-[#F5F1E8] uppercase tracking-wider">
+            <Layers className="w-4 h-4 text-[#D4AF72] shrink-0" />
             <span>UAE Explorer ({filteredProjects.length})</span>
           </div>
 
@@ -152,7 +152,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
               setActiveProject(null);
             }}
             aria-label="Zoom to Emirate"
-            className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+            className="w-full sm:w-auto min-w-0 h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
           >
             {Object.keys(EMIRATE_CENTERS).map((em) => (
               <option key={em} value={em}>
@@ -168,7 +168,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
               setActiveProject(null);
             }}
             aria-label="Filter map by community"
-            className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] max-w-[200px]"
+            className="w-full sm:w-auto sm:max-w-[200px] min-w-0 h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
           >
             <option value="All">All Communities</option>
             {availableCommunities.map((comm) => (
@@ -182,7 +182,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
             value={propertyTypeFilter}
             onChange={(e) => setPropertyTypeFilter(e.target.value)}
             aria-label="Filter map by property type"
-            className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+            className="w-full sm:w-auto min-w-0 h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
           >
             <option value="All">All Property Types</option>
             <option value="Studio">Studio</option>
@@ -200,7 +200,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
             value={maxBudgetAed}
             onChange={(e) => setMaxBudgetAed(Number(e.target.value))}
             aria-label="Filter map by maximum budget"
-            className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+            className="w-full sm:w-auto min-w-0 h-9 px-3 bg-[#121212] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
           >
             <option value={150000000}>Any Budget</option>
             <option value={2000000}>Up to AED 2M</option>
@@ -210,7 +210,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           <div className="flex border border-[#D4AF72]/25 bg-[#121212]">
             <button
               type="button"
@@ -295,11 +295,15 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
       ) : (
         <div
           className={`grid grid-cols-1 lg:grid-cols-4 ${
-            isFullscreen ? 'flex-1 min-h-0' : 'h-[600px]'
+            isFullscreen ? 'flex-1 min-h-0' : 'h-auto lg:h-[600px]'
           }`}
         >
           {/* Map Container */}
-          <div className="lg:col-span-3 relative h-[420px] lg:h-full bg-[#080808]">
+          <div
+            className={`lg:col-span-3 relative min-w-0 bg-[#080808] ${
+              isFullscreen ? 'h-[48dvh] lg:h-full' : 'h-[340px] sm:h-[420px] lg:h-full'
+            }`}
+          >
             {mapsApiKey ? (
               <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en" region="AE">
                 <GoogleMap
@@ -423,7 +427,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
           </div>
 
           {/* Interactive Nearby & Selected Project Sidebar */}
-          <aside className="border-t lg:border-t-0 lg:border-l border-[#D4AF72]/20 bg-[#121212] overflow-y-auto p-4 flex flex-col gap-3">
+          <aside className="border-t lg:border-t-0 lg:border-l border-[#D4AF72]/20 bg-[#121212] overflow-y-auto p-4 flex flex-col gap-3 max-h-[340px] lg:max-h-none lg:h-full min-w-0">
             {activeProject ? (
               <div className="border border-[#D4AF72]/50 bg-[#1B1B1B] p-4">
                 {activeProject.heroImage && (
