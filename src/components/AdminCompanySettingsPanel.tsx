@@ -3,8 +3,10 @@ import {
   Building2,
   Check,
   Copy,
+  Crosshair,
   ExternalLink,
   Globe,
+  Loader2,
   Mail,
   MapPin,
   Navigation,
@@ -20,6 +22,8 @@ import {
   getEffectiveCompanyInfo,
   saveCompanyInfoOverride,
 } from '../data/companyInfo.ts';
+import { geocodeAddressOnServer } from '../services/apiClient.ts';
+import { isValidCoordinate } from '../utils/coordinates.ts';
 import { OfficeLocationMap } from './OfficeLocationMap.tsx';
 
 interface AdminCompanySettingsPanelProps {
@@ -34,11 +38,33 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
   const [info, setInfo] = useState<CompanyInformation>(() => getEffectiveCompanyInfo());
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [geocodingOffice, setGeocodingOffice] = useState(false);
+  const [geocodeMsg, setGeocodeMsg] = useState<string | null>(null);
 
   const copyToClipboard = (text: string, fieldName: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(fieldName);
     setTimeout(() => setCopiedField(null), 2500);
+  };
+
+  const handleGeocodeOffice = async () => {
+    const query = info.address.formatted.trim();
+    if (!query) return;
+    setGeocodingOffice(true);
+    setGeocodeMsg(null);
+    try {
+      const res = await geocodeAddressOnServer(query, 'any');
+      setInfo((prev) => ({
+        ...prev,
+        officeCoordinates: { lat: res.primary.lat, lng: res.primary.lng },
+        mapsDirectionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${res.primary.lat},${res.primary.lng}`,
+      }));
+      setGeocodeMsg(`Located: ${res.primary.formattedAddress}`);
+    } catch (err) {
+      setGeocodeMsg(err instanceof Error ? err.message : 'Unable to geocode office address.');
+    } finally {
+      setGeocodingOffice(false);
+    }
   };
 
   const handleSave = (e: React.FormEvent) => {
@@ -54,6 +80,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
     }
     setInfo(COMPANY_INFO);
     saveCompanyInfoOverride(COMPANY_INFO);
+    setGeocodeMsg(null);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };
@@ -362,6 +389,67 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
               className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
             />
           </div>
+
+          <div>
+            <label className="block text-[#A5A19A] mb-1">Office Latitude</label>
+            <input
+              type="number"
+              step="0.00001"
+              value={info.officeCoordinates.lat}
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  officeCoordinates: {
+                    ...info.officeCoordinates,
+                    lat: Number(e.target.value),
+                  },
+                })
+              }
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
+            />
+          </div>
+
+          <div>
+            <label className="block text-[#A5A19A] mb-1">Office Longitude</label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                step="0.00001"
+                value={info.officeCoordinates.lng}
+                onChange={(e) =>
+                  setInfo({
+                    ...info,
+                    officeCoordinates: {
+                      ...info.officeCoordinates,
+                      lng: Number(e.target.value),
+                    },
+                  })
+                }
+                className="flex-1 min-w-0 h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
+              />
+              <button
+                type="button"
+                onClick={handleGeocodeOffice}
+                disabled={geocodingOffice}
+                className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/35 text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+              >
+                {geocodingOffice ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Crosshair className="w-3.5 h-3.5" />
+                )}
+                <span>Geocode Address</span>
+              </button>
+            </div>
+          </div>
+          {geocodeMsg && (
+            <p className="md:col-span-2 text-xs text-[#6EE7B7] font-medium">{geocodeMsg}</p>
+          )}
+          {!isValidCoordinate(info.officeCoordinates) && (
+            <p className="md:col-span-2 text-xs text-[#FCA5A5]">
+              Warning: Enter valid latitude/longitude coordinates for the map pin.
+            </p>
+          )}
         </div>
 
         <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#D4AF72]/15">
@@ -380,7 +468,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
         <h4 className="font-display text-lg font-semibold text-[#F5F1E8]">
           Live Google Maps Integration Preview
         </h4>
-        <OfficeLocationMap apiKey={mapsApiKey} />
+        <OfficeLocationMap apiKey={mapsApiKey} overrideCompanyInfo={info} />
       </div>
     </div>
   );

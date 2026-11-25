@@ -284,11 +284,14 @@ export async function fetchCompanyInfoServer(): Promise<any> {
 
 export async function refreshProjectTelemetryOnServer(projectId?: string): Promise<{
   ok: boolean;
+  projectId?: string;
+  projectName?: string;
   totalRefreshed?: number;
   lastVerifiedAt?: string;
   source?: string;
   status: string;
   message?: string;
+  inventory?: LiveInventoryOverlayRecord | null;
 }> {
   const res = await fetch('/api/projects/refresh-telemetry', {
     method: 'POST',
@@ -319,5 +322,81 @@ export async function fetchCompletenessReportServer(): Promise<{
   if (!res.ok) throw new Error('Failed to fetch completeness report');
   return res.json();
 }
+
+export interface GeocodeResultItem {
+  lat: number;
+  lng: number;
+  formattedAddress: string;
+  placeId?: string;
+  granularity?: string;
+}
+
+export async function geocodeAddressOnServer(
+  address: string,
+  region: 'ae' | 'in' | 'any' = 'ae'
+): Promise<{
+  ok: boolean;
+  query: string;
+  results: GeocodeResultItem[];
+  primary: GeocodeResultItem;
+}> {
+  const params = new URLSearchParams({
+    address: address.trim(),
+    region,
+  });
+  const res = await fetch(`/api/geocode?${params.toString()}`);
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Unable to locate address via Google Geocoding');
+  }
+  return data;
+}
+
+export interface LiveInventoryOverlayRecord {
+  projectId: string;
+  status: 'verified_live' | 'unavailable';
+  totalRegisteredUnits: number | null;
+  releasedUnits: number | null;
+  availableUnits: number | null;
+  soldUnits: number | null;
+  reservedUnits: number | null;
+  onHoldUnits: number | null;
+  remainingUnits: number | null;
+  availabilityPct: number | null;
+  lastUpdatedAt: string;
+  dataSource: string;
+  sourceType: string;
+}
+
+export async function fetchLiveInventoryUpdates(): Promise<{
+  updates: Record<string, LiveInventoryOverlayRecord>;
+  telemetryCheckedAt: Record<string, string>;
+}> {
+  try {
+    const res = await fetch('/api/inventory/live-updates');
+    if (!res.ok) return { updates: {}, telemetryCheckedAt: {} };
+    return await res.json();
+  } catch {
+    return { updates: {}, telemetryCheckedAt: {} };
+  }
+}
+
+export async function fetchProjectInventoryStatus(projectId: string): Promise<{
+  ok: boolean;
+  projectId: string;
+  projectName: string;
+  inventory: LiveInventoryOverlayRecord;
+  lastVerifiedAt: string;
+  contactRequired: boolean;
+  contactMessage: string;
+}> {
+  const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/inventory`);
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to fetch project inventory');
+  }
+  return data;
+}
+
 
 

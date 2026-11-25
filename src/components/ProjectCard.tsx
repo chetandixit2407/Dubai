@@ -22,6 +22,7 @@ interface ProjectCardProps {
   onSelect: (project: Project) => void;
   onToggleSave: (project: Project, e: React.MouseEvent) => void;
   onToggleCompare: (project: Project, e: React.MouseEvent) => void;
+  onRequestAvailabilitySheet?: (project: Project, e: React.MouseEvent) => void;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -33,6 +34,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onSelect,
   onToggleSave,
   onToggleCompare,
+  onRequestAvailabilitySheet,
 }) => {
   const [imgFailed, setImgFailed] = useState(false);
   const t = TRANSLATIONS[language];
@@ -52,8 +54,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         : `${project.minSizeSqFt.toLocaleString()} sq.ft`
       : 'Size on Request';
 
-  const verifiedDateLabel = project.lastVerifiedAt
-    ? new Date(project.lastVerifiedAt).toLocaleDateString('en-GB', {
+  const lastCheckedIso = inv.lastUpdatedAt || project.lastVerifiedAt || project.updatedAt;
+  const verifiedDateLabel = lastCheckedIso
+    ? new Date(lastCheckedIso).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'short',
         year: 'numeric',
@@ -242,7 +245,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 <div className="grid grid-cols-2 xs:grid-cols-4 gap-2 text-xs font-mono-tabular">
                   <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Total</span>
-                    <span className="font-semibold text-[#F5F1E8]">{inv.totalRegisteredUnits}</span>
+                    <span className="font-semibold text-[#F5F1E8]">{inv.totalRegisteredUnits ?? 'Verified'}</span>
                   </div>
                   <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Available</span>
@@ -259,16 +262,33 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 </div>
                 <p className="text-[11px] text-[#A5A19A] mt-2 truncate" title={inv.dataSource}>
                   Source: {inv.dataSource}
-                  {verifiedDateLabel ? ` · Verified ${verifiedDateLabel}` : ''}
+                  {verifiedDateLabel ? ` · Updated ${verifiedDateLabel}` : ''}
                 </p>
               </div>
             ) : (
-              <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
-                <p className="text-xs font-medium text-[#F5F1E8] mb-1">{t.inventoryUnavailable}</p>
-                <p className="text-[11px] text-[#A5A19A] truncate" title={inv.dataSource}>
-                  Registry: {inv.dataSource}
-                  {verifiedDateLabel ? ` · Verified ${verifiedDateLabel}` : ''}
+              <div className="bg-[#121212] border border-[#D4AF72]/15 p-3 space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-[#D4AF72]">{t.inventoryUnavailable}</p>
+                  {verifiedDateLabel && (
+                    <span className="text-[10px] font-mono-tabular text-[#A5A19A] shrink-0">
+                      {verifiedDateLabel}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-[#A5A19A] truncate">
+                  {project.floorPlans.length > 0
+                    ? `${project.floorPlans.length} Verified Layouts · ${project.propertyTypes.slice(0, 2).join(', ')}`
+                    : `Configs: ${project.propertyTypes.slice(0, 3).join(', ')}`}
                 </p>
+                {onRequestAvailabilitySheet && (
+                  <button
+                    type="button"
+                    onClick={(e) => onRequestAvailabilitySheet(project, e)}
+                    className="w-full py-1.5 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/35 hover:border-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] text-[11px] font-semibold text-[#F5F1E8] transition-colors text-center"
+                  >
+                    Request Availability Sheet
+                  </button>
+                )}
               </div>
             )}
           </div>

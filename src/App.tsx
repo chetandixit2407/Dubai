@@ -86,8 +86,11 @@ import {
 } from './services/firestoreService.ts';
 import {
   fetchClientConfig,
+  fetchLiveInventoryUpdates,
+  fetchProjectInventoryStatus,
+  LiveInventoryOverlayRecord,
   notifyPublicEnquiryCreated,
-  triggerServerSyncRun,
+  refreshProjectTelemetryOnServer,
 } from './services/apiClient.ts';
 import { ProjectCard } from './components/ProjectCard.tsx';
 import { SearchEngineBar } from './components/SearchEngineBar.tsx';
@@ -200,8 +203,45 @@ export default function App() {
   const [mapsApiKey, setMapsApiKey] = useState<string>('');
   const [mapsQuotaExceeded, setMapsQuotaExceeded] = useState(false);
 
-  // Core catalog datasets (seeded baseline immediately hydrated by Firestore onSnapshot)
-  const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS);
+  // Core catalog datasets (seeded baseline immediately hydrated by Firestore onSnapshot & live overlay)
+  const [rawProjects, setProjects] = useState<Project[]>(INITIAL_PROJECTS);
+  const [liveOverlayMap, setLiveOverlayMap] = useState<Record<string, LiveInventoryOverlayRecord>>({});
+  const [telemetryVerifiedMap, setTelemetryVerifiedMap] = useState<Record<string, string>>({});
+  const projects = useMemo(() => {
+    const hasOverlay =
+      Object.keys(liveOverlayMap).length > 0 || Object.keys(telemetryVerifiedMap).length > 0;
+    if (!hasOverlay) return rawProjects;
+    return rawProjects.map((p) => {
+      const overlay = liveOverlayMap[p.id];
+      const verifiedAt = telemetryVerifiedMap[p.id];
+      if (!overlay && !verifiedAt) return p;
+      return {
+        ...p,
+        ...(verifiedAt ? { lastVerifiedAt: verifiedAt } : {}),
+        ...(overlay
+          ? {
+              inventory: {
+                ...p.inventory,
+                status: overlay.status,
+                totalRegisteredUnits: overlay.totalRegisteredUnits,
+                releasedUnits: overlay.releasedUnits,
+                availableUnits: overlay.availableUnits,
+                soldUnits: overlay.soldUnits,
+                reservedUnits: overlay.reservedUnits,
+                onHoldUnits: overlay.onHoldUnits,
+                remainingUnits: overlay.remainingUnits,
+                availabilityPct: overlay.availabilityPct,
+                lastUpdatedAt: overlay.lastUpdatedAt,
+                dataSource: overlay.dataSource,
+                sourceType:
+                  (overlay.sourceType as Project['inventory']['sourceType']) ||
+                  p.inventory.sourceType,
+              },
+            }
+          : {}),
+      };
+    });
+  }, [rawProjects, liveOverlayMap, telemetryVerifiedMap]);
   const [developers, setDevelopers] = useState<Developer[]>(INITIAL_DEVELOPERS);
   const [inventoryLogs, setInventoryLogs] = useState<InventoryLog[]>(INITIAL_INVENTORY_LOGS);
   const [syncProviders, setSyncProviders] = useState<SyncProvider[]>(INITIAL_SYNC_PROVIDERS);
@@ -258,7 +298,8 @@ export default function App() {
     open: boolean;
     type: EnquiryType;
     project: Project | null;
-  }>({ open: false, type: 'callback', project: null });
+    requestContext?: 'availability_sheet' | null;
+  }>({ open: false, type: 'callback', project: null, requestContext: null });
   const [showPortalModal, setShowPortalModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -269,6 +310,8 @@ export default function App() {
   const [deskEmail, setDeskEmail] = useState('');
   const [deskPhone, setDeskPhone] = useState('');
   const [deskMsg, setDeskMsg] = useState('');
+  const [deskSubmitting, setDeskSubmitting] = useState(false);
+  const [deskError, setDeskError] = useState<string | null>(null);
   const [deskSubmitted, setDeskSubmitted] = useState(false);
 
   const t = TRANSLATIONS[language];
@@ -320,10 +363,18 @@ export default function App() {
     return () => window.removeEventListener('gmp-quota-exceeded', onQuota);
   }, []);
 
-  // Load Maps API key & verify Firestore connectivity
+  // Load Maps API key, hydrate live server inventory overlay, & verify Firestore connectivity
   useEffect(() => {
     fetchClientConfig().then((cfg) => {
       if (cfg.mapsApiKey) setMapsApiKey(cfg.mapsApiKey);
+    });
+    fetchLiveInventoryUpdates().then(({ updates, telemetryCheckedAt }) => {
+      if (updates && Object.keys(updates).length > 0) {
+        setLiveOverlayMap((prev) => ({ ...prev, ...updates }));
+      }
+      if (telemetryCheckedAt && Object.keys(telemetryCheckedAt).length > 0) {
+        setTelemetryVerifiedMap((prev) => ({ ...prev, ...telemetryCheckedAt }));
+      }
     });
     testFirestoreConnection();
   }, []);
@@ -358,11 +409,61 @@ export default function App() {
     es.addEventListener('inventory:updated', (ev) => {
       try {
         const data = JSON.parse((ev as MessageEvent).data);
+        if (data.projectId) {
+          const total =
+            typeof data.totalRegisteredUnits === 'number' ? data.totalRegisteredUnits : null;
+          const avail =
+            typeof data.availableUnits === 'number' ? data.availableUnits : null;
+          setLiveOverlayMap((prev) => ({
+            ...prev,
+            [data.projectId]: {
+              projectId: data.projectId,
+              status: avail !== null ? 'verified_live' : 'unavailable',
+              totalRegisteredUnits: total,
+              releasedUnits:
+                total !== null ? total : prev[data.projectId]?.releasedUnits ?? null,
+              availableUnits: avail,
+              soldUnits: typeof data.soldUnits === 'number' ? data.soldUnits : null,
+              reservedUnits:
+                typeof data.reservedUnits === 'number' ? data.reservedUnits : null,
+              onHoldUnits: prev[data.projectId]?.onHoldUnits ?? null,
+              remainingUnits: avail,
+              availabilityPct:
+                total && total > 0 && avail !== null
+                  ? Math.round((avail / total) * 100)
+                  : null,
+              lastUpdatedAt: data.receivedAt || new Date().toISOString(),
+              dataSource: data.source || 'Live Developer Webhook',
+              sourceType: 'developer_webhook',
+            },
+          }));
+        }
         showToast(
-          `Live Inventory Sync: ${data.projectName || data.projectId} updated (${data.availableUnits ?? 'N/A'} units available)`
+          data.availableUnits !== null && data.availableUnits !== undefined
+            ? `Live Inventory Sync: ${data.projectName || data.projectId} updated (${data.availableUnits} units available)`
+            : `Inventory update received for ${data.projectName || data.projectId}.`
         );
       } catch {
         // ignore parse issues
+      }
+    });
+    es.addEventListener('project:updated', (ev) => {
+      try {
+        const data = JSON.parse((ev as MessageEvent).data);
+        if (data.projectId && data.lastVerifiedAt) {
+          setTelemetryVerifiedMap((prev) => ({
+            ...prev,
+            [data.projectId]: data.lastVerifiedAt,
+          }));
+        }
+        if (data.projectId && data.inventory) {
+          setLiveOverlayMap((prev) => ({
+            ...prev,
+            [data.projectId]: data.inventory,
+          }));
+        }
+      } catch {
+        // ignore
       }
     });
     es.addEventListener('sync:completed', (ev) => {
@@ -550,10 +651,16 @@ export default function App() {
       return;
     }
     const currentlySaved = favorites.some((f) => f.projectId === project.id);
-    await toggleUserFavorite(userProfile.uid, project.id, project.name, currentlySaved);
-    showToast(
-      currentlySaved ? `Removed "${project.name}" from saved.` : `Saved "${project.name}".`
-    );
+    try {
+      await toggleUserFavorite(userProfile.uid, project.id, project.name, currentlySaved);
+      showToast(
+        currentlySaved ? `Removed "${project.name}" from saved.` : `Saved "${project.name}".`
+      );
+    } catch (err) {
+      showToast(
+        err instanceof Error ? err.message : 'Unable to update saved project in your portal.'
+      );
+    }
   };
 
   const handleToggleCompare = (project: Project, e?: React.MouseEvent) => {
@@ -570,6 +677,16 @@ export default function App() {
     });
   };
 
+  const openAvailabilitySheet = (project: Project, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setEnquiryModalState({
+      open: true,
+      type: 'availability_alert',
+      project,
+      requestContext: 'availability_sheet',
+    });
+  };
+
   const handleSaveCurrentSearch = async () => {
     if (!userProfile) {
       setShowPortalModal(true);
@@ -583,36 +700,65 @@ export default function App() {
     ]
       .filter(Boolean)
       .join(' · ');
-    await createSavedSearch(userProfile.uid, {
-      title,
-      emirate: filters.emirate || undefined,
-      maxBudgetAed: filters.maxBudgetAed === '' ? undefined : Number(filters.maxBudgetAed),
-      propertyType: filters.propertyType || undefined,
-      category: filters.category || undefined,
-      alertsEnabled: true,
-    });
-    showToast(`Saved search "${title}" with live price & unit alerts.`);
+    try {
+      await createSavedSearch(userProfile.uid, {
+        title,
+        emirate: filters.emirate || undefined,
+        maxBudgetAed: filters.maxBudgetAed === '' ? undefined : Number(filters.maxBudgetAed),
+        propertyType: filters.propertyType || undefined,
+        category: filters.category || undefined,
+        alertsEnabled: true,
+      });
+      showToast(`Saved search "${title}" with live price & unit alerts.`);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Unable to save search right now.');
+    }
   };
 
   const handleRefreshProjectInventory = async (project: Project) => {
     try {
-      const res = await triggerServerSyncRun({
-        providerId: project.inventory.sourceType,
-        providerName: project.inventory.dataSource,
-        endpointUrl:
-          project.inventory.status === 'verified_live'
-            ? '/api/sync/webhook/provider-wc-crm'
-            : 'https://opendata.srerd.gov.ae/v1/projects',
-        targetProjectId: project.id,
-        currentInventory: project.inventory,
-      });
-      showToast(res.note);
-    } catch (err) {
+      const res = await refreshProjectTelemetryOnServer(project.id);
+      if (res.lastVerifiedAt) {
+        setTelemetryVerifiedMap((prev) => ({
+          ...prev,
+          [project.id]: res.lastVerifiedAt as string,
+        }));
+      }
+      if (res.inventory) {
+        setLiveOverlayMap((prev) => ({
+          ...prev,
+          [project.id]: res.inventory as LiveInventoryOverlayRecord,
+        }));
+      }
       showToast(
-        err instanceof Error
-          ? err.message
-          : 'Sign in with a verified account to trigger provider sync.'
+        res.message ||
+          (res.status === 'verified_live'
+            ? 'Live unit availability synchronized.'
+            : 'Registry verified. Contact Developer for Latest Availability.')
       );
+    } catch {
+      try {
+        const invRes = await fetchProjectInventoryStatus(project.id);
+        if (invRes.lastVerifiedAt) {
+          setTelemetryVerifiedMap((prev) => ({
+            ...prev,
+            [project.id]: invRes.lastVerifiedAt,
+          }));
+        }
+        if (invRes.inventory) {
+          setLiveOverlayMap((prev) => ({
+            ...prev,
+            [project.id]: invRes.inventory,
+          }));
+        }
+        showToast(invRes.contactMessage || 'Contact Developer for Latest Availability.');
+      } catch (err) {
+        showToast(
+          err instanceof Error
+            ? err.message
+            : 'Unable to check live availability. Contact Developer for Latest Availability.'
+        );
+      }
     }
   };
 
@@ -886,21 +1032,38 @@ export default function App() {
 
   const handleDeskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!deskName.trim() || !deskEmail.trim()) return;
-    await submitEnquiry({
-      ...(userProfile?.uid ? { userId: userProfile.uid } : {}),
-      enquiryType: 'callback',
-      fullName: deskName.trim(),
-      email: deskEmail.trim(),
-      phone: deskPhone.trim(),
-      message: deskMsg.trim(),
-    });
-    await notifyPublicEnquiryCreated('callback', 'Direct Contact Desk');
-    setDeskSubmitted(true);
-    setDeskName('');
-    setDeskEmail('');
-    setDeskPhone('');
-    setDeskMsg('');
+    setDeskError(null);
+    if (!deskName.trim() || !deskEmail.trim()) {
+      setDeskError('Please provide your full name and email address.');
+      return;
+    }
+    setDeskSubmitting(true);
+    try {
+      const safeUid =
+        firebaseUser?.emailVerified && userProfile?.uid ? userProfile.uid : undefined;
+      await submitEnquiry({
+        ...(safeUid ? { userId: safeUid } : {}),
+        enquiryType: 'callback',
+        fullName: deskName.trim(),
+        email: deskEmail.trim(),
+        phone: deskPhone.trim(),
+        message: deskMsg.trim(),
+      });
+      await notifyPublicEnquiryCreated('callback', 'Direct Contact Desk');
+      setDeskSubmitted(true);
+      setDeskName('');
+      setDeskEmail('');
+      setDeskPhone('');
+      setDeskMsg('');
+    } catch (err) {
+      setDeskError(
+        err instanceof Error
+          ? err.message
+          : 'Unable to submit enquiry right now. Please contact our desk on WhatsApp or phone.'
+      );
+    } finally {
+      setDeskSubmitting(false);
+    }
   };
 
   return (
@@ -919,7 +1082,15 @@ export default function App() {
             <span>
               <strong>Google Maps Demo Key Quota Exceeded:</strong> The preview key has hit its
               daily limit. Map pins remain accessible in coordinate mode or you can attach a billed
-              Cloud project API key.
+              Cloud project API key.{' '}
+              <a
+                href="https://developers.google.com/maps/ai/ai-studio?utm_campaign=gmp_mcp_codeassist_v1_aistudio#quota_exceeded_errors"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-semibold hover:text-[#F5F1E8]"
+              >
+                Quota Help &amp; Billing Setup
+              </a>
             </span>
           </div>
           <button
@@ -1324,8 +1495,13 @@ export default function App() {
             onToggleSave={(p) => handleToggleFavorite(p)}
             onToggleCompare={(p) => handleToggleCompare(p)}
             onOpenVirtualTour={(p) => setVirtualTourProject(p)}
-            onOpenEnquiry={(type, p) =>
-              setEnquiryModalState({ open: true, type, project: p })
+            onOpenEnquiry={(type, p, context) =>
+              setEnquiryModalState({
+                open: true,
+                type,
+                project: p,
+                requestContext: context ?? null,
+              })
             }
             onRefreshInventory={handleRefreshProjectInventory}
           />
@@ -1642,6 +1818,7 @@ export default function App() {
                           onSelect={openProjectPage}
                           onToggleSave={handleToggleFavorite}
                           onToggleCompare={handleToggleCompare}
+                          onRequestAvailabilitySheet={openAvailabilitySheet}
                         />
                       </ScrollReveal>
                     ))}
@@ -1876,6 +2053,7 @@ export default function App() {
                   mapsApiKey={mapsApiKey}
                   currency={currency}
                   onOpenProject={openProjectPage}
+                  onRequestAvailabilitySheet={(proj) => openAvailabilitySheet(proj)}
                 />
               </ScrollReveal>
             </section>
@@ -2187,6 +2365,11 @@ export default function App() {
                       </div>
                     ) : (
                       <form onSubmit={handleDeskSubmit} className="space-y-3 text-xs">
+                        {deskError && (
+                          <div className="p-2.5 bg-[#7F1D1D]/40 border border-[#F87171]/40 text-[#FCA5A5] text-[11px]">
+                            {deskError}
+                          </div>
+                        )}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <input
                             type="text"
@@ -2221,9 +2404,10 @@ export default function App() {
                         />
                         <button
                           type="submit"
-                          className="w-full py-3 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors cursor-pointer"
+                          disabled={deskSubmitting}
+                          className="w-full py-3 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] disabled:opacity-50 transition-colors cursor-pointer"
                         >
-                          Request Advisory Callback
+                          {deskSubmitting ? 'Submitting Request...' : 'Request Advisory Callback'}
                         </button>
                       </form>
                     )}
@@ -2469,6 +2653,10 @@ export default function App() {
             setShowCompareModal(false);
             openProjectPage(proj);
           }}
+          onRequestAvailabilitySheet={(proj) => {
+            setShowCompareModal(false);
+            openAvailabilitySheet(proj);
+          }}
           onClose={() => setShowCompareModal(false)}
         />
       )}
@@ -2476,6 +2664,7 @@ export default function App() {
       {enquiryModalState.open && (
         <EnquiryModal
           initialType={enquiryModalState.type}
+          requestContext={enquiryModalState.requestContext}
           project={enquiryModalState.project}
           currentUser={
             firebaseUser
@@ -2487,7 +2676,12 @@ export default function App() {
               : null
           }
           onClose={() =>
-            setEnquiryModalState({ open: false, type: 'callback', project: null })
+            setEnquiryModalState({
+              open: false,
+              type: 'callback',
+              project: null,
+              requestContext: null,
+            })
           }
         />
       )}

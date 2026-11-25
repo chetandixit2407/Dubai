@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { AdvancedMarker, APIProvider, Map as GoogleMap } from '@vis.gl/react-google-maps';
 import {
   Activity,
   AlertTriangle,
@@ -6,11 +7,14 @@ import {
   Camera,
   CheckCircle2,
   Compass,
+  Crosshair,
   Database,
   Download,
   ExternalLink,
   FileSpreadsheet,
   History,
+  Loader2,
+  Map as MapIcon,
   MapPin,
   Menu,
   PanelLeftClose,
@@ -66,6 +70,7 @@ import {
 } from '../services/firestoreService.ts';
 import {
   broadcastRealtimeEvent,
+  geocodeAddressOnServer,
   parseBulkCsvOnServer,
   triggerServerSyncRun,
   triggerWebhookTest,
@@ -75,6 +80,9 @@ import {
   getEffectiveTourStatus,
   MISSING_PROJECT_PHOTO_LABEL,
 } from '../utils/mediaValidation.ts';
+import { getEmirateCenter, isValidCoordinate } from '../utils/coordinates.ts';
+import { GoogleMapsGuard } from './GoogleMapsGuard.tsx';
+import { UAEPropertyMap } from './UAEPropertyMap.tsx';
 import { AdminMediaTourManager } from './AdminMediaTourManager.tsx';
 import { AdminExcelImportPanel } from './AdminExcelImportPanel.tsx';
 import { AdminTourDiscoveryPanel } from './AdminTourDiscoveryPanel.tsx';
@@ -152,9 +160,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [bannerMsg, setBannerMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
-  // Project Add/Edit Modal State
+  // Project Add/Edit Modal & View Mode State
+  const [projectsViewMode, setProjectsViewMode] = useState<'table' | 'map'>('table');
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isNewProject, setIsNewProject] = useState(false);
+  const [geocodingProject, setGeocodingProject] = useState(false);
+  const [previewMapUnavailable, setPreviewMapUnavailable] = useState(false);
 
   // Manual Inventory Modal State
   const [inventoryTarget, setInventoryTarget] = useState<Project | null>(null);
@@ -353,7 +364,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       registrationNumber: '',
       verified: true,
       featured: false,
-      coordinates: { lat: 25.1972, lng: 55.2744 },
+      coordinates: getEmirateCenter('Dubai'),
       nearbyLandmarks: [],
       heroImage: '',
       heroImageHash: '',
@@ -391,13 +402,39 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         remainingUnits: null,
         availabilityPct: null,
         lastUpdatedAt: now,
-        dataSource: 'Pending live developer feed connection',
+        dataSource: 'Contact Developer for Latest Availability',
         sourceType: 'unavailable',
       },
       description: '',
       descriptionAr: '',
       updatedAt: now,
     });
+  };
+
+  const handleGeocodeEditingProject = async () => {
+    if (!editingProject) return;
+    const query = [editingProject.community, editingProject.name, editingProject.emirate, 'UAE']
+      .filter(Boolean)
+      .join(', ');
+    setGeocodingProject(true);
+    try {
+      const res = await geocodeAddressOnServer(query, 'ae');
+      setEditingProject((prev) =>
+        prev
+          ? {
+              ...prev,
+              coordinates: { lat: res.primary.lat, lng: res.primary.lng },
+              fullAddress: res.primary.formattedAddress,
+              googleMapsUrl: `https://www.google.com/maps/dir/?api=1&destination=${res.primary.lat},${res.primary.lng}`,
+            }
+          : null
+      );
+      notify('ok', `Verified coordinates: ${res.primary.formattedAddress}`);
+    } catch (err) {
+      notify('err', err instanceof Error ? err.message : 'Geocoding lookup failed.');
+    } finally {
+      setGeocodingProject(false);
+    }
   };
 
   const handleSaveProject = async (e: React.FormEvent) => {
@@ -590,7 +627,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           registrationNumber: String(row.registrationNumber),
           verified: true,
           featured: false,
-          coordinates: { lat: 25.1972, lng: 55.2744 },
+          coordinates:
+            row.coordinates &&
+            typeof (row.coordinates as any).lat === 'number' &&
+            typeof (row.coordinates as any).lng === 'number'
+              ? (row.coordinates as { lat: number; lng: number })
+              : getEmirateCenter(row.emirate as EmiratesName),
           nearbyLandmarks: [],
           heroImage: '',
           heroImageHash: '',
@@ -1331,101 +1373,174 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
-                  UAE Project Registry &amp; Unit Inventory Controls
+                  UAE Project Registry, GPS Coordinates &amp; Unit Inventory Controls
                 </h3>
                 <p className="text-xs text-[#A5A19A]">
-                  Update verified unit counts or switch unavailable feeds transparently. Every inventory edit writes an immutable audit log.
+                  Verify coordinates, switch between Registry Table and Map Audit, or update live unit counts. Every inventory edit writes an immutable audit log.
                 </p>
               </div>
-              {canManageProjects && (
-                <button
-                  type="button"
-                  onClick={openNewProjectForm}
-                  className="h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] transition-colors flex items-center gap-1.5"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Add UAE Project</span>
-                </button>
-              )}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex border border-[#D4AF72]/25 bg-[#121212]">
+                  <button
+                    type="button"
+                    onClick={() => setProjectsViewMode('table')}
+                    className={`h-10 px-3 text-xs font-medium flex items-center gap-1.5 ${
+                      projectsViewMode === 'table'
+                        ? 'bg-[#D4AF72] text-[#080808] font-semibold'
+                        : 'text-[#A5A19A] hover:text-[#F5F1E8]'
+                    }`}
+                  >
+                    <Database className="w-3.5 h-3.5" />
+                    <span>Registry Table</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setProjectsViewMode('map')}
+                    className={`h-10 px-3 text-xs font-medium flex items-center gap-1.5 ${
+                      projectsViewMode === 'map'
+                        ? 'bg-[#D4AF72] text-[#080808] font-semibold'
+                        : 'text-[#A5A19A] hover:text-[#F5F1E8]'
+                    }`}
+                  >
+                    <MapIcon className="w-3.5 h-3.5" />
+                    <span>Map Verification</span>
+                  </button>
+                </div>
+                {canManageProjects && (
+                  <button
+                    type="button"
+                    onClick={openNewProjectForm}
+                    className="h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] transition-colors flex items-center gap-1.5"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add UAE Project</span>
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="bg-[#121212] border border-[#D4AF72]/20 overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs sm:text-sm">
-                <thead>
-                  <tr className="border-b border-[#D4AF72]/20 bg-[#080808] text-[#A5A19A] text-xs uppercase tracking-[0.08em]">
-                    <th className="py-3 px-4 font-semibold">Project &amp; Emirate</th>
-                    <th className="py-3 px-4 font-semibold">Category</th>
-                    <th className="py-3 px-4 font-semibold">Starting Price</th>
-                    <th className="py-3 px-4 font-semibold">Inventory Status</th>
-                    <th className="py-3 px-4 font-semibold">Available / Total</th>
-                    <th className="py-3 px-4 font-semibold text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#D4AF72]/15">
-                  {projects.map((proj) => (
-                    <tr key={proj.id} className="hover:bg-[#1B1B1B] transition-colors">
-                      <td className="py-3 px-4">
-                        <p className="font-semibold text-[#F5F1E8]">{proj.name}</p>
-                        <p className="text-xs text-[#A5A19A]">
-                          {proj.community}, {proj.emirate} · {proj.developerName}
-                        </p>
-                      </td>
-                      <td className="py-3 px-4 text-xs text-[#F5F1E8]">{proj.category}</td>
-                      <td className="py-3 px-4 font-mono-tabular font-semibold text-[#D4AF72]">
-                        {formatProjectPrice(proj.startingPriceAed, currency)}
-                      </td>
-                      <td className="py-3 px-4 text-xs">
-                        {proj.inventory.status === 'verified_live' ? (
-                          <span className="text-[#6EE7B7] font-semibold">Verified Live</span>
-                        ) : (
-                          <span className="text-[#FCD34D] font-medium">Feed Unavailable</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 font-mono-tabular text-xs text-[#F5F1E8]">
-                        {proj.inventory.status === 'verified_live'
-                          ? `${proj.inventory.availableUnits} / ${proj.inventory.totalRegisteredUnits}`
-                          : 'N/A'}
-                      </td>
-                      <td className="py-3 px-4 text-right">
-                        <div className="inline-flex items-center gap-2">
-                          {canManageInventory && (
-                            <button
-                              type="button"
-                              onClick={() => openInventoryEditor(proj)}
-                              className="px-2.5 py-1.5 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] transition-colors"
-                            >
-                              Update Units
-                            </button>
-                          )}
-                          {canManageProjects && (
-                            <>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setIsNewProject(false);
-                                  setEditingProject({ ...proj });
-                                }}
-                                className="px-2.5 py-1.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] transition-colors"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteProject(proj)}
-                                aria-label={`Delete ${proj.name}`}
-                                className="p-1.5 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#A5A19A] hover:text-[#FCA5A5] hover:border-[#F87171]/50 transition-colors"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </td>
+            {projectsViewMode === 'map' ? (
+              <div className="space-y-3">
+                <p className="text-xs text-[#A5A19A]">
+                  Inspect property pins across all 7 Emirates. Click any pin → &ldquo;Open Complete Project Page&rdquo; to open its editor and update GPS coordinates.
+                </p>
+                <UAEPropertyMap
+                  projects={projects}
+                  mapsApiKey={mapsApiKey || ''}
+                  currency={currency}
+                  onOpenProject={(proj) => {
+                    if (canManageProjects) {
+                      setIsNewProject(false);
+                      setEditingProject({ ...proj });
+                    }
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="bg-[#121212] border border-[#D4AF72]/20 overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                  <thead>
+                    <tr className="border-b border-[#D4AF72]/20 bg-[#080808] text-[#A5A19A] text-xs uppercase tracking-[0.08em]">
+                      <th className="py-3 px-4 font-semibold">Project &amp; Emirate</th>
+                      <th className="py-3 px-4 font-semibold">Category</th>
+                      <th className="py-3 px-4 font-semibold">Starting Price</th>
+                      <th className="py-3 px-4 font-semibold">Inventory Status</th>
+                      <th className="py-3 px-4 font-semibold">GPS / Last Updated</th>
+                      <th className="py-3 px-4 font-semibold text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-[#D4AF72]/15">
+                    {projects.map((proj) => {
+                      const hasGps = isValidCoordinate(proj.coordinates);
+                      return (
+                        <tr key={proj.id} className="hover:bg-[#1B1B1B] transition-colors">
+                          <td className="py-3 px-4">
+                            <p className="font-semibold text-[#F5F1E8]">{proj.name}</p>
+                            <p className="text-xs text-[#A5A19A]">
+                              {proj.community}, {proj.emirate} · {proj.developerName}
+                            </p>
+                          </td>
+                          <td className="py-3 px-4 text-xs text-[#F5F1E8]">{proj.category}</td>
+                          <td className="py-3 px-4 font-mono-tabular font-semibold text-[#D4AF72]">
+                            {formatProjectPrice(proj.startingPriceAed, currency)}
+                          </td>
+                          <td className="py-3 px-4 text-xs">
+                            {proj.inventory.status === 'verified_live' &&
+                            proj.inventory.availableUnits !== null ? (
+                              <div>
+                                <span className="text-[#6EE7B7] font-semibold block">
+                                  Verified Live ({proj.inventory.availableUnits} /{' '}
+                                  {proj.inventory.totalRegisteredUnits ?? 'Verified'})
+                                </span>
+                                <span className="text-[11px] text-[#A5A19A]">
+                                  {proj.inventory.dataSource}
+                                </span>
+                              </div>
+                            ) : (
+                              <div>
+                                <span className="text-[#D4AF72] font-medium block">
+                                  Contact Developer for Latest Availability
+                                </span>
+                                <span className="text-[11px] text-[#A5A19A]">
+                                  {proj.propertyTypes.slice(0, 2).join(', ')}
+                                </span>
+                              </div>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 font-mono-tabular text-xs">
+                            <span
+                              className={`block ${hasGps ? 'text-[#6EE7B7]' : 'text-[#FCA5A5]'}`}
+                            >
+                              {hasGps
+                                ? `${proj.coordinates.lat.toFixed(4)}, ${proj.coordinates.lng.toFixed(4)}`
+                                : 'Missing GPS'}
+                            </span>
+                            <span className="text-[10px] text-[#A5A19A]">
+                              Updated {new Date(proj.inventory.lastUpdatedAt).toLocaleDateString()}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <div className="inline-flex items-center gap-2">
+                              {canManageInventory && (
+                                <button
+                                  type="button"
+                                  onClick={() => openInventoryEditor(proj)}
+                                  className="px-2.5 py-1.5 border border-[#D4AF72]/30 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] transition-colors"
+                                >
+                                  Update Units
+                                </button>
+                              )}
+                              {canManageProjects && (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setIsNewProject(false);
+                                      setEditingProject({ ...proj });
+                                    }}
+                                    className="px-2.5 py-1.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] transition-colors"
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDeleteProject(proj)}
+                                    aria-label={`Delete ${proj.name}`}
+                                    className="p-1.5 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#A5A19A] hover:text-[#FCA5A5] hover:border-[#F87171]/50 transition-colors"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
@@ -2168,6 +2283,108 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
                 />
               </div>
+
+              {/* Geographic Coordinates & Interactive Pin Preview */}
+              <div className="sm:col-span-2 bg-[#121212] border border-[#D4AF72]/20 p-3 space-y-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="font-semibold text-[#D4AF72] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>Property GPS Coordinates</span>
+                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleGeocodeEditingProject}
+                      disabled={geocodingProject}
+                      className="px-2.5 py-1 bg-[#D4AF72] text-[#080808] text-[11px] font-semibold hover:bg-[#E6C77A] flex items-center gap-1 cursor-pointer"
+                    >
+                      {geocodingProject ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <Crosshair className="w-3 h-3" />
+                      )}
+                      <span>Locate via Google Geocoding</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setEditingProject({
+                          ...editingProject,
+                          coordinates: getEmirateCenter(editingProject.emirate),
+                        })
+                      }
+                      className="px-2.5 py-1 border border-[#D4AF72]/30 text-[11px] text-[#F5F1E8] hover:border-[#D4AF72]"
+                    >
+                      Emirate Center
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[#A5A19A] mb-1">Latitude</label>
+                    <input
+                      type="number"
+                      step="0.00001"
+                      value={editingProject.coordinates?.lat ?? 0}
+                      onChange={(e) =>
+                        setEditingProject({
+                          ...editingProject,
+                          coordinates: {
+                            lat: Number(e.target.value),
+                            lng: editingProject.coordinates?.lng ?? 55.2744,
+                          },
+                        })
+                      }
+                      className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] font-mono-tabular focus:outline-none focus:border-[#D4AF72]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#A5A19A] mb-1">Longitude</label>
+                    <input
+                      type="number"
+                      step="0.00001"
+                      value={editingProject.coordinates?.lng ?? 0}
+                      onChange={(e) =>
+                        setEditingProject({
+                          ...editingProject,
+                          coordinates: {
+                            lat: editingProject.coordinates?.lat ?? 25.1972,
+                            lng: Number(e.target.value),
+                          },
+                        })
+                      }
+                      className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] font-mono-tabular focus:outline-none focus:border-[#D4AF72]"
+                    />
+                  </div>
+                </div>
+
+                {mapsApiKey && !previewMapUnavailable && isValidCoordinate(editingProject.coordinates) && (
+                  <div className="h-44 w-full border border-[#D4AF72]/25 bg-[#080808]">
+                    <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en">
+                      <GoogleMapsGuard onStatusError={() => setPreviewMapUnavailable(true)}>
+                        <GoogleMap
+                          key={`${editingProject.coordinates.lat.toFixed(4)}-${editingProject.coordinates.lng.toFixed(4)}`}
+                          defaultCenter={editingProject.coordinates}
+                          defaultZoom={13}
+                          mapId="DEMO_MAP_ID"
+                          colorScheme="DARK"
+                          zoomControl={true}
+                          gestureHandling="cooperative"
+                          internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
+                          style={{ width: '100%', height: '100%' }}
+                        >
+                          <AdvancedMarker position={editingProject.coordinates} title={editingProject.name}>
+                            <div className="px-2 py-0.5 bg-[#D4AF72] text-[#080808] text-[10px] font-bold border border-[#080808]">
+                              {editingProject.name || 'Pin'}
+                            </div>
+                          </AdvancedMarker>
+                        </GoogleMap>
+                      </GoogleMapsGuard>
+                    </APIProvider>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-6 text-xs pt-1 text-[#F5F1E8]">
@@ -2325,7 +2542,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     Verified Live Feed Connected
                   </option>
                   <option value="unavailable" className="bg-[#121212] text-[#F5F1E8]">
-                    Inventory Feed Unavailable (Hide Unit Counts)
+                    Contact Developer for Latest Availability (No Automated Feed)
                   </option>
                 </select>
               </div>

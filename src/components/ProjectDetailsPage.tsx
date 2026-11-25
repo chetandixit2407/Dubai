@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import {
   AdvancedMarker,
   APIProvider,
+  InfoWindow,
   Map as GoogleMap,
+  useAdvancedMarkerRef,
+  useMap,
 } from '@vis.gl/react-google-maps';
 import {
+  AlertTriangle,
   ArrowLeft,
   Bell,
   Bookmark,
   Calendar,
   Camera,
   Compass,
+  Crosshair,
   Download,
   ExternalLink,
   FileSpreadsheet,
@@ -19,11 +24,14 @@ import {
   HeartPulse,
   Landmark,
   Layers,
+  Loader2,
   Mail,
   MapPin,
   MessageCircle,
+  Navigation,
   Phone,
   RefreshCw,
+  Search,
   Share2,
   ShieldCheck,
   ShoppingBag,
@@ -62,6 +70,10 @@ import {
   MEDIA_CLASSIFICATION_LABELS,
   TOUR_STATUS_LABELS,
 } from '../utils/mediaValidation.ts';
+import { isValidCoordinate, LatLng } from '../utils/coordinates.ts';
+import { geocodeAddressOnServer, GeocodeResultItem } from '../services/apiClient.ts';
+import { COMPANY_INFO } from '../data/companyInfo.ts';
+import { GoogleMapsGuard } from './GoogleMapsGuard.tsx';
 import { InvestmentCalculator } from './InvestmentCalculator.tsx';
 
 interface ProjectDetailsPageProps {
@@ -80,9 +92,93 @@ interface ProjectDetailsPageProps {
   onToggleSave: (project: Project) => void;
   onToggleCompare: (project: Project) => void;
   onOpenVirtualTour: (project: Project) => void;
-  onOpenEnquiry: (type: EnquiryType, project: Project) => void;
+  onOpenEnquiry: (
+    type: EnquiryType,
+    project: Project,
+    context?: 'availability_sheet'
+  ) => void;
   onRefreshInventory: (project: Project) => Promise<void>;
 }
+
+const ProjectMapRecenter: React.FC<{
+  target: LatLng;
+  zoom: number;
+  token: number;
+}> = ({ target, zoom, token }) => {
+  const map = useMap();
+  React.useEffect(() => {
+    if (!map) return;
+    map.panTo(target);
+    map.setZoom(zoom);
+  }, [map, target.lat, target.lng, zoom, token]);
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        if (!map) return;
+        map.panTo(target);
+        map.setZoom(zoom);
+      }}
+      className="absolute bottom-3 left-3 z-10 h-9 px-3 bg-[#080808]/90 border border-[#D4AF72]/45 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 shadow-lg cursor-pointer"
+    >
+      <Crosshair className="w-3.5 h-3.5 text-[#D4AF72]" />
+      <span>Recenter Pin</span>
+    </button>
+  );
+};
+
+const ProjectPinWithPopup: React.FC<{
+  project: Project;
+  position: LatLng;
+}> = ({ project, position }) => {
+  const [markerRef, marker] = useAdvancedMarkerRef();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <AdvancedMarker
+        ref={markerRef}
+        position={position}
+        title={project.name}
+        onClick={() => setOpen((v) => !v)}
+      >
+        <div className="px-2.5 py-1 bg-[#080808] text-[#F5F1E8] text-xs font-semibold border border-[#D4AF72] shadow-lg cursor-pointer flex items-center gap-1.5 whitespace-nowrap">
+          <span className="w-2 h-2 rounded-full bg-[#D4AF72]" />
+          <span>{project.name}</span>
+        </div>
+      </AdvancedMarker>
+      {open && marker && (
+        <InfoWindow anchor={marker} onCloseClick={() => setOpen(false)}>
+          <div className="p-3 bg-[#121212] text-[#F5F1E8] max-w-[250px] space-y-1 text-xs">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#D4AF72]">
+              {project.emirate} · {project.community}
+            </p>
+            <p className="font-display text-sm font-medium text-[#F5F1E8]">{project.name}</p>
+            <p className="text-[11px] text-[#A5A19A]">
+              {project.fullAddress || `${project.community}, ${project.emirate}, UAE`}
+            </p>
+            <p className="font-mono-tabular text-[11px] text-[#D4AF72]">
+              {position.lat.toFixed(5)}° N, {position.lng.toFixed(5)}° E
+            </p>
+            <a
+              href={
+                project.googleMapsUrl ||
+                `https://www.google.com/maps/dir/?api=1&destination=${position.lat},${position.lng}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 mt-1 px-2.5 py-1 bg-[#D4AF72] text-[#080808] text-[11px] font-semibold"
+            >
+              <Navigation className="w-3 h-3" />
+              <span>Directions</span>
+            </a>
+          </div>
+        </InfoWindow>
+      )}
+    </>
+  );
+};
 
 export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
   project,
@@ -107,6 +203,12 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
   const [mediaCategoryFilter, setMediaCategoryFilter] = useState<MediaCategory | 'all'>('all');
   const [refreshing, setRefreshing] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [mapUnavailable, setMapUnavailable] = useState(false);
+  const [areaSearch, setAreaSearch] = useState('');
+  const [areaSearching, setAreaSearching] = useState(false);
+  const [areaError, setAreaError] = useState<string | null>(null);
+  const [areaResult, setAreaResult] = useState<GeocodeResultItem | null>(null);
+  const [mapFocusToken, setMapFocusToken] = useState(0);
 
   const [selectedVideoId, setSelectedVideoId] = useState<string>(
     () => project.primaryVideo?.id || project.videoItems?.[0]?.id || ''
@@ -116,7 +218,27 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     setActivePhoto(project.heroImage);
     setMediaCategoryFilter('all');
     setSelectedVideoId(project.primaryVideo?.id || project.videoItems?.[0]?.id || '');
+    setAreaResult(null);
+    setAreaError(null);
+    setMapFocusToken((n) => n + 1);
   }, [project.id, project.heroImage, project.primaryVideo?.id]);
+
+  const handleAreaSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = areaSearch.trim();
+    if (q.length < 2) return;
+    setAreaError(null);
+    setAreaSearching(true);
+    try {
+      const res = await geocodeAddressOnServer(`${q}, ${project.emirate}, UAE`, 'ae');
+      setAreaResult(res.primary);
+      setMapFocusToken((n) => n + 1);
+    } catch (err) {
+      setAreaError(err instanceof Error ? err.message : 'Unable to locate this area.');
+    } finally {
+      setAreaSearching(false);
+    }
+  };
 
   const activeVideo = React.useMemo(() => {
     return (
@@ -1363,23 +1485,84 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               )}
             </div>
           ) : (
-            <div className="mt-6 bg-[#1B1B1B] border border-[#D4AF72]/20 p-6">
-              <h3 className="text-base font-semibold text-[#F5F1E8]">
-                Inventory update unavailable — Contact for latest availability
-              </h3>
-              <p className="text-xs text-[#A5A19A] mt-1.5 leading-relaxed">
-                {inv.totalRegisteredUnits
-                  ? `Official registry records ${inv.totalRegisteredUnits} registered units in this project, however live unit-by-unit sales inventory is not published by an automated feed for this developer.`
-                  : 'Live unit-by-unit sales inventory is not connected for this project.'}{' '}
-                Source: {inv.dataSource}.
-              </p>
-              <button
-                type="button"
-                onClick={() => onOpenEnquiry('callback', project)}
-                className="mt-4 px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors"
-              >
-                Request Verified Developer Availability Sheet
-              </button>
+            <div className="mt-6 bg-[#1B1B1B] border border-[#D4AF72]/25 p-5 sm:p-6 space-y-5">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-[#D4AF72]">
+                    Developer Direct Availability Inquiry Required
+                  </span>
+                  <h3 className="text-lg font-semibold text-[#F5F1E8] mt-1">
+                    Contact Developer for Latest Availability
+                  </h3>
+                  <p className="text-xs text-[#A5A19A] mt-1.5 leading-relaxed max-w-2xl">
+                    {inv.totalRegisteredUnits
+                      ? `Registry records ${inv.totalRegisteredUnits} registered units in ${project.name}, while live unit-by-unit availability is released directly via ${project.developerName}.`
+                      : `Automated unit-by-unit counts are not published publicly for ${project.developerName}. Request the latest verified unit sheet & price list directly.`}{' '}
+                    <span className="text-[#F5F1E8]">Source: {inv.dataSource}.</span>
+                  </p>
+                </div>
+                <span className="font-mono-tabular text-[11px] text-[#A5A19A] bg-[#121212] border border-[#D4AF72]/20 px-3 py-1.5 shrink-0">
+                  Last Verified: {new Date(inv.lastUpdatedAt || project.lastVerifiedAt || project.updatedAt).toLocaleString()}
+                </span>
+              </div>
+
+              {/* Verified Configurations & Starting Prices even when unit-by-unit counts are off-feed */}
+              <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 text-xs border-y border-[#D4AF72]/15 py-4">
+                <div>
+                  <span className="text-[#A5A19A] block text-[11px]">Starting Price</span>
+                  <span className="font-mono-tabular font-semibold text-[#F5F1E8] text-sm">
+                    {formatProjectPrice(project.startingPriceAed, currency)}
+                  </span>
+                  {currency !== 'INR' && project.startingPriceAed > 0 && (
+                    <span className="block font-mono-tabular text-[11px] text-[#D4AF72]">
+                      ≈ {formatCurrency(project.startingPriceAed, 'INR')}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <span className="text-[#A5A19A] block text-[11px]">Unit Configurations</span>
+                  <span className="font-semibold text-[#F5F1E8]">
+                    {project.propertyTypes.join(' · ')}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[#A5A19A] block text-[11px]">Floor Plans &amp; Sizes</span>
+                  <span className="font-mono-tabular text-[#F5F1E8]">
+                    {project.floorPlans.length > 0 ? `${project.floorPlans.length} Verified Layouts` : 'Layouts Available'} ·{' '}
+                    {project.minSizeSqFt > 0
+                      ? `${project.minSizeSqFt.toLocaleString()}–${project.maxSizeSqFt.toLocaleString()} sq.ft`
+                      : 'On Request'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[#A5A19A] block text-[11px]">Developer Sales Hotline</span>
+                  <span className="font-mono-tabular text-[#6EE7B7]">
+                    {project.salesOfficePhone || developer?.contactPhone || COMPANY_INFO.primaryPhone}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => onOpenEnquiry('availability_alert', project, 'availability_sheet')}
+                  className="px-4 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <FileSpreadsheet className="w-4 h-4" />
+                  <span>Request Verified Developer Availability Sheet</span>
+                </button>
+                <a
+                  href={COMPANY_INFO.whatsappDeskUrl(
+                    `Hello White Collar Realty Desk, please share the latest verified developer availability sheet for ${project.name} (${project.community}, ${project.emirate}).`
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold hover:bg-[#047857] flex items-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>WhatsApp Developer Desk</span>
+                </a>
+              </div>
             </div>
           )}
 
@@ -1527,34 +1710,135 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               </a>
             </div>
 
-            <div className="h-64 w-full border border-[#D4AF72]/25 bg-[#080808] mb-5">
-              {mapsApiKey ? (
-                <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en" region="AE">
-                  <GoogleMap
-                    defaultCenter={project.coordinates}
-                    defaultZoom={13}
-                    mapId="DEMO_MAP_ID"
-                    colorScheme="DARK"
-                    internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
-                    style={{ width: '100%', height: '100%' }}
-                  >
-                    <AdvancedMarker position={project.coordinates} title={project.name}>
-                      <div className="px-2.5 py-1 bg-[#080808] text-[#F5F1E8] text-xs font-semibold border border-[#D4AF72]">
-                        {project.name}
-                      </div>
-                    </AdvancedMarker>
-                  </GoogleMap>
+            {/* Location Verification & Area Search */}
+            <form onSubmit={handleAreaSearch} className="flex flex-col sm:flex-row gap-2 mb-3">
+              <div className="relative flex-1 min-w-0">
+                <Search className="w-3.5 h-3.5 text-[#D4AF72] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={areaSearch}
+                  onChange={(e) => setAreaSearch(e.target.value)}
+                  placeholder={`Check nearby landmark, metro, or address in ${project.emirate}...`}
+                  className="w-full h-9 pl-9 pr-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={areaSearching || areaSearch.trim().length < 2}
+                className="h-9 px-3.5 bg-[#1B1B1B] border border-[#D4AF72]/35 text-xs font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] disabled:opacity-50 flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
+              >
+                {areaSearching ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <MapPin className="w-3.5 h-3.5" />
+                )}
+                <span>Locate Area</span>
+              </button>
+              {areaResult && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAreaResult(null);
+                    setAreaSearch('');
+                    setMapFocusToken((n) => n + 1);
+                  }}
+                  className="h-9 px-2.5 border border-[#D4AF72]/25 text-xs text-[#A5A19A] hover:text-[#F5F1E8]"
+                >
+                  Reset Pin
+                </button>
+              )}
+            </form>
+            {areaError && <p className="text-[11px] text-[#FCA5A5] mb-2">{areaError}</p>}
+
+            <div className="h-[280px] sm:h-[340px] lg:h-[380px] w-full border border-[#D4AF72]/25 bg-[#080808] mb-5 relative">
+              {mapsApiKey && !mapUnavailable && isValidCoordinate(project.coordinates) ? (
+                <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en">
+                  <GoogleMapsGuard onStatusError={() => setMapUnavailable(true)}>
+                    <div className="w-full h-full relative">
+                      <GoogleMap
+                        defaultCenter={project.coordinates}
+                        defaultZoom={14}
+                        mapId="DEMO_MAP_ID"
+                        colorScheme="DARK"
+                        zoomControl={true}
+                        mapTypeControl={true}
+                        streetViewControl={true}
+                        fullscreenControl={true}
+                        gestureHandling="cooperative"
+                        internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
+                        style={{ width: '100%', height: '100%' }}
+                      >
+                        <ProjectMapRecenter
+                          target={
+                            areaResult
+                              ? { lat: areaResult.lat, lng: areaResult.lng }
+                              : project.coordinates
+                          }
+                          zoom={areaResult ? 13 : 14}
+                          token={mapFocusToken}
+                        />
+                        <ProjectPinWithPopup project={project} position={project.coordinates} />
+                        {areaResult && (
+                          <AdvancedMarker
+                            position={{ lat: areaResult.lat, lng: areaResult.lng }}
+                            title={areaResult.formattedAddress}
+                            zIndex={500}
+                          >
+                            <div className="px-2.5 py-1 bg-[#F5F1E8] text-[#080808] text-[11px] font-semibold border border-[#D4AF72] shadow-lg whitespace-nowrap">
+                              {areaResult.formattedAddress.split(',')[0]}
+                            </div>
+                          </AdvancedMarker>
+                        )}
+                      </GoogleMap>
+                    </div>
+                  </GoogleMapsGuard>
                 </APIProvider>
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-xs text-[#A5A19A] p-4 text-center">
-                  <MapPin className="w-6 h-6 text-[#D4AF72] mb-2" />
-                  <p className="font-semibold text-[#F5F1E8]">
-                    Coordinates: {project.coordinates.lat.toFixed(4)}° N,{' '}
-                    {project.coordinates.lng.toFixed(4)}° E
-                  </p>
-                  <p className="mt-1">
-                    {project.fullAddress || `${project.community}, ${project.emirate}`}
-                  </p>
+                <div className="w-full h-full flex flex-col items-center justify-center text-xs text-[#A5A19A] p-5 text-center bg-[#121212]">
+                  {isValidCoordinate(project.coordinates) ? (
+                    <>
+                      <MapPin className="w-6 h-6 text-[#D4AF72] mb-2" />
+                      <p className="font-semibold text-[#F5F1E8]">
+                        Verified GPS: {project.coordinates.lat.toFixed(5)}° N,{' '}
+                        {project.coordinates.lng.toFixed(5)}° E
+                      </p>
+                      <p className="mt-1">
+                        {project.fullAddress || `${project.community}, ${project.emirate}, UAE`}
+                      </p>
+                      <a
+                        href={
+                          project.googleMapsUrl ||
+                          `https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] inline-flex items-center gap-1.5"
+                      >
+                        <Navigation className="w-3.5 h-3.5" />
+                        <span>Open in Google Maps</span>
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle className="w-6 h-6 text-[#FCD34D] mb-2" />
+                      <p className="font-semibold text-[#F5F1E8]">
+                        Exact GPS coordinates are pending verification for this record
+                      </p>
+                      <p className="mt-1">
+                        Community: {project.fullAddress || `${project.community}, ${project.emirate}`}
+                      </p>
+                      {areaResult ? (
+                        <p className="text-[#6EE7B7] font-mono-tabular mt-2">
+                          Geocoded Search Result: {areaResult.formattedAddress} ({areaResult.lat.toFixed(5)},{' '}
+                          {areaResult.lng.toFixed(5)})
+                        </p>
+                      ) : (
+                        <p className="text-[11px] text-[#A5A19A] mt-2">
+                          Use the &ldquo;Locate Area&rdquo; search bar above to resolve exact coordinates.
+                        </p>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
             </div>

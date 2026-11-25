@@ -8,6 +8,7 @@ interface CompareProjectsModalProps {
   currency: CurrencyCode;
   onRemove: (projectId: string) => void;
   onOpenProject: (project: Project) => void;
+  onRequestAvailabilitySheet?: (project: Project) => void;
   onClose: () => void;
 }
 
@@ -16,6 +17,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
   currency,
   onRemove,
   onOpenProject,
+  onRequestAvailabilitySheet,
   onClose,
 }) => {
   return (
@@ -155,11 +157,24 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                       {p.inventory.status === 'verified_live' &&
                       p.inventory.availableUnits !== null ? (
                         <span className="text-[#6EE7B7] font-semibold">
-                          {p.inventory.availableUnits} / {p.inventory.totalRegisteredUnits} (
-                          {p.inventory.availabilityPct}%)
+                          {p.inventory.availableUnits} / {p.inventory.totalRegisteredUnits ?? 'Verified'}{' '}
+                          {p.inventory.availabilityPct !== null ? `(${p.inventory.availabilityPct}%)` : ''}
                         </span>
                       ) : (
-                        <span className="text-[#A5A19A]">Unavailable — Contact Desk</span>
+                        <div className="space-y-1">
+                          <span className="text-[#D4AF72] block text-xs font-medium font-sans">
+                            Contact Developer for Latest Availability
+                          </span>
+                          {onRequestAvailabilitySheet && (
+                            <button
+                              type="button"
+                              onClick={() => onRequestAvailabilitySheet(p)}
+                              className="text-[11px] font-sans font-semibold text-[#F5F1E8] underline hover:text-[#D4AF72]"
+                            >
+                              Request Availability Sheet
+                            </button>
+                          )}
+                        </div>
                       )}
                     </td>
                   ))}

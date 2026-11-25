@@ -247,9 +247,10 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                               ? `From ${formatProjectPrice(proj.startingPriceAed, currency)}`
                               : 'Price on Request'}{' '}
                             ·{' '}
-                            {proj.inventory.status === 'verified_live'
+                            {proj.inventory.status === 'verified_live' &&
+                            proj.inventory.availableUnits !== null
                               ? `${proj.inventory.availableUnits} available`
-                              : 'Inventory update unavailable'}
+                              : 'Contact Developer for Latest Availability'}
                           </p>
                         </div>
                         <div className="flex items-center gap-2">

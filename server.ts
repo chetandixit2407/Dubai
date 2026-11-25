@@ -83,6 +83,25 @@ function broadcastSseEvent(event: string, payload: Record<string, unknown>): voi
   }
 }
 
+interface LiveInventoryOverlayRecord {
+  projectId: string;
+  status: 'verified_live' | 'unavailable';
+  totalRegisteredUnits: number | null;
+  releasedUnits: number | null;
+  availableUnits: number | null;
+  soldUnits: number | null;
+  reservedUnits: number | null;
+  onHoldUnits: number | null;
+  remainingUnits: number | null;
+  availabilityPct: number | null;
+  lastUpdatedAt: string;
+  dataSource: string;
+  sourceType: string;
+}
+
+const liveInventoryOverlay = new Map<string, LiveInventoryOverlayRecord>();
+const telemetryCheckedAt = new Map<string, string>();
+
 // ============================================================================
 // SSRF & URL Validation Helpers
 // ============================================================================
@@ -339,6 +358,198 @@ async function startServer() {
     });
   });
 
+  // Server-Side Google Maps Geocoding API v4 Proxy (never exposes REST calls in browser)
+  app.get('/api/geocode', async (req, res) => {
+    const rawAddress = typeof req.query.address === 'string' ? req.query.address.trim() : '';
+    const region = typeof req.query.region === 'string' ? req.query.region.trim().toLowerCase() : 'ae';
+
+    if (rawAddress.length < 2 || rawAddress.length > 300) {
+      res.status(400).json({ error: 'Please provide an address or location between 2 and 300 characters.' });
+      return;
+    }
+
+    const apiKey =
+      process.env.GOOGLE_MAPS_API_KEY || process.env.VITE_GOOGLE_MAPS_API_KEY || '';
+    if (!apiKey) {
+      res.status(503).json({
+        error: 'Google Maps Geocoding API key is not configured on the server.',
+        status: 'CONFIG_MISSING',
+      });
+      return;
+    }
+
+    try {
+      const url = new URL(
+        `https://geocode.googleapis.com/v4/geocode/address/${encodeURIComponent(rawAddress)}`
+      );
+      url.searchParams.set('languageCode', 'en');
+      if (region === 'ae' || region === 'in') {
+        url.searchParams.set('regionCode', region);
+      }
+      if (region === 'ae') {
+        url.searchParams.set('locationBias.rectangle.low.latitude', '22.6');
+        url.searchParams.set('locationBias.rectangle.low.longitude', '51.5');
+        url.searchParams.set('locationBias.rectangle.high.latitude', '26.25');
+        url.searchParams.set('locationBias.rectangle.high.longitude', '56.5');
+      }
+
+      const gResp = await fetch(url.toString(), {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': apiKey,
+          'X-Goog-FieldMask': 'results.placeId,results.location,results.formattedAddress,results.granularity',
+          'X-Goog-Maps-Solution-ID': 'gmp_mcp_codeassist_v1_aistudio',
+        },
+      });
+
+      const body = await gResp.json().catch(() => ({}));
+
+      if (gResp.status === 429 || body?.error?.status === 'RESOURCE_EXHAUSTED') {
+        res.status(429).json({
+          error: 'Google Maps Geocoding quota exceeded. Please try again shortly or check billing.',
+          status: 'RESOURCE_EXHAUSTED',
+        });
+        return;
+      }
+
+      if (!gResp.ok) {
+        // Fallback to standard Geocoding Web Service JSON endpoint if v4 service is not activated on demo key
+        const legacyUrl = new URL('https://maps.googleapis.com/maps/api/geocode/json');
+        legacyUrl.searchParams.set('address', rawAddress);
+        legacyUrl.searchParams.set('key', apiKey);
+        if (region === 'ae' || region === 'in') {
+          legacyUrl.searchParams.set('region', region);
+        }
+        const legacyResp = await fetch(legacyUrl.toString());
+        const legacyJson = await legacyResp.json().catch(() => ({}));
+
+        if (legacyJson.status === 'OVER_QUERY_LIMIT') {
+          res.status(429).json({
+            error: 'Google Maps Geocoding quota exceeded.',
+            status: 'RESOURCE_EXHAUSTED',
+          });
+          return;
+        }
+        if (legacyJson.status === 'ZERO_RESULTS' || !Array.isArray(legacyJson.results) || legacyJson.results.length === 0) {
+          res.status(404).json({ error: `No verified coordinates found for "${rawAddress}".`, status: 'ZERO_RESULTS' });
+          return;
+        }
+        if (legacyJson.status !== 'OK') {
+          res.status(502).json({
+            error: legacyJson.error_message || `Geocoding service error (${legacyJson.status || gResp.status}).`,
+            status: legacyJson.status || 'UPSTREAM_ERROR',
+          });
+          return;
+        }
+
+        const mappedLegacy = legacyJson.results.slice(0, 5).map((r: any) => ({
+          lat: Number(r.geometry?.location?.lat),
+          lng: Number(r.geometry?.location?.lng),
+          formattedAddress: String(r.formatted_address || rawAddress),
+          placeId: r.place_id ? String(r.place_id) : undefined,
+          granularity: r.geometry?.location_type ? String(r.geometry.location_type) : undefined,
+        }));
+
+        res.json({
+          ok: true,
+          query: rawAddress,
+          results: mappedLegacy,
+          primary: mappedLegacy[0],
+        });
+        return;
+      }
+
+      const rawResults = Array.isArray(body?.results) ? body.results : [];
+      if (rawResults.length === 0) {
+        res.status(404).json({ error: `No verified coordinates found for "${rawAddress}".`, status: 'ZERO_RESULTS' });
+        return;
+      }
+
+      const mapped = rawResults
+        .filter((r: any) => typeof r?.location?.latitude === 'number' && typeof r?.location?.longitude === 'number')
+        .slice(0, 5)
+        .map((r: any) => ({
+          lat: Number(r.location.latitude),
+          lng: Number(r.location.longitude),
+          formattedAddress: String(r.formattedAddress || rawAddress),
+          placeId: r.placeId ? String(r.placeId) : undefined,
+          granularity: r.granularity ? String(r.granularity) : undefined,
+        }));
+
+      if (mapped.length === 0) {
+        res.status(404).json({ error: `No verified coordinates returned for "${rawAddress}".`, status: 'ZERO_RESULTS' });
+        return;
+      }
+
+      res.json({
+        ok: true,
+        query: rawAddress,
+        results: mapped,
+        primary: mapped[0],
+      });
+    } catch (err) {
+      res.status(502).json({
+        error: err instanceof Error ? err.message : 'Unable to reach Geocoding service.',
+        status: 'UPSTREAM_ERROR',
+      });
+    }
+  });
+
+  // Live Inventory Overlay & Verification Endpoints
+  app.get('/api/inventory/live-updates', (_req, res) => {
+    const updates: Record<string, LiveInventoryOverlayRecord> = {};
+    for (const [k, v] of liveInventoryOverlay.entries()) {
+      updates[k] = v;
+    }
+    const checked: Record<string, string> = {};
+    for (const [k, v] of telemetryCheckedAt.entries()) {
+      checked[k] = v;
+    }
+    res.json({ updates, telemetryCheckedAt: checked });
+  });
+
+  app.get('/api/projects/:id/inventory', (req, res) => {
+    const idOrSlug = String(req.params.id || '');
+    const p = INITIAL_PROJECTS.find((item) => item.id === idOrSlug || item.slug === idOrSlug);
+    if (!p) {
+      res.status(404).json({ error: 'Property not found' });
+      return;
+    }
+    const overlay = liveInventoryOverlay.get(p.id);
+    const mergedInventory: LiveInventoryOverlayRecord = overlay || {
+      projectId: p.id,
+      status: p.inventory.status === 'verified_live' ? 'verified_live' : 'unavailable',
+      totalRegisteredUnits: p.inventory.totalRegisteredUnits,
+      releasedUnits: p.inventory.releasedUnits,
+      availableUnits: p.inventory.availableUnits,
+      soldUnits: p.inventory.soldUnits,
+      reservedUnits: p.inventory.reservedUnits,
+      onHoldUnits: p.inventory.onHoldUnits,
+      remainingUnits: p.inventory.remainingUnits,
+      availabilityPct: p.inventory.availabilityPct,
+      lastUpdatedAt: p.inventory.lastUpdatedAt,
+      dataSource:
+        p.inventory.status === 'verified_live'
+          ? p.inventory.dataSource
+          : 'Contact Developer for Latest Availability',
+      sourceType: p.inventory.sourceType,
+    };
+    const verifiedAt =
+      telemetryCheckedAt.get(p.id) || mergedInventory.lastUpdatedAt || p.lastVerifiedAt || p.updatedAt;
+    const isLive = mergedInventory.status === 'verified_live' && mergedInventory.availableUnits !== null;
+    res.json({
+      ok: true,
+      projectId: p.id,
+      projectName: p.name,
+      inventory: mergedInventory,
+      lastVerifiedAt: verifiedAt,
+      contactRequired: !isLive,
+      contactMessage: isLive
+        ? `${mergedInventory.availableUnits} units available (${mergedInventory.dataSource})`
+        : 'Contact Developer for Latest Availability',
+    });
+  });
+
   // Real-Time Server-Sent Events Stream for live inventory & lead updates
   app.get('/api/events', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
@@ -436,20 +647,40 @@ async function startServer() {
       return;
     }
 
+    const nowIso = new Date().toISOString();
+    const totalReg =
+      typeof totalRegisteredUnits === 'number' && totalRegisteredUnits > 0
+        ? Math.floor(totalRegisteredUnits)
+        : null;
+    const avail = Math.floor(availableUnits);
     const verifiedDelta = {
       providerId,
       projectId,
-      availableUnits: Math.floor(availableUnits),
+      availableUnits: avail,
       soldUnits: typeof soldUnits === 'number' && soldUnits >= 0 ? Math.floor(soldUnits) : null,
       reservedUnits:
         typeof reservedUnits === 'number' && reservedUnits >= 0 ? Math.floor(reservedUnits) : null,
-      totalRegisteredUnits:
-        typeof totalRegisteredUnits === 'number' && totalRegisteredUnits > 0
-          ? Math.floor(totalRegisteredUnits)
-          : null,
+      totalRegisteredUnits: totalReg,
       source: typeof source === 'string' ? source.slice(0, 160) : `Webhook (${providerId})`,
-      receivedAt: new Date().toISOString(),
+      receivedAt: nowIso,
     };
+
+    liveInventoryOverlay.set(projectId, {
+      projectId,
+      status: 'verified_live',
+      totalRegisteredUnits: totalReg ?? avail,
+      releasedUnits: totalReg ?? avail,
+      availableUnits: avail,
+      soldUnits: verifiedDelta.soldUnits,
+      reservedUnits: verifiedDelta.reservedUnits,
+      onHoldUnits: 0,
+      remainingUnits: avail,
+      availabilityPct: totalReg ? Number(((avail / totalReg) * 100).toFixed(1)) : null,
+      lastUpdatedAt: nowIso,
+      dataSource: verifiedDelta.source,
+      sourceType: 'broker_crm',
+    });
+    telemetryCheckedAt.set(projectId, nowIso);
 
     broadcastSseEvent('inventory:updated', verifiedDelta);
     res.json({ ok: true, verifiedDelta });
@@ -482,7 +713,7 @@ async function startServer() {
     ) {
       upstreamStatus = 'registry_metadata_only';
       upstreamNote =
-        'Official authority returned project registry metadata only; unit-level sales feed unavailable.';
+        'Official registry verified project pricing & status. Contact Developer for Latest Availability.';
     }
 
     const timestamp = new Date().toISOString();
@@ -515,11 +746,19 @@ async function startServer() {
         return;
       }
 
+      telemetryCheckedAt.set(p.id, timestamp);
+      const overlay = liveInventoryOverlay.get(p.id);
+      const activeInventory = overlay || p.inventory;
+      const isLive = activeInventory.status === 'verified_live' && activeInventory.availableUnits !== null;
+
       broadcastSseEvent('project:updated', {
         projectId: p.id,
         projectName: p.name,
         lastVerifiedAt: timestamp,
-        verifiedSource: 'DLD / RERA Authorized Automated Telemetry Sync',
+        verifiedSource: isLive
+          ? activeInventory.dataSource
+          : 'Developer Desk Verification (Contact Developer for Latest Availability)',
+        inventory: overlay || undefined,
       });
 
       res.json({
@@ -527,14 +766,21 @@ async function startServer() {
         projectId: p.id,
         projectName: p.name,
         lastVerifiedAt: timestamp,
-        status: 'verified_active',
-        source: 'DLD / RERA & Developer Portal Live Sync',
+        status: isLive ? 'verified_live' : 'contact_developer',
+        source: isLive ? activeInventory.dataSource : 'White Collar Realty Registry & Developer Desk',
+        message: isLive
+          ? `Live unit availability synchronized (${activeInventory.availableUnits} units available).`
+          : 'Registry pricing, floor plans, and timestamps verified. Contact Developer for Latest Availability.',
+        inventory: overlay || null,
         dataPointsVerified: 28,
       });
       return;
     }
 
     // Refresh all 182 properties
+    for (const proj of INITIAL_PROJECTS) {
+      telemetryCheckedAt.set(proj.id, timestamp);
+    }
     broadcastSseEvent('sync:completed', {
       providerId: 'provider-wc-crm',
       providerName: 'White Collar Realty Real-Time Intelligence Engine',
@@ -548,7 +794,7 @@ async function startServer() {
       timestamp,
       verifiedProperties: INITIAL_PROJECTS.length,
       status: 'healthy',
-      message: `Refreshed real-time data and telemetry across all ${INITIAL_PROJECTS.length} UAE property profiles.`,
+      message: `Verified registry timestamps across all ${INITIAL_PROJECTS.length} UAE property profiles.`,
     });
   });
 
@@ -700,6 +946,19 @@ async function startServer() {
           ? Math.max(0, Math.floor(Number(rowMap.reserved_units)))
           : null;
 
+      const parsedLat = Number(rowMap.latitude || rowMap.lat);
+      const parsedLng = Number(rowMap.longitude || rowMap.lng);
+      const hasValidParsedCoords =
+        Number.isFinite(parsedLat) &&
+        Number.isFinite(parsedLng) &&
+        Math.abs(parsedLat) > 0.001 &&
+        Math.abs(parsedLng) > 0.001 &&
+        parsedLat >= -90 &&
+        parsedLat <= 90 &&
+        parsedLng >= -180 &&
+        parsedLng <= 180;
+      const baseEmirateCoords = EMIRATE_COORDINATES[emirate] || EMIRATE_COORDINATES.Dubai;
+
       parsedProjects.push({
         id: `proj-${slug.slice(0, 48)}-${Date.now().toString(36).slice(-4)}`,
         slug,
@@ -712,12 +971,15 @@ async function startServer() {
         handoverYear: Number(rowMap.handover_year) || 2028,
         constructionPct: Number(rowMap.construction_pct) || 15,
         registrationNumber: rowMap.registration_number || 'RERA-CSV-PENDING',
+        coordinates: hasValidParsedCoords
+          ? { lat: parsedLat, lng: parsedLng }
+          : baseEmirateCoords,
         hasUnitFeed,
         totalUnits,
         availableUnits,
         soldUnits,
         reservedUnits,
-        dataSource: rowMap.data_source || (hasUnitFeed ? 'Bulk CSV Authorized Sheet' : 'CSV Import (No live unit feed)'),
+        dataSource: rowMap.data_source || (hasUnitFeed ? 'Bulk CSV Authorized Sheet' : 'Contact Developer for Latest Availability'),
       });
     }
 
@@ -1045,8 +1307,24 @@ async function startServer() {
           projectsWithAvailable360Tours++;
         }
 
+        const rawLat = pickCol(normRow, ['latitude', 'lat']);
+        const rawLng = pickCol(normRow, ['longitude', 'lng', 'lon']);
+        const parsedExcelLat = Number(rawLat);
+        const parsedExcelLng = Number(rawLng);
+        const hasValidExcelCoords =
+          rawLat !== '' &&
+          rawLng !== '' &&
+          Number.isFinite(parsedExcelLat) &&
+          Number.isFinite(parsedExcelLng) &&
+          Math.abs(parsedExcelLat) > 0.001 &&
+          Math.abs(parsedExcelLng) > 0.001 &&
+          parsedExcelLat >= -90 &&
+          parsedExcelLat <= 90 &&
+          parsedExcelLng >= -180 &&
+          parsedExcelLng <= 180;
+
         const coords = EMIRATE_COORDINATES[emirate] || EMIRATE_COORDINATES.Dubai;
-        // Deterministic micro-offset so pins in same Emirate don't stack identically on initial map load
+        // Deterministic micro-offset only when spreadsheet lacks explicit coordinates
         const hashByteA = parseInt(stableHash.slice(0, 2), 16) / 255 - 0.5;
         const hashByteB = parseInt(stableHash.slice(2, 4), 16) / 255 - 0.5;
 
@@ -1090,10 +1368,16 @@ async function startServer() {
           registrationNumber: registrationNumber.slice(0, 80),
           verified: true,
           featured: i < 6,
-          coordinates: {
-            lat: Number((coords.lat + hashByteA * 0.08).toFixed(5)),
-            lng: Number((coords.lng + hashByteB * 0.08).toFixed(5)),
-          },
+          coordinates: hasValidExcelCoords
+            ? { lat: parsedExcelLat, lng: parsedExcelLng }
+            : matchedExisting &&
+              typeof (matchedExisting.coordinates as any)?.lat === 'number' &&
+              typeof (matchedExisting.coordinates as any)?.lng === 'number'
+            ? (matchedExisting.coordinates as { lat: number; lng: number })
+            : {
+                lat: Number((coords.lat + hashByteA * 0.08).toFixed(5)),
+                lng: Number((coords.lng + hashByteB * 0.08).toFixed(5)),
+              },
           nearbyLandmarks: [],
           heroImage,
           heroImageHash,
@@ -1135,7 +1419,7 @@ async function startServer() {
             lastUpdatedAt: now,
             dataSource: hasAvailNumeric
               ? `Excel Inventory Sheet (${fileName || 'workbook.xlsx'})`
-              : 'Inventory update unavailable — Contact for latest availability',
+              : 'Contact Developer for Latest Availability',
             sourceType: hasAvailNumeric ? 'broker_crm' : 'unavailable',
           },
           description: description.slice(0, 4000),
@@ -1645,13 +1929,13 @@ async function startServer() {
       return;
     }
 
-    const inv = project.inventory;
+    const inv = liveInventoryOverlay.get(project.id) || project.inventory;
     const inventoryHtml =
-      inv.status === 'verified_live'
-        ? `<p><strong>Total Registered Units:</strong> ${inv.totalRegisteredUnits} | <strong>Available:</strong> ${inv.availableUnits} | <strong>Reserved:</strong> ${inv.reservedUnits} | <strong>Sold:</strong> ${inv.soldUnits}</p>
+      inv.status === 'verified_live' && inv.availableUnits !== null
+        ? `<p><strong>Total Registered Units:</strong> ${inv.totalRegisteredUnits ?? 'Verified'} | <strong>Available:</strong> ${inv.availableUnits} | <strong>Reserved:</strong> ${inv.reservedUnits ?? 0} | <strong>Sold:</strong> ${inv.soldUnits ?? 0}</p>
            <p><strong>Data Source:</strong> ${escapeHtml(inv.dataSource)} (Updated ${escapeHtml(inv.lastUpdatedAt)})</p>`
-        : `<p><strong>Inventory Status:</strong> Inventory update unavailable — Contact White Collar Realty for latest developer availability.</p>
-           <p><strong>Registry Source:</strong> ${escapeHtml(inv.dataSource)}</p>`;
+        : `<p><strong>Inventory Status:</strong> Contact Developer for Latest Availability — Verified unit availability sheets are issued directly on request via White Collar Realty.</p>
+           <p><strong>Registry Source:</strong> ${escapeHtml(inv.dataSource)} (Checked ${escapeHtml(inv.lastUpdatedAt)})</p>`;
 
     const html = `<!doctype html>
 <html lang="en">
