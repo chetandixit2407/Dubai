@@ -15,6 +15,11 @@ import {
 } from 'lucide-react';
 import { Project, VirtualTourHotspot, VirtualTourRoom } from '../types/realEstate.ts';
 import { getEffectiveTourStatus, TOUR_STATUS_LABELS } from '../utils/mediaValidation.ts';
+import {
+  formatFloorPlanAreaSqFt,
+  formatFloorPlanBathrooms,
+  formatFloorPlanBhk,
+} from '../utils/propertySpecs.ts';
 
 interface VirtualTourModalProps {
   project: Project;
@@ -509,6 +514,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   type="button"
                   onClick={() => setFovDeg((p) => Math.max(35, p - 10))}
                   title="Zoom In"
+                  aria-label="Zoom In"
                   className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#D4AF72]"
                 >
                   <ZoomIn className="w-4 h-4" />
@@ -517,6 +523,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   type="button"
                   onClick={() => setFovDeg((p) => Math.min(105, p + 10))}
                   title="Zoom Out"
+                  aria-label="Zoom Out"
                   className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#D4AF72]"
                 >
                   <ZoomOut className="w-4 h-4" />
@@ -529,6 +536,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     setFovDeg(75);
                   }}
                   title="Reset View"
+                  aria-label="Reset View"
                   className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#D4AF72]"
                 >
                   <RotateCcw className="w-4 h-4" />
@@ -539,7 +547,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     onClick={handleEnableGyro}
                     className={`h-9 px-3 border text-xs font-medium flex items-center gap-1.5 ${
                       gyroEnabled
-                        ? 'bg-[#D4AF72] border-[#D4AF72] text-white'
+                        ? 'bg-[#D4AF72] border-[#D4AF72] text-[#080808] font-semibold'
                         : 'border-white/20 hover:border-[#D4AF72]'
                     }`}
                   >
@@ -556,7 +564,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                 onClick={() => setShowFloorPlans((p) => !p)}
                 className={`h-9 px-3 border text-xs font-medium flex items-center gap-1.5 ${
                   showFloorPlans
-                    ? 'bg-[#D4AF72] border-[#D4AF72] text-white'
+                    ? 'bg-[#D4AF72] border-[#D4AF72] text-[#080808] font-semibold'
                     : 'border-white/20 hover:border-[#D4AF72]'
                 }`}
               >
@@ -861,7 +869,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                       setActiveHotspot((curr) => (curr?.id === hs.id ? null : hs));
                     }}
                     style={{ left: `${pos.xPct}%`, top: `${pos.yPct}%` }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1.5 bg-[#121212]/90 border border-[#D4AF72] text-white text-xs font-medium hover:bg-[#D4AF72] shadow-lg transition-colors flex items-center gap-1.5"
+                    className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1.5 bg-[#121212]/90 border border-[#D4AF72] text-white text-xs font-medium hover:bg-[#D4AF72] hover:text-[#080808] shadow-lg transition-colors flex items-center gap-1.5"
                   >
                     <span className="w-2 h-2 bg-[#E6C77A] inline-block" />
                     <span>{hs.label}</span>
@@ -877,6 +885,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setActiveHotspot(null)}
+                      aria-label="Close hotspot details"
                       className="text-white/70 hover:text-white"
                     >
                       <X className="w-3.5 h-3.5" />
@@ -910,7 +919,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     href={project.virtualTour.webXrUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto px-3 sm:px-3.5 py-2 bg-[#121212]/90 border border-[#D4AF72] text-xs font-medium text-[#D4AF72] hover:bg-[#D4AF72] hover:text-white flex items-center gap-1.5"
+                    className="pointer-events-auto px-3 sm:px-3.5 py-2 bg-[#121212]/90 border border-[#D4AF72] text-xs font-medium text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 transition-colors"
                   >
                     <span>Open WebXR</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -953,10 +962,11 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                         )}
                       </div>
                       <p className="text-xs text-white/70 mt-0.5">
-                        {fp.bedrooms} · {fp.floorRange} · {fp.exposure}
+                        {formatFloorPlanBhk(fp.bedrooms)} | {formatFloorPlanBathrooms(fp.bathrooms)} ·{' '}
+                        {fp.floorRange}
                       </p>
                       <div className="flex items-center justify-between text-xs font-mono-tabular mt-2 pt-2 border-t border-white/10">
-                        <span>{fp.sizeSqFt.toLocaleString()} sq.ft</span>
+                        <span>{formatFloorPlanAreaSqFt(fp.sizeSqFt)}</span>
                         <span className="text-[#D4AF72]">AED {fp.priceAed.toLocaleString()}</span>
                       </div>
                     </button>
@@ -980,7 +990,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                 onClick={() => setSelectedRoomId(room.id)}
                 className={`px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors border ${
                   activeRoom?.id === room.id
-                    ? 'bg-[#D4AF72] border-[#D4AF72] text-white'
+                    ? 'bg-[#D4AF72] border-[#D4AF72] text-[#080808] font-semibold'
                     : 'bg-white/5 border-[#D4AF72]/20 text-white/80 hover:bg-white/15'
                 }`}
               >

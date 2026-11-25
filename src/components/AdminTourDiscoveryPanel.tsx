@@ -380,6 +380,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
           <button
             type="button"
             onClick={() => setStatusMsg(null)}
+            aria-label="Dismiss status message"
             className="text-[#A5A19A] hover:text-[#F5F1E8]"
           >
             ×
@@ -621,15 +622,19 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
 
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
+                          setEditUrlInput(item.tourUrl || '');
+                          setEditProviderInput(
+                            item.tourProvider === 'None' ? '' : item.tourProvider || ''
+                          );
                           setEditModal({
                             open: true,
                             projectId: item.projectId,
                             projectName: item.projectName,
                             currentUrl: item.tourUrl,
                             currentProvider: item.tourProvider,
-                          })
-                        }
+                          });
+                        }}
                         className="px-2 py-1 bg-[#121212] border border-[#D4AF72]/25 text-[#F5F1E8] hover:border-[#D4AF72] font-medium cursor-pointer"
                       >
                         {item.tourUrl ? 'Replace' : 'Attach'}
@@ -685,7 +690,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
                 <input
                   type="url"
                   placeholder="https://..."
-                  defaultValue={editModal.currentUrl}
+                  value={editUrlInput}
                   onChange={(e) => setEditUrlInput(e.target.value)}
                   className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
                 />
@@ -696,7 +701,7 @@ export const AdminTourDiscoveryPanel: React.FC<AdminTourDiscoveryPanelProps> = (
                 <input
                   type="text"
                   placeholder="e.g. PropVR, VirtualHomes, Matterport, World of Aldar"
-                  defaultValue={editModal.currentProvider === 'None' ? '' : editModal.currentProvider}
+                  value={editProviderInput}
                   onChange={(e) => setEditProviderInput(e.target.value)}
                   className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
                 />

@@ -12,6 +12,10 @@ import {
   MEDIA_CLASSIFICATION_LABELS,
   TOUR_STATUS_LABELS,
 } from '../utils/mediaValidation.ts';
+import {
+  formatPropertyAreaSqFt,
+  formatPropertyBhk,
+} from '../utils/propertySpecs.ts';
 
 interface ProjectCardProps {
   project: Project;
@@ -47,12 +51,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       ? MEDIA_CLASSIFICATION_LABELS[project.heroClassification]
       : null;
 
-  const sizeRangeText =
-    project.minSizeSqFt > 0
-      ? project.maxSizeSqFt > project.minSizeSqFt
-        ? `${project.minSizeSqFt.toLocaleString()}–${project.maxSizeSqFt.toLocaleString()} sq.ft`
-        : `${project.minSizeSqFt.toLocaleString()} sq.ft`
-      : 'Size on Request';
+  const bhkText = formatPropertyBhk(project);
+  const areaSqFtText = formatPropertyAreaSqFt(project);
+  const specsSummary = `${bhkText} | ${areaSqFtText}`;
 
   const lastCheckedIso = inv.lastUpdatedAt || project.lastVerifiedAt || project.updatedAt;
   const verifiedDateLabel = lastCheckedIso
@@ -187,22 +188,24 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {displayName}
           </h3>
 
-          <p className="text-xs text-[#A5A19A] mb-3.5 truncate">
-            {project.propertyTypes.slice(0, 3).join(' · ')} · {sizeRangeText}
+          <p className="text-xs text-[#A5A19A] mb-3.5 truncate" title={specsSummary}>
+            {specsSummary}
           </p>
 
-          {/* Pricing & Yield Row */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 py-3.5 border-y border-[#D4AF72]/15 mb-4">
-            <div className="min-w-0">
-              <p className="text-[11px] uppercase tracking-wider text-[#A5A19A] mb-0.5">
-                Starting Price
-              </p>
-              <p className="font-mono-tabular text-sm sm:text-base font-semibold text-[#F5F1E8] break-words">
-                {formatProjectPrice(project.startingPriceAed, currency)}
-              </p>
+          {/* Starting Price + Separate BHK / Area (sq ft) Details */}
+          <div className="py-3 border-y border-[#D4AF72]/15 mb-4 space-y-3">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 min-w-0">
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">
+                  Starting Price
+                </p>
+                <p className="font-mono-tabular text-sm sm:text-base font-semibold text-[#F5F1E8] break-words">
+                  {formatProjectPrice(project.startingPriceAed, currency)}
+                </p>
+              </div>
               {currency !== 'INR' && project.startingPriceAed > 0 && (
                 <p
-                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5 truncate"
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium truncate"
                   title={formatInrTimestampNote()}
                 >
                   ≈ {formatCurrency(project.startingPriceAed, 'INR')}
@@ -210,25 +213,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               )}
               {currency === 'INR' && project.startingPriceAed > 0 && (
                 <p
-                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5 truncate"
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium truncate"
                   title={formatInrTimestampNote()}
                 >
                   ≈ AED {project.startingPriceAed.toLocaleString()}
                 </p>
               )}
             </div>
-            <div className="min-w-0">
-              <p className="text-[11px] uppercase tracking-wider text-[#A5A19A] mb-0.5">
-                Est. Yield / Baths
-              </p>
-              <p className="font-mono-tabular text-sm font-semibold text-[#6EE7B7] truncate">
-                {project.investment.grossYieldPct
-                  ? `${project.investment.grossYieldPct.toFixed(1)}% Est. Gross`
-                  : 'Yield on Request'}
-              </p>
-              <p className="text-[11px] text-[#A5A19A] mt-0.5 truncate">
-                {project.bathrooms || '1 - 3 Bathrooms'}
-              </p>
+
+            <div className="pt-2.5 border-t border-[#D4AF72]/10 grid grid-cols-1 xs:grid-cols-2 gap-2 xs:gap-0 xs:divide-x xs:divide-[#D4AF72]/15">
+              <div className="flex items-baseline justify-between gap-2 xs:block xs:pr-3 min-w-0">
+                <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">BHK</p>
+                <p className="text-xs font-semibold text-[#F5F1E8] leading-snug break-words">
+                  {bhkText}
+                </p>
+              </div>
+              <div className="flex items-baseline justify-between gap-2 xs:block xs:pl-3 min-w-0">
+                <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">Area</p>
+                <p
+                  className={`text-xs font-mono-tabular font-semibold leading-snug break-words ${
+                    areaSqFtText === 'Not Available' ? 'text-[#A5A19A] font-sans' : 'text-[#F5F1E8]'
+                  }`}
+                >
+                  {areaSqFtText}
+                </p>
+              </div>
             </div>
           </div>
 

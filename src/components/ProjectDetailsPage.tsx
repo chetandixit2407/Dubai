@@ -75,6 +75,15 @@ import { geocodeAddressOnServer, GeocodeResultItem } from '../services/apiClient
 import { COMPANY_INFO } from '../data/companyInfo.ts';
 import { GoogleMapsGuard } from './GoogleMapsGuard.tsx';
 import { InvestmentCalculator } from './InvestmentCalculator.tsx';
+import {
+  formatFloorPlanAreaSqFt,
+  formatFloorPlanBathrooms,
+  formatFloorPlanBhk,
+  formatPropertyAreaSqFt,
+  formatPropertyBathrooms,
+  formatPropertyBhk,
+  formatPropertySpecsSummary,
+} from '../utils/propertySpecs.ts';
 
 interface ProjectDetailsPageProps {
   project: Project;
@@ -322,11 +331,18 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     }
   };
 
-  const handleCopyShare = () => {
+  const handleCopyShare = async () => {
     const shareUrl = `${window.location.origin}/#project/${project.slug}`;
-    navigator.clipboard?.writeText(shareUrl);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2000);
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      }
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
+    } catch {
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
+    }
   };
 
   const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(
@@ -370,7 +386,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               }`}
             >
               <Bookmark className={`w-3.5 h-3.5 shrink-0 ${isSaved ? 'fill-current' : ''}`} />
-              <span>{isSaved ? 'Saved' : 'Save Favourite'}</span>
+              <span>{isSaved ? 'Saved' : 'Save Favorite'}</span>
             </button>
 
             <button
@@ -482,9 +498,9 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   <button
                     type="button"
                     onClick={() => onOpenVirtualTour(project)}
-                    className="px-3 sm:px-4 py-2 sm:py-2.5 bg-[#080808]/95 text-[#F5F1E8] text-[11px] sm:text-xs font-semibold hover:bg-[#D4AF72] hover:text-[#080808] transition-colors flex items-center gap-1.5 sm:gap-2 border border-[#D4AF72] shadow-lg cursor-pointer max-w-full"
+                    className="group px-3 sm:px-4 py-2 sm:py-2.5 bg-[#080808]/95 text-[#F5F1E8] text-[11px] sm:text-xs font-semibold hover:bg-[#D4AF72] hover:text-[#080808] transition-colors flex items-center gap-1.5 sm:gap-2 border border-[#D4AF72] shadow-lg cursor-pointer max-w-full"
                   >
-                    <Compass className="w-4 h-4 text-[#D4AF72] group-hover:text-current" />
+                    <Compass className="w-4 h-4 text-[#D4AF72] group-hover:text-[#080808] transition-colors" />
                     <span>EXPLORE 3D VIRTUAL TOUR</span>
                     {(project.virtualTour.tours || []).length > 1 && (
                       <span className="bg-[#D4AF72] text-[#080808] text-[10px] px-1.5 py-0.5 font-mono-tabular">
@@ -674,6 +690,40 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 </div>
               </div>
 
+              {/* Separate Property Details Strip: BHK | Bathrooms | Area (sq ft) */}
+              <div className="mb-5 pb-5 border-b border-[#D4AF72]/20 grid grid-cols-1 xs:grid-cols-3 gap-3 xs:gap-0 xs:divide-x xs:divide-[#D4AF72]/20">
+                <div className="flex items-baseline justify-between gap-2 xs:block xs:pr-3 min-w-0">
+                  <p className="text-[11px] uppercase tracking-wider text-[#A5A19A]">BHK</p>
+                  <p className="text-sm font-semibold text-[#F5F1E8] mt-0.5 break-words">
+                    {formatPropertyBhk(project)}
+                  </p>
+                </div>
+                <div className="flex items-baseline justify-between gap-2 xs:block xs:px-3 min-w-0">
+                  <p className="text-[11px] uppercase tracking-wider text-[#A5A19A]">Bathrooms</p>
+                  <p
+                    className={`text-sm font-semibold mt-0.5 break-words ${
+                      formatPropertyBathrooms(project) === 'Not Available'
+                        ? 'text-[#A5A19A]'
+                        : 'text-[#F5F1E8]'
+                    }`}
+                  >
+                    {formatPropertyBathrooms(project)}
+                  </p>
+                </div>
+                <div className="flex items-baseline justify-between gap-2 xs:block xs:pl-3 min-w-0">
+                  <p className="text-[11px] uppercase tracking-wider text-[#A5A19A]">Area</p>
+                  <p
+                    className={`text-sm font-mono-tabular font-semibold mt-0.5 break-words ${
+                      formatPropertyAreaSqFt(project) === 'Not Available'
+                        ? 'text-[#A5A19A] font-sans'
+                        : 'text-[#F5F1E8]'
+                    }`}
+                  >
+                    {formatPropertyAreaSqFt(project)}
+                  </p>
+                </div>
+              </div>
+
               {/* Key Project Specs Grid */}
               <dl className="grid grid-cols-1 xs:grid-cols-2 gap-y-3.5 gap-x-4 text-xs">
                 <div className="min-w-0">
@@ -712,23 +762,21 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   </dd>
                 </div>
                 <div className="min-w-0">
-                  <dt className="text-[#A5A19A]">Unit Configurations</dt>
+                  <dt className="text-[#A5A19A]">BHK</dt>
                   <dd className="font-semibold text-[#F5F1E8] mt-0.5 break-words">
-                    {project.propertyTypes.slice(0, 3).join(', ')}
+                    {formatPropertyBhk(project)}
                   </dd>
                 </div>
                 <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Bathrooms</dt>
-                  <dd className="font-semibold text-[#F5F1E8] mt-0.5">
-                    {project.bathrooms || '1 - 3 Bathrooms'}
+                  <dd className="font-semibold text-[#F5F1E8] mt-0.5 break-words">
+                    {formatPropertyBathrooms(project)}
                   </dd>
                 </div>
                 <div className="min-w-0">
-                  <dt className="text-[#A5A19A]">Estimated Rental ROI</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#6EE7B7] mt-0.5 break-words">
-                    {project.investment.grossYieldPct
-                      ? `${project.investment.grossYieldPct}% Est. Gross / ${project.investment.netYieldPct}% Est. Net`
-                      : 'Estimate on request'}
+                  <dt className="text-[#A5A19A]">Area</dt>
+                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5 break-words">
+                    {formatPropertyAreaSqFt(project)}
                   </dd>
                 </div>
                 <div className="min-w-0">
@@ -1340,7 +1388,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
             <p className="text-sm text-[#A5A19A] leading-relaxed mb-4">{displayDesc}</p>
             <p className="text-xs text-[#A5A19A]">
               <strong className="text-[#F5F1E8]">Master Plan Notes:</strong>{' '}
-              {project.masterPlanNotes}
+              {project.masterPlanNotes.replace(/\bsq\.?\s*ft\.?/gi, 'sq ft')}
             </p>
           </div>
           <div>
@@ -1507,7 +1555,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               </div>
 
               {/* Verified Configurations & Starting Prices even when unit-by-unit counts are off-feed */}
-              <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 text-xs border-y border-[#D4AF72]/15 py-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-5 gap-3 text-xs border-y border-[#D4AF72]/15 py-4">
                 <div>
                   <span className="text-[#A5A19A] block text-[11px]">Starting Price</span>
                   <span className="font-mono-tabular font-semibold text-[#F5F1E8] text-sm">
@@ -1520,18 +1568,21 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   )}
                 </div>
                 <div>
-                  <span className="text-[#A5A19A] block text-[11px]">Unit Configurations</span>
+                  <span className="text-[#A5A19A] block text-[11px]">BHK</span>
                   <span className="font-semibold text-[#F5F1E8]">
-                    {project.propertyTypes.join(' · ')}
+                    {formatPropertyBhk(project)}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[#A5A19A] block text-[11px]">Floor Plans &amp; Sizes</span>
+                  <span className="text-[#A5A19A] block text-[11px]">Bathrooms</span>
+                  <span className="font-semibold text-[#F5F1E8]">
+                    {formatPropertyBathrooms(project)}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[#A5A19A] block text-[11px]">Area</span>
                   <span className="font-mono-tabular text-[#F5F1E8]">
-                    {project.floorPlans.length > 0 ? `${project.floorPlans.length} Verified Layouts` : 'Layouts Available'} ·{' '}
-                    {project.minSizeSqFt > 0
-                      ? `${project.minSizeSqFt.toLocaleString()}–${project.maxSizeSqFt.toLocaleString()} sq.ft`
-                      : 'On Request'}
+                    {formatPropertyAreaSqFt(project)}
                   </span>
                 </div>
                 <div>
@@ -1604,73 +1655,74 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
           </h2>
           {project.floorPlans.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {project.floorPlans.map((fp) => (
-                <div
-                  key={fp.id}
-                  className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-4 flex flex-col justify-between hover:border-[#D4AF72] transition-colors"
-                >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs font-semibold text-[#D4AF72]">{fp.bedrooms}</p>
-                      {fp.bathrooms && (
+              {project.floorPlans.map((fp) => {
+                const fpBhk = formatFloorPlanBhk(fp.bedrooms);
+                const fpBathrooms = formatFloorPlanBathrooms(fp.bathrooms);
+                const fpArea = formatFloorPlanAreaSqFt(fp.sizeSqFt);
+                return (
+                  <div
+                    key={fp.id}
+                    className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-4 flex flex-col justify-between hover:border-[#D4AF72] transition-colors"
+                  >
+                    <div>
+                      <div className="flex flex-wrap items-center justify-between gap-1.5">
+                        <p className="text-xs font-semibold text-[#D4AF72]">
+                          BHK: {fpBhk}
+                        </p>
                         <span className="text-[11px] text-[#F5F1E8] font-medium bg-[#121212] px-2 py-0.5 border border-[#D4AF72]/20">
-                          {fp.bathrooms}
+                          {fpBathrooms}
                         </span>
-                      )}
-                    </div>
-                    <h3 className="font-display text-lg font-medium text-[#F5F1E8] mt-1.5 line-clamp-1">
-                      {fp.name}
-                    </h3>
-                    <p className="text-xs text-[#A5A19A] mt-1">
-                      {fp.floorRange} · {fp.exposure}
-                    </p>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-[#D4AF72]/15 space-y-1.5 text-xs font-mono-tabular">
-                    <div className="flex justify-between">
-                      <span className="text-[#A5A19A]">Size</span>
-                      <span className="font-semibold text-[#F5F1E8]">
-                        {fp.sizeSqFt.toLocaleString()} sq.ft
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-[#A5A19A]">Starting Price</span>
-                      <span className="font-semibold text-[#F5F1E8]">
-                        {formatProjectPrice(fp.priceAed, currency)}
-                      </span>
-                    </div>
-                    {currency !== 'INR' && fp.priceAed > 0 && (
-                      <div className="flex justify-between text-[#D4AF72] font-semibold text-[11px]">
-                        <span>Approx. INR</span>
-                        <span>≈ {formatCurrency(fp.priceAed, 'INR')}</span>
                       </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-[#A5A19A]">Availability</span>
-                      <span className="font-semibold text-[#6EE7B7]">
-                        {fp.availableCount !== null ? `${fp.availableCount} units` : 'On Request'}
-                      </span>
+                      <h3 className="font-display text-lg font-medium text-[#F5F1E8] mt-1.5 line-clamp-1">
+                        {fp.name}
+                      </h3>
+                      <p className="text-xs text-[#A5A19A] mt-1">
+                        {fp.floorRange} · {fp.exposure}
+                      </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => onOpenEnquiry('brochure', project)}
-                      className="w-full mt-2.5 py-1.5 bg-[#D4AF72] text-[#080808] text-[11px] font-sans font-semibold hover:bg-[#E6C77A] transition-colors text-center"
-                    >
-                      Enquire Layout &amp; Availability
-                    </button>
+                    <div className="mt-4 pt-3 border-t border-[#D4AF72]/15 space-y-1.5 text-xs font-mono-tabular">
+                      <div className="flex justify-between">
+                        <span className="text-[#A5A19A]">Area</span>
+                        <span className="font-semibold text-[#F5F1E8]">{fpArea}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#A5A19A]">Starting Price</span>
+                        <span className="font-semibold text-[#F5F1E8]">
+                          {formatProjectPrice(fp.priceAed, currency)}
+                        </span>
+                      </div>
+                      {currency !== 'INR' && fp.priceAed > 0 && (
+                        <div className="flex justify-between text-[#D4AF72] font-semibold text-[11px]">
+                          <span>Approx. INR</span>
+                          <span>≈ {formatCurrency(fp.priceAed, 'INR')}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span className="text-[#A5A19A]">Availability</span>
+                        <span className="font-semibold text-[#6EE7B7]">
+                          {fp.availableCount !== null ? `${fp.availableCount} units` : 'Contact Developer'}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onOpenEnquiry('brochure', project)}
+                        className="w-full mt-2.5 py-1.5 bg-[#D4AF72] text-[#080808] text-[11px] font-sans font-semibold hover:bg-[#E6C77A] transition-colors text-center"
+                      >
+                        Enquire Layout &amp; Availability
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-5 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold text-[#D4AF72]">
-                  {project.propertyTypes.join(' · ')}
+                  {formatPropertySpecsSummary(project)}
                 </p>
-                <p className="text-xs text-[#A5A19A] mt-1 font-mono-tabular">
-                  {project.minSizeSqFt > 0
-                    ? `Unit Sizes: ${project.minSizeSqFt.toLocaleString()} – ${project.maxSizeSqFt.toLocaleString()} sq.ft`
-                    : 'Unit sizes & individual floor plan layouts available via official developer brochure.'}
+                <p className="text-xs text-[#A5A19A] mt-1">
+                  Individual floor plan layouts available via official developer brochure.
                 </p>
               </div>
               <button
@@ -2001,7 +2053,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 Historical Transaction Benchmark
               </p>
               <h2 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mt-0.5">
-                {project.community} Price / Sq.Ft Trajectory
+                {project.community} Price / sq ft Trajectory
               </h2>
               <p className="text-xs text-[#A5A19A] mt-1 mb-4">
                 Source: {project.investment.dataCitation}
@@ -2021,7 +2073,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                           fontSize: '12px',
                         }}
                         formatter={(value: unknown) => [
-                          `AED ${Number(value).toLocaleString()} / sq.ft`,
+                          `AED ${Number(value).toLocaleString()} / sq ft`,
                           'Avg Price',
                         ]}
                       />
@@ -2059,27 +2111,35 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       Est. Gross Yield
                     </span>
                     <span className="text-xl font-semibold text-[#6EE7B7]">
-                      {project.investment.grossYieldPct ?? 'N/A'}%
+                      {project.investment.grossYieldPct != null
+                        ? `${project.investment.grossYieldPct}%`
+                        : 'N/A'}
                     </span>
                   </div>
                   <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5">
                     <span className="text-xs font-sans text-[#A5A19A] block">Est. Net Yield</span>
                     <span className="text-xl font-semibold text-[#D4AF72]">
-                      {project.investment.netYieldPct ?? 'N/A'}%
+                      {project.investment.netYieldPct != null
+                        ? `${project.investment.netYieldPct}%`
+                        : 'N/A'}
                     </span>
                   </div>
                   <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5">
                     <span className="text-xs font-sans text-[#A5A19A] block">
-                      Service Charge / Sq.Ft
+                      Service Charge / sq ft
                     </span>
                     <span className="text-lg font-semibold text-[#F5F1E8]">
-                      AED {project.investment.serviceChargePerSqFtAed ?? 'N/A'}
+                      {project.investment.serviceChargePerSqFtAed != null
+                        ? `AED ${project.investment.serviceChargePerSqFtAed}`
+                        : 'N/A'}
                     </span>
                   </div>
                   <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5">
                     <span className="text-xs font-sans text-[#A5A19A] block">5-Yr Area Growth</span>
                     <span className="text-lg font-semibold text-[#F5F1E8]">
-                      +{project.investment.priceTrend5YrPct ?? 0}%
+                      {project.investment.priceTrend5YrPct != null
+                        ? `+${project.investment.priceTrend5YrPct}%`
+                        : 'N/A'}
                     </span>
                   </div>
                 </div>
@@ -2096,15 +2156,20 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                         key={comp.id}
                         type="button"
                         onClick={() => onSelectProject(comp)}
-                        className="w-full text-left p-3 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] flex items-center justify-between text-xs transition-colors"
+                        className="w-full text-left p-3 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] flex items-center justify-between gap-2 text-xs transition-colors"
                       >
-                        <div>
-                          <span className="font-semibold text-[#F5F1E8] block">{comp.name}</span>
-                          <span className="text-[#A5A19A]">
+                        <div className="min-w-0">
+                          <span className="font-semibold text-[#F5F1E8] block truncate">
+                            {comp.name}
+                          </span>
+                          <span className="text-[#A5A19A] block truncate">
                             {comp.community}, {comp.emirate}
                           </span>
+                          <span className="text-[11px] text-[#D4AF72]/90 block truncate mt-0.5">
+                            {formatPropertySpecsSummary(comp)}
+                          </span>
                         </div>
-                        <span className="font-mono-tabular font-semibold text-[#D4AF72]">
+                        <span className="font-mono-tabular font-semibold text-[#D4AF72] shrink-0">
                           {formatProjectPrice(comp.startingPriceAed, currency, true)}
                         </span>
                       </button>

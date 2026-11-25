@@ -288,7 +288,7 @@ function parsePropertyTypes(rawType: string, rawBedrooms: string): string[] {
     'Plot',
   ]);
   const combined = `${rawType} ${rawBedrooms}`.trim();
-  if (!combined) return ['1 Bedroom', '2 Bedrooms'];
+  if (!combined) return [];
   const found = new Set<string>();
   const lower = combined.toLowerCase();
   if (lower.includes('studio')) found.add('Studio');
@@ -308,14 +308,6 @@ function parsePropertyTypes(rawType: string, rawBedrooms: string): string[] {
   for (const part of combined.split(/[,/|;&]+/)) {
     const p = part.trim();
     if (allowed.has(p)) found.add(p);
-  }
-  if (found.size === 0) {
-    if (lower.includes('apartment') || lower.includes('flat') || lower.includes('residence')) {
-      found.add('1 Bedroom');
-      found.add('2 Bedrooms');
-    } else {
-      found.add('1 Bedroom');
-    }
   }
   return Array.from(found).slice(0, 15);
 }
@@ -959,6 +951,13 @@ async function startServer() {
         parsedLng <= 180;
       const baseEmirateCoords = EMIRATE_COORDINATES[emirate] || EMIRATE_COORDINATES.Dubai;
 
+      const csvPropertyTypes = parsePropertyTypes(
+        rowMap.property_types || rowMap.property_type || '',
+        rowMap.bedrooms || rowMap.bhk || ''
+      );
+      const csvMinSize = parseAedNumber(rowMap.min_size_sq_ft || rowMap.size_sq_ft || rowMap.area_sq_ft || '');
+      const csvMaxSize = parseAedNumber(rowMap.max_size_sq_ft || '') || csvMinSize;
+
       parsedProjects.push({
         id: `proj-${slug.slice(0, 48)}-${Date.now().toString(36).slice(-4)}`,
         slug,
@@ -968,6 +967,10 @@ async function startServer() {
         community,
         category,
         startingPriceAed,
+        propertyTypes: csvPropertyTypes,
+        bathrooms: rowMap.bathrooms || rowMap.baths || '',
+        minSizeSqFt: csvMinSize,
+        maxSizeSqFt: csvMaxSize,
         handoverYear: Number(rowMap.handover_year) || 2028,
         constructionPct: Number(rowMap.construction_pct) || 15,
         registrationNumber: rowMap.registration_number || 'RERA-CSV-PENDING',
@@ -1148,8 +1151,15 @@ async function startServer() {
         const maxPriceAed = parseAedNumber(rawMaxPrice) || (startingPriceAed > 0 ? Math.round(startingPriceAed * 2.4) : 0);
 
         const rawType = pickCol(normRow, ['propertytype', 'propertytypes', 'type', 'unittype', 'unittypes']);
-        const rawBedrooms = pickCol(normRow, ['bedrooms', 'bedroom', 'beds', 'configuration']);
+        const rawBedrooms = pickCol(normRow, ['bedrooms', 'bedroom', 'beds', 'bhk', 'configuration']);
         const propertyTypes = parsePropertyTypes(rawType, rawBedrooms);
+        const rawBathrooms = pickCol(normRow, ['bathrooms', 'bathroom', 'baths', 'bath']);
+        const bathrooms =
+          rawBathrooms &&
+          !/\d\s*[-–—]\s*\d|\b\d+\s+to\s+\d+\b/i.test(rawBathrooms) &&
+          /^\s*\d+(?:\.\d+)?\s*(?:baths?|bathrooms?)?\s*$/i.test(rawBathrooms)
+            ? rawBathrooms.trim()
+            : '';
 
         const rawCompletion = pickCol(normRow, ['completionpct', 'constructionpct', 'completion', 'progress']);
         const constructionPct = rawCompletion
@@ -1158,10 +1168,10 @@ async function startServer() {
           ? 100
           : 25;
 
-        const rawMinSize = pickCol(normRow, ['minsizesqft', 'minsize', 'size', 'sizesqft', 'areasqft']);
-        const minSizeSqFt = parseAedNumber(rawMinSize) || 720;
+        const rawMinSize = pickCol(normRow, ['minsizesqft', 'minsize', 'size', 'sizesqft', 'areasqft', 'area']);
+        const minSizeSqFt = parseAedNumber(rawMinSize);
         const rawMaxSize = pickCol(normRow, ['maxsizesqft', 'maxsize']);
-        const maxSizeSqFt = parseAedNumber(rawMaxSize) || Math.max(minSizeSqFt, 2400);
+        const maxSizeSqFt = parseAedNumber(rawMaxSize) || minSizeSqFt;
 
         const registrationNumber =
           pickCol(normRow, ['registrationnumber', 'rera', 'rerano', 'dldno', 'escrow']) ||
@@ -1348,6 +1358,7 @@ async function startServer() {
           ),
           category,
           propertyTypes,
+          bathrooms,
           tenure: 'Freehold',
           furnished: 'Unfurnished',
           startingPriceAed,
@@ -1355,7 +1366,7 @@ async function startServer() {
           pricePerSqFtAed:
             startingPriceAed > 0 && minSizeSqFt > 0
               ? Math.round(startingPriceAed / minSizeSqFt)
-              : 1850,
+              : 0,
           minSizeSqFt,
           maxSizeSqFt,
           paymentPlan: paymentPlan.slice(0, 120),
@@ -1942,14 +1953,17 @@ async function startServer() {
 <head>
   <meta charset="utf-8" />
   <title>${escapeHtml(project.name)} — WHITE COLLAR REALTY Project Dossier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif; max-width: 860px; margin: 30px auto; padding: 0 24px; color: #111827; line-height: 1.6; }
-    .header-bar { border-bottom: 2px solid #9A7B3C; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
-    .brand { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #111827; }
+    body { font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 860px; margin: 30px auto; padding: 0 24px; color: #111827; line-height: 1.6; }
+    .header-bar { border-bottom: 2px solid #9A7B3C; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .brand { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #111827; }
     .brand-sub { font-size: 11px; text-transform: uppercase; color: #9A7B3C; letter-spacing: 0.18em; margin-top: 2px; }
     .contact-block { font-size: 11px; color: #4B5563; text-align: right; line-height: 1.5; }
     .contact-block a { color: #111827; text-decoration: none; font-weight: 600; }
-    h1 { font-size: 30px; margin: 8px 0 4px; color: #111827; }
+    h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 34px; font-weight: 600; margin: 8px 0 4px; color: #111827; line-height: 1.15; }
     .meta { color: #4B5563; font-size: 13px; margin-bottom: 20px; font-weight: 500; }
     .box { border: 1px solid #E5E2DC; padding: 16px 20px; margin: 16px 0; background: #FAF9F6; }
     .box h3 { margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #9A7B3C; }
@@ -1978,8 +1992,9 @@ async function startServer() {
   <p>${escapeHtml(project.description)}</p>
 
   <div class="box">
-    <h3>Pricing & Handover Summary</h3>
-    <p><strong>Starting Price:</strong> AED ${project.startingPriceAed.toLocaleString()} | <strong>Avg Price / Sq.Ft:</strong> AED ${project.pricePerSqFtAed.toLocaleString()}</p>
+    <h3>Pricing, Specifications & Handover Summary</h3>
+    <p><strong>Starting Price:</strong> ${project.startingPriceAed > 0 ? `AED ${project.startingPriceAed.toLocaleString()}` : 'Price on Request'} | <strong>Avg Price / sq ft:</strong> ${project.pricePerSqFtAed > 0 ? `AED ${project.pricePerSqFtAed.toLocaleString()}` : 'Not Available'}</p>
+    <p><strong>BHK:</strong> ${escapeHtml(project.propertyTypes.join(', ') || 'Not Available')} | <strong>Bathrooms:</strong> ${escapeHtml(project.bathrooms && !/\d\s*[-–—]\s*\d/.test(project.bathrooms) ? project.bathrooms : 'Not Available')} | <strong>Area:</strong> ${project.minSizeSqFt > 0 ? (project.maxSizeSqFt > project.minSizeSqFt ? `${project.minSizeSqFt.toLocaleString()}–${project.maxSizeSqFt.toLocaleString()} sq ft` : `${project.minSizeSqFt.toLocaleString()} sq ft`) : 'Not Available'}</p>
     <p><strong>Category:</strong> ${escapeHtml(project.category)} | <strong>Construction:</strong> ${project.constructionPct}% | <strong>Handover:</strong> ${escapeHtml(project.handoverDate)}</p>
     <p><strong>Payment Plan:</strong> ${escapeHtml(project.paymentPlan)}</p>
   </div>
@@ -1991,14 +2006,15 @@ async function startServer() {
 
   <h3>Unit Configurations & Floor Plans</h3>
   <table>
-    <thead><tr><th>Type</th><th>Bedrooms</th><th>Size (Sq.Ft)</th><th>Starting Price (AED)</th></tr></thead>
+    <thead><tr><th>Layout</th><th>BHK</th><th>Bathrooms</th><th>Area (sq ft)</th><th>Starting Price (AED)</th></tr></thead>
     <tbody>
       ${project.floorPlans.length > 0 ? project.floorPlans
-        .map(
-          (fp) =>
-            `<tr><td>${escapeHtml(fp.name)}</td><td>${escapeHtml(fp.bedrooms)}</td><td>${fp.sizeSqFt.toLocaleString()}</td><td>AED ${fp.priceAed.toLocaleString()}</td></tr>`
-        )
-        .join('') : `<tr><td colspan="4">Official developer unit inventory floor plans available upon private consultation.</td></tr>`}
+        .map((fp) => {
+          const fpBaths = fp.bathrooms && !/\d\s*[-–—]\s*\d/.test(fp.bathrooms) ? fp.bathrooms : 'Not Available';
+          const fpArea = fp.sizeSqFt > 0 ? `${fp.sizeSqFt.toLocaleString()} sq ft` : 'Not Available';
+          return `<tr><td>${escapeHtml(fp.name)}</td><td>${escapeHtml(fp.bedrooms || 'Not Available')}</td><td>${escapeHtml(fpBaths)}</td><td>${escapeHtml(fpArea)}</td><td>AED ${fp.priceAed.toLocaleString()}</td></tr>`;
+        })
+        .join('') : `<tr><td colspan="5">Official developer unit inventory floor plans available upon private consultation.</td></tr>`}
     </tbody>
   </table>
 

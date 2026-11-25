@@ -5,6 +5,7 @@ import { submitEnquiry } from '../services/firestoreService.ts';
 import { notifyPublicEnquiryCreated } from '../services/apiClient.ts';
 import { COMPANY_INFO } from '../data/companyInfo.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
+import { formatFloorPlanAreaSqFt, formatFloorPlanBhk } from '../utils/propertySpecs.ts';
 
 interface EnquiryModalProps {
   initialType?: EnquiryType;
@@ -66,7 +67,10 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
       if (pt) options.add(pt);
     }
     for (const fp of project.floorPlans || []) {
-      if (fp.bedrooms) options.add(`${fp.bedrooms} (${fp.sizeSqFt.toLocaleString()} sq.ft)`);
+      const bhk = formatFloorPlanBhk(fp.bedrooms);
+      const area = formatFloorPlanAreaSqFt(fp.sizeSqFt);
+      const label = bhk !== 'Not Available' ? bhk : fp.bedrooms || fp.name;
+      if (label) options.add(`${label} (${area})`);
     }
     return Array.from(options);
   }, [project]);
@@ -76,6 +80,10 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
     setError(null);
     if (!fullName.trim() || !email.trim()) {
       setError('Please enter your full name and valid email address.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError('Please enter a valid email address.');
       return;
     }
     if (isAvailabilitySheet && !phone.trim()) {

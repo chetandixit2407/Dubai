@@ -535,6 +535,7 @@ export interface SearchFilters {
   category: string;
   propertyType: string;
   bedroomCount: string;
+  minBathrooms: number | '';
   developerId: string;
   minBudgetAed: number | '';
   maxBudgetAed: number | '';

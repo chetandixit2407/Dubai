@@ -26,6 +26,10 @@ import {
 import { CurrencyCode, EmiratesName, Project } from '../types/realEstate.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 import {
+  formatPropertyAreaSqFt,
+  formatPropertyBhk,
+} from '../utils/propertySpecs.ts';
+import {
   clusterProjectsForMap,
   EMIRATE_MAP_CENTERS,
   haversineDistanceKm,
@@ -692,6 +696,9 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                                 ? `From ${formatProjectPrice(activeProject.startingPriceAed, currency)}`
                                 : 'Price on Request'}
                             </p>
+                            <p className="text-[11px] text-[#D4AF72]/90 mt-1 break-words">
+                              {formatPropertyBhk(activeProject)} | {formatPropertyAreaSqFt(activeProject)}
+                            </p>
                             <p className="text-[11px] mt-1">{renderAvailabilitySummary(activeProject)}</p>
                             <div className="mt-3 flex flex-wrap items-center gap-1.5">
                               <button
@@ -813,7 +820,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                   </p>
                 )}
                 <p className="text-[11px] text-[#A5A19A]">
-                  Configs: {activeProject.propertyTypes.slice(0, 3).join(', ')}
+                  {formatPropertyBhk(activeProject)} | {formatPropertyAreaSqFt(activeProject)}
                 </p>
                 <p className="text-xs pt-0.5">{renderAvailabilitySummary(activeProject)}</p>
                 <div className="pt-2 flex flex-col gap-2">
@@ -890,6 +897,9 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                         </span>
                       )}
                     </div>
+                    <p className="text-[10px] text-[#D4AF72]/80 mt-1 truncate">
+                      {formatPropertyBhk(project)} · {formatPropertyAreaSqFt(project)}
+                    </p>
                   </button>
                 );
               })}

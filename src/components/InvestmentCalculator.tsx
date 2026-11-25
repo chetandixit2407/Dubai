@@ -25,6 +25,88 @@ interface InvestmentCalculatorProps {
   projectName?: string;
 }
 
+function computeLocalInvestmentAnalysis(params: {
+  propertyPriceAed: number;
+  downPaymentPct: number;
+  installmentYears: number;
+  estimatedAnnualRentAed: number;
+  annualServiceChargeAed: number;
+  dldFeePct: number;
+  agencyFeePct: number;
+  annualAppreciationPct: number;
+  financingRatePct: number;
+  useMortgage: boolean;
+}): InvestmentAnalysisResponse {
+  const price = Math.max(100000, Number(params.propertyPriceAed) || 2500000);
+  const downPct = Math.min(100, Math.max(5, Number(params.downPaymentPct) || 20));
+  const years = Math.min(30, Math.max(1, Number(params.installmentYears) || 5));
+  const annualRent = Math.max(0, Number(params.estimatedAnnualRentAed) || 0);
+  const serviceCharge = Math.max(0, Number(params.annualServiceChargeAed) || 0);
+  const dldFee = price * ((Number(params.dldFeePct) || 4) / 100);
+  const agencyFee = price * ((Number(params.agencyFeePct) || 2) / 100);
+  const trusteeAndAdminAed = 5400;
+
+  const downPaymentAed = price * (downPct / 100);
+  const financedPrincipalAed = Math.max(0, price - downPaymentAed);
+  const totalAcquisitionCostAed = price + dldFee + agencyFee + trusteeAndAdminAed;
+
+  let monthlyInstallmentAed = 0;
+  if (financedPrincipalAed > 0) {
+    if (params.useMortgage && Number(params.financingRatePct) > 0) {
+      const monthlyRate = Number(params.financingRatePct) / 100 / 12;
+      const n = years * 12;
+      monthlyInstallmentAed =
+        (financedPrincipalAed * monthlyRate * Math.pow(1 + monthlyRate, n)) /
+        (Math.pow(1 + monthlyRate, n) - 1);
+    } else {
+      monthlyInstallmentAed = financedPrincipalAed / (years * 12);
+    }
+  }
+
+  const netAnnualIncomeAed = annualRent - serviceCharge;
+  const grossYieldPct = (annualRent / price) * 100;
+  const netYieldPct = (netAnnualIncomeAed / totalAcquisitionCostAed) * 100;
+
+  const cashInvestedYear1 = downPaymentAed + dldFee + agencyFee + trusteeAndAdminAed;
+  const fiveYearProjection = Array.from({ length: 5 }, (_, idx) => {
+    const year = idx + 1;
+    const propertyValue =
+      price * Math.pow(1 + (Number(params.annualAppreciationPct) || 0) / 100, year);
+    const cumulativeNetRent = netAnnualIncomeAed * year;
+    const totalEquityGain = propertyValue - price + cumulativeNetRent;
+    const roiPct = cashInvestedYear1 > 0 ? (totalEquityGain / cashInvestedYear1) * 100 : 0;
+    return {
+      year: `Year ${year}`,
+      propertyValueAed: Math.round(propertyValue),
+      cumulativeNetRentAed: Math.round(cumulativeNetRent),
+      estimatedRoiPct: Number(roiPct.toFixed(1)),
+    };
+  });
+
+  return {
+    outputs: {
+      downPaymentAed: Math.round(downPaymentAed),
+      financedPrincipalAed: Math.round(financedPrincipalAed),
+      monthlyInstallmentAed: Math.round(monthlyInstallmentAed),
+      dldFeeAed: Math.round(dldFee),
+      agencyFeeAed: Math.round(agencyFee),
+      trusteeAndAdminAed,
+      totalAcquisitionCostAed: Math.round(totalAcquisitionCostAed),
+      estimatedAnnualRentalIncomeAed: Math.round(annualRent),
+      netAnnualRentalIncomeAed: Math.round(netAnnualIncomeAed),
+      grossYieldPct: Number(grossYieldPct.toFixed(2)),
+      netYieldPct: Number(netYieldPct.toFixed(2)),
+      estimated5YrTotalRoiPct: fiveYearProjection[4].estimatedRoiPct,
+    },
+    fiveYearProjection,
+    assumptions: [
+      'Dubai Land Department (DLD) transfer / Oqood fee modeled at 4% unless developer waiver applies.',
+      'Brokerage & registration trustee fee modeled separately as an estimate.',
+      'Rental yields assume 95%+ annual occupancy and do not include personal income tax (0% in UAE).',
+    ],
+  };
+}
+
 export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
   currency,
   initialPriceAed = 2500000,
@@ -48,7 +130,20 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
   const [useMortgage, setUseMortgage] = useState(false);
   const [financingRatePct, setFinancingRatePct] = useState(4.25);
 
-  const [analysis, setAnalysis] = useState<InvestmentAnalysisResponse | null>(null);
+  const [analysis, setAnalysis] = useState<InvestmentAnalysisResponse | null>(() =>
+    computeLocalInvestmentAnalysis({
+      propertyPriceAed: initialPriceAed,
+      downPaymentPct: 20,
+      installmentYears: 5,
+      estimatedAnnualRentAed: Math.round(initialPriceAed * (initialGrossYieldPct / 100)),
+      annualServiceChargeAed: Math.round(initialServiceChargePerSqFt * initialSizeSqFt),
+      dldFeePct: 4,
+      agencyFeePct: 2,
+      annualAppreciationPct: 6.5,
+      financingRatePct: 4.25,
+      useMortgage: false,
+    })
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -59,24 +154,25 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
 
   useEffect(() => {
     let active = true;
+    const fallbackParams = {
+      propertyPriceAed,
+      downPaymentPct,
+      installmentYears,
+      estimatedAnnualRentAed,
+      annualServiceChargeAed,
+      dldFeePct,
+      agencyFeePct,
+      annualAppreciationPct,
+      financingRatePct,
+      useMortgage,
+    };
     const timer = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await analyzeInvestmentOnServer({
-          propertyPriceAed,
-          downPaymentPct,
-          installmentYears,
-          estimatedAnnualRentAed,
-          annualServiceChargeAed,
-          dldFeePct,
-          agencyFeePct,
-          annualAppreciationPct,
-          financingRatePct,
-          useMortgage,
-        });
+        const res = await analyzeInvestmentOnServer(fallbackParams);
         if (active) setAnalysis(res);
       } catch {
-        // Fallback client calculation if network interrupted
+        if (active) setAnalysis(computeLocalInvestmentAnalysis(fallbackParams));
       } finally {
         if (active) setLoading(false);
       }

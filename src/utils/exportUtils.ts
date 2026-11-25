@@ -2,6 +2,14 @@ import * as XLSX from 'xlsx';
 import { Developer, Project } from '../types/realEstate.ts';
 import { convertFromAed, formatCurrency } from './currency.ts';
 import { getEffectiveTourStatus, TOUR_STATUS_LABELS } from './mediaValidation.ts';
+import {
+  formatFloorPlanAreaSqFt,
+  formatFloorPlanBathrooms,
+  formatFloorPlanBhk,
+  formatPropertyAreaSqFt,
+  formatPropertyBathrooms,
+  formatPropertyBhk,
+} from './propertySpecs.ts';
 
 export function exportCatalogToExcel(
   projects: Project[],
@@ -30,11 +38,10 @@ export function exportCatalogToExcel(
       'Starting Price (AED)': p.startingPriceAed || 'POA',
       'Starting Price (INR Approx)': inrStarting,
       'Max Price (AED)': p.maxPriceAed || 'POA',
-      'Price per Sq.Ft (AED)': p.pricePerSqFtAed || 'POA',
-      'Min Size (Sq.Ft)': p.minSizeSqFt || 'POA',
-      'Max Size (Sq.Ft)': p.maxSizeSqFt || 'POA',
-      'Configurations / Bedrooms': p.propertyTypes.join(', '),
-      'Bathrooms': p.bathrooms || '1 - 3 Bathrooms',
+      'Price per sq ft (AED)': p.pricePerSqFtAed || 'Not Available',
+      'BHK': formatPropertyBhk(p),
+      'Bathrooms': formatPropertyBathrooms(p),
+      'Area (sq ft)': formatPropertyAreaSqFt(p),
       'Booking Amount (AED)': p.bookingAmountAed || 'POA',
       'Booking Amount (INR Approx)': inrBooking,
       'Payment Plan': p.paymentPlan,
@@ -42,7 +49,7 @@ export function exportCatalogToExcel(
       'Est. Gross ROI (%)': p.investment.grossYieldPct ? `${p.investment.grossYieldPct}%` : 'N/A',
       'Est. Net ROI (%)': p.investment.netYieldPct ? `${p.investment.netYieldPct}%` : 'N/A',
       '5-Year Capital Appreciation (%)': p.investment.priceTrend5YrPct ? `+${p.investment.priceTrend5YrPct}%` : 'N/A',
-      'Service Charge / Sq.Ft (AED)': p.investment.serviceChargePerSqFtAed || 'N/A',
+      'Service Charge / sq ft (AED)': p.investment.serviceChargePerSqFtAed || 'N/A',
       'Media Availability Status': TOUR_STATUS_LABELS[effStatus],
       '3D Virtual Tour Status':
         effStatus === '3d_available'
@@ -137,10 +144,10 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     { Field: 'Construction Progress', Details: `${project.constructionPct}% (${project.status})` },
     { Field: 'Starting Price (AED)', Details: project.startingPriceAed ? `AED ${project.startingPriceAed.toLocaleString()}` : 'POA' },
     { Field: 'Starting Price (INR Approx)', Details: formatCurrency(project.startingPriceAed, 'INR') },
-    { Field: 'Price per Sq.Ft', Details: `AED ${project.pricePerSqFtAed.toLocaleString()}` },
-    { Field: 'Size Range', Details: `${project.minSizeSqFt.toLocaleString()} - ${project.maxSizeSqFt.toLocaleString()} sq.ft` },
-    { Field: 'Configurations', Details: project.propertyTypes.join(', ') },
-    { Field: 'Bathrooms', Details: project.bathrooms || '1 - 3 Bathrooms' },
+    { Field: 'Price per sq ft', Details: `AED ${project.pricePerSqFtAed.toLocaleString()}` },
+    { Field: 'BHK', Details: formatPropertyBhk(project) },
+    { Field: 'Bathrooms', Details: formatPropertyBathrooms(project) },
+    { Field: 'Area', Details: formatPropertyAreaSqFt(project) },
     { Field: 'Booking Amount (AED)', Details: project.bookingAmountAed ? `AED ${project.bookingAmountAed.toLocaleString()}` : 'POA' },
     { Field: 'Booking Amount (INR Approx)', Details: formatCurrency(project.bookingAmountAed, 'INR') },
     { Field: 'Down Payment', Details: `${project.downPaymentPct}%` },
@@ -149,7 +156,7 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     { Field: 'Est. Gross Rental Yield', Details: project.investment.grossYieldPct ? `${project.investment.grossYieldPct}%` : 'N/A' },
     { Field: 'Est. Net Rental Yield', Details: project.investment.netYieldPct ? `${project.investment.netYieldPct}%` : 'N/A' },
     { Field: '5-Year Area Growth Trajectory', Details: project.investment.priceTrend5YrPct ? `+${project.investment.priceTrend5YrPct}%` : 'N/A' },
-    { Field: 'Service Charge / Sq.Ft', Details: project.investment.serviceChargePerSqFtAed ? `AED ${project.investment.serviceChargePerSqFtAed}` : 'N/A' },
+    { Field: 'Service Charge / sq ft', Details: project.investment.serviceChargePerSqFtAed ? `AED ${project.investment.serviceChargePerSqFtAed}` : 'N/A' },
     { Field: 'Media Availability Status', Details: TOUR_STATUS_LABELS[effStatus] },
     { Field: '3D Virtual Tour URL', Details: project.virtualTour.embedUrl || project.virtualTour.directUrl || 'Unavailable' },
     { Field: 'Primary Video Walkthrough', Details: primaryVideo ? `${primaryVideo.title} (${primaryVideo.channelName}, ${primaryVideo.publishedAt})` : 'Media Not Available' },
@@ -174,14 +181,14 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     const fpRows = project.floorPlans.map((fp, i) => ({
       '#': i + 1,
       'Layout Name': fp.name,
-      'Bedrooms': fp.bedrooms,
-      'Bathrooms': fp.bathrooms || 'N/A',
-      'Size (Sq.Ft)': fp.sizeSqFt,
+      'BHK': formatFloorPlanBhk(fp.bedrooms),
+      'Bathrooms': formatFloorPlanBathrooms(fp.bathrooms),
+      'Area (sq ft)': formatFloorPlanAreaSqFt(fp.sizeSqFt),
       'Starting Price (AED)': fp.priceAed,
       'Starting Price (INR)': formatCurrency(fp.priceAed, 'INR'),
       'Floor Range': fp.floorRange,
       'Exposure / View': fp.exposure,
-      'Available Units': fp.availableCount !== null ? fp.availableCount : 'On Request',
+      'Available Units': fp.availableCount !== null ? fp.availableCount : 'Contact Developer',
     }));
     const wsFp = XLSX.utils.json_to_sheet(fpRows);
     XLSX.utils.book_append_sheet(wb, wsFp, 'Unit Floor Plans');

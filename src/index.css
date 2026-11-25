@@ -29,7 +29,7 @@
     scroll-behavior: smooth;
     background-color: #080808;
     color: #F5F1E8;
-    font-family: 'Plus Jakarta Sans', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Manrope', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: clip;
     max-width: 100%;
   }
@@ -78,7 +78,7 @@
   }
 
   [dir="rtl"] body {
-    font-family: 'Noto Sans Arabic', 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Noto Sans Arabic', 'Manrope', sans-serif;
   }
 
   select,
@@ -96,7 +96,8 @@
 }
 
 .font-display {
-  font-family: 'Playfair Display', 'Noto Sans Arabic', Georgia, serif;
+  font-family: 'Cormorant Garamond', 'Noto Sans Arabic', Georgia, serif;
+  text-wrap: balance;
 }
 
 .font-mono-tabular {

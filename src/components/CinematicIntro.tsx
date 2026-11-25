@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 interface CinematicIntroProps {
@@ -10,22 +10,34 @@ export const INTRO_SEEN_STORAGE_KEY = 'wcr_intro_seen_v1';
 
 export const CinematicIntro: React.FC<CinematicIntroProps> = ({ open, onComplete }) => {
   const [phase, setPhase] = useState<'forest' | 'skyline' | 'brand' | 'exiting'>('forest');
+  const exitTimerRef = useRef<number | null>(null);
+  const hasFinishedRef = useRef(false);
 
   const handleFinish = useCallback(() => {
+    if (hasFinishedRef.current) return;
+    hasFinishedRef.current = true;
     try {
       window.localStorage.setItem(INTRO_SEEN_STORAGE_KEY, '1');
     } catch {
       // Ignore storage restrictions
     }
     setPhase('exiting');
-    const exitTimer = window.setTimeout(() => {
+    if (exitTimerRef.current !== null) {
+      window.clearTimeout(exitTimerRef.current);
+    }
+    exitTimerRef.current = window.setTimeout(() => {
+      exitTimerRef.current = null;
       onComplete();
     }, 520);
-    return () => window.clearTimeout(exitTimer);
   }, [onComplete]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      hasFinishedRef.current = false;
+      return;
+    }
+
+    hasFinishedRef.current = false;
 
     const prefersReduced =
       typeof window !== 'undefined' &&
@@ -58,6 +70,10 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ open, onComplete
       window.clearTimeout(t1);
       window.clearTimeout(t2);
       window.clearTimeout(t3);
+      if (exitTimerRef.current !== null) {
+        window.clearTimeout(exitTimerRef.current);
+        exitTimerRef.current = null;
+      }
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [open, handleFinish, onComplete]);

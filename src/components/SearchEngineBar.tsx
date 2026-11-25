@@ -165,15 +165,16 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
         <select
           value={filters.bedroomCount}
           onChange={(e) => update('bedroomCount', e.target.value)}
-          aria-label="Filter by Bedroom Count"
+          aria-label="Filter by BHK Configuration"
           className="w-full min-w-0 xl:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
-          <option value="">Any Bedrooms</option>
+          <option value="">Any BHK</option>
           <option value="Studio">Studio</option>
-          <option value="1 Bedroom">1 Bedroom</option>
-          <option value="2 Bedrooms">2 Bedrooms</option>
-          <option value="3 Bedrooms">3 Bedrooms</option>
-          <option value="4+ Bedrooms">4+ Bedrooms</option>
+          <option value="1 BHK">1 BHK</option>
+          <option value="2 BHK">2 BHK</option>
+          <option value="3 BHK">3 BHK</option>
+          <option value="4+ BHK">4+ BHK</option>
+          <option value="5+ BHK">5+ BHK</option>
         </select>
 
         <select
@@ -237,7 +238,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
             <div className="grid grid-cols-2 gap-2">
               <input
                 type="number"
-                placeholder="Min Size (sq.ft)"
+                placeholder="Min Area (sq ft)"
                 value={filters.minSizeSqFt}
                 onChange={(e) =>
                   update('minSizeSqFt', e.target.value === '' ? '' : Number(e.target.value))
@@ -246,7 +247,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               />
               <input
                 type="number"
-                placeholder="Max Size (sq.ft)"
+                placeholder="Max Area (sq ft)"
                 value={filters.maxSizeSqFt}
                 onChange={(e) =>
                   update('maxSizeSqFt', e.target.value === '' ? '' : Number(e.target.value))
@@ -289,7 +290,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               onChange={(e) => update('community', e.target.value)}
               className="w-full min-w-0 h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             >
-              <option value="">All Communities & Neighbourhoods</option>
+              <option value="">All Communities &amp; Neighborhoods</option>
               {communities.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -306,7 +307,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 <option value="metro">Metro Station</option>
                 <option value="airport">Airport</option>
                 <option value="school">School</option>
-                <option value="mall">Shopping Centre</option>
+                <option value="mall">Shopping Center</option>
                 <option value="beach">Beachfront</option>
               </select>
               <input
@@ -377,6 +378,21 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 className="w-full min-w-0 h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
+            <select
+              value={filters.minBathrooms}
+              onChange={(e) =>
+                update('minBathrooms', e.target.value === '' ? '' : Number(e.target.value))
+              }
+              aria-label="Filter by Verified Bathrooms"
+              className="w-full min-w-0 h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+            >
+              <option value="">Bathrooms: Any</option>
+              <option value="1">1+ Bathroom</option>
+              <option value="2">2+ Bathrooms</option>
+              <option value="3">3+ Bathrooms</option>
+              <option value="4">4+ Bathrooms</option>
+              <option value="5">5+ Bathrooms</option>
+            </select>
           </div>
 
           {/* Tenure, Yield & Live Inventory */}

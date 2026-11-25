@@ -56,6 +56,7 @@ import {
 } from '../types/realEstate.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 import { exportCatalogToExcel } from '../utils/exportUtils.ts';
+import { formatPropertySpecsSummary } from '../utils/propertySpecs.ts';
 import {
   deleteProjectRecord,
   isAdminRole,
@@ -346,14 +347,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       waterfront: false,
       brandedResidence: false,
       category: 'Off-plan',
-      propertyTypes: ['1 Bedroom', '2 Bedrooms'],
+      propertyTypes: [],
+      bathrooms: '',
       tenure: 'Freehold',
       furnished: 'Unfurnished',
       startingPriceAed: 1500000,
       maxPriceAed: 6500000,
-      pricePerSqFtAed: 2100,
-      minSizeSqFt: 720,
-      maxSizeSqFt: 2800,
+      pricePerSqFtAed: 0,
+      minSizeSqFt: 0,
+      maxSizeSqFt: 0,
       paymentPlan: '60/40 Construction Linked',
       downPaymentPct: 10,
       handoverDate: 'Q4 2028',
@@ -457,7 +459,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           ...editingProject,
           slug,
           city: editingProject.city || editingProject.emirate,
-          brochureUrl: `/api/projects/${encodeURIComponent(slug)}/brochure`,
+          brochureUrl: editingProject.brochureUrl?.trim()
+            ? editingProject.brochureUrl.trim()
+            : `/api/projects/${encodeURIComponent(slug)}/brochure`,
         },
         userProfile.uid,
         userProfile.email,
@@ -609,14 +613,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           waterfront: false,
           brandedResidence: false,
           category: row.category as ProjectCategory,
-          propertyTypes: ['1 Bedroom', '2 Bedrooms', '3 Bedrooms'],
+          propertyTypes: Array.isArray(row.propertyTypes)
+            ? (row.propertyTypes as PropertyTypeOption[])
+            : [],
+          bathrooms: row.bathrooms ? String(row.bathrooms) : '',
           tenure: 'Freehold',
           furnished: 'Unfurnished',
           startingPriceAed: Number(row.startingPriceAed),
           maxPriceAed: Number(row.startingPriceAed) * 3,
-          pricePerSqFtAed: 2150,
-          minSizeSqFt: 760,
-          maxSizeSqFt: 2800,
+          pricePerSqFtAed: 0,
+          minSizeSqFt: Number(row.minSizeSqFt) || 0,
+          maxSizeSqFt: Number(row.maxSizeSqFt) || 0,
           paymentPlan: '60/40 Construction Linked',
           downPaymentPct: 10,
           handoverDate: `Q4 ${row.handoverYear}`,
@@ -1130,7 +1137,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <p className="font-mono-tabular text-2xl font-semibold text-[#6EE7B7] mt-1">
                     {projects.length} / {projects.length}
                   </p>
-                  <p className="text-[11px] text-[#A5A19A] mt-1">100% profiles have prices, ROI, baths, coords & contacts</p>
+                  <p className="text-[11px] text-[#A5A19A] mt-1">Verified registry specifications, pricing &amp; coordinates</p>
                 </div>
                 <div className="border border-[#D4AF72]/15 bg-[#121212] p-4">
                   <span className="text-[11px] font-semibold uppercase text-[#A5A19A] block">3D Virtual Tours</span>
@@ -1229,6 +1236,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => setAuditSearchQuery('')}
+                      aria-label="Clear search query"
                       className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#A5A19A] hover:text-[#F5F1E8] cursor-pointer"
                     >
                       ×
@@ -1482,7 +1490,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                   Contact Developer for Latest Availability
                                 </span>
                                 <span className="text-[11px] text-[#A5A19A]">
-                                  {proj.propertyTypes.slice(0, 2).join(', ')}
+                                  {formatPropertySpecsSummary(proj)}
                                 </span>
                               </div>
                             )}
@@ -2126,6 +2134,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <button
                 type="button"
                 onClick={() => setEditingProject(null)}
+                aria-label="Close project editor"
                 className="p-1.5 border border-[#D4AF72]/30 bg-[#121212] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] transition-colors shrink-0"
               >
                 <X className="w-4 h-4" />
@@ -2266,10 +2275,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
               <div>
                 <label className="block font-medium text-[#A5A19A] mb-1">
-                  Property Types (comma-separated)
+                  BHK / Property Types (comma-separated)
                 </label>
                 <input
                   type="text"
+                  placeholder="e.g. 1 Bedroom, 2 Bedrooms, 3 Bedrooms"
                   value={editingProject.propertyTypes.join(', ')}
                   onChange={(e) =>
                     setEditingProject({
@@ -2281,6 +2291,50 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     })
                   }
                   className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-[#A5A19A] mb-1">
+                  Bathrooms (single count or blank if unavailable)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 3 or 3 Bathrooms"
+                  value={editingProject.bathrooms || ''}
+                  onChange={(e) =>
+                    setEditingProject({ ...editingProject, bathrooms: e.target.value })
+                  }
+                  className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-[#A5A19A] mb-1">Min Area (sq ft)</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={editingProject.minSizeSqFt || 0}
+                  onChange={(e) =>
+                    setEditingProject({
+                      ...editingProject,
+                      minSizeSqFt: Number(e.target.value) || 0,
+                    })
+                  }
+                  className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] font-mono-tabular focus:outline-none focus:border-[#D4AF72]"
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-[#A5A19A] mb-1">Max Area (sq ft)</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={editingProject.maxSizeSqFt || 0}
+                  onChange={(e) =>
+                    setEditingProject({
+                      ...editingProject,
+                      maxSizeSqFt: Number(e.target.value) || 0,
+                    })
+                  }
+                  className="w-full h-9 px-2.5 bg-[#080808] border border-[#D4AF72]/25 text-[#F5F1E8] font-mono-tabular focus:outline-none focus:border-[#D4AF72]"
                 />
               </div>
 
@@ -2520,6 +2574,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <button
                 type="button"
                 onClick={() => setInventoryTarget(null)}
+                aria-label="Close inventory audit modal"
                 className="p-1.5 border border-[#D4AF72]/30 bg-[#121212] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] transition-colors shrink-0"
               >
                 <X className="w-4 h-4" />
@@ -2675,6 +2730,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <button
                 type="button"
                 onClick={() => setDevForm(null)}
+                aria-label="Close developer editor"
                 className="p-1 text-[#A5A19A] hover:text-[#F5F1E8] transition-colors shrink-0"
               >
                 <X className="w-4 h-4" />

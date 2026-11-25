@@ -63,6 +63,12 @@ import {
   TOUR_STATUS_LABELS,
 } from './utils/mediaValidation.ts';
 import { exportCatalogToExcel } from './utils/exportUtils.ts';
+import {
+  doesProjectMatchBathroomFilter,
+  doesProjectMatchBhkFilter,
+  formatPropertyAreaSqFt,
+  formatPropertyBhk,
+} from './utils/propertySpecs.ts';
 import { auth, googleAuthProvider, testFirestoreConnection } from './lib/firebase.ts';
 import {
   createSavedSearch,
@@ -116,6 +122,7 @@ const DEFAULT_FILTERS: SearchFilters = {
   category: '',
   propertyType: '',
   bedroomCount: '',
+  minBathrooms: '',
   developerId: '',
   minBudgetAed: '',
   maxBudgetAed: '',
@@ -647,7 +654,7 @@ export default function App() {
     e?.stopPropagation();
     if (!userProfile) {
       setShowPortalModal(true);
-      showToast('Sign in with Google to save favourite projects.');
+      showToast('Sign in with Google to save favorite projects.');
       return;
     }
     const currentlySaved = favorites.some((f) => f.projectId === project.id);
@@ -823,10 +830,13 @@ export default function App() {
       }
       if (
         filters.bedroomCount &&
-        !p.propertyTypes.some((pt) => pt.toLowerCase() === filters.bedroomCount.toLowerCase()) &&
-        !(p.floorPlans || []).some((fp) =>
-          fp.bedrooms.toLowerCase().includes(filters.bedroomCount.toLowerCase())
-        )
+        !doesProjectMatchBhkFilter(p, filters.bedroomCount)
+      ) {
+        return false;
+      }
+      if (
+        filters.minBathrooms !== '' &&
+        !doesProjectMatchBathroomFilter(p, Number(filters.minBathrooms))
       ) {
         return false;
       }
@@ -1037,6 +1047,10 @@ export default function App() {
       setDeskError('Please provide your full name and email address.');
       return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(deskEmail.trim())) {
+      setDeskError('Please enter a valid email address.');
+      return;
+    }
     setDeskSubmitting(true);
     try {
       const safeUid =
@@ -1067,7 +1081,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-[#F5F1E8] flex flex-col">
+    <div id="top" className="min-h-screen bg-[#080808] text-[#F5F1E8] flex flex-col">
       {/* First-Visit Cinematic Ultra-Luxury Dubai Intro */}
       <CinematicIntro open={showIntro} onComplete={() => setShowIntro(false)} />
 
@@ -1168,7 +1182,7 @@ export default function App() {
               <Menu className="w-5 h-5" />
             </button>
             <a
-              href="#"
+              href="#top"
               onClick={(e) => {
                 e.preventDefault();
                 closeProjectPage();
@@ -1672,7 +1686,10 @@ export default function App() {
                         <p className="font-display text-base font-medium text-[#F5F1E8] group-hover:text-[#D4AF72] truncate">
                           {proj.name}
                         </p>
-                        <p className="font-mono-tabular text-[11px] text-[#A5A19A]">
+                        <p className="text-[11px] text-[#A5A19A] truncate">
+                          {formatPropertyBhk(proj)} | {formatPropertyAreaSqFt(proj)}
+                        </p>
+                        <p className="font-mono-tabular text-[11px] text-[#D4AF72]">
                           {formatProjectPrice(proj.startingPriceAed, currency, true)}
                         </p>
                       </div>
@@ -2184,7 +2201,7 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
                   <div className="lg:col-span-7 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6">
                     <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mb-1">
-                      Average Price per Sq.Ft (AED) Across All 7 Emirates
+                      Average Price per sq ft (AED) Across All 7 Emirates
                     </h3>
                     <p className="text-xs text-[#A5A19A] mb-5">
                       Derived from verified registered developments in White Collar Realty’s live
@@ -2204,8 +2221,8 @@ export default function App() {
                               fontSize: '12px',
                             }}
                             formatter={(value: unknown) => [
-                              `AED ${Number(value).toLocaleString()} / sq.ft`,
-                              'Avg Price/Sq.Ft',
+                              `AED ${Number(value).toLocaleString()} / sq ft`,
+                              'Avg Price/sq ft',
                             ]}
                           />
                           <Bar dataKey="avgPsf" fill="#D4AF72" />
@@ -2538,27 +2555,27 @@ export default function App() {
               </p>
               <ul className="space-y-1.5 text-[#A5A19A]">
                 <li>
-                  <a href="#projects" className="hover:text-[#D4AF72] transition-colors">
+                  <a href="#projects" onClick={closeProjectPage} className="hover:text-[#D4AF72] transition-colors">
                     All {projects.length} UAE Projects
                   </a>
                 </li>
                 <li>
-                  <a href="#uae-map" className="hover:text-[#D4AF72] transition-colors">
+                  <a href="#uae-map" onClick={closeProjectPage} className="hover:text-[#D4AF72] transition-colors">
                     Interactive UAE Property Map
                   </a>
                 </li>
                 <li>
-                  <a href="#developers" className="hover:text-[#D4AF72] transition-colors">
+                  <a href="#developers" onClick={closeProjectPage} className="hover:text-[#D4AF72] transition-colors">
                     {developers.length} Verified UAE Master Developers
                   </a>
                 </li>
                 <li>
-                  <a href="#calculator" className="hover:text-[#D4AF72] transition-colors">
+                  <a href="#calculator" onClick={closeProjectPage} className="hover:text-[#D4AF72] transition-colors">
                     Mortgage &amp; ROI Yield Calculator
                   </a>
                 </li>
                 <li>
-                  <a href="#insights" className="hover:text-[#D4AF72] transition-colors">
+                  <a href="#insights" onClick={closeProjectPage} className="hover:text-[#D4AF72] transition-colors">
                     Emirate Price &amp; Yield Analytics
                   </a>
                 </li>
@@ -2625,6 +2642,7 @@ export default function App() {
           <button
             type="button"
             onClick={() => setToast(null)}
+            aria-label="Dismiss notification"
             className="text-[#A5A19A] hover:text-[#F5F1E8] shrink-0"
           >
             <X className="w-3.5 h-3.5" />

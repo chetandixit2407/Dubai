@@ -20,6 +20,7 @@ import {
   UserProfile,
 } from '../types/realEstate.ts';
 import { formatProjectPrice } from '../utils/currency.ts';
+import { formatPropertySpecsSummary } from '../utils/propertySpecs.ts';
 
 interface CustomerPortalModalProps {
   userProfile: UserProfile | null;
@@ -124,7 +125,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                 Sign in to access your UAE Portfolio
               </h3>
               <p className="text-sm text-[#A5A19A] mb-6 leading-relaxed">
-                Save favourite developments, subscribe to live unit availability and price change
+                Save favorite developments, subscribe to live unit availability and price change
                 alerts, and track property viewings and enquiries.
               </p>
               <button
@@ -155,8 +156,11 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                     >
                       <span>
                         <strong className="text-[#F5F1E8] block">{proj.name}</strong>
-                        <span className="text-[#A5A19A]">
+                        <span className="text-[#A5A19A] block">
                           {proj.community}, {proj.emirate}
+                        </span>
+                        <span className="text-[11px] text-[#D4AF72]/90 block mt-0.5">
+                          {formatPropertySpecsSummary(proj)}
                         </span>
                       </span>
                       <span className="font-mono-tabular text-[#D4AF72] font-semibold">
@@ -242,6 +246,9 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                           <h4 className="font-display text-lg font-medium text-[#F5F1E8]">
                             {proj.name}
                           </h4>
+                          <p className="text-[11px] text-[#D4AF72]/90 mt-0.5">
+                            {formatPropertySpecsSummary(proj)}
+                          </p>
                           <p className="text-xs font-mono-tabular text-[#A5A19A] mt-0.5">
                             {proj.startingPriceAed > 0
                               ? `From ${formatProjectPrice(proj.startingPriceAed, currency)}`
@@ -298,6 +305,9 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                           <h4 className="font-display text-lg font-medium text-[#F5F1E8]">
                             {proj.name}
                           </h4>
+                          <p className="text-[11px] text-[#D4AF72]/90 mt-0.5">
+                            {formatPropertySpecsSummary(proj)}
+                          </p>
                           <p className="text-xs font-mono-tabular text-[#A5A19A] mt-0.5">
                             {proj.startingPriceAed > 0
                               ? `From ${formatProjectPrice(proj.startingPriceAed, currency)}`
