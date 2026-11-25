@@ -7,6 +7,7 @@ import {
   formatPropertyBathrooms,
   formatPropertyBhk,
 } from '../utils/propertySpecs.ts';
+import { getEffectiveTourStatus } from '../utils/mediaValidation.ts';
 
 interface CompareProjectsModalProps {
   projects: Project[];
@@ -107,7 +108,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                       {p.bookingAmountAed
                         ? formatProjectPrice(p.bookingAmountAed, currency)
                         : `${p.downPaymentPct}%`}
-                      {p.bookingAmountAed && (
+                      {Boolean(p.bookingAmountAed) && (
                         <span className="block text-xs text-[#D4AF72] font-mono-tabular">
                           ≈ {formatCurrency(p.bookingAmountAed, 'INR')} ({p.downPaymentPct}%)
                         </span>
@@ -238,19 +239,25 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Virtual 3D Tour</td>
-                  {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 text-xs font-semibold">
-                      {p.virtualTour.tourStatus === '3d_available' ||
-                      p.virtualTour.tourStatus === '360_available' ? (
-                        <span className="text-[#D4AF72] font-semibold">
-                          3D Model / 360 Available
-                        </span>
-                      ) : (
-                        <span className="text-[#A5A19A]">Unavailable</span>
-                      )}
-                    </td>
-                  ))}
+                  <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Virtual Tour &amp; Video</td>
+                  {projects.map((p) => {
+                    const effStatus = getEffectiveTourStatus(p);
+                    return (
+                      <td key={p.id} className="py-3 px-4 text-xs font-semibold">
+                        {effStatus === '3d_available' || effStatus === '360_available' ? (
+                          <span className="text-[#D4AF72] font-semibold">
+                            3D Model / 360° Available
+                          </span>
+                        ) : effStatus === 'video_available' ? (
+                          <span className="text-[#6EE7B7] font-semibold">
+                            Video Walkthrough Available
+                          </span>
+                        ) : (
+                          <span className="text-[#A5A19A]">Unavailable</span>
+                        )}
+                      </td>
+                    );
+                  })}
                 </tr>
                 <tr>
                   <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Key Amenities</td>

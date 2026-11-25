@@ -97,7 +97,12 @@
 
 .font-display {
   font-family: 'Cormorant Garamond', 'Noto Sans Arabic', Georgia, serif;
-  text-wrap: balance;
+}
+
+.brand-wordmark {
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
+  word-break: normal !important;
 }
 
 .font-mono-tabular {

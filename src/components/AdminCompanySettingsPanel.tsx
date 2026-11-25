@@ -273,15 +273,16 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
               onChange={(e) =>
                 setInfo({
                   ...info,
+                  formattedAddress: e.target.value,
                   address: { ...info.address, formatted: e.target.value },
                 })
               }
-              className="w-full p-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
+              className="w-full p-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
           </div>
 
           <div>
-            <label className="block text-[#A5A19A] mb-1">Floor & Tower</label>
+            <label className="block text-[#A5A19A] mb-1">Floor &amp; Tower</label>
             <input
               type="text"
               value={info.address.street}
@@ -311,7 +312,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
           </div>
 
           <div>
-            <label className="block text-[#A5A19A] mb-1">Road & Sector</label>
+            <label className="block text-[#A5A19A] mb-1">Road &amp; Sector</label>
             <input
               type="text"
               value={info.address.area}
@@ -325,39 +326,70 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
             />
           </div>
 
-          <div>
-            <label className="block text-[#A5A19A] mb-1">City, State & Postal Code</label>
-            <input
-              type="text"
-              value={`${info.address.city}, ${info.address.state} ${info.address.postalCode}`}
-              onChange={(e) => {
-                const parts = e.target.value.split(',');
-                setInfo({
-                  ...info,
-                  address: {
-                    ...info.address,
-                    city: parts[0]?.trim() || info.address.city,
-                  },
-                });
-              }}
-              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
-            />
+          <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
+            <div>
+              <label className="block text-[#A5A19A] mb-1">City</label>
+              <input
+                type="text"
+                value={info.address.city}
+                onChange={(e) =>
+                  setInfo({
+                    ...info,
+                    address: { ...info.address, city: e.target.value },
+                  })
+                }
+                className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+              />
+            </div>
+            <div>
+              <label className="block text-[#A5A19A] mb-1">State / Emirate</label>
+              <input
+                type="text"
+                value={info.address.state}
+                onChange={(e) =>
+                  setInfo({
+                    ...info,
+                    address: { ...info.address, state: e.target.value },
+                  })
+                }
+                className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+              />
+            </div>
+            <div>
+              <label className="block text-[#A5A19A] mb-1">Postal Code</label>
+              <input
+                type="text"
+                value={info.address.postalCode}
+                onChange={(e) =>
+                  setInfo({
+                    ...info,
+                    address: { ...info.address, postalCode: e.target.value },
+                  })
+                }
+                className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] font-mono-tabular focus:outline-none focus:border-[#D4AF72]"
+              />
+            </div>
           </div>
 
           <div>
-            <label className="block text-[#A5A19A] mb-1">Primary Phone / WhatsApp String</label>
+            <label className="block text-[#A5A19A] mb-1">Primary Phone / WhatsApp Number</label>
             <input
               type="text"
               required
               value={info.primaryPhone}
-              onChange={(e) =>
+              onChange={(e) => {
+                const nextPhone = e.target.value;
+                const digits = nextPhone.replace(/[^0-9]/g, '');
                 setInfo({
                   ...info,
-                  primaryPhone: e.target.value,
-                  whatsappNumber: e.target.value,
-                  phoneHref: `tel:${e.target.value.replace(/\s+/g, '')}`,
-                })
-              }
+                  primaryPhone: nextPhone,
+                  phone: nextPhone,
+                  primaryPhoneRaw: nextPhone.replace(/\s+/g, ''),
+                  whatsappNumber: nextPhone,
+                  whatsappHref: digits ? `https://wa.me/${digits}` : info.whatsappHref,
+                  phoneHref: `tel:${nextPhone.replace(/\s+/g, '')}`,
+                });
+              }}
               className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
             />
           </div>
@@ -411,7 +443,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
 
           <div>
             <label className="block text-[#A5A19A] mb-1">Office Longitude</label>
-            <div className="flex gap-2">
+            <div className="flex flex-col xs:flex-row gap-2">
               <input
                 type="number"
                 step="0.00001"
@@ -431,7 +463,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                 type="button"
                 onClick={handleGeocodeOffice}
                 disabled={geocodingOffice}
-                className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/35 text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+                className="h-9 px-3 bg-[#121212] border border-[#D4AF72]/35 text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] text-xs font-semibold flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer shrink-0"
               >
                 {geocodingOffice ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />

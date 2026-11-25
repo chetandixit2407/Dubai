@@ -69,6 +69,7 @@ import {
   formatPropertyAreaSqFt,
   formatPropertyBhk,
 } from './utils/propertySpecs.ts';
+import { getGoogleMapsDirectionsUrl } from './utils/coordinates.ts';
 import { auth, googleAuthProvider, testFirestoreConnection } from './lib/firebase.ts';
 import {
   createSavedSearch,
@@ -111,7 +112,7 @@ import { AdminDashboard } from './components/AdminDashboard.tsx';
 import { OfficeLocationMap } from './components/OfficeLocationMap.tsx';
 import { CinematicIntro, INTRO_SEEN_STORAGE_KEY } from './components/CinematicIntro.tsx';
 import { AnimatedNumber, ScrollReveal } from './components/ScrollReveal.tsx';
-import { COMPANY_INFO } from './data/companyInfo.ts';
+import { useCompanyInfo } from './data/companyInfo.ts';
 
 const RECENTLY_VIEWED_KEY = 'wcr_recently_viewed_ids';
 
@@ -162,8 +163,8 @@ const PRIMARY_EMIRATE_PAGES: Array<{ emirate: EmiratesName | ''; label: string }
   { emirate: 'Ras Al Khaimah', label: 'Ras Al Khaimah Projects' },
   { emirate: 'Sharjah', label: 'Sharjah Projects' },
   { emirate: 'Umm Al Quwain', label: 'Umm Al Quwain Projects' },
-  { emirate: 'Ajman', label: 'Ajman' },
-  { emirate: 'Fujairah', label: 'Fujairah' },
+  { emirate: 'Ajman', label: 'Ajman Projects' },
+  { emirate: 'Fujairah', label: 'Fujairah Projects' },
 ];
 
 const EMIRATE_SLUG_MAP: Record<string, EmiratesName> = {
@@ -205,9 +206,13 @@ export default function App() {
   });
   const [heroParallaxY, setHeroParallaxY] = useState(0);
 
+  const companyInfo = useCompanyInfo();
+  const [heroImgFailed, setHeroImgFailed] = useState(false);
+  const [failedImageUrls, setFailedImageUrls] = useState<Record<string, boolean>>({});
   const [language, setLanguage] = useState<Language>('en');
   const [currency, setCurrency] = useState<CurrencyCode>('AED');
   const [mapsApiKey, setMapsApiKey] = useState<string>('');
+  const [mapsConfigLoading, setMapsConfigLoading] = useState<boolean>(true);
   const [mapsQuotaExceeded, setMapsQuotaExceeded] = useState(false);
 
   // Core catalog datasets (seeded baseline immediately hydrated by Firestore onSnapshot & live overlay)
@@ -370,11 +375,23 @@ export default function App() {
     return () => window.removeEventListener('gmp-quota-exceeded', onQuota);
   }, []);
 
+  const loadClientMapsConfig = React.useCallback(() => {
+    setMapsConfigLoading(true);
+    fetchClientConfig()
+      .then((cfg) => {
+        if (cfg.mapsApiKey) {
+          setMapsApiKey(cfg.mapsApiKey);
+          setMapsQuotaExceeded(false);
+        }
+      })
+      .finally(() => {
+        setMapsConfigLoading(false);
+      });
+  }, []);
+
   // Load Maps API key, hydrate live server inventory overlay, & verify Firestore connectivity
   useEffect(() => {
-    fetchClientConfig().then((cfg) => {
-      if (cfg.mapsApiKey) setMapsApiKey(cfg.mapsApiKey);
-    });
+    loadClientMapsConfig();
     fetchLiveInventoryUpdates().then(({ updates, telemetryCheckedAt }) => {
       if (updates && Object.keys(updates).length > 0) {
         setLiveOverlayMap((prev) => ({ ...prev, ...updates }));
@@ -384,7 +401,7 @@ export default function App() {
       }
     });
     testFirestoreConnection();
-  }, []);
+  }, [loadClientMapsConfig]);
 
   // Hash navigation listener for deep-linked project & Emirate pages
   useEffect(() => {
@@ -1118,51 +1135,54 @@ export default function App() {
       )}
 
       {/* Top Official Contact Bar */}
-      <div className="bg-[#121212] text-[#A5A19A] text-[11px] border-b border-[#D4AF72]/15 hidden md:block">
-        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0 flex-1">
+      <div className="bg-[#121212] text-[#A5A19A] text-[10px] sm:text-[11px] border-b border-[#D4AF72]/15">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8 py-1.5 sm:py-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+          <div className="hidden md:flex items-center gap-3 min-w-0 flex-1">
             <span className="text-[#D4AF72] font-semibold tracking-wider uppercase text-[10px] whitespace-nowrap shrink-0">
               WHITE COLLAR REALTY · Official Advisory
             </span>
             <span className="text-[#D4AF72]/30 shrink-0 hidden lg:inline">|</span>
             <span className="hidden lg:flex items-center gap-1.5 text-[#A5A19A] min-w-0">
               <MapPin className="w-3 h-3 text-[#D4AF72] shrink-0" />
-              <span className="truncate">{COMPANY_INFO.shortAddress}</span>
+              <span className="truncate">{companyInfo.shortAddress}</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-3 lg:gap-4 shrink-0 font-medium">
+          <div className="flex flex-wrap items-center justify-between md:justify-end gap-x-3 gap-y-1 w-full md:w-auto shrink-0 font-medium">
             <a
-              href={COMPANY_INFO.phoneHref}
-              className="hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
+              href={companyInfo.phoneHref}
+              className="hover:text-[#D4AF72] flex items-center gap-1 sm:gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
-              <Phone className="w-3 h-3 text-[#D4AF72]" />
-              <span>{COMPANY_INFO.phone}</span>
+              <Phone className="w-3 h-3 text-[#D4AF72] shrink-0" />
+              <span className="font-mono-tabular">{companyInfo.phone}</span>
             </a>
             <a
-              href={COMPANY_INFO.whatsappDeskUrl()}
+              href={companyInfo.whatsappDeskUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#6EE7B7] flex items-center gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
+              className="hover:text-[#6EE7B7] flex items-center gap-1 sm:gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
-              <MessageCircle className="w-3 h-3 text-[#6EE7B7]" />
+              <MessageCircle className="w-3 h-3 text-[#6EE7B7] shrink-0" />
               <span>WhatsApp Desk</span>
             </a>
             <a
-              href={COMPANY_INFO.emailHref}
+              href={companyInfo.emailHref}
               className="hidden xl:flex hover:text-[#D4AF72] items-center gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
-              <Mail className="w-3 h-3 text-[#D4AF72]" />
-              <span>{COMPANY_INFO.email}</span>
+              <Mail className="w-3 h-3 text-[#D4AF72] shrink-0" />
+              <span>{companyInfo.email}</span>
             </a>
             <a
-              href={COMPANY_INFO.googleMapsSearchUrl}
+              href={getGoogleMapsDirectionsUrl(
+                companyInfo.officeCoordinates,
+                companyInfo.mapsDirectionsUrl || companyInfo.googleMapsSearchUrl
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#D4AF72] hover:underline flex items-center gap-1 whitespace-nowrap"
             >
-              <span>Get Directions</span>
-              <ExternalLink className="w-2.5 h-2.5" />
+              <span>Directions</span>
+              <ExternalLink className="w-2.5 h-2.5 shrink-0" />
             </a>
           </div>
         </div>
@@ -1170,16 +1190,16 @@ export default function App() {
 
       {/* Top Navigation Bar (Strict 3-Zone Contract: Brand | <=5 Nav Links | 1 Primary CTA + Mobile/Tablet Drawer Toggle) */}
       <header className="sticky top-0 z-40 bg-[#080808]/95 backdrop-blur-md border-b border-[#D4AF72]/20 pt-safe">
-        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-2.5 sm:px-6 lg:px-8 min-h-14 sm:min-h-16 py-2 flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 flex-1 lg:flex-initial">
             <button
               type="button"
               onClick={() => setMobileNavOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileNavOpen}
-              className="lg:hidden w-10 h-10 -ml-1 flex items-center justify-center border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors shrink-0"
+              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors shrink-0"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <a
               href="#top"
@@ -1188,16 +1208,19 @@ export default function App() {
                 closeProjectPage();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-2 min-w-0"
+              className="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink-0 max-w-full"
             >
-              <Building2 className="w-5 h-5 text-[#D4AF72] shrink-0" />
-              <span className="font-display text-base xs:text-lg sm:text-xl lg:text-2xl font-medium tracking-wide text-[#F5F1E8] truncate">
+              <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#D4AF72] shrink-0" />
+              <span
+                style={{ fontSize: 'clamp(0.82rem, 3.7vw, 1.45rem)' }}
+                className="brand-wordmark font-display font-semibold tracking-[0.03em] sm:tracking-[0.05em] leading-none text-[#F5F1E8]"
+              >
                 {t.brand}
               </span>
             </a>
           </div>
 
-          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-5 xl:gap-8">
             <a
               href="#projects"
               onClick={closeProjectPage}
@@ -1235,30 +1258,14 @@ export default function App() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <a
-              href={COMPANY_INFO.phoneHref}
-              aria-label={`Call ${COMPANY_INFO.phone}`}
-              className="md:hidden w-9 h-9 border border-[#D4AF72]/30 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72]"
-            >
-              <Phone className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href={COMPANY_INFO.whatsappDeskUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp White Collar Realty"
-              className="md:hidden w-9 h-9 border border-[#D4AF72]/30 flex items-center justify-center text-[#6EE7B7] hover:border-[#D4AF72]"
-            >
-              <MessageCircle className="w-3.5 h-3.5" />
-            </a>
+          <div className="flex items-center shrink-0">
             <button
               type="button"
               onClick={() => setEnquiryModalState({ open: true, type: 'callback', project: null })}
-              className="h-9 sm:h-10 px-2.5 xs:px-3.5 sm:px-4 bg-[#D4AF72] text-[#080808] text-[11px] sm:text-xs font-semibold hover:bg-[#E6C77A] transition-colors duration-200 whitespace-nowrap shrink-0"
+              className="h-9 sm:h-10 px-2.5 sm:px-4 bg-[#D4AF72] text-[#080808] text-[11px] sm:text-xs font-semibold hover:bg-[#E6C77A] transition-colors duration-200 whitespace-nowrap shrink-0"
             >
-              <span className="xs:hidden">Enquire</span>
-              <span className="hidden xs:inline">{t.primaryCta}</span>
+              <span className="sm:hidden">Enquire</span>
+              <span className="hidden sm:inline">{t.primaryCta}</span>
             </button>
           </div>
         </div>
@@ -1271,12 +1278,12 @@ export default function App() {
             className="fixed inset-0 bg-[#080808]/80 backdrop-blur-sm"
             onClick={() => setMobileNavOpen(false)}
           />
-          <aside className="relative z-10 w-80 max-w-[85vw] h-[100dvh] bg-[#121212] border-r border-[#D4AF72]/25 flex flex-col justify-between overflow-y-auto pt-safe pb-safe">
+          <aside className="relative z-10 w-80 max-w-[90vw] h-[100dvh] bg-[#121212] border-r border-[#D4AF72]/25 flex flex-col justify-between overflow-y-auto pt-safe pb-safe">
             <div>
-              <div className="px-5 py-4 border-b border-[#D4AF72]/20 flex items-center justify-between gap-2">
+              <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-[#D4AF72]/20 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 min-w-0">
-                  <Building2 className="w-5 h-5 text-[#D4AF72] shrink-0" />
-                  <span className="font-display text-lg font-medium text-[#F5F1E8] truncate">
+                  <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#D4AF72] shrink-0" />
+                  <span className="brand-wordmark font-display text-[17px] sm:text-lg font-medium tracking-[0.03em] text-[#F5F1E8]">
                     {t.brand}
                   </span>
                 </div>
@@ -1377,14 +1384,14 @@ export default function App() {
                 Advisory Desk
               </p>
               <a
-                href={COMPANY_INFO.phoneHref}
+                href={companyInfo.phoneHref}
                 className="flex items-center gap-2 text-[#F5F1E8] hover:text-[#D4AF72] py-1"
               >
                 <Phone className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-                <span className="font-mono-tabular">{COMPANY_INFO.phone}</span>
+                <span className="font-mono-tabular">{companyInfo.phone}</span>
               </a>
               <a
-                href={COMPANY_INFO.whatsappDeskUrl()}
+                href={companyInfo.whatsappDeskUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-[#6EE7B7] py-1"
@@ -1393,7 +1400,7 @@ export default function App() {
                 <span>WhatsApp Advisory Desk</span>
               </a>
               <p className="text-[11px] text-[#A5A19A] leading-relaxed break-words">
-                {COMPANY_INFO.shortAddress}
+                {companyInfo.shortAddress}
               </p>
             </div>
           </aside>
@@ -1500,6 +1507,7 @@ export default function App() {
             )}
             inventoryLogs={inventoryLogs}
             mapsApiKey={mapsApiKey}
+            mapsLoading={mapsConfigLoading}
             currency={currency}
             language={language}
             isSaved={favorites.some((f) => f.projectId === activeDetailProject.id)}
@@ -1518,17 +1526,21 @@ export default function App() {
               })
             }
             onRefreshInventory={handleRefreshProjectInventory}
+            onRetryMapsConfig={loadClientMapsConfig}
           />
         ) : (
           <>
             {/* 1. ULTRA-LUXURY ARCHITECTURAL HERO SECTION */}
             <section className="relative bg-[#080808] text-[#F5F1E8]">
-              <div className="relative min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden">
-                <img
-                  src={IMG_HERO_DUBAI}
-                  alt="Dubai and UAE architectural waterfront skyline at twilight"
-                  className="absolute inset-0 w-full h-full object-cover animate-hero-ken-burns"
-                />
+              <div className="relative min-h-[480px] sm:min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden">
+                {!heroImgFailed && IMG_HERO_DUBAI && (
+                  <img
+                    src={IMG_HERO_DUBAI}
+                    alt="Dubai and UAE architectural waterfront skyline at twilight"
+                    onError={() => setHeroImgFailed(true)}
+                    className="absolute inset-0 w-full h-full object-cover animate-hero-ken-burns"
+                  />
+                )}
                 {/* Obsidian Gradient Scrims */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-[#080808]/40" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/45" />
@@ -1666,12 +1678,15 @@ export default function App() {
                       onClick={() => openProjectPage(proj)}
                       className="text-left bg-[#121212] border border-[#D4AF72]/20 hover:border-[#D4AF72] p-3 flex items-center gap-3 transition-colors group"
                     >
-                      {proj.heroImage ? (
+                      {proj.heroImage && !failedImageUrls[proj.heroImage] ? (
                         <img
                           src={proj.heroImage}
                           alt={proj.name}
                           loading="lazy"
                           referrerPolicy="no-referrer"
+                          onError={() =>
+                            setFailedImageUrls((prev) => ({ ...prev, [proj.heroImage]: true }))
+                          }
                           className="w-16 h-14 object-cover bg-[#1B1B1B] shrink-0 border border-[#D4AF72]/15"
                         />
                       ) : (
@@ -2068,9 +2083,11 @@ export default function App() {
                 <UAEPropertyMap
                   projects={projects}
                   mapsApiKey={mapsApiKey}
+                  mapsLoading={mapsConfigLoading}
                   currency={currency}
                   onOpenProject={openProjectPage}
                   onRequestAvailabilitySheet={(proj) => openAvailabilitySheet(proj)}
+                  onRetryMapsConfig={loadClientMapsConfig}
                 />
               </ScrollReveal>
             </section>
@@ -2103,11 +2120,18 @@ export default function App() {
                         className="bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] transition-colors flex flex-col justify-between group"
                       >
                         <div className="relative aspect-[4/3] overflow-hidden bg-[#121212]">
-                          {proj.heroImage ? (
+                          {proj.heroImage && !failedImageUrls[proj.heroImage] ? (
                             <img
                               src={proj.heroImage}
                               alt={proj.name}
                               loading="lazy"
+                              referrerPolicy="no-referrer"
+                              onError={() =>
+                                setFailedImageUrls((prev) => ({
+                                  ...prev,
+                                  [proj.heroImage]: true,
+                                }))
+                              }
                               className="w-full h-full object-cover group-hover:scale-[1.035] transition-transform duration-500"
                             />
                           ) : (
@@ -2208,7 +2232,7 @@ export default function App() {
                       database.
                     </p>
                     <div className="h-64 sm:h-72 w-full min-w-0">
-                      <ResponsiveContainer width="100%" height="100%">
+                      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <BarChart data={emirateInsightsData}>
                           <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
                           <XAxis dataKey="emirate" tick={{ fontSize: 11, fill: '#A5A19A' }} />
@@ -2316,50 +2340,50 @@ export default function App() {
                         Official Corporate Office
                       </p>
                       <p className="text-[#F5F1E8] font-medium leading-relaxed">
-                        {COMPANY_INFO.formattedAddress}
+                        {companyInfo.formattedAddress}
                       </p>
                       <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px]">
                         <a
-                          href={COMPANY_INFO.phoneHref}
+                          href={companyInfo.phoneHref}
                           className="text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-1 font-semibold"
                         >
                           <Phone className="w-3 h-3 text-[#D4AF72]" />
-                          <span>{COMPANY_INFO.phone}</span>
+                          <span>{companyInfo.phone}</span>
                         </a>
                         <span className="text-[#D4AF72]/30">·</span>
                         <a
-                          href={COMPANY_INFO.emailHref}
+                          href={companyInfo.emailHref}
                           className="text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-1 font-semibold"
                         >
                           <Mail className="w-3 h-3 text-[#D4AF72]" />
-                          <span>{COMPANY_INFO.email}</span>
+                          <span>{companyInfo.email}</span>
                         </a>
                       </div>
                     </div>
 
-                    <div className="pt-2 flex flex-wrap gap-3">
+                    <div className="pt-2 flex flex-wrap gap-2.5 sm:gap-3">
                       <a
-                        href={COMPANY_INFO.whatsappDeskUrl()}
+                        href={companyInfo.whatsappDeskUrl()}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2.5 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-2 hover:bg-[#047857] transition-colors"
+                        className="px-4 sm:px-5 py-2.5 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-2 hover:bg-[#047857] transition-colors max-w-full"
                       >
-                        <MessageCircle className="w-4 h-4" />
-                        <span>WhatsApp Advisory ({COMPANY_INFO.phone})</span>
+                        <MessageCircle className="w-4 h-4 shrink-0" />
+                        <span>WhatsApp Advisory ({companyInfo.phone})</span>
                       </a>
                       <a
-                        href={COMPANY_INFO.phoneHref}
-                        className="px-5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-2 transition-colors"
+                        href={companyInfo.phoneHref}
+                        className="px-4 sm:px-5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-2 transition-colors max-w-full"
                       >
-                        <Phone className="w-4 h-4" />
-                        <span>Call {COMPANY_INFO.phone}</span>
+                        <Phone className="w-4 h-4 shrink-0" />
+                        <span>Call {companyInfo.phone}</span>
                       </a>
                       <button
                         type="button"
                         onClick={() =>
                           setEnquiryModalState({ open: true, type: 'visit', project: null })
                         }
-                        className="px-4 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/30 text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center gap-2 transition-colors"
+                        className="px-4 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/30 text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center gap-2 transition-colors max-w-full"
                       >
                         <span>Schedule Private Viewing</span>
                       </button>
@@ -2378,7 +2402,7 @@ export default function App() {
                     {deskSubmitted ? (
                       <div className="border border-[#34D399]/35 bg-[#064E3B]/35 p-5 text-sm text-[#6EE7B7] font-medium">
                         Your consultation request has been registered in our advisory CRM. A
-                        specialist will contact you via {COMPANY_INFO.phone} shortly.
+                        specialist will contact you via {companyInfo.phone} shortly.
                       </div>
                     ) : (
                       <form onSubmit={handleDeskSubmit} className="space-y-3 text-xs">
@@ -2443,16 +2467,23 @@ export default function App() {
                       </h3>
                     </div>
                     <a
-                      href={COMPANY_INFO.googleMapsSearchUrl}
+                      href={getGoogleMapsDirectionsUrl(
+                        companyInfo.officeCoordinates,
+                        companyInfo.mapsDirectionsUrl || companyInfo.googleMapsSearchUrl
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5 transition-colors"
+                      className="px-3.5 sm:px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center justify-center gap-1.5 transition-colors text-center max-w-full"
                     >
-                      <span>GET DIRECTIONS TO WHITE COLLAR REALTY</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span className="leading-snug">GET DIRECTIONS TO WHITE COLLAR REALTY</span>
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                     </a>
                   </div>
-                  <OfficeLocationMap apiKey={mapsApiKey} />
+                  <OfficeLocationMap
+                    apiKey={mapsApiKey}
+                    mapsLoading={mapsConfigLoading}
+                    onRetryMapsConfig={loadClientMapsConfig}
+                  />
                 </div>
               </ScrollReveal>
             </section>
@@ -2465,8 +2496,8 @@ export default function App() {
         <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Col 1: Brand & Charter */}
-            <div className="space-y-3">
-              <p className="font-display text-xl font-medium text-[#F5F1E8] tracking-wide">
+            <div className="space-y-3 min-w-0">
+              <p className="brand-wordmark font-display text-lg sm:text-xl font-medium text-[#F5F1E8] tracking-[0.04em]">
                 WHITE COLLAR REALTY
               </p>
               <p className="text-[#A5A19A] leading-relaxed text-xs">
@@ -2479,28 +2510,30 @@ export default function App() {
             </div>
 
             {/* Col 2: Official Corporate Address */}
-            <div className="space-y-2">
+            <div className="space-y-2 min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wider text-[#F5F1E8]">
                 Official Office Address
               </p>
-              <p className="text-[#A5A19A] leading-relaxed">{COMPANY_INFO.formattedAddress}</p>
+              <p className="text-[#A5A19A] leading-relaxed break-words">{companyInfo.formattedAddress}</p>
               <p className="text-[11px] text-[#A5A19A]/70 font-mono-tabular">
-                GPS: {COMPANY_INFO.officeCoordinates.lat}° N, {COMPANY_INFO.officeCoordinates.lng}°
-                E
+                GPS: {companyInfo.officeCoordinates.lat}° N, {companyInfo.officeCoordinates.lng}° E
               </p>
               <a
-                href={COMPANY_INFO.googleMapsSearchUrl}
+                href={getGoogleMapsDirectionsUrl(
+                  companyInfo.officeCoordinates,
+                  companyInfo.mapsDirectionsUrl || companyInfo.googleMapsSearchUrl
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[#D4AF72] font-semibold hover:underline pt-1"
+                className="inline-flex items-center gap-1.5 text-[#D4AF72] font-semibold hover:underline pt-1 max-w-full"
               >
-                <span>GET DIRECTIONS TO WHITE COLLAR REALTY</span>
-                <ExternalLink className="w-3 h-3" />
+                <span className="leading-snug">GET DIRECTIONS TO WHITE COLLAR REALTY</span>
+                <ExternalLink className="w-3 h-3 shrink-0" />
               </a>
             </div>
 
             {/* Col 3: Direct Contact Channels */}
-            <div className="space-y-2">
+            <div className="space-y-2 min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wider text-[#F5F1E8]">
                 Direct Contact &amp; Helplines
               </p>
@@ -2509,35 +2542,35 @@ export default function App() {
                   Primary Phone &amp; WhatsApp:
                 </span>
                 <a
-                  href={COMPANY_INFO.phoneHref}
+                  href={companyInfo.phoneHref}
                   className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72]"
                 >
-                  {COMPANY_INFO.phone}
+                  {companyInfo.phone}
                 </a>
               </p>
-              <p>
+              <p className="min-w-0">
                 <span className="text-[#A5A19A]/70 block text-[11px]">Official Email:</span>
                 <a
-                  href={COMPANY_INFO.emailHref}
-                  className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72]"
+                  href={companyInfo.emailHref}
+                  className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72] break-all"
                 >
-                  {COMPANY_INFO.email}
+                  {companyInfo.email}
                 </a>
               </p>
-              <p>
+              <p className="min-w-0">
                 <span className="text-[#A5A19A]/70 block text-[11px]">Official Website:</span>
                 <a
-                  href={COMPANY_INFO.website}
+                  href={companyInfo.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#D4AF72] font-semibold hover:underline"
+                  className="text-[#D4AF72] font-semibold hover:underline break-all"
                 >
-                  {COMPANY_INFO.website}
+                  {companyInfo.website}
                 </a>
               </p>
               <div className="pt-1">
                 <a
-                  href={COMPANY_INFO.whatsappDeskUrl()}
+                  href={companyInfo.whatsappDeskUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#065F46] text-[#ECFDF5] text-[11px] font-semibold hover:bg-[#047857]"
@@ -2598,7 +2631,7 @@ export default function App() {
               © {new Date().getFullYear()} WHITE COLLAR REALTY. All rights reserved. Registered real
               estate intelligence &amp; advisory.
             </p>
-            <p className="font-mono-tabular">
+            <p>
               Gurugram · Dubai · Abu Dhabi · Sharjah · Ras Al Khaimah · Ajman · Fujairah · Umm Al
               Quwain
             </p>

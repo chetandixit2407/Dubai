@@ -2415,7 +2415,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
                 {mapsApiKey && !previewMapUnavailable && isValidCoordinate(editingProject.coordinates) && (
                   <div className="h-44 w-full border border-[#D4AF72]/25 bg-[#080808]">
-                    <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en">
+                    <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en" region="AE">
                       <GoogleMapsGuard onStatusError={() => setPreviewMapUnavailable(true)}>
                         <GoogleMap
                           key={`${editingProject.coordinates.lat.toFixed(4)}-${editingProject.coordinates.lng.toFixed(4)}`}

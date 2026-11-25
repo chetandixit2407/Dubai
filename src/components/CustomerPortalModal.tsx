@@ -152,18 +152,18 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                         onSelectProject(proj);
                         onClose();
                       }}
-                      className="w-full text-left p-3 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] flex items-center justify-between text-xs"
+                      className="w-full text-left p-3 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] flex items-center justify-between gap-3 text-xs"
                     >
-                      <span>
-                        <strong className="text-[#F5F1E8] block">{proj.name}</strong>
-                        <span className="text-[#A5A19A] block">
+                      <span className="min-w-0 flex-1">
+                        <strong className="text-[#F5F1E8] block truncate">{proj.name}</strong>
+                        <span className="text-[#A5A19A] block truncate">
                           {proj.community}, {proj.emirate}
                         </span>
-                        <span className="text-[11px] text-[#D4AF72]/90 block mt-0.5">
+                        <span className="text-[11px] text-[#D4AF72]/90 block mt-0.5 truncate">
                           {formatPropertySpecsSummary(proj)}
                         </span>
                       </span>
-                      <span className="font-mono-tabular text-[#D4AF72] font-semibold">
+                      <span className="font-mono-tabular text-[#D4AF72] font-semibold shrink-0">
                         {formatProjectPrice(proj.startingPriceAed, currency, true)}
                       </span>
                     </button>
@@ -239,7 +239,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                         key={proj.id}
                         className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-wrap items-center justify-between gap-4"
                       >
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="text-xs text-[#D4AF72] font-medium">
                             {proj.emirate} · {proj.community}
                           </p>
@@ -298,7 +298,7 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                         key={proj.id}
                         className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-wrap items-center justify-between gap-4"
                       >
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="text-xs text-[#D4AF72] font-medium">
                             {proj.emirate} · {proj.community}
                           </p>

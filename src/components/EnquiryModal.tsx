@@ -3,7 +3,7 @@ import { Building2, CheckCircle2, Clock, FileSpreadsheet, MessageCircle, Phone, 
 import { EnquiryType, Project } from '../types/realEstate.ts';
 import { submitEnquiry } from '../services/firestoreService.ts';
 import { notifyPublicEnquiryCreated } from '../services/apiClient.ts';
-import { COMPANY_INFO } from '../data/companyInfo.ts';
+import { useCompanyInfo } from '../data/companyInfo.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 import { formatFloorPlanAreaSqFt, formatFloorPlanBhk } from '../utils/propertySpecs.ts';
 
@@ -32,6 +32,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   currentUser,
   onClose,
 }) => {
+  const companyInfo = useCompanyInfo();
   const isAvailabilitySheet = requestContext === 'availability_sheet';
   const [enquiryType, setEnquiryType] = useState<EnquiryType>(
     isAvailabilitySheet ? 'availability_alert' : initialType
@@ -244,13 +245,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 </a>
               )}
               <a
-                href={COMPANY_INFO.whatsappDeskUrl(whatsappText)}
+                href={companyInfo.whatsappDeskUrl(whatsappText)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-1.5 hover:bg-[#047857]"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                <span>Continue on WhatsApp ({COMPANY_INFO.phone})</span>
+                <span>Continue on WhatsApp ({companyInfo.phone})</span>
               </a>
               <button
                 type="button"
@@ -383,13 +384,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
               <a
-                href={COMPANY_INFO.whatsappDeskUrl(whatsappText)}
+                href={companyInfo.whatsappDeskUrl(whatsappText)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-medium text-[#6EE7B7] hover:underline flex items-center gap-1.5"
               >
                 <MessageCircle className="w-4 h-4 shrink-0" />
-                <span>Direct WhatsApp ({COMPANY_INFO.phone})</span>
+                <span>Direct WhatsApp ({companyInfo.phone})</span>
               </a>
 
               <div className="flex items-center justify-end gap-2">

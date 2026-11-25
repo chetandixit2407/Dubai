@@ -42,8 +42,12 @@ function computeLocalInvestmentAnalysis(params: {
   const years = Math.min(30, Math.max(1, Number(params.installmentYears) || 5));
   const annualRent = Math.max(0, Number(params.estimatedAnnualRentAed) || 0);
   const serviceCharge = Math.max(0, Number(params.annualServiceChargeAed) || 0);
-  const dldFee = price * ((Number(params.dldFeePct) || 4) / 100);
-  const agencyFee = price * ((Number(params.agencyFeePct) || 2) / 100);
+  const parsedDld = Number(params.dldFeePct);
+  const parsedAgency = Number(params.agencyFeePct);
+  const dldPct = Number.isFinite(parsedDld) && parsedDld >= 0 ? parsedDld : 4;
+  const agencyPct = Number.isFinite(parsedAgency) && parsedAgency >= 0 ? parsedAgency : 2;
+  const dldFee = price * (dldPct / 100);
+  const agencyFee = price * (agencyPct / 100);
   const trusteeAndAdminAed = 5400;
 
   const downPaymentAed = price * (downPct / 100);
@@ -258,8 +262,8 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
+            <div className="min-w-0">
               <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                 Down Payment (%)
               </label>
@@ -272,7 +276,7 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
                 className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
-            <div>
+            <div className="min-w-0">
               <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                 Installment Duration (Years)
               </label>
@@ -287,8 +291,8 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
+            <div className="min-w-0">
               <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                 Est. Annual Rent (AED)
               </label>
@@ -301,7 +305,7 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
                 className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
-            <div>
+            <div className="min-w-0">
               <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                 Annual Service Charges (AED)
               </label>
@@ -431,7 +435,7 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
                   {loading && <span className="text-xs text-[#D4AF72]">Recalculating...</span>}
                 </div>
                 <div className="h-52 w-full min-w-0">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                     <BarChart data={analysis.fiveYearProjection}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
                       <XAxis dataKey="year" tick={{ fontSize: 11, fill: '#A5A19A' }} />
@@ -447,9 +451,11 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
                           color: '#F5F1E8',
                           fontSize: '12px',
                         }}
-                        formatter={(value: unknown) => [
-                          `AED ${Number(value).toLocaleString()}`,
-                          '',
+                        formatter={(value, name) => [
+                          currency !== 'AED'
+                            ? `${formatCurrency(Number(value), currency)} (AED ${Number(value).toLocaleString()})`
+                            : `AED ${Number(value).toLocaleString()}`,
+                          String(name ?? ''),
                         ]}
                       />
                       <Bar dataKey="propertyValueAed" name="Projected Value" fill="#F5F1E8" />

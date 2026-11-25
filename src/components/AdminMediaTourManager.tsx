@@ -92,6 +92,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
   const [draft, setDraft] = useState<Project | null>(selectedProject ? { ...selectedProject } : null);
   const [saving, setSaving] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [failedMediaUrls, setFailedMediaUrls] = useState<Set<string>>(() => new Set());
   const workspaceRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -730,7 +731,22 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                 return (
                   <div key={item.id} className="border border-[#D4AF72]/20 bg-[#121212] p-3 text-xs space-y-2">
                     <div className="relative aspect-[16/10] bg-[#080808] overflow-hidden">
-                      <img src={item.url} alt={item.caption} className="w-full h-full object-cover" />
+                      {failedMediaUrls.has(item.url) ? (
+                        <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center">
+                          <Camera className="w-6 h-6 text-[#D4AF72]/70 mb-1" />
+                          <span className="text-[10px] text-[#A5A19A]">Preview Unavailable</span>
+                        </div>
+                      ) : (
+                        <img
+                          src={item.url}
+                          alt={item.caption}
+                          referrerPolicy="no-referrer"
+                          onError={() =>
+                            setFailedMediaUrls((prev) => new Set(prev).add(item.url))
+                          }
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                       <span className="absolute top-2 left-2 px-2 py-0.5 bg-[#080808]/90 text-[#F5F1E8] text-[10px]">
                         {MEDIA_CLASSIFICATION_LABELS[item.classification]}
                       </span>

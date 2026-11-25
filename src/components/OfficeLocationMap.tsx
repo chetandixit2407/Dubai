@@ -2,29 +2,35 @@ import React, { useEffect, useState } from 'react';
 import {
   AdvancedMarker,
   APIProvider,
+  CollisionBehavior,
   InfoWindow,
   Map as GoogleMap,
   useAdvancedMarkerRef,
   useMap,
 } from '@vis.gl/react-google-maps';
 import {
+  AlertTriangle,
   Building2,
   Crosshair,
   ExternalLink,
+  Loader2,
   Mail,
   MapPin,
   Navigation,
   Phone,
+  RefreshCw,
   Send,
 } from 'lucide-react';
 import { CompanyInformation, getEffectiveCompanyInfo } from '../data/companyInfo.ts';
-import { isValidCoordinate } from '../utils/coordinates.ts';
-import { GoogleMapsGuard } from './GoogleMapsGuard.tsx';
+import { getGoogleMapsDirectionsUrl, isValidCoordinate } from '../utils/coordinates.ts';
+import { GoogleMapsGuard, MapsErrorReason } from './GoogleMapsGuard.tsx';
 
 interface OfficeLocationMapProps {
   apiKey?: string;
+  mapsLoading?: boolean;
   className?: string;
   overrideCompanyInfo?: CompanyInformation;
+  onRetryMapsConfig?: () => void;
 }
 
 const OfficeMapController: React.FC<{
@@ -45,7 +51,7 @@ const OfficeMapController: React.FC<{
         map.panTo(target);
         map.setZoom(15);
       }}
-      className="absolute bottom-3 left-3 z-10 h-9 px-3 bg-[#080808]/90 border border-[#D4AF72]/45 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 shadow-lg cursor-pointer"
+      className="absolute bottom-7 left-2.5 z-10 h-8 sm:h-9 px-2.5 sm:px-3 bg-[#080808]/95 border border-[#D4AF72]/45 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 shadow-lg cursor-pointer"
     >
       <Crosshair className="w-3.5 h-3.5 text-[#D4AF72]" />
       <span>Recenter Office</span>
@@ -56,7 +62,8 @@ const OfficeMapController: React.FC<{
 const OfficeMarkerWithPopup: React.FC<{
   company: CompanyInformation;
   position: { lat: number; lng: number };
-}> = ({ company, position }) => {
+  directionsUrl: string;
+}> = ({ company, position, directionsUrl }) => {
   const [markerRef, marker] = useAdvancedMarkerRef();
   const [infoOpen, setInfoOpen] = useState(false);
 
@@ -66,6 +73,7 @@ const OfficeMarkerWithPopup: React.FC<{
         ref={markerRef}
         position={position}
         title={company.name}
+        collisionBehavior={CollisionBehavior.REQUIRED}
         onClick={() => setInfoOpen((prev) => !prev)}
       >
         <div className="bg-[#080808] text-[#F5F1E8] text-xs font-semibold px-3 py-1.5 border border-[#D4AF72] shadow-md flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
@@ -75,7 +83,7 @@ const OfficeMarkerWithPopup: React.FC<{
       </AdvancedMarker>
       {infoOpen && marker && (
         <InfoWindow anchor={marker} onCloseClick={() => setInfoOpen(false)}>
-          <div className="p-3 bg-[#121212] text-[#F5F1E8] max-w-[260px] space-y-1.5 text-xs">
+          <div className="p-2.5 sm:p-3 bg-[#121212] text-[#F5F1E8] w-[min(250px,calc(100vw-64px))] space-y-1.5 text-xs">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#D4AF72]">
               Corporate Headquarters
             </p>
@@ -85,10 +93,7 @@ const OfficeMarkerWithPopup: React.FC<{
               {position.lat.toFixed(5)}° N, {position.lng.toFixed(5)}° E
             </p>
             <a
-              href={
-                company.mapsDirectionsUrl ||
-                `https://www.google.com/maps/dir/?api=1&destination=${position.lat},${position.lng}`
-              }
+              href={directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 mt-1 px-2.5 py-1.5 bg-[#D4AF72] text-[#080808] text-[11px] font-semibold hover:bg-[#E6C77A]"
@@ -105,13 +110,16 @@ const OfficeMarkerWithPopup: React.FC<{
 
 export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
   apiKey,
+  mapsLoading = false,
   className = '',
   overrideCompanyInfo,
+  onRetryMapsConfig,
 }) => {
   const [storedCompany, setStoredCompany] = useState<CompanyInformation>(() =>
     getEffectiveCompanyInfo()
   );
-  const [mapUnavailable, setMapUnavailable] = useState(false);
+  const [mapErrorReason, setMapErrorReason] = useState<MapsErrorReason | null>(null);
+  const [retryToken, setRetryToken] = useState(0);
 
   useEffect(() => {
     const syncHandler = () => setStoredCompany(getEffectiveCompanyInfo());
@@ -122,6 +130,10 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
   const company = overrideCompanyInfo || storedCompany;
   const coords = company.officeCoordinates;
   const hasValidCoords = isValidCoordinate(coords);
+  const exactDirectionsUrl = getGoogleMapsDirectionsUrl(
+    hasValidCoords ? coords : null,
+    company.mapsDirectionsUrl || company.googleMapsSearchUrl
+  );
 
   return (
     <div className={`bg-[#121212] border border-[#D4AF72]/25 overflow-hidden ${className}`}>
@@ -136,7 +148,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
             <h3 className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8]">
               {company.name}
             </h3>
-            <p className="text-xs text-[#A5A19A] mt-1 font-mono-tabular">
+            <p className="text-xs text-[#A5A19A] mt-1">
               Private Advisory &amp; International Client Desk
             </p>
 
@@ -199,19 +211,14 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
           {/* Prominent Get Directions CTA */}
           <div>
             <a
-              href={
-                company.mapsDirectionsUrl ||
-                (hasValidCoords
-                  ? `https://www.google.com/maps/dir/?api=1&destination=${coords.lat},${coords.lng}`
-                  : company.googleMapsSearchUrl)
-              }
+              href={exactDirectionsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3.5 px-4 bg-[#D4AF72] text-[#080808] hover:bg-[#E6C77A] text-xs font-semibold tracking-wider uppercase flex items-center justify-center gap-2 transition-colors text-center"
+              className="w-full py-3 px-3 sm:px-4 bg-[#D4AF72] text-[#080808] hover:bg-[#E6C77A] text-xs font-semibold tracking-wider uppercase flex items-center justify-center gap-2 transition-colors text-center"
             >
               <Navigation className="w-4 h-4 shrink-0" />
-              <span className="truncate">GET DIRECTIONS TO WHITE COLLAR REALTY</span>
-              <ExternalLink className="w-3.5 h-3.5 ml-1 shrink-0" />
+              <span className="leading-snug">GET DIRECTIONS TO WHITE COLLAR REALTY</span>
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
             </a>
             <p className="text-[11px] text-[#A5A19A] text-center mt-2">
               Opens Google Maps with turn-by-turn navigation to {company.address.building}
@@ -221,9 +228,23 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
 
         {/* Interactive Google Map with explicit responsive height */}
         <div className="lg:col-span-7 min-w-0 h-[300px] sm:h-[360px] lg:h-[460px] relative border-t lg:border-t-0 lg:border-l border-[#D4AF72]/20 bg-[#080808]">
-          {apiKey && !mapUnavailable && hasValidCoords ? (
-            <APIProvider apiKey={apiKey} libraries={['marker']} language="en">
-              <GoogleMapsGuard onStatusError={() => setMapUnavailable(true)}>
+          {mapsLoading && !apiKey ? (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-xs text-[#A5A19A]">
+              <Loader2 className="w-6 h-6 animate-spin text-[#D4AF72]" />
+              <span>Initializing office location map...</span>
+            </div>
+          ) : apiKey && !mapErrorReason && hasValidCoords ? (
+            <APIProvider
+              key={`office-map-${retryToken}`}
+              apiKey={apiKey}
+              libraries={['marker']}
+              language="en"
+              region="AE"
+            >
+              <GoogleMapsGuard
+                loadingLabel="Loading office headquarters map tiles..."
+                onStatusError={(reason) => setMapErrorReason(reason)}
+              >
                 <div className="w-full h-full relative">
                   <GoogleMap
                     defaultCenter={coords}
@@ -239,16 +260,31 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
                     style={{ width: '100%', height: '100%' }}
                   >
                     <OfficeMapController target={coords} />
-                    <OfficeMarkerWithPopup company={company} position={coords} />
+                    <OfficeMarkerWithPopup
+                      company={company}
+                      position={coords}
+                      directionsUrl={exactDirectionsUrl}
+                    />
                   </GoogleMap>
                 </div>
               </GoogleMapsGuard>
             </APIProvider>
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#121212]">
-              <MapPin className="w-8 h-8 text-[#D4AF72] mb-2" />
+              {mapErrorReason ? (
+                <AlertTriangle className="w-8 h-8 text-[#FCD34D] mb-2" />
+              ) : (
+                <MapPin className="w-8 h-8 text-[#D4AF72] mb-2" />
+              )}
               <p className="font-semibold text-sm text-[#F5F1E8]">{company.name}</p>
               <p className="text-xs text-[#A5A19A] mt-1 max-w-sm">{company.address.formatted}</p>
+              {mapErrorReason && (
+                <p className="text-[11px] text-[#FCA5A5] mt-2 max-w-sm">
+                  {mapErrorReason === 'quota_exceeded'
+                    ? 'Google Maps preview quota reached. Use exact GPS directions below.'
+                    : 'Unable to load interactive Google Maps tiles right now.'}
+                </p>
+              )}
               {hasValidCoords ? (
                 <p className="text-xs font-mono-tabular text-[#D4AF72] mt-2">
                   Coordinates: {coords.lat.toFixed(4)}° N, {coords.lng.toFixed(4)}° E
@@ -258,15 +294,31 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
                   Office GPS coordinates pending update in Company Settings.
                 </p>
               )}
-              <a
-                href={company.mapsDirectionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5"
-              >
-                <Navigation className="w-3.5 h-3.5" />
-                <span>Open in Google Maps</span>
-              </a>
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                {mapErrorReason && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMapErrorReason(null);
+                      setRetryToken((n) => n + 1);
+                      onRetryMapsConfig?.();
+                    }}
+                    className="px-3.5 py-2 border border-[#D4AF72]/40 text-xs font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Retry Live Map</span>
+                  </button>
+                )}
+                <a
+                  href={exactDirectionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Open in Google Maps</span>
+                </a>
+              </div>
             </div>
           )}
         </div>

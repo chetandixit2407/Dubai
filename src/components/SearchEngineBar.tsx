@@ -255,7 +255,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 className="w-full min-w-0 h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
               <input
                 type="number"
                 placeholder="Max Monthly AED"
@@ -290,14 +290,14 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               onChange={(e) => update('community', e.target.value)}
               className="w-full min-w-0 h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             >
-              <option value="">All Communities &amp; Neighborhoods</option>
+              <option value="">All Communities &amp; Neighbourhoods</option>
               {communities.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
               ))}
             </select>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
               <select
                 value={filters.landmarkCategory}
                 onChange={(e) => update('landmarkCategory', e.target.value)}
@@ -307,7 +307,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 <option value="metro">Metro Station</option>
                 <option value="airport">Airport</option>
                 <option value="school">School</option>
-                <option value="mall">Shopping Center</option>
+                <option value="mall">Shopping Centre</option>
                 <option value="beach">Beachfront</option>
               </select>
               <input
@@ -355,7 +355,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 </option>
               ))}
             </select>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
               <select
                 value={filters.handoverYear}
                 onChange={(e) => update('handoverYear', e.target.value)}
@@ -400,7 +400,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
               Tenure, Yield & Inventory
             </p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
               <select
                 value={filters.tenure}
                 onChange={(e) => update('tenure', e.target.value)}
@@ -421,7 +421,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 <option value="Unfurnished">Unfurnished</option>
               </select>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
               <input
                 type="number"
                 step="0.5"

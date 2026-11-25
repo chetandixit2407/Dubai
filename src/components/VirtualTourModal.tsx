@@ -205,6 +205,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
     () => typeof window !== 'undefined' && 'DeviceOrientationEvent' in window
   );
   const [webglFallbackActive, setWebglFallbackActive] = useState(false);
+  const [panoramaImgFailed, setPanoramaImgFailed] = useState(false);
   const [aspectRatio, setAspectRatio] = useState(1.77);
 
   // Track room changes
@@ -213,6 +214,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
       setYawDeg(activeRoom.yawOffset || 0);
       setPitchDeg(0);
       setActiveHotspot(null);
+      setPanoramaImgFailed(false);
       if (activeRoom.floorPlanId) {
         setSelectedFloorPlanId(activeRoom.floorPlanId);
       }
@@ -370,6 +372,15 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
     return () => {
       cancelled = true;
       glStateRef.current = null;
+      try {
+        gl.deleteTexture(texture);
+        gl.deleteBuffer(quadBuffer);
+        gl.deleteShader(vs);
+        gl.deleteShader(fs);
+        gl.deleteProgram(program);
+      } catch {
+        // Ignore cleanup errors if WebGL context already lost
+      }
     };
   }, [effectiveStatus, activeRoom?.id, activeRoom?.imageUrl]);
 
@@ -468,10 +479,16 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
     dragOrigin.current = null;
   };
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    setFovDeg((prev) => Math.max(35, Math.min(105, prev + (e.deltaY > 0 ? 5 : -5))));
-  };
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || effectiveStatus !== '360_available' || !activeRoom) return;
+    const onNativeWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      setFovDeg((prev) => Math.max(35, Math.min(105, prev + (e.deltaY > 0 ? 5 : -5))));
+    };
+    stage.addEventListener('wheel', onNativeWheel, { passive: false });
+    return () => stage.removeEventListener('wheel', onNativeWheel);
+  }, [effectiveStatus, activeRoom?.id]);
 
   const handleSelectFloorPlan = (fpId: string) => {
     setSelectedFloorPlanId(fpId);
@@ -507,7 +524,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
             </h2>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 shrink-0 max-w-full">
             {effectiveStatus === '360_available' && (
               <>
                 <button
@@ -595,7 +612,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
         {/* Multi-Tour Gallery Bar */}
         {tourList.length > 1 && (
-          <div className="px-5 py-2.5 bg-black/90 border-b border-[#D4AF72]/20 flex items-center gap-2 overflow-x-auto text-xs shrink-0">
+          <div className="px-3 sm:px-5 py-2 sm:py-2.5 bg-black/90 border-b border-[#D4AF72]/20 flex items-center gap-2 overflow-x-auto text-xs shrink-0">
             <span className="text-[#D4AF72] font-semibold whitespace-nowrap">
               Available 360° Tours ({tourList.length}):
             </span>
@@ -787,16 +804,26 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
-              onWheel={handleWheel}
               className={`flex-1 min-h-[280px] relative overflow-hidden select-none touch-none ${
                 isDragging ? 'cursor-grabbing' : 'cursor-grab'
               }`}
             >
-              {webglFallbackActive ? (
+              {panoramaImgFailed ? (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#080808]">
+                  <Compass className="w-10 h-10 text-[#D4AF72] mb-2" />
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
+                    Panorama Asset Unavailable
+                  </p>
+                  <p className="text-xs text-white/70 mt-1 max-w-md">
+                    The equirectangular image for {activeRoom.label} could not be loaded from its external host.
+                  </p>
+                </div>
+              ) : webglFallbackActive ? (
                 <img
                   src={activeRoom.imageUrl}
                   alt={activeRoom.label}
                   draggable={false}
+                  onError={() => setPanoramaImgFailed(true)}
                   style={{
                     objectPosition: `${(yawDeg / 360) * 100}% ${50 + pitchDeg * 0.45}%`,
                     transform: `scale(${Math.max(1.05, 95 / fovDeg)})`,
@@ -879,7 +906,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
               {/* Hotspot Info Overlay */}
               {activeHotspot && (
-                <div className="absolute top-16 left-4 bg-[#121212]/95 border border-[#D4AF72] p-4 max-w-xs text-xs shadow-xl">
+                <div className="absolute top-14 left-2.5 right-2.5 sm:right-auto sm:top-16 sm:left-4 bg-[#121212]/95 border border-[#D4AF72] p-3 sm:p-4 sm:max-w-xs text-xs shadow-xl">
                   <div className="flex items-start justify-between gap-2">
                     <p className="font-semibold text-[#D4AF72]">{activeHotspot.label}</p>
                     <button

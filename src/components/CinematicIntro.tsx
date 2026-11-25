@@ -273,13 +273,16 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ open, onComplete
           <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] sm:tracking-[0.38em] text-[#D4AF72] font-medium mb-3 sm:mb-4">
             Private Real Estate Advisory
           </p>
-          <h1 className="font-display text-3xl xs:text-4xl sm:text-6xl md:text-7xl font-medium tracking-[0.06em] text-[#F5F1E8] leading-tight">
+          <h1
+            style={{ fontSize: 'clamp(1.22rem, 5.1vw, 4.35rem)' }}
+            className="brand-wordmark font-display font-medium tracking-[0.04em] sm:tracking-[0.06em] text-[#F5F1E8] leading-none"
+          >
             WHITE COLLAR REALTY
           </h1>
           <div
-            className="mx-auto my-5 h-px bg-gradient-to-r from-transparent via-[#D4AF72] to-transparent"
+            className="mx-auto my-4 sm:my-5 h-px bg-gradient-to-r from-transparent via-[#D4AF72] to-transparent"
             style={{
-              width: isBrandVisible ? '220px' : '0px',
+              width: isBrandVisible ? 'min(220px, 56vw)' : '0px',
               transition: 'width 900ms cubic-bezier(0.22, 1, 0.36, 1) 180ms',
             }}
           />

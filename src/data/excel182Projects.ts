@@ -747,7 +747,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/danube-diamondz",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/danube-diamondz/20260608122744_brochure_DANUBE-DIAMONDZ-BROCHURE.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studio & 1,2,3,4 Bedroom Apartments · 418.2 Sq.Ft. - 1969 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studio & 1,2,3,4 Bedroom Apartments · 418.2 sq ft - 1969 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-diamondz-1",
@@ -917,8 +917,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Diamondz is a luxury residential project located in the Uptown District of Jumeirah Lake Towers (JLT) which is opposite to the creek tower, offering fully furnished studio and 1,2,3,4 bedroom apartments. Danube Diamondz price starts from AED 1.1M Onwards. The project consists of two connected towers on a 15 acre township, with a total of 65 floors. It boasts 46 premium amenities including a personal trainer, cricket, Zumba, yoga, and an infinity pool. The highlight of these Premium residential apartments in Dubai is the four floors dedicated to amenities on the podium, 61st floor, 62nd floor, and the roof to enhance residents' lifestyle. Danube Diamondz Residential property is located in Jumeirah Lake Towers, Dubai. Residents will enjoy stunning views of Jumeirah Island, DMCC Tower, and Dubai Marina. Furnished by Danube Homes, these high rise ultra luxury apartments in Dubai offer a blend of luxury and modern design, giving its residents a premium lifestyle.",
-    "descriptionAr": "Diamondz is a luxury residential project located in the Uptown District of Jumeirah Lake Towers (JLT) which is opposite to the creek tower, offering fully furnished studio and 1,2,3,4 bedroom apartments. Danube Diamondz price starts from AED 1.1M Onwards. The project consists of two connected towers on a 15 acre township, with a total of 65 floors. It boasts 46 premium amenities including a personal trainer, cricket, Zumba, yoga, and an infinity pool. The highlight of these Premium residential apartments in Dubai is the four floors dedicated to amenities on the podium, 61st floor, 62nd floor, and the roof to enhance residents' lifestyle. Danube Diamondz Residential property is located in Jumeirah Lake Towers, Dubai. Residents will enjoy stunning views of Jumeirah Island, DMCC Tower, and Dubai Marina. Furnished by Danube Homes, these high rise ultra luxury apartments in Dubai offer a blend of luxury and modern design, giving its residents a premium lifestyle.",
+    "description": "Diamondz is a luxury residential project located in the Uptown District of Jumeirah Lake Towers (JLT) which is opposite to the creek tower, offering fully furnished studio and 1,2,3,4 bedroom apartments. Danube Diamondz price starts from AED 1.1M Onwards. The project consists of two connected towers on a 15 acre township, with a total of 65 floors. It boasts 46 premium amenities including a personal trainer, cricket, Zumba, yoga, and an infinity pool. The highlight of these Premium residential apartments in Dubai is the four floors dedicated to amenities on the podium, 61st floor, 62nd floor, and the roof to enhance residents' lifestyle. Danube Diamondz Residential property is located in Jumeirah Lake Towers, Dubai. Residents will enjoy stunning views of Jumeirah Island, DMCC Tower, and Dubai Marina. Furnished by Danube Homes, these high rise ultra-luxury apartments in Dubai offer a blend of luxury and modern design, giving its residents a premium lifestyle.",
+    "descriptionAr": "Diamondz is a luxury residential project located in the Uptown District of Jumeirah Lake Towers (JLT) which is opposite to the creek tower, offering fully furnished studio and 1,2,3,4 bedroom apartments. Danube Diamondz price starts from AED 1.1M Onwards. The project consists of two connected towers on a 15 acre township, with a total of 65 floors. It boasts 46 premium amenities including a personal trainer, cricket, Zumba, yoga, and an infinity pool. The highlight of these Premium residential apartments in Dubai is the four floors dedicated to amenities on the podium, 61st floor, 62nd floor, and the roof to enhance residents' lifestyle. Danube Diamondz Residential property is located in Jumeirah Lake Towers, Dubai. Residents will enjoy stunning views of Jumeirah Island, DMCC Tower, and Dubai Marina. Furnished by Danube Homes, these high rise ultra-luxury apartments in Dubai offer a blend of luxury and modern design, giving its residents a premium lifestyle.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -1188,7 +1188,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-venice",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/azizi-venice/20260608142757_brochure_azizi-venice-brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studio & 1,2,3 Bedroom Apartments · 333 Sq.Ft. - 2820 Sq.Ft.",
+    "masterPlanNotes": "Luxury Apartments · Studio & 1,2,3 Bedroom Apartments · 333 sq ft - 2820 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-venice-1",
@@ -1325,8 +1325,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Venice Dubai is an ultra-luxurious development in Dubai South by Azizi Developer. Azizi Venice location is strategically located in the heart of Dubai South, Its proximity to the Al Maktoum International Airport on Emirates Road ensures easy access for residents and visitors.Azizi Venice Size offers studios,1, 2 and 3 bedroom apartments ranges in 333 Sq.ft. to 2,820 Sq.ft. in size and their prices are ranging from AED 699,000 to AED 2.7M with payment plan offers.Azizi Venice Master Plan includes 100 mid-rise apartment buildings and over 200 villas and mansions.The project will include 5-star and boutique hotels with excellent waterfront views. It will be built on a total of 336 acres of land. All these residencies options which are available in studio apartments and 1, 2, and 3-bedroom apartments, will be a part of G+10 to G+22 floors Buildings.The main eye catching highlight of this project is 18 km long crystal lagoon with a 1.5 meters depth and the 700-meter-long boulevard with numerous retail outlets is expected to become one of Dubai's most popular attractions.",
-    "descriptionAr": "Venice Dubai is an ultra-luxurious development in Dubai South by Azizi Developer. Azizi Venice location is strategically located in the heart of Dubai South, Its proximity to the Al Maktoum International Airport on Emirates Road ensures easy access for residents and visitors.Azizi Venice Size offers studios,1, 2 and 3 bedroom apartments ranges in 333 Sq.ft. to 2,820 Sq.ft. in size and their prices are ranging from AED 699,000 to AED 2.7M with payment plan offers.Azizi Venice Master Plan includes 100 mid-rise apartment buildings and over 200 villas and mansions.The project will include 5-star and boutique hotels with excellent waterfront views. It will be built on a total of 336 acres of land. All these residencies options which are available in studio apartments and 1, 2, and 3-bedroom apartments, will be a part of G+10 to G+22 floors Buildings.The main eye catching highlight of this project is 18 km long crystal lagoon with a 1.5 meters depth and the 700-meter-long boulevard with numerous retail outlets is expected to become one of Dubai's most popular attractions.",
+    "description": "Venice Dubai is an ultra-luxurious development in Dubai South by Azizi Developer. Azizi Venice location is strategically located in the heart of Dubai South, Its proximity to the Al Maktoum International Airport on Emirates Road ensures easy access for residents and visitors. Azizi Venice Size offers studios,1, 2 and 3 bedroom apartments ranges in 333 sq ft to 2,820 sq ft in size and their prices are ranging from AED 699,000 to AED 2.7M with payment plan offers. Azizi Venice Master Plan includes 100 mid-rise apartment buildings and over 200 villas and mansions. The project will include 5-star and boutique hotels with excellent waterfront views. It will be built on a total of 336 acres of land. All these residencies options which are available in studio apartments and 1, 2, and 3-bedroom apartments, will be a part of G+10 to G+22 floors Buildings. The main eye catching highlight of this project is 18 km long crystal lagoon with a 1.5 meters depth and the 700-meter-long boulevard with numerous retail outlets is expected to become one of Dubai's most popular attractions.",
+    "descriptionAr": "Venice Dubai is an ultra-luxurious development in Dubai South by Azizi Developer. Azizi Venice location is strategically located in the heart of Dubai South, Its proximity to the Al Maktoum International Airport on Emirates Road ensures easy access for residents and visitors. Azizi Venice Size offers studios,1, 2 and 3 bedroom apartments ranges in 333 sq ft to 2,820 sq ft in size and their prices are ranging from AED 699,000 to AED 2.7M with payment plan offers. Azizi Venice Master Plan includes 100 mid-rise apartment buildings and over 200 villas and mansions. The project will include 5-star and boutique hotels with excellent waterfront views. It will be built on a total of 336 acres of land. All these residencies options which are available in studio apartments and 1, 2, and 3-bedroom apartments, will be a part of G+10 to G+22 floors Buildings. The main eye catching highlight of this project is 18 km long crystal lagoon with a 1.5 meters depth and the 700-meter-long boulevard with numerous retail outlets is expected to become one of Dubai's most popular attractions.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -1597,7 +1597,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/danube-bayz-101",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/danube-bayz-101/20260608151307_brochure_Danube_Bayz_101_brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studio & 1,2,3,4 Bedroom Apartments · 373 Sq.Ft.- 1822 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studio & 1,2,3,4 Bedroom Apartments · 373 sq ft- 1822 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-bayz-101-1",
@@ -1763,8 +1763,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "BAYZ101 is an ultra-luxury property located in Dubai Business Bay area, positioned in proximity to Shaikh Zayed Road and a mere 2-minute walk from Business Bay Metro Station. This central location is close to Downtown Dubai, DIFC, Al Quoz, Jumeirah. A series of living spaces across studios, one, two and three and four bedroom apartments, with an interior, finishes and panoramic vistas over Dubai Canal and city horizon. The development provides quality and style, giving comfort and functionality to all apartments. Open plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Danube BAYZ101 prices begin at AED 1.1M and go all the way up to AED 5.8M. Danube BAYZ101 Sizes starts from 373 sq.ft.to 1822 sqft. Danube BAYZ101 residential property provides its residents with an array of luxurious amenities, including a rooftop swimming pool, state of the art gym, yoga studio, and BBQ area. The communal spaces within the building, including lounges and a children's play area, create a great sense of community, perfect for families and professionals alike. The location of BAYZ 101 by Danube in Business Bay positions the residential within a short distance from Downtown Dubai, Dubai Mall, and DIFC within high convenience of shopping, dining, and entertainment destinations and Well connected to public transport and major roads.Danube BAYZ101 Master plan consists of 101 floors with 1105 spacious Apartments.",
-    "descriptionAr": "BAYZ101 is an ultra-luxury property located in Dubai Business Bay area, positioned in proximity to Shaikh Zayed Road and a mere 2-minute walk from Business Bay Metro Station. This central location is close to Downtown Dubai, DIFC, Al Quoz, Jumeirah. A series of living spaces across studios, one, two and three and four bedroom apartments, with an interior, finishes and panoramic vistas over Dubai Canal and city horizon. The development provides quality and style, giving comfort and functionality to all apartments. Open plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Danube BAYZ101 prices begin at AED 1.1M and go all the way up to AED 5.8M. Danube BAYZ101 Sizes starts from 373 sq.ft.to 1822 sqft. Danube BAYZ101 residential property provides its residents with an array of luxurious amenities, including a rooftop swimming pool, state of the art gym, yoga studio, and BBQ area. The communal spaces within the building, including lounges and a children's play area, create a great sense of community, perfect for families and professionals alike. The location of BAYZ 101 by Danube in Business Bay positions the residential within a short distance from Downtown Dubai, Dubai Mall, and DIFC within high convenience of shopping, dining, and entertainment destinations and Well connected to public transport and major roads.Danube BAYZ101 Master plan consists of 101 floors with 1105 spacious Apartments.",
+    "description": "BAYZ101 is an ultra-luxury property located in Dubai Business Bay area, positioned in proximity to Sheikh Zayed Road and a mere 2-minute walk from Business Bay Metro Station. This central location is close to Downtown Dubai, DIFC, Al Quoz, Jumeirah. A series of living spaces across studios, one, two and three and four bedroom apartments, with an interior, finishes and panoramic vistas over Dubai Canal and city horizon. The development provides quality and style, giving comfort and functionality to all apartments. Open plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Danube BAYZ101 prices begin at AED 1.1M and go all the way up to AED 5.8M. Danube BAYZ101 Sizes starts from 373 sq ft to 1822 sq ft Danube BAYZ101 residential property provides its residents with an array of luxurious amenities, including a rooftop swimming pool, state of the art gym, yoga studio, and BBQ area. The communal spaces within the building, including lounges and a children's play area, create a great sense of community, perfect for families and professionals alike. The location of BAYZ 101 by Danube in Business Bay positions the residential within a short distance from Downtown Dubai, Dubai Mall, and DIFC within high convenience of shopping, dining, and entertainment destinations and Well connected to public transport and major roads. Danube BAYZ101 Master plan consists of 101 floors with 1105 spacious Apartments.",
+    "descriptionAr": "BAYZ101 is an ultra-luxury property located in Dubai Business Bay area, positioned in proximity to Sheikh Zayed Road and a mere 2-minute walk from Business Bay Metro Station. This central location is close to Downtown Dubai, DIFC, Al Quoz, Jumeirah. A series of living spaces across studios, one, two and three and four bedroom apartments, with an interior, finishes and panoramic vistas over Dubai Canal and city horizon. The development provides quality and style, giving comfort and functionality to all apartments. Open plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Danube BAYZ101 prices begin at AED 1.1M and go all the way up to AED 5.8M. Danube BAYZ101 Sizes starts from 373 sq ft to 1822 sq ft Danube BAYZ101 residential property provides its residents with an array of luxurious amenities, including a rooftop swimming pool, state of the art gym, yoga studio, and BBQ area. The communal spaces within the building, including lounges and a children's play area, create a great sense of community, perfect for families and professionals alike. The location of BAYZ 101 by Danube in Business Bay positions the residential within a short distance from Downtown Dubai, Dubai Mall, and DIFC within high convenience of shopping, dining, and entertainment destinations and Well connected to public transport and major roads. Danube BAYZ101 Master plan consists of 101 floors with 1105 spacious Apartments.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -2035,7 +2035,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-riviera",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/azizi-riviera/20260608152159_brochure_Azizi_Riviera_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · Studio & 1,2,3 Bedroom Apartments · 291 sq.ft - 4657 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · Studio & 1,2,3 Bedroom Apartments · 291 sq ft - 4657 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-riviera-1",
@@ -2205,8 +2205,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Riviera Dubai is a luxury residential complex developed by Azizi in the Meydan One district of Dubai. This is a French Riviera-inspired project that offers a lifestyle with Mediterranean and contemporary architectural styles. Located alongside the Dubai Canal, it offers unique views and access to the iconic locations of Dubai, including Downtown Dubai and Dubai Creek Harbour. Azizi Riviera, a luxury residential property, offers studio apartments, 1-bedroom, 2-bedroom, and 3-bedroom apartments, and penthouses. The open-plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Azizi Riviera prices to. Azizi Riviera sizes are 294 sq. ft. to 4657 sq. ft. Azizi Riviera location is the Meydan district of MBR City, Dubai. It also consists of a 7.5 km long crystal lagoon, which provides a vibrant view to the residents. The master plan of this development consists of 64 mid-rise buildings that offer world-class amenities. It comprises 4 phases, out of which Phases I and II are ready to move in, Phase III is completed partially, and Phase IV and the rev are under construction.",
-    "descriptionAr": "Riviera Dubai is a luxury residential complex developed by Azizi in the Meydan One district of Dubai. This is a French Riviera-inspired project that offers a lifestyle with Mediterranean and contemporary architectural styles. Located alongside the Dubai Canal, it offers unique views and access to the iconic locations of Dubai, including Downtown Dubai and Dubai Creek Harbour. Azizi Riviera, a luxury residential property, offers studio apartments, 1-bedroom, 2-bedroom, and 3-bedroom apartments, and penthouses. The open-plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Azizi Riviera prices to. Azizi Riviera sizes are 294 sq. ft. to 4657 sq. ft. Azizi Riviera location is the Meydan district of MBR City, Dubai. It also consists of a 7.5 km long crystal lagoon, which provides a vibrant view to the residents. The master plan of this development consists of 64 mid-rise buildings that offer world-class amenities. It comprises 4 phases, out of which Phases I and II are ready to move in, Phase III is completed partially, and Phase IV and the rev are under construction.",
+    "description": "Riviera Dubai is a luxury residential complex developed by Azizi in the Meydan One district of Dubai. This is a French Riviera-inspired project that offers a lifestyle with Mediterranean and contemporary architectural styles. Located alongside the Dubai Canal, it offers unique views and access to the iconic locations of Dubai, including Downtown Dubai and Dubai Creek Harbour. Azizi Riviera, a luxury residential property, offers studio apartments, 1-bedroom, 2-bedroom, and 3-bedroom apartments, and penthouses. The open-plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Azizi Riviera prices to. Azizi Riviera sizes are 294 sq ft to 4657 sq ft Azizi Riviera location is the Meydan district of MBR City, Dubai. It also consists of a 7.5 km long crystal lagoon, which provides a vibrant view to the residents. The master plan of this development consists of 64 mid-rise buildings that offer world-class amenities. It comprises 4 phases, out of which Phases I and II are ready to move in, Phase III is completed partially, and Phase IV and the rev are under construction.",
+    "descriptionAr": "Riviera Dubai is a luxury residential complex developed by Azizi in the Meydan One district of Dubai. This is a French Riviera-inspired project that offers a lifestyle with Mediterranean and contemporary architectural styles. Located alongside the Dubai Canal, it offers unique views and access to the iconic locations of Dubai, including Downtown Dubai and Dubai Creek Harbour. Azizi Riviera, a luxury residential property, offers studio apartments, 1-bedroom, 2-bedroom, and 3-bedroom apartments, and penthouses. The open-plan kitchen, large windows, premium materials, and more enhanced the interior with an overall sophisticated ambiance. Azizi Riviera prices to. Azizi Riviera sizes are 294 sq ft to 4657 sq ft Azizi Riviera location is the Meydan district of MBR City, Dubai. It also consists of a 7.5 km long crystal lagoon, which provides a vibrant view to the residents. The master plan of this development consists of 64 mid-rise buildings that offer world-class amenities. It comprises 4 phases, out of which Phases I and II are ready to move in, Phase III is completed partially, and Phase IV and the rev are under construction.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -2475,7 +2475,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-verde",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-verde/20260608153047_brochure_Verde_By_Sobha_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1,2& 3 Bedroom Apartments · 1036 Sq. Ft.- 1786 Sq. Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1,2& 3 Bedroom Apartments · 1036 sq ft- 1786 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-verde-1",
@@ -2604,8 +2604,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Verde is one of the luxury's housing complexes by Sobha Realty. It is sitting at the heart of Jumeirah Lake Towers in Dubai. It is famous for its design and great finishing. Sobha Verde residential property offers 1 bedroom to 3 bedroom apartments. The apartments offer a comfortable life of luxury with modern style. The range of prices at Sobha Verde Dubai varies between AED 2M and AED 3.7M. Sobha Verde Sizes start from as low as 1036 sq. ft. and go up to 1786 sq. ft. It boasts a breathtaking view of Emirates Hills, Dubai Marina, and the Dubai Harbour skyline for one of the foremost luxury choices in a lively area. Full gym, infinity pool, play areas for children, landscaped gardens and services for every type of lifestyle are available. It is very close to 2 metro stations: Sobha Realty Metro Station and DMCC Metro Station. Sobha Verde location provides close proximity to Sheikh Zayed Road, which makes access to each of the key regions of Dubai - from Downtown Dubai and Palm Jumeirah to major shopping, dining, and entertainment venues easy. Project Master Plan Consists of 65 storey tower and 10 apartments per floor.This luxury property is eco-friendly and boasts luxury. It is suitable for families and investors who wish to own a high-status house in one of the highly sought after regions of Dubai.",
-    "descriptionAr": "Verde is one of the luxury's housing complexes by Sobha Realty. It is sitting at the heart of Jumeirah Lake Towers in Dubai. It is famous for its design and great finishing. Sobha Verde residential property offers 1 bedroom to 3 bedroom apartments. The apartments offer a comfortable life of luxury with modern style. The range of prices at Sobha Verde Dubai varies between AED 2M and AED 3.7M. Sobha Verde Sizes start from as low as 1036 sq. ft. and go up to 1786 sq. ft. It boasts a breathtaking view of Emirates Hills, Dubai Marina, and the Dubai Harbour skyline for one of the foremost luxury choices in a lively area. Full gym, infinity pool, play areas for children, landscaped gardens and services for every type of lifestyle are available. It is very close to 2 metro stations: Sobha Realty Metro Station and DMCC Metro Station. Sobha Verde location provides close proximity to Sheikh Zayed Road, which makes access to each of the key regions of Dubai - from Downtown Dubai and Palm Jumeirah to major shopping, dining, and entertainment venues easy. Project Master Plan Consists of 65 storey tower and 10 apartments per floor.This luxury property is eco-friendly and boasts luxury. It is suitable for families and investors who wish to own a high-status house in one of the highly sought after regions of Dubai.",
+    "description": "Verde is one of the luxury's housing complexes by Sobha Realty. It is sitting at the heart of Jumeirah Lake Towers in Dubai. It is famous for its design and great finishing. Sobha Verde residential property offers 1 bedroom to 3 bedroom apartments. The apartments offer a comfortable life of luxury with modern style. The range of prices at Sobha Verde Dubai varies between AED 2M and AED 3.7M. Sobha Verde Sizes start from as low as 1036 sq ft and go up to 1786 sq ft It boasts a breathtaking view of Emirates Hills, Dubai Marina, and the Dubai Harbour skyline for one of the foremost luxury choices in a lively area. Full gym, infinity pool, play areas for children, landscaped gardens and services for every type of lifestyle are available. It is very close to 2 metro stations: Sobha Realty Metro Station and DMCC Metro Station. Sobha Verde location provides close proximity to Sheikh Zayed Road, which makes access to each of the key regions of Dubai - from Downtown Dubai and Palm Jumeirah to major shopping, dining, and entertainment venues easy. Project Master Plan Consists of 65 storey tower and 10 apartments per floor. This luxury property is eco-friendly and boasts luxury. It is suitable for families and investors who wish to own a high-status house in one of the highly sought after regions of Dubai.",
+    "descriptionAr": "Verde is one of the luxury's housing complexes by Sobha Realty. It is sitting at the heart of Jumeirah Lake Towers in Dubai. It is famous for its design and great finishing. Sobha Verde residential property offers 1 bedroom to 3 bedroom apartments. The apartments offer a comfortable life of luxury with modern style. The range of prices at Sobha Verde Dubai varies between AED 2M and AED 3.7M. Sobha Verde Sizes start from as low as 1036 sq ft and go up to 1786 sq ft It boasts a breathtaking view of Emirates Hills, Dubai Marina, and the Dubai Harbour skyline for one of the foremost luxury choices in a lively area. Full gym, infinity pool, play areas for children, landscaped gardens and services for every type of lifestyle are available. It is very close to 2 metro stations: Sobha Realty Metro Station and DMCC Metro Station. Sobha Verde location provides close proximity to Sheikh Zayed Road, which makes access to each of the key regions of Dubai - from Downtown Dubai and Palm Jumeirah to major shopping, dining, and entertainment venues easy. Project Master Plan Consists of 65 storey tower and 10 apartments per floor. This luxury property is eco-friendly and boasts luxury. It is suitable for families and investors who wish to own a high-status house in one of the highly sought after regions of Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -2874,7 +2874,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-solis",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-solis/20260608160951_brochure_sobha-solis-brochure_final.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1,2 & 3 Bedroom Apartments · 635 Sq.Ft - 1894 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1,2 & 3 Bedroom Apartments · 635 sq ft - 1894 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-solis-1",
@@ -3272,7 +3272,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/palm-jebel-ali-villas",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/palm-jebel-ali-villas/20260611104152_brochure_palm-jebel-ali-villa-brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Beachfront Villas · 5 BR & 6 BR Villas · 7500 SQ.Ft. - 8200 SQ.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Beachfront Villas · 5 BR & 6 BR Villas · 7500 SQ.Ft. - 8200 SQ.Ft.",
     "floorPlans": [
       {
         "id": "fp-palm-jebel-ali-villas-1",
@@ -3386,8 +3386,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Jebel Ali is an ultra luxury property in Dubai built by Nakheel Developers. It is the largest palm shaped island development in the world, twice bigger than the Palm Jumeirah. Palm Jebel Ali Island's total Size is 147 million sq.ft. and it consists of beach front luxury villas with a private beach of 5 BR & 6 BR configurations with the sizes of 7500 sq.ft. and 8200 sq.ft. Palm Jebel Ali Villas Starting Price is 18 Million AED. It has a total of 16 fronds, currently 4 fronds are launched which has a total of 400 villas.There are a total 10 types of different villas. These villas are - Villa Blue Horizon, Villa Indigo Ocean, Villa Cyan Sky, Villa Pacific Breeze, Villa Cobalt, Villa Baia Luna and Villa Crystal Springs. Palm Jebel Ali Location is just 15 min from Sheikh Zayed Road and 30 minutes from Al Maktoum Airport. Palm Jebel Ali Master Plan has 110 km of Coastline, 80+ Hotels & Resorts and is home to 118,000 lucky residents. Palm Jebel Ali Dubai is shaped like a palm which features a crown, spine and a trunk. The Crown has a waterfront boardwalk,entertainment districts that feature festivals, concerts and grand events. The Trunk part provides 360 degree view from the business park, has a lifestyle luxury mall, signature yacht club, 5 star restaurants & cafes. Its Spine part has many luxury resorts, community & wellness centers that feature world class amenities.",
-    "descriptionAr": "Jebel Ali is an ultra luxury property in Dubai built by Nakheel Developers. It is the largest palm shaped island development in the world, twice bigger than the Palm Jumeirah. Palm Jebel Ali Island's total Size is 147 million sq.ft. and it consists of beach front luxury villas with a private beach of 5 BR & 6 BR configurations with the sizes of 7500 sq.ft. and 8200 sq.ft. Palm Jebel Ali Villas Starting Price is 18 Million AED. It has a total of 16 fronds, currently 4 fronds are launched which has a total of 400 villas.There are a total 10 types of different villas. These villas are - Villa Blue Horizon, Villa Indigo Ocean, Villa Cyan Sky, Villa Pacific Breeze, Villa Cobalt, Villa Baia Luna and Villa Crystal Springs. Palm Jebel Ali Location is just 15 min from Sheikh Zayed Road and 30 minutes from Al Maktoum Airport. Palm Jebel Ali Master Plan has 110 km of Coastline, 80+ Hotels & Resorts and is home to 118,000 lucky residents. Palm Jebel Ali Dubai is shaped like a palm which features a crown, spine and a trunk. The Crown has a waterfront boardwalk,entertainment districts that feature festivals, concerts and grand events. The Trunk part provides 360 degree view from the business park, has a lifestyle luxury mall, signature yacht club, 5 star restaurants & cafes. Its Spine part has many luxury resorts, community & wellness centers that feature world class amenities.",
+    "description": "Jebel Ali is an ultra-luxury property in Dubai built by Nakheel Developers. It is the largest palm shaped island development in the world, twice bigger than the Palm Jumeirah. Palm Jebel Ali Island's total Size is 147 million sq ft and it consists of beach front luxury villas with a private beach of 5 BR & 6 BR configurations with the sizes of 7500 sq ft and 8200 sq ft Palm Jebel Ali Villas Starting Price is 18 Million AED. It has a total of 16 fronds, currently 4 fronds are launched which has a total of 400 villas. There are a total 10 types of different villas. These villas are - Villa Blue Horizon, Villa Indigo Ocean, Villa Cyan Sky, Villa Pacific Breeze, Villa Cobalt, Villa Baia Luna and Villa Crystal Springs. Palm Jebel Ali Location is just 15 min from Sheikh Zayed Road and 30 minutes from Al Maktoum Airport. Palm Jebel Ali Master Plan has 110 km of Coastline, 80+ Hotels & Resorts and is home to 118,000 lucky residents. Palm Jebel Ali Dubai is shaped like a palm which features a crown, spine and a trunk. The Crown has a waterfront boardwalk, entertainment districts that feature festivals, concerts and grand events. The Trunk part provides 360 degree view from the business park, has a lifestyle luxury mall, signature yacht club, 5 star restaurants & cafes. Its Spine part has many luxury resorts, community & wellness centers that feature world class amenities.",
+    "descriptionAr": "Jebel Ali is an ultra-luxury property in Dubai built by Nakheel Developers. It is the largest palm shaped island development in the world, twice bigger than the Palm Jumeirah. Palm Jebel Ali Island's total Size is 147 million sq ft and it consists of beach front luxury villas with a private beach of 5 BR & 6 BR configurations with the sizes of 7500 sq ft and 8200 sq ft Palm Jebel Ali Villas Starting Price is 18 Million AED. It has a total of 16 fronds, currently 4 fronds are launched which has a total of 400 villas. There are a total 10 types of different villas. These villas are - Villa Blue Horizon, Villa Indigo Ocean, Villa Cyan Sky, Villa Pacific Breeze, Villa Cobalt, Villa Baia Luna and Villa Crystal Springs. Palm Jebel Ali Location is just 15 min from Sheikh Zayed Road and 30 minutes from Al Maktoum Airport. Palm Jebel Ali Master Plan has 110 km of Coastline, 80+ Hotels & Resorts and is home to 118,000 lucky residents. Palm Jebel Ali Dubai is shaped like a palm which features a crown, spine and a trunk. The Crown has a waterfront boardwalk, entertainment districts that feature festivals, concerts and grand events. The Trunk part provides 360 degree view from the business park, has a lifestyle luxury mall, signature yacht club, 5 star restaurants & cafes. Its Spine part has many luxury resorts, community & wellness centers that feature world class amenities.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -3655,7 +3655,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/ellington-highgrove",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/ellington-highgrove/20260611104316_brochure_Ellington-Highgrove-Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1 & 2 Bedroom Apartments · 802 Sq.Ft.-1186 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1 & 2 Bedroom Apartments · 802 sq ft-1186 sq ft",
     "floorPlans": [
       {
         "id": "fp-ellington-highgrove-1",
@@ -3771,8 +3771,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Highgrove is an ultra luxury property by Ellington Properties located at the prime location of Meydan 1 Horizon, Mohammed Bin Rashid (MBR) City. The Highgrove by Ellington offers a Crystal clear Lagoon surrounded by Green Landscape. There are 291 Units in the stunning G+35 Storey Floors include 4 Podiums and combine modern day design with serene surroundings. Ellington Highgrove Prices start from 1.97 M AED. The Highgrove apartment sizes range from 801 sq.ft. to 1185.75 sq.ft. and currently have two types of unit types inventory - 1 BR apartment and 2 BR apartment. Ellington Highgrove Payment Plan is 70:30. This luxury property in Dubai's possession date will be on Q4 2027. It offepassenger elevators and 1 service elevator. With 1 parking space for 1 & 2 BR units, and 2 Car Parking spaces for 3 BR units. The Highgrove's prime location and luxurious infrastructure will make it a popular choice for tenants. Investors can rent out properties and generate consistent passive income. As of Q1 2025, the average return on investment for apartments in MBR City is about 8%, with rental prices per year minimum. If you buy an apartment in Ellington Highgrove, you will receive a 10-year golden visa that will offer long term residency to the investor's family and children.",
-    "descriptionAr": "Highgrove is an ultra luxury property by Ellington Properties located at the prime location of Meydan 1 Horizon, Mohammed Bin Rashid (MBR) City. The Highgrove by Ellington offers a Crystal clear Lagoon surrounded by Green Landscape. There are 291 Units in the stunning G+35 Storey Floors include 4 Podiums and combine modern day design with serene surroundings. Ellington Highgrove Prices start from 1.97 M AED. The Highgrove apartment sizes range from 801 sq.ft. to 1185.75 sq.ft. and currently have two types of unit types inventory - 1 BR apartment and 2 BR apartment. Ellington Highgrove Payment Plan is 70:30. This luxury property in Dubai's possession date will be on Q4 2027. It offepassenger elevators and 1 service elevator. With 1 parking space for 1 & 2 BR units, and 2 Car Parking spaces for 3 BR units. The Highgrove's prime location and luxurious infrastructure will make it a popular choice for tenants. Investors can rent out properties and generate consistent passive income. As of Q1 2025, the average return on investment for apartments in MBR City is about 8%, with rental prices per year minimum. If you buy an apartment in Ellington Highgrove, you will receive a 10-year golden visa that will offer long term residency to the investor's family and children.",
+    "description": "Highgrove is an ultra-luxury property by Ellington Properties located at the prime location of Meydan 1 Horizon, Mohammed Bin Rashid (MBR) City. The Highgrove by Ellington offers a Crystal clear Lagoon surrounded by Green Landscape. There are 291 Units in the stunning G+35 Storey Floors include 4 Podiums and combine modern day design with serene surroundings. Ellington Highgrove Prices start from 1.97 M AED. The Highgrove apartment sizes range from 801 sq ft to 1185.75 sq ft and currently have two types of unit types inventory - 1 BR apartment and 2 BR apartment. Ellington Highgrove Payment Plan is 70:30. This luxury property in Dubai's possession date will be on Q4 2027. It offepassenger elevators and 1 service elevator. With 1 parking space for 1 & 2 BR units, and 2 Car Parking spaces for 3 BR units. The Highgrove's prime location and luxurious infrastructure will make it a popular choice for tenants. Investors can rent out properties and generate consistent passive income. As of Q1 2025, the average return on investment for apartments in MBR City is about 8%, with rental prices per year minimum. If you buy an apartment in Ellington Highgrove, you will receive a 10-year golden visa that will offer long term residency to the investor's family and children.",
+    "descriptionAr": "Highgrove is an ultra-luxury property by Ellington Properties located at the prime location of Meydan 1 Horizon, Mohammed Bin Rashid (MBR) City. The Highgrove by Ellington offers a Crystal clear Lagoon surrounded by Green Landscape. There are 291 Units in the stunning G+35 Storey Floors include 4 Podiums and combine modern day design with serene surroundings. Ellington Highgrove Prices start from 1.97 M AED. The Highgrove apartment sizes range from 801 sq ft to 1185.75 sq ft and currently have two types of unit types inventory - 1 BR apartment and 2 BR apartment. Ellington Highgrove Payment Plan is 70:30. This luxury property in Dubai's possession date will be on Q4 2027. It offepassenger elevators and 1 service elevator. With 1 parking space for 1 & 2 BR units, and 2 Car Parking spaces for 3 BR units. The Highgrove's prime location and luxurious infrastructure will make it a popular choice for tenants. Investors can rent out properties and generate consistent passive income. As of Q1 2025, the average return on investment for apartments in MBR City is about 8%, with rental prices per year minimum. If you buy an apartment in Ellington Highgrove, you will receive a 10-year golden visa that will offer long term residency to the investor's family and children.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -4044,7 +4044,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/danube-bayz-102",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/danube-bayz-102/20260608170528_brochure_Danube_Bayz_102_brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studio & 1,2,3,4 BR Apartments & Penthouses · 818 Sq.Ft.- 7502 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studio & 1,2,3,4 BR Apartments & Penthouses · 818 sq ft- 7502 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-bayz-102-1",
@@ -4226,8 +4226,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "BAYZ 102 location is in Business Bay, Dubai, and is the modern addition to the Dubai property market by Danube Properties. It is a residential skyscraper which includes studios, 1BR, 2BR, 3BR, and penthouse. This luxury property in Dubai has 956 apartments. Danube Bayz 102 possession date is June 2029. The starting price begins from AED 1.38 million. The payment plan is 70:30 (1% monthly). An investor can pay a down price of 10% to book the unit and then 59% during production, 1% on handover, and 30% on post-handover in 30 months. The price and sizes for a studio apartment is 363 sq.ft, 1 bedroom apartments is 737 sq.ft. which is of is AED 2.3M, 2 bedroom apartments are 1218 sq.ft. and the penthouse is 7502 sq.ft. whose price is AED 30M. Every prime location of the Dubai metropolis is in close reach, from the vibe of Burj Khalifa to the Dubai Canal to the Arabian Gulf Coastline. Danube Bayz 102 master plan showcases the posh lifestyle by using its facilities and amenities, like a pool, a fitness center, and clubhouses.",
-    "descriptionAr": "BAYZ 102 location is in Business Bay, Dubai, and is the modern addition to the Dubai property market by Danube Properties. It is a residential skyscraper which includes studios, 1BR, 2BR, 3BR, and penthouse. This luxury property in Dubai has 956 apartments. Danube Bayz 102 possession date is June 2029. The starting price begins from AED 1.38 million. The payment plan is 70:30 (1% monthly). An investor can pay a down price of 10% to book the unit and then 59% during production, 1% on handover, and 30% on post-handover in 30 months. The price and sizes for a studio apartment is 363 sq.ft, 1 bedroom apartments is 737 sq.ft. which is of is AED 2.3M, 2 bedroom apartments are 1218 sq.ft. and the penthouse is 7502 sq.ft. whose price is AED 30M. Every prime location of the Dubai metropolis is in close reach, from the vibe of Burj Khalifa to the Dubai Canal to the Arabian Gulf Coastline. Danube Bayz 102 master plan showcases the posh lifestyle by using its facilities and amenities, like a pool, a fitness center, and clubhouses.",
+    "description": "BAYZ 102 location is in Business Bay, Dubai, and is the modern addition to the Dubai property market by Danube Properties. It is a residential skyscraper which includes studios, 1BR, 2BR, 3BR, and penthouse. This luxury property in Dubai has 956 apartments. Danube Bayz 102 possession date is June 2029. The starting price begins from AED 1.38 million. The payment plan is 70:30 (1% monthly). An investor can pay a down price of 10% to book the unit and then 59% during production, 1% on handover, and 30% on post-handover in 30 months. The price and sizes for a studio apartment is 363 sq ft, 1 bedroom apartments is 737 sq ft which is of is AED 2.3M, 2 bedroom apartments are 1218 sq ft and the penthouse is 7502 sq ft whose price is AED 30M. Every prime location of the Dubai metropolis is in close reach, from the vibe of Burj Khalifa to the Dubai Canal to the Arabian Gulf Coastline. Danube Bayz 102 master plan showcases the posh lifestyle by using its facilities and amenities, like a pool, a fitness center, and clubhouses.",
+    "descriptionAr": "BAYZ 102 location is in Business Bay, Dubai, and is the modern addition to the Dubai property market by Danube Properties. It is a residential skyscraper which includes studios, 1BR, 2BR, 3BR, and penthouse. This luxury property in Dubai has 956 apartments. Danube Bayz 102 possession date is June 2029. The starting price begins from AED 1.38 million. The payment plan is 70:30 (1% monthly). An investor can pay a down price of 10% to book the unit and then 59% during production, 1% on handover, and 30% on post-handover in 30 months. The price and sizes for a studio apartment is 363 sq ft, 1 bedroom apartments is 737 sq ft which is of is AED 2.3M, 2 bedroom apartments are 1218 sq ft and the penthouse is 7502 sq ft whose price is AED 30M. Every prime location of the Dubai metropolis is in close reach, from the vibe of Burj Khalifa to the Dubai Canal to the Arabian Gulf Coastline. Danube Bayz 102 master plan showcases the posh lifestyle by using its facilities and amenities, like a pool, a fitness center, and clubhouses.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -4497,7 +4497,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/tiger-sky-tower",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/tiger-sky-tower/20260611104930_brochure_Tiger_Sky_Tower_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1,2,3 BR Apartments & Royal Penthouse · 871 Sq.Ft.-2647 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1,2,3 BR Apartments & Royal Penthouse · 871 sq ft-2647 sq ft",
     "floorPlans": [
       {
         "id": "fp-tiger-sky-tower-1",
@@ -4905,7 +4905,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/guzel-towers",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/guzel-towers/20260611112730_brochure_TIGER-GUZEL-JVT-BROCHURE.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studio & 1,2 Bedroom Apartments · 355 Sq.Ft.- 1072 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studio & 1,2 Bedroom Apartments · 355 sq ft- 1072 sq ft",
     "floorPlans": [
       {
         "id": "fp-guzel-towers-1",
@@ -5030,8 +5030,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Guzel Tower is located in Jumeirah Village Triangle (JVT), UAE is the modern addition to the Dubai real estate by Tiger Group. It is a twin 34-story luxurious tower connected at the podium level to experience seamless accessibility with top-class facilities and a colorful network lifestyle. The construction will be completed by Q2 in 2027. Guzel Tower sizes for studio apartments are 355 sq.ft., 1 bedroom apartments are 675 sq.ft. and 2 bedroom apartments are 1076 sq.ft. The Guzel Tower price starts from AED 794K. Guzel Tower offers access to Dubai's prime landmarks and destinations. Every corner of the Dubai city is within easy reach, from the vibe of Dubai Marina to Downtown Dubai to the Palm Jumeirah. The property showcases the luxury lifestyle by its amenities and facilities like a central pool, gym, and health clubhouses. The property also has recreational spaces for its residents to enjoy a balanced and fulfilling lifestyle.",
-    "descriptionAr": "Guzel Tower is located in Jumeirah Village Triangle (JVT), UAE is the modern addition to the Dubai real estate by Tiger Group. It is a twin 34-story luxurious tower connected at the podium level to experience seamless accessibility with top-class facilities and a colorful network lifestyle. The construction will be completed by Q2 in 2027. Guzel Tower sizes for studio apartments are 355 sq.ft., 1 bedroom apartments are 675 sq.ft. and 2 bedroom apartments are 1076 sq.ft. The Guzel Tower price starts from AED 794K. Guzel Tower offers access to Dubai's prime landmarks and destinations. Every corner of the Dubai city is within easy reach, from the vibe of Dubai Marina to Downtown Dubai to the Palm Jumeirah. The property showcases the luxury lifestyle by its amenities and facilities like a central pool, gym, and health clubhouses. The property also has recreational spaces for its residents to enjoy a balanced and fulfilling lifestyle.",
+    "description": "Guzel Tower is located in Jumeirah Village Triangle (JVT), UAE is the modern addition to the Dubai real estate by Tiger Group. It is a twin 34-story luxurious tower connected at the podium level to experience seamless accessibility with top-class facilities and a colorful network lifestyle. The construction will be completed by Q2 in 2027. Guzel Tower sizes for studio apartments are 355 sq ft, 1 bedroom apartments are 675 sq ft and 2 bedroom apartments are 1076 sq ft The Guzel Tower price starts from AED 794K. Guzel Tower offers access to Dubai's prime landmarks and destinations. Every corner of the Dubai city is within easy reach, from the vibe of Dubai Marina to Downtown Dubai to the Palm Jumeirah. The property showcases the luxury lifestyle by its amenities and facilities like a central pool, gym, and health clubhouses. The property also has recreational spaces for its residents to enjoy a balanced and fulfilling lifestyle.",
+    "descriptionAr": "Guzel Tower is located in Jumeirah Village Triangle (JVT), UAE is the modern addition to the Dubai real estate by Tiger Group. It is a twin 34-story luxurious tower connected at the podium level to experience seamless accessibility with top-class facilities and a colorful network lifestyle. The construction will be completed by Q2 in 2027. Guzel Tower sizes for studio apartments are 355 sq ft, 1 bedroom apartments are 675 sq ft and 2 bedroom apartments are 1076 sq ft The Guzel Tower price starts from AED 794K. Guzel Tower offers access to Dubai's prime landmarks and destinations. Every corner of the Dubai city is within easy reach, from the vibe of Dubai Marina to Downtown Dubai to the Palm Jumeirah. The property showcases the luxury lifestyle by its amenities and facilities like a central pool, gym, and health clubhouses. The property also has recreational spaces for its residents to enjoy a balanced and fulfilling lifestyle.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -5301,7 +5301,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-bugatti-residences",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-bugatti-residences/20260611113117_brochure_Binghatti_Bugatti_Residences_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 2,3,4 BR Apartments & 5/6 BR Penthouse · 2023 Sq.ft. - 13,000 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 2,3,4 BR Apartments & 5/6 BR Penthouse · 2023 sq ft - 13,000 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-bugatti-residences-1",
@@ -5437,8 +5437,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Residences by Binghatti - Inspired by the Legendary Bugatti Hyper Sports Car, these residencies are set to offer an unparalleled fusion of cutting-edge design, automotive artistry, and world-class amenities.The facade's flowing lines and delicate curves are evocative of the French Riviera, a resort-style residence in the middle of the city. Bugatti Residences Dubai location is in Business Bay, a prestigious neighborhood. Binghatti Bugatti Residences will feature a collection of 171 Riviera Mansions and 11 Sky Mansion Penthouses, these apartments are specifically named as 2 BR - Cannes, 3BR - St. Tropez and 4 BR - Monaco, each of them being absolutely unique with custom curated layouts. The price for 2 BR apartment is AED 19M., 3 BR apartment is AED 36M., 4 BR apartment is AED 155M. & Sky Mansion Penthouse is AED 175M. Its sizes of apartments start from 2017.9 Sq.ft. to 6891.38 Sq.ft. & sky mansion penthouse size is 10160.81 Sq.ft.",
-    "descriptionAr": "Residences by Binghatti - Inspired by the Legendary Bugatti Hyper Sports Car, these residencies are set to offer an unparalleled fusion of cutting-edge design, automotive artistry, and world-class amenities.The facade's flowing lines and delicate curves are evocative of the French Riviera, a resort-style residence in the middle of the city. Bugatti Residences Dubai location is in Business Bay, a prestigious neighborhood. Binghatti Bugatti Residences will feature a collection of 171 Riviera Mansions and 11 Sky Mansion Penthouses, these apartments are specifically named as 2 BR - Cannes, 3BR - St. Tropez and 4 BR - Monaco, each of them being absolutely unique with custom curated layouts. The price for 2 BR apartment is AED 19M., 3 BR apartment is AED 36M., 4 BR apartment is AED 155M. & Sky Mansion Penthouse is AED 175M. Its sizes of apartments start from 2017.9 Sq.ft. to 6891.38 Sq.ft. & sky mansion penthouse size is 10160.81 Sq.ft.",
+    "description": "Residences by Binghatti - Inspired by the Legendary Bugatti Hyper Sports Car, these residencies are set to offer an unparalleled fusion of cutting-edge design, automotive artistry, and world-class amenities. The facade's flowing lines and delicate curves are evocative of the French Riviera, a resort-style residence in the middle of the city. Bugatti Residences Dubai location is in Business Bay, a prestigious neighborhood. Binghatti Bugatti Residences will feature a collection of 171 Riviera Mansions and 11 Sky Mansion Penthouses, these apartments are specifically named as 2 BR - Cannes, 3BR - St. Tropez and 4 BR - Monaco, each of them being absolutely unique with custom curated layouts. The price for 2 BR apartment is AED 19M., 3 BR apartment is AED 36M., 4 BR apartment is AED 155M. & Sky Mansion Penthouse is AED 175M. Its sizes of apartments start from 2017.9 sq ft to 6891.38 sq ft & sky mansion penthouse size is 10160.81 sq ft",
+    "descriptionAr": "Residences by Binghatti - Inspired by the Legendary Bugatti Hyper Sports Car, these residencies are set to offer an unparalleled fusion of cutting-edge design, automotive artistry, and world-class amenities. The facade's flowing lines and delicate curves are evocative of the French Riviera, a resort-style residence in the middle of the city. Bugatti Residences Dubai location is in Business Bay, a prestigious neighborhood. Binghatti Bugatti Residences will feature a collection of 171 Riviera Mansions and 11 Sky Mansion Penthouses, these apartments are specifically named as 2 BR - Cannes, 3BR - St. Tropez and 4 BR - Monaco, each of them being absolutely unique with custom curated layouts. The price for 2 BR apartment is AED 19M., 3 BR apartment is AED 36M., 4 BR apartment is AED 155M. & Sky Mansion Penthouse is AED 175M. Its sizes of apartments start from 2017.9 sq ft to 6891.38 sq ft & sky mansion penthouse size is 10160.81 sq ft",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -5707,7 +5707,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-hartland-2",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-hartland-2/20260608170845_brochure_Sobha_Hartland_II_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1,2,3, Bedroom Apartments · 494 SQ.Ft. - 1322 SQ.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1,2,3, Bedroom Apartments · 494 SQ.Ft. - 1322 SQ.Ft.",
     "floorPlans": [
       {
         "id": "fp-sobha-hartland-2-1",
@@ -5836,8 +5836,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Hartland 2 is a well-connected community in Dubai developed by Sobha Realty. Sobha Hartland II location is in Meydan Horizon, Bukadra, near to Creek Harbour, Dubai and it offers great connection via Al Ain-Dubai Road, Sheikh Mohammed Bin Zayed Road, and Ras Al Khor Road, enabling quick access to essential locations. The price ranges from 1.5 M AED to 3.6 M AED. Sobha Hartland II sizes range from 696 sq.ft. to 1652 sq.ft., serving a variety of living preferences. It has a total of 13 towers like Riverside Crescent, Skyscape, and Skyvue, each designed to cater to different lifestyle preferences. Sobha Hartland II amenities comprise crystal lagoons, swimming pools, lush green parks, gyms, and retail outlets, presenting a fine blend of luxury and eco-friendliness. With a projected metro line and great road access, this waterfront neighborhood provides a high-end living experience in the heart of Dubai. Sobha Hartland 2 Dubai will be developed in stages, with luxury apartments, villas and mansions designed to give a high-end living environment.",
-    "descriptionAr": "Hartland 2 is a well-connected community in Dubai developed by Sobha Realty. Sobha Hartland II location is in Meydan Horizon, Bukadra, near to Creek Harbour, Dubai and it offers great connection via Al Ain-Dubai Road, Sheikh Mohammed Bin Zayed Road, and Ras Al Khor Road, enabling quick access to essential locations. The price ranges from 1.5 M AED to 3.6 M AED. Sobha Hartland II sizes range from 696 sq.ft. to 1652 sq.ft., serving a variety of living preferences. It has a total of 13 towers like Riverside Crescent, Skyscape, and Skyvue, each designed to cater to different lifestyle preferences. Sobha Hartland II amenities comprise crystal lagoons, swimming pools, lush green parks, gyms, and retail outlets, presenting a fine blend of luxury and eco-friendliness. With a projected metro line and great road access, this waterfront neighborhood provides a high-end living experience in the heart of Dubai. Sobha Hartland 2 Dubai will be developed in stages, with luxury apartments, villas and mansions designed to give a high-end living environment.",
+    "description": "Hartland 2 is a well-connected community in Dubai developed by Sobha Realty. Sobha Hartland II location is in Meydan Horizon, Bukadra, near to Creek Harbour, Dubai and it offers great connection via Al Ain-Dubai Road, Sheikh Mohammed Bin Zayed Road, and Ras Al Khor Road, enabling quick access to essential locations. The price ranges from 1.5 M AED to 3.6 M AED. Sobha Hartland II sizes range from 696 sq ft to 1652 sq ft, serving a variety of living preferences. It has a total of 13 towers like Riverside Crescent, Skyscape, and Skyvue, each designed to cater to different lifestyle preferences. Sobha Hartland II amenities comprise crystal lagoons, swimming pools, lush green parks, gyms, and retail outlets, presenting a fine blend of luxury and eco-friendliness. With a projected metro line and great road access, this waterfront neighborhood provides a high-end living experience in the heart of Dubai. Sobha Hartland 2 Dubai will be developed in stages, with luxury apartments, villas and mansions designed to give a high-end living environment.",
+    "descriptionAr": "Hartland 2 is a well-connected community in Dubai developed by Sobha Realty. Sobha Hartland II location is in Meydan Horizon, Bukadra, near to Creek Harbour, Dubai and it offers great connection via Al Ain-Dubai Road, Sheikh Mohammed Bin Zayed Road, and Ras Al Khor Road, enabling quick access to essential locations. The price ranges from 1.5 M AED to 3.6 M AED. Sobha Hartland II sizes range from 696 sq ft to 1652 sq ft, serving a variety of living preferences. It has a total of 13 towers like Riverside Crescent, Skyscape, and Skyvue, each designed to cater to different lifestyle preferences. Sobha Hartland II amenities comprise crystal lagoons, swimming pools, lush green parks, gyms, and retail outlets, presenting a fine blend of luxury and eco-friendliness. With a projected metro line and great road access, this waterfront neighborhood provides a high-end living experience in the heart of Dubai. Sobha Hartland 2 Dubai will be developed in stages, with luxury apartments, villas and mansions designed to give a high-end living environment.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -6105,7 +6105,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/jade-tower-dubai",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/jade-tower-dubai/20260611124523_brochure_Jade_Tower_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 BR apartments · 348 sq.ft. - 1,300 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 BR apartments · 348 sq ft - 1,300 sq ft",
     "floorPlans": [
       {
         "id": "fp-jade-tower-dubai-1",
@@ -6491,7 +6491,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/red-square-tower",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/red-square-tower/20260611124617_brochure_Red_Square_Tower_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studio & 1,2 Bedroom Apartments · 381 Sq.Ft.- 914 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studio & 1,2 Bedroom Apartments · 381 sq ft- 914 sq ft",
     "floorPlans": [
       {
         "id": "fp-red-square-tower-1",
@@ -6619,8 +6619,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Red Square Tower is an off-plan residential project in Dubai by Tiger Properties, a well-established UAE developer known for delivering high-quality real estate projects since 1976. Located in Jumeirah Village Triangle (JVT) near Tulip Street, this development features two 34 floor towers with 207 units of studios, 150 & 152 units of 1 bedroom and 60 units of 2 bedroom apartments in both towers 1 & 2 designed for modern living. Situated in District-3, JVT grants excellent access to main locations through Sheikh Mohammed Bin Zayed Road, Al Ain-Dubai Road, Mall of Emirates and Dubai Mall. It provides a range of luxurious apartments with measurements ranging from 381 Sq.ft. to 914 Sq.ft., suitable for different living demands, and Red Square Tower price starts between 743K AED and 1.6M AED. Red Square Tower amenities such as a Tennis court, swimming pool, racing track, gym. BBQ area, children playing area.",
-    "descriptionAr": "Red Square Tower is an off-plan residential project in Dubai by Tiger Properties, a well-established UAE developer known for delivering high-quality real estate projects since 1976. Located in Jumeirah Village Triangle (JVT) near Tulip Street, this development features two 34 floor towers with 207 units of studios, 150 & 152 units of 1 bedroom and 60 units of 2 bedroom apartments in both towers 1 & 2 designed for modern living. Situated in District-3, JVT grants excellent access to main locations through Sheikh Mohammed Bin Zayed Road, Al Ain-Dubai Road, Mall of Emirates and Dubai Mall. It provides a range of luxurious apartments with measurements ranging from 381 Sq.ft. to 914 Sq.ft., suitable for different living demands, and Red Square Tower price starts between 743K AED and 1.6M AED. Red Square Tower amenities such as a Tennis court, swimming pool, racing track, gym. BBQ area, children playing area.",
+    "description": "Red Square Tower is an off-plan residential project in Dubai by Tiger Properties, a well-established UAE developer known for delivering high-quality real estate projects since 1976. Located in Jumeirah Village Triangle (JVT) near Tulip Street, this development features two 34 floor towers with 207 units of studios, 150 & 152 units of 1 bedroom and 60 units of 2 bedroom apartments in both towers 1 & 2 designed for modern living. Situated in District-3, JVT grants excellent access to main locations through Sheikh Mohammed Bin Zayed Road, Al Ain-Dubai Road, Mall of Emirates and Dubai Mall. It provides a range of luxurious apartments with measurements ranging from 381 sq ft to 914 sq ft, suitable for different living demands, and Red Square Tower price starts between 743K AED and 1.6M AED. Red Square Tower amenities such as a Tennis court, swimming pool, racing track, gym. BBQ area, children playing area.",
+    "descriptionAr": "Red Square Tower is an off-plan residential project in Dubai by Tiger Properties, a well-established UAE developer known for delivering high-quality real estate projects since 1976. Located in Jumeirah Village Triangle (JVT) near Tulip Street, this development features two 34 floor towers with 207 units of studios, 150 & 152 units of 1 bedroom and 60 units of 2 bedroom apartments in both towers 1 & 2 designed for modern living. Situated in District-3, JVT grants excellent access to main locations through Sheikh Mohammed Bin Zayed Road, Al Ain-Dubai Road, Mall of Emirates and Dubai Mall. It provides a range of luxurious apartments with measurements ranging from 381 sq ft to 914 sq ft, suitable for different living demands, and Red Square Tower price starts between 743K AED and 1.6M AED. Red Square Tower amenities such as a Tennis court, swimming pool, racing track, gym. BBQ area, children playing area.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -6889,7 +6889,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-seacrest",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/damac-seacrest/20260608171959_brochure_Chelsea_%28DAMAC_Seacrest%29_BROCHURE.pdf",
-    "masterPlanNotes": "Luxury Apartments · 1, 2, 3 Bedroom Apartment · 775 sq.ft. - 2,030 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · 1, 2, 3 Bedroom Apartment · 775 sq ft - 2,030 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-seacrest-1",
@@ -7017,8 +7017,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Seacrest Dubai is a waterfront residential development by Damac Properties in Dubai Maritime City with two beautifully designed towers. There are three buildings with one-, two-, and three-bedroom apartments in each tower. DAMAC Seacrest launch prices start at AED 2.17M for a 1-bedroom apartment in Tower 1, with 72 units available. The 2-bedroom units in the same tower start from AED 3.13M and include 74 units. DAMAC apartment prices for 1-bedroom apartments start at AED 2.23M with 79 units; 2-bedroom apartments is AED 3.21M with 55 units; and 3-bedroom apartments is AED 4.94M with 28 units in Tower 2. All units at DAMAC Seacrest come in varying sizes, ranging from 775 sq. ft. to 2,030 sq. ft., offering spacious layouts to suit every lifestyle. DAMAC's new launch project offers an attractive 60:40 payment plan and the possession date is December 2029. DAMAC Seacrest offers world-class amenities, including private beach access, infinity pools, a modern fitness center and premium white-glove services for a truly luxurious waterfront lifestyle in Dubai.",
-    "descriptionAr": "Seacrest Dubai is a waterfront residential development by Damac Properties in Dubai Maritime City with two beautifully designed towers. There are three buildings with one-, two-, and three-bedroom apartments in each tower. DAMAC Seacrest launch prices start at AED 2.17M for a 1-bedroom apartment in Tower 1, with 72 units available. The 2-bedroom units in the same tower start from AED 3.13M and include 74 units. DAMAC apartment prices for 1-bedroom apartments start at AED 2.23M with 79 units; 2-bedroom apartments is AED 3.21M with 55 units; and 3-bedroom apartments is AED 4.94M with 28 units in Tower 2. All units at DAMAC Seacrest come in varying sizes, ranging from 775 sq. ft. to 2,030 sq. ft., offering spacious layouts to suit every lifestyle. DAMAC's new launch project offers an attractive 60:40 payment plan and the possession date is December 2029. DAMAC Seacrest offers world-class amenities, including private beach access, infinity pools, a modern fitness center and premium white-glove services for a truly luxurious waterfront lifestyle in Dubai.",
+    "description": "Seacrest Dubai is a waterfront residential development by Damac Properties in Dubai Maritime City with two beautifully designed towers. There are three buildings with one-, two-, and three-bedroom apartments in each tower. DAMAC Seacrest launch prices start at AED 2.17M for a 1-bedroom apartment in Tower 1, with 72 units available. The 2-bedroom units in the same tower start from AED 3.13M and include 74 units. DAMAC apartment prices for 1-bedroom apartments start at AED 2.23M with 79 units; 2-bedroom apartments is AED 3.21M with 55 units; and 3-bedroom apartments is AED 4.94M with 28 units in Tower 2. All units at DAMAC Seacrest come in varying sizes, ranging from 775 sq ft to 2,030 sq ft, offering spacious layouts to suit every lifestyle. DAMAC's new launch project offers an attractive 60:40 payment plan and the possession date is December 2029. DAMAC Seacrest offers world-class amenities, including private beach access, infinity pools, a modern fitness center and premium white-glove services for a truly luxurious waterfront lifestyle in Dubai.",
+    "descriptionAr": "Seacrest Dubai is a waterfront residential development by Damac Properties in Dubai Maritime City with two beautifully designed towers. There are three buildings with one-, two-, and three-bedroom apartments in each tower. DAMAC Seacrest launch prices start at AED 2.17M for a 1-bedroom apartment in Tower 1, with 72 units available. The 2-bedroom units in the same tower start from AED 3.13M and include 74 units. DAMAC apartment prices for 1-bedroom apartments start at AED 2.23M with 79 units; 2-bedroom apartments is AED 3.21M with 55 units; and 3-bedroom apartments is AED 4.94M with 28 units in Tower 2. All units at DAMAC Seacrest come in varying sizes, ranging from 775 sq ft to 2,030 sq ft, offering spacious layouts to suit every lifestyle. DAMAC's new launch project offers an attractive 60:40 payment plan and the possession date is December 2029. DAMAC Seacrest offers world-class amenities, including private beach access, infinity pools, a modern fitness center and premium white-glove services for a truly luxurious waterfront lifestyle in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -7286,7 +7286,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-central-dubai",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-central-dubai/20260608173817_brochure_Sobha_Central_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · 1 & 2 Bedroom Apartment · 568 sq.ft. - 1554 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · 1 & 2 Bedroom Apartment · 568 sq ft - 1554 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-central-dubai-1",
@@ -7402,8 +7402,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Central is an ultra-luxury project on Sheikh Zayed Road, sitting right next to Jumeirah Lake Towers (JLT). Developed by Sobha Realty, they have designed the project to have 9 residential towers with the residents sharing the same podium floors at the ground level. Until now, six towers have been launched, namely: The Horizon, The Eden, The Serene, The Tranquil, The Mirage, and The Pinnacle which stands almost 360 meters (95 floors) and will be the highest in Sobha Central. The launch of three tower buildings is the next plan. These six towers have different view of the ocean, Dubai Marina, Palm Jumeirah, Emirates Hills, and Bluewaters Island from the upper floors is amazing. Sobha Central Dubai price starts at AED 1. 4M for a 1-bedroom apartment (568, 781 sq. ft. ) and AED 2. 5M for a 2-bedroom apartment (936–1,554 sq. ft.). Facilities along Sheikh Zayed Road include a football pitch, calisthenic gym, outdoor film, seating tree courtyard, climbing walls, business center, children's play area, and yoga studio. Buyers get a flexible 60:40 payment plan, with the Sobha Central handover date expected by December 2029, making it a solid pick for investors and end-users alike.",
-    "descriptionAr": "Central is an ultra-luxury project on Sheikh Zayed Road, sitting right next to Jumeirah Lake Towers (JLT). Developed by Sobha Realty, they have designed the project to have 9 residential towers with the residents sharing the same podium floors at the ground level. Until now, six towers have been launched, namely: The Horizon, The Eden, The Serene, The Tranquil, The Mirage, and The Pinnacle which stands almost 360 meters (95 floors) and will be the highest in Sobha Central. The launch of three tower buildings is the next plan. These six towers have different view of the ocean, Dubai Marina, Palm Jumeirah, Emirates Hills, and Bluewaters Island from the upper floors is amazing. Sobha Central Dubai price starts at AED 1. 4M for a 1-bedroom apartment (568, 781 sq. ft. ) and AED 2. 5M for a 2-bedroom apartment (936–1,554 sq. ft.). Facilities along Sheikh Zayed Road include a football pitch, calisthenic gym, outdoor film, seating tree courtyard, climbing walls, business center, children's play area, and yoga studio. Buyers get a flexible 60:40 payment plan, with the Sobha Central handover date expected by December 2029, making it a solid pick for investors and end-users alike.",
+    "description": "Central is an ultra-luxury project on Sheikh Zayed Road, sitting right next to Jumeirah Lake Towers (JLT). Developed by Sobha Realty, they have designed the project to have 9 residential towers with the residents sharing the same podium floors at the ground level. Until now, six towers have been launched, namely: The Horizon, The Eden, The Serene, The Tranquil, The Mirage, and The Pinnacle which stands almost 360 meters (95 floors) and will be the highest in Sobha Central. The launch of three tower buildings is the next plan. These six towers have different view of the ocean, Dubai Marina, Palm Jumeirah, Emirates Hills, and Bluewaters Island from the upper floors is amazing. Sobha Central Dubai price starts at AED 1. 4M for a 1-bedroom apartment (568, 781 sq ft ) and AED 2. 5M for a 2-bedroom apartment (936–1,554 sq ft). Facilities along Sheikh Zayed Road include a football pitch, calisthenic gym, outdoor film, seating tree courtyard, climbing walls, business center, children's play area, and yoga studio. Buyers get a flexible 60:40 payment plan, with the Sobha Central handover date expected by December 2029, making it a solid pick for investors and end-users alike.",
+    "descriptionAr": "Central is an ultra-luxury project on Sheikh Zayed Road, sitting right next to Jumeirah Lake Towers (JLT). Developed by Sobha Realty, they have designed the project to have 9 residential towers with the residents sharing the same podium floors at the ground level. Until now, six towers have been launched, namely: The Horizon, The Eden, The Serene, The Tranquil, The Mirage, and The Pinnacle which stands almost 360 meters (95 floors) and will be the highest in Sobha Central. The launch of three tower buildings is the next plan. These six towers have different view of the ocean, Dubai Marina, Palm Jumeirah, Emirates Hills, and Bluewaters Island from the upper floors is amazing. Sobha Central Dubai price starts at AED 1. 4M for a 1-bedroom apartment (568, 781 sq ft ) and AED 2. 5M for a 2-bedroom apartment (936–1,554 sq ft). Facilities along Sheikh Zayed Road include a football pitch, calisthenic gym, outdoor film, seating tree courtyard, climbing walls, business center, children's play area, and yoga studio. Buyers get a flexible 60:40 payment plan, with the Sobha Central handover date expected by December 2029, making it a solid pick for investors and end-users alike.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -7673,7 +7673,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-aquarise",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-aquarise/20260611125014_brochure_Aquarise-by-Binghatti-Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2, 3, 4 BR apartments · 423 sq. ft. to 3,127 sq. ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2, 3, 4 BR apartments · 423 sq ft to 3,127 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-aquarise-1",
@@ -7814,8 +7814,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Aquarise is an iconic waterfront residential tower developed by Binghatti Developers, located in Business Bay. Binghatti Aquarise apartments prices start at AED 1M to AED 5Mand Apartment sizes range from 423 sq. ft. to 3,127 sq. ft., offering multiple options of layouts to suit different lifestyles and retails spaces sizes starts from 735 Sq.ft. to 1301 Sq.ft. Binghatti Aquarise amenities include a rooftop infinity pool with skyline views, a yoga and fitness studio, children's indoor and outdoor play zones, barbecue spaces, a spa and sauna, tranquil gardens, co-working areas, a social event hall, and 24/7 smart security—offering a complete, luxurious lifestyle. Binghatti Aquarise Dubai offers stylish studios to spacious 4 bedroom apartments with open layouts, premium finishes, and stunning views of the canal and city skyline—perfect for modern urban living in Dubai. Its possession date is Q2 2027.",
-    "descriptionAr": "Aquarise is an iconic waterfront residential tower developed by Binghatti Developers, located in Business Bay. Binghatti Aquarise apartments prices start at AED 1M to AED 5Mand Apartment sizes range from 423 sq. ft. to 3,127 sq. ft., offering multiple options of layouts to suit different lifestyles and retails spaces sizes starts from 735 Sq.ft. to 1301 Sq.ft. Binghatti Aquarise amenities include a rooftop infinity pool with skyline views, a yoga and fitness studio, children's indoor and outdoor play zones, barbecue spaces, a spa and sauna, tranquil gardens, co-working areas, a social event hall, and 24/7 smart security—offering a complete, luxurious lifestyle. Binghatti Aquarise Dubai offers stylish studios to spacious 4 bedroom apartments with open layouts, premium finishes, and stunning views of the canal and city skyline—perfect for modern urban living in Dubai. Its possession date is Q2 2027.",
+    "description": "Aquarise is an iconic waterfront residential tower developed by Binghatti Developers, located in Business Bay. Binghatti Aquarise apartments prices start at AED 1M to AED 5Mand Apartment sizes range from 423 sq ft to 3,127 sq ft, offering multiple options of layouts to suit different lifestyles and retails spaces sizes starts from 735 sq ft to 1301 sq ft Binghatti Aquarise amenities include a rooftop infinity pool with skyline views, a yoga and fitness studio, children's indoor and outdoor play zones, barbecue spaces, a spa and sauna, tranquil gardens, co-working areas, a social event hall, and 24/7 smart security—offering a complete, luxurious lifestyle. Binghatti Aquarise Dubai offers stylish studios to spacious 4 bedroom apartments with open layouts, premium finishes, and stunning views of the canal and city skyline—perfect for modern urban living in Dubai. Its possession date is Q2 2027.",
+    "descriptionAr": "Aquarise is an iconic waterfront residential tower developed by Binghatti Developers, located in Business Bay. Binghatti Aquarise apartments prices start at AED 1M to AED 5Mand Apartment sizes range from 423 sq ft to 3,127 sq ft, offering multiple options of layouts to suit different lifestyles and retails spaces sizes starts from 735 sq ft to 1301 sq ft Binghatti Aquarise amenities include a rooftop infinity pool with skyline views, a yoga and fitness studio, children's indoor and outdoor play zones, barbecue spaces, a spa and sauna, tranquil gardens, co-working areas, a social event hall, and 24/7 smart security—offering a complete, luxurious lifestyle. Binghatti Aquarise Dubai offers stylish studios to spacious 4 bedroom apartments with open layouts, premium finishes, and stunning views of the canal and city skyline—perfect for modern urban living in Dubai. Its possession date is Q2 2027.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -8084,7 +8084,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/danube-sparklz",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/danube-sparklz/20260608174314_brochure_Daube_Sparklz_brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 446 Sq.ft. to 1,385 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 446 sq ft to 1,385 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-sparklz-1",
@@ -8213,8 +8213,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Sparklz is a premium residential development by Danube Properties offering luxury apartments in Dubai's fast-growing Al Furjan community. There are a total of 356 units, featuring Studio to 3 Bedroom apartments ranging from 446 Sq.ft. to 1,385 Sq.ft.. Danube Sparklz price starts from AED 900,000 to AED 2.35M with an affordable 70/30 payment plan. Designed with a diamond-inspired fa&ccedil;ade and smart convertible layouts, it offers both elegance and efficiency. The project will be completed by Q2 2028, Danube Sparklz amenities include a rooftop infinity pool, gym, kids' play zone, open-air cinema, co-working spaces, and more. Danube Sparklz Al Furjan combines connectivity, lifestyle, and future-ready living—all in one exceptional address.",
-    "descriptionAr": "Sparklz is a premium residential development by Danube Properties offering luxury apartments in Dubai's fast-growing Al Furjan community. There are a total of 356 units, featuring Studio to 3 Bedroom apartments ranging from 446 Sq.ft. to 1,385 Sq.ft.. Danube Sparklz price starts from AED 900,000 to AED 2.35M with an affordable 70/30 payment plan. Designed with a diamond-inspired fa&ccedil;ade and smart convertible layouts, it offers both elegance and efficiency. The project will be completed by Q2 2028, Danube Sparklz amenities include a rooftop infinity pool, gym, kids' play zone, open-air cinema, co-working spaces, and more. Danube Sparklz Al Furjan combines connectivity, lifestyle, and future-ready living—all in one exceptional address.",
+    "description": "Sparklz is a premium residential development by Danube Properties offering luxury apartments in Dubai's fast-growing Al Furjan community. There are a total of 356 units, featuring Studio to 3 Bedroom apartments ranging from 446 sq ft to 1,385 sq ft Danube Sparklz price starts from AED 900,000 to AED 2.35M with an affordable 70/30 payment plan. Designed with a diamond-inspired fa&ccedil;ade and smart convertible layouts, it offers both elegance and efficiency. The project will be completed by Q2 2028, Danube Sparklz amenities include a rooftop infinity pool, gym, kids' play zone, open-air cinema, co-working spaces, and more. Danube Sparklz Al Furjan combines connectivity, lifestyle, and future-ready living—all in one exceptional address.",
+    "descriptionAr": "Sparklz is a premium residential development by Danube Properties offering luxury apartments in Dubai's fast-growing Al Furjan community. There are a total of 356 units, featuring Studio to 3 Bedroom apartments ranging from 446 sq ft to 1,385 sq ft Danube Sparklz price starts from AED 900,000 to AED 2.35M with an affordable 70/30 payment plan. Designed with a diamond-inspired fa&ccedil;ade and smart convertible layouts, it offers both elegance and efficiency. The project will be completed by Q2 2028, Danube Sparklz amenities include a rooftop infinity pool, gym, kids' play zone, open-air cinema, co-working spaces, and more. Danube Sparklz Al Furjan combines connectivity, lifestyle, and future-ready living—all in one exceptional address.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -8483,7 +8483,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-milan",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/azizi-milan/20260611125119_brochure_Azizi-Milan-brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 370 Sq.ft. to 1,400 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 370 sq ft to 1,400 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-milan-1",
@@ -8612,8 +8612,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Milan developed by Azizi Developments in the City of Arabia is a magnificent new residential property in Dubailand that combines contemporary luxury with Italian grace. It is located in a large community that will have over 150 tall buildings that offer stylish studio, 1, 2 and 3 bedroom apartments ranging from 370 sq. ft. to 1,450 sq. ft., with prices starting from AED 550K. It combines elegant design with premium amenities like a swimming pool, gym, landscaped gardens, and retail outlets. The project is scheduled for handover in April 2025, making it ideal for future-ready investors and end-users. A flexible 80/20 payment plan is available—pay 80% during construction and 20% on handover. Milan by Azizi UAE enjoys excellent connectivity to Sheikh Zayed Road, the Dubai Metro, and major landmarks. Whether you're buying a home or an investment property, Azizi Milan Dubailand promises great returns, lifestyle comfort, and long-term value in one of Dubai's fastest-growing residential hubs.",
-    "descriptionAr": "Milan developed by Azizi Developments in the City of Arabia is a magnificent new residential property in Dubailand that combines contemporary luxury with Italian grace. It is located in a large community that will have over 150 tall buildings that offer stylish studio, 1, 2 and 3 bedroom apartments ranging from 370 sq. ft. to 1,450 sq. ft., with prices starting from AED 550K. It combines elegant design with premium amenities like a swimming pool, gym, landscaped gardens, and retail outlets. The project is scheduled for handover in April 2025, making it ideal for future-ready investors and end-users. A flexible 80/20 payment plan is available—pay 80% during construction and 20% on handover. Milan by Azizi UAE enjoys excellent connectivity to Sheikh Zayed Road, the Dubai Metro, and major landmarks. Whether you're buying a home or an investment property, Azizi Milan Dubailand promises great returns, lifestyle comfort, and long-term value in one of Dubai's fastest-growing residential hubs.",
+    "description": "Milan developed by Azizi Developments in the City of Arabia is a magnificent new residential property in Dubailand that combines contemporary luxury with Italian grace. It is located in a large community that will have over 150 tall buildings that offer stylish studio, 1, 2 and 3 bedroom apartments ranging from 370 sq ft to 1,450 sq ft, with prices starting from AED 550K. It combines elegant design with premium amenities like a swimming pool, gym, landscaped gardens, and retail outlets. The project is scheduled for handover in April 2025, making it ideal for future-ready investors and end-users. A flexible 80/20 payment plan is available—pay 80% during construction and 20% on handover. Milan by Azizi UAE enjoys excellent connectivity to Sheikh Zayed Road, the Dubai Metro, and major landmarks. Whether you're buying a home or an investment property, Azizi Milan Dubailand promises great returns, lifestyle comfort, and long-term value in one of Dubai's fastest-growing residential hubs.",
+    "descriptionAr": "Milan developed by Azizi Developments in the City of Arabia is a magnificent new residential property in Dubailand that combines contemporary luxury with Italian grace. It is located in a large community that will have over 150 tall buildings that offer stylish studio, 1, 2 and 3 bedroom apartments ranging from 370 sq ft to 1,450 sq ft, with prices starting from AED 550K. It combines elegant design with premium amenities like a swimming pool, gym, landscaped gardens, and retail outlets. The project is scheduled for handover in April 2025, making it ideal for future-ready investors and end-users. A flexible 80/20 payment plan is available—pay 80% during construction and 20% on handover. Milan by Azizi UAE enjoys excellent connectivity to Sheikh Zayed Road, the Dubai Metro, and major landmarks. Whether you're buying a home or an investment property, Azizi Milan Dubailand promises great returns, lifestyle comfort, and long-term value in one of Dubai's fastest-growing residential hubs.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -8882,7 +8882,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-aquamont",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-aquamont/20260608175206_brochure_Sobha_Aquamont_Downtown_UAQ_Brochure.pdf",
-    "masterPlanNotes": "Waterfront Apartments · 1, 2 and 3 BR · 565 Sq.ft. - 2168 Sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1, 2 and 3 BR · 565 sq ft - 2168 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-aquamont-1",
@@ -9011,8 +9011,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Aquamont is a premium waterfront residential Project by Sobha Realty, positioned in the Downtown UAQ network. Set along the peaceful seasides of Umm Al Quwain, Sobha Aquamont offers a fashionable and comfortable waterfront life-style, with modern architecture, open views of the Arabian Sea, and thoughtfully designed surroundings.3 towers of Sobha Aquamont are interconnected via a shared podium structure each goes (G+40 to G+30 and G+24) respectively.The starting prices for these ultra luxury waterfront apartments are AED 1.1 M for 1 bedroom apartment, AED 1.4 M for 2 Bedroom unit and AED 4.2 M for a 3 bedroom Duplex Apartment. With 11 km of clean shoreline and 7 km of lush beach parks, Sobha Aquamont Umm Al Quwain blends the calm of seaside living with the energy of a well-planned urban neighborhood.Its \"Skyline with the aid of manner of the Shore\" design reimagines living by the sea with resort-style amenities, pedestrian-friendly settings, and astute access to the leisure of the United Arab Emirates.",
-    "descriptionAr": "Aquamont is a premium waterfront residential Project by Sobha Realty, positioned in the Downtown UAQ network. Set along the peaceful seasides of Umm Al Quwain, Sobha Aquamont offers a fashionable and comfortable waterfront life-style, with modern architecture, open views of the Arabian Sea, and thoughtfully designed surroundings.3 towers of Sobha Aquamont are interconnected via a shared podium structure each goes (G+40 to G+30 and G+24) respectively.The starting prices for these ultra luxury waterfront apartments are AED 1.1 M for 1 bedroom apartment, AED 1.4 M for 2 Bedroom unit and AED 4.2 M for a 3 bedroom Duplex Apartment. With 11 km of clean shoreline and 7 km of lush beach parks, Sobha Aquamont Umm Al Quwain blends the calm of seaside living with the energy of a well-planned urban neighborhood.Its \"Skyline with the aid of manner of the Shore\" design reimagines living by the sea with resort-style amenities, pedestrian-friendly settings, and astute access to the leisure of the United Arab Emirates.",
+    "description": "Aquamont is a premium waterfront residential Project by Sobha Realty, positioned in the Downtown UAQ network. Set along the peaceful seasides of Umm Al Quwain, Sobha Aquamont offers a fashionable and comfortable waterfront life-style, with modern architecture, open views of the Arabian Sea, and thoughtfully designed surroundings.3 towers of Sobha Aquamont are interconnected via a shared podium structure each goes (G+40 to G+30 and G+24) respectively. The starting prices for these ultra-luxury waterfront apartments are AED 1.1 M for 1 bedroom apartment, AED 1.4 M for 2 Bedroom unit and AED 4.2 M for a 3 bedroom Duplex Apartment. With 11 km of clean shoreline and 7 km of lush beach parks, Sobha Aquamont Umm Al Quwain blends the calm of seaside living with the energy of a well-planned urban neighborhood. Its \"Skyline with the aid of manner of the Shore\" design reimagines living by the sea with resort-style amenities, pedestrian-friendly settings, and astute access to the leisure of the United Arab Emirates.",
+    "descriptionAr": "Aquamont is a premium waterfront residential Project by Sobha Realty, positioned in the Downtown UAQ network. Set along the peaceful seasides of Umm Al Quwain, Sobha Aquamont offers a fashionable and comfortable waterfront life-style, with modern architecture, open views of the Arabian Sea, and thoughtfully designed surroundings.3 towers of Sobha Aquamont are interconnected via a shared podium structure each goes (G+40 to G+30 and G+24) respectively. The starting prices for these ultra-luxury waterfront apartments are AED 1.1 M for 1 bedroom apartment, AED 1.4 M for 2 Bedroom unit and AED 4.2 M for a 3 bedroom Duplex Apartment. With 11 km of clean shoreline and 7 km of lush beach parks, Sobha Aquamont Umm Al Quwain blends the calm of seaside living with the energy of a well-planned urban neighborhood. Its \"Skyline with the aid of manner of the Shore\" design reimagines living by the sea with resort-style amenities, pedestrian-friendly settings, and astute access to the leisure of the United Arab Emirates.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -9282,7 +9282,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-one",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-one/20260608175409_brochure_Sobha_One_Brochure.pdf",
-    "masterPlanNotes": "Waterfront Luxury Apartments · 1, 2, 3 & 4 BR apartments · 590 Sq.ft. to 2,277 Sq.ft.",
+    "masterPlanNotes": "Waterfront Luxury Apartments · 1, 2, 3 & 4 BR apartments · 590 sq ft to 2,277 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-one-1",
@@ -9441,8 +9441,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "One is an ultra-luxury residential property located in Ras Al Khor, Dubai, near the iconic Ras Al Khor Wildlife Sanctuary. Developed by Sobha Realty, one of the UAE's most respected and vertically integrated developers, this visionary project sets a new benchmark in branded urban living. Spread across 5 interlinked high-rise towers with 2700 apartments, it offers 1 Br, 2 Br, 3 BR and 4 Br. Unit sizes range from 590 Sq.ft. to 2,277 Sq.ft. Prices start from AED 1.4M and go up to AED 6.5 M for premium units. From smart floor planning to an array of resort-style Sobha One amenities including an infinity rooftop pool, open-air cinema, fitness centers, retail promenade, cafes, and a luxury clubhouse, Sobha One Ras Al Khor is not just a place to live—it's a statement of class, comfort and curated lifestyle.",
-    "descriptionAr": "One is an ultra-luxury residential property located in Ras Al Khor, Dubai, near the iconic Ras Al Khor Wildlife Sanctuary. Developed by Sobha Realty, one of the UAE's most respected and vertically integrated developers, this visionary project sets a new benchmark in branded urban living. Spread across 5 interlinked high-rise towers with 2700 apartments, it offers 1 Br, 2 Br, 3 BR and 4 Br. Unit sizes range from 590 Sq.ft. to 2,277 Sq.ft. Prices start from AED 1.4M and go up to AED 6.5 M for premium units. From smart floor planning to an array of resort-style Sobha One amenities including an infinity rooftop pool, open-air cinema, fitness centers, retail promenade, cafes, and a luxury clubhouse, Sobha One Ras Al Khor is not just a place to live—it's a statement of class, comfort and curated lifestyle.",
+    "description": "One is an ultra-luxury residential property located in Ras Al Khor, Dubai, near the iconic Ras Al Khor Wildlife Sanctuary. Developed by Sobha Realty, one of the UAE's most respected and vertically integrated developers, this visionary project sets a new benchmark in branded urban living. Spread across 5 interlinked high-rise towers with 2700 apartments, it offers 1 Br, 2 Br, 3 BR and 4 Br. Unit sizes range from 590 sq ft to 2,277 sq ft Prices start from AED 1.4M and go up to AED 6.5 M for premium units. From smart floor planning to an array of resort-style Sobha One amenities including an infinity rooftop pool, open-air cinema, fitness centers, retail promenade, cafes, and a luxury clubhouse, Sobha One Ras Al Khor is not just a place to live—it's a statement of class, comfort and curated lifestyle.",
+    "descriptionAr": "One is an ultra-luxury residential property located in Ras Al Khor, Dubai, near the iconic Ras Al Khor Wildlife Sanctuary. Developed by Sobha Realty, one of the UAE's most respected and vertically integrated developers, this visionary project sets a new benchmark in branded urban living. Spread across 5 interlinked high-rise towers with 2700 apartments, it offers 1 Br, 2 Br, 3 BR and 4 Br. Unit sizes range from 590 sq ft to 2,277 sq ft Prices start from AED 1.4M and go up to AED 6.5 M for premium units. From smart floor planning to an array of resort-style Sobha One amenities including an infinity rooftop pool, open-air cinema, fitness centers, retail promenade, cafes, and a luxury clubhouse, Sobha One Ras Al Khor is not just a place to live—it's a statement of class, comfort and curated lifestyle.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -9712,7 +9712,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/ellington-one-river-point",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/ellington-one-river-point/20260611133025_brochure_Ellington_One_River_Point_Brochure.pdf",
-    "masterPlanNotes": "Waterfront Luxury Apartments · Studios, 1, 2, 3 & 4 BR apartments · 950 Sq. ft. to 5,576 Sq. ft",
+    "masterPlanNotes": "Waterfront Luxury Apartments · Studios, 1, 2, 3 & 4 BR apartments · 950 sq ft to 5,576 sq ft",
     "floorPlans": [
       {
         "id": "fp-ellington-one-river-point-1",
@@ -9853,8 +9853,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "One River Point is a luxury waterfront residential project by Ellington Properties, located in the prime area of Business Bay, Dubai. Overlooking the Dubai Canal and close to Downtown Dubai, it offers stunning views of Burj Khalifa and the city skyline. The project features studios and 1, 2, 3, and 4 BR apartments, along with exclusive duplexes and penthouses, with sizes ranging from 950 Sq. ft. to 5,576 Sq. ft. Each unit is designed with premium interiors, smart features, and high-end finishes. Residents will enjoy 5-star amenities including a pool, gym, spa, kids' play zone, and more. The starting price is AED 1.4M and the handover is expected by Q2 2027. With its central location, excellent connectivity, and luxury offerings, Ellington One River Point Dubai is ideal for both homebuyers and investors seeking a modern, elegant lifestyle.",
-    "descriptionAr": "One River Point is a luxury waterfront residential project by Ellington Properties, located in the prime area of Business Bay, Dubai. Overlooking the Dubai Canal and close to Downtown Dubai, it offers stunning views of Burj Khalifa and the city skyline. The project features studios and 1, 2, 3, and 4 BR apartments, along with exclusive duplexes and penthouses, with sizes ranging from 950 Sq. ft. to 5,576 Sq. ft. Each unit is designed with premium interiors, smart features, and high-end finishes. Residents will enjoy 5-star amenities including a pool, gym, spa, kids' play zone, and more. The starting price is AED 1.4M and the handover is expected by Q2 2027. With its central location, excellent connectivity, and luxury offerings, Ellington One River Point Dubai is ideal for both homebuyers and investors seeking a modern, elegant lifestyle.",
+    "description": "One River Point is a luxury waterfront residential project by Ellington Properties, located in the prime area of Business Bay, Dubai. Overlooking the Dubai Canal and close to Downtown Dubai, it offers stunning views of Burj Khalifa and the city skyline. The project features studios and 1, 2, 3, and 4 BR apartments, along with exclusive duplexes and penthouses, with sizes ranging from 950 sq ft to 5,576 sq ft Each unit is designed with premium interiors, smart features, and high-end finishes. Residents will enjoy 5-star amenities including a pool, gym, spa, kids' play zone, and more. The starting price is AED 1.4M and the handover is expected by Q2 2027. With its central location, excellent connectivity, and luxury offerings, Ellington One River Point Dubai is ideal for both homebuyers and investors seeking a modern, elegant lifestyle.",
+    "descriptionAr": "One River Point is a luxury waterfront residential project by Ellington Properties, located in the prime area of Business Bay, Dubai. Overlooking the Dubai Canal and close to Downtown Dubai, it offers stunning views of Burj Khalifa and the city skyline. The project features studios and 1, 2, 3, and 4 BR apartments, along with exclusive duplexes and penthouses, with sizes ranging from 950 sq ft to 5,576 sq ft Each unit is designed with premium interiors, smart features, and high-end finishes. Residents will enjoy 5-star amenities including a pool, gym, spa, kids' play zone, and more. The starting price is AED 1.4M and the handover is expected by Q2 2027. With its central location, excellent connectivity, and luxury offerings, Ellington One River Point Dubai is ideal for both homebuyers and investors seeking a modern, elegant lifestyle.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -10123,7 +10123,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-twilight",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-twilight/20260611144436_brochure_Binghatti_Twilight_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 741 Sq.ft. - 1,979 Sq. ft.",
+    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 741 sq ft - 1,979 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-twilight-1",
@@ -10251,8 +10251,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Twilight is the latest masterpiece by Binghatti Developers, located in the thriving Al Jaddaf area of Dubai. This modern high-rise blends smart living with bold architecture, designed for homebuyers and investors seeking luxury, comfort, and prime connectivity. The tower features 228 residential apartments, 47 office suites, and ground-floor retail spaces, making it a mixed-use hub of activity. Apartment options include 1, 2, and 3 BR units, with sizes ranging from 741 Sq.ft to 1,979 Sq. ft. The Binghatti Twilight price starts from AED 1.43 million, offering excellent value in a premium location. With its dynamic fa&ccedil;ade, smart home features, and elegant interiors, Binghatti Twilight Apartment offers a lifestyle beyond the ordinary. It's not just a place to live—it's a destination. Perfectly positioned and thoughtfully designed, this development presents a rare opportunity to invest in one of Dubai's most exciting and fast-growing communities. Residents at Binghatti Twilight enjoy a host of world-class amenities, including a swimming pool, fully equipped gym, rooftop garden, kids' play area, 24x7 security, high-speed elevators, covered parking, and leisure zones.",
-    "descriptionAr": "Twilight is the latest masterpiece by Binghatti Developers, located in the thriving Al Jaddaf area of Dubai. This modern high-rise blends smart living with bold architecture, designed for homebuyers and investors seeking luxury, comfort, and prime connectivity. The tower features 228 residential apartments, 47 office suites, and ground-floor retail spaces, making it a mixed-use hub of activity. Apartment options include 1, 2, and 3 BR units, with sizes ranging from 741 Sq.ft to 1,979 Sq. ft. The Binghatti Twilight price starts from AED 1.43 million, offering excellent value in a premium location. With its dynamic fa&ccedil;ade, smart home features, and elegant interiors, Binghatti Twilight Apartment offers a lifestyle beyond the ordinary. It's not just a place to live—it's a destination. Perfectly positioned and thoughtfully designed, this development presents a rare opportunity to invest in one of Dubai's most exciting and fast-growing communities. Residents at Binghatti Twilight enjoy a host of world-class amenities, including a swimming pool, fully equipped gym, rooftop garden, kids' play area, 24x7 security, high-speed elevators, covered parking, and leisure zones.",
+    "description": "Twilight is the latest masterpiece by Binghatti Developers, located in the thriving Al Jaddaf area of Dubai. This modern high-rise blends smart living with bold architecture, designed for homebuyers and investors seeking luxury, comfort, and prime connectivity. The tower features 228 residential apartments, 47 office suites, and ground-floor retail spaces, making it a mixed-use hub of activity. Apartment options include 1, 2, and 3 BR units, with sizes ranging from 741 sq ft to 1,979 sq ft The Binghatti Twilight price starts from AED 1.43 million, offering excellent value in a premium location. With its dynamic fa&ccedil;ade, smart home features, and elegant interiors, Binghatti Twilight Apartment offers a lifestyle beyond the ordinary. It's not just a place to live—it's a destination. Perfectly positioned and thoughtfully designed, this development presents a rare opportunity to invest in one of Dubai's most exciting and fast-growing communities. Residents at Binghatti Twilight enjoy a host of world-class amenities, including a swimming pool, fully equipped gym, rooftop garden, kids' play area, 24x7 security, high-speed elevators, covered parking, and leisure zones.",
+    "descriptionAr": "Twilight is the latest masterpiece by Binghatti Developers, located in the thriving Al Jaddaf area of Dubai. This modern high-rise blends smart living with bold architecture, designed for homebuyers and investors seeking luxury, comfort, and prime connectivity. The tower features 228 residential apartments, 47 office suites, and ground-floor retail spaces, making it a mixed-use hub of activity. Apartment options include 1, 2, and 3 BR units, with sizes ranging from 741 sq ft to 1,979 sq ft The Binghatti Twilight price starts from AED 1.43 million, offering excellent value in a premium location. With its dynamic fa&ccedil;ade, smart home features, and elegant interiors, Binghatti Twilight Apartment offers a lifestyle beyond the ordinary. It's not just a place to live—it's a destination. Perfectly positioned and thoughtfully designed, this development presents a rare opportunity to invest in one of Dubai's most exciting and fast-growing communities. Residents at Binghatti Twilight enjoy a host of world-class amenities, including a swimming pool, fully equipped gym, rooftop garden, kids' play area, 24x7 security, high-speed elevators, covered parking, and leisure zones.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -10521,7 +10521,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-moonlight",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-moonlight/20260611144825_brochure_Binghatti_Moonlight.pdf",
-    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 746 Sq.ft. - 1,784 sq. ft.",
+    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 746 sq ft - 1,784 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-moonlight-1",
@@ -10648,8 +10648,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Moonlight is an elegant residential project by Binghatti Developers, located in Al Jaddaf, Dubai. Offering a mix of 1 BR, 2 BR and 3 BR apartments, this mid-rise development starts at just AED 1.43M. Known for its distinctive orange-white architectural design, Binghatti Moonlight Dubai adds a striking presence to the city skyline.The building includes 4 basement levels, a ground floor, 3 podiums, and 18 residential floors. It offers a smart mix of 236 apartments—with 126 one-bedroom, 106 two-bedroom, and 4 three-bedroom units, all designed with open, spacious layouts. In addition, there are 47 premium office suites and 3 retail stores located on the ground floor, blending residential, commercial, and retail spaces seamlessly. Amenities include a swimming pool, health club, kids' play area, retail zones, and landscaped gardens, delivering a resort-style lifestyle. With 24x7 security, high-speed elevators, and modern features, Binghatti Moonlight JVC is an ideal choice for urban luxury living and high-return investments in Dubai.",
-    "descriptionAr": "Moonlight is an elegant residential project by Binghatti Developers, located in Al Jaddaf, Dubai. Offering a mix of 1 BR, 2 BR and 3 BR apartments, this mid-rise development starts at just AED 1.43M. Known for its distinctive orange-white architectural design, Binghatti Moonlight Dubai adds a striking presence to the city skyline.The building includes 4 basement levels, a ground floor, 3 podiums, and 18 residential floors. It offers a smart mix of 236 apartments—with 126 one-bedroom, 106 two-bedroom, and 4 three-bedroom units, all designed with open, spacious layouts. In addition, there are 47 premium office suites and 3 retail stores located on the ground floor, blending residential, commercial, and retail spaces seamlessly. Amenities include a swimming pool, health club, kids' play area, retail zones, and landscaped gardens, delivering a resort-style lifestyle. With 24x7 security, high-speed elevators, and modern features, Binghatti Moonlight JVC is an ideal choice for urban luxury living and high-return investments in Dubai.",
+    "description": "Moonlight is an elegant residential project by Binghatti Developers, located in Al Jaddaf, Dubai. Offering a mix of 1 BR, 2 BR and 3 BR apartments, this mid-rise development starts at just AED 1.43M. Known for its distinctive orange-white architectural design, Binghatti Moonlight Dubai adds a striking presence to the city skyline. The building includes 4 basement levels, a ground floor, 3 podiums, and 18 residential floors. It offers a smart mix of 236 apartments—with 126 one-bedroom, 106 two-bedroom, and 4 three-bedroom units, all designed with open, spacious layouts. In addition, there are 47 premium office suites and 3 retail stores located on the ground floor, blending residential, commercial, and retail spaces seamlessly. Amenities include a swimming pool, health club, kids' play area, retail zones, and landscaped gardens, delivering a resort-style lifestyle. With 24x7 security, high-speed elevators, and modern features, Binghatti Moonlight JVC is an ideal choice for urban luxury living and high-return investments in Dubai.",
+    "descriptionAr": "Moonlight is an elegant residential project by Binghatti Developers, located in Al Jaddaf, Dubai. Offering a mix of 1 BR, 2 BR and 3 BR apartments, this mid-rise development starts at just AED 1.43M. Known for its distinctive orange-white architectural design, Binghatti Moonlight Dubai adds a striking presence to the city skyline. The building includes 4 basement levels, a ground floor, 3 podiums, and 18 residential floors. It offers a smart mix of 236 apartments—with 126 one-bedroom, 106 two-bedroom, and 4 three-bedroom units, all designed with open, spacious layouts. In addition, there are 47 premium office suites and 3 retail stores located on the ground floor, blending residential, commercial, and retail spaces seamlessly. Amenities include a swimming pool, health club, kids' play area, retail zones, and landscaped gardens, delivering a resort-style lifestyle. With 24x7 security, high-speed elevators, and modern features, Binghatti Moonlight JVC is an ideal choice for urban luxury living and high-return investments in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -10918,7 +10918,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/danube-aspirz",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/danube-aspirz/20260608190731_brochure_Danube_Aspirz_brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 , 3 BR apartments & Retails · 383 Sq. ft. - 1,327 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 , 3 BR apartments & Retails · 383 sq ft - 1,327 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-aspirz-1",
@@ -11047,8 +11047,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Danube is an ultra-luxury mixed-use development by Danube Properties in Dubai Sports City. This one has style, comfort and affordability in perfect mix, making it one of the best in Dubai real estate. Aspirz by Danube offers fully furnished (with \"Flex Plus\" technology) studios, 1, 2, and 3-BR apartments, as well as commercial office units thoughtfully designed to maximize space and enhance modern living. Its sizes start from 383 sq. ft. to 1,327 sq. ft. for apartments & 637 sq. ft. for retail units. With prices starting from AED 886K for residential units & retail units. Danube Aspirz amenities such as swimming pools, gyms, cinemas, business lounges, kids' play areas, and wellness zones ensure a vibrant living experience. With flexible 1% monthly payment plans, Aspirz Danube guarantees smart and hassle-free ownership.",
-    "descriptionAr": "Danube is an ultra-luxury mixed-use development by Danube Properties in Dubai Sports City. This one has style, comfort and affordability in perfect mix, making it one of the best in Dubai real estate. Aspirz by Danube offers fully furnished (with \"Flex Plus\" technology) studios, 1, 2, and 3-BR apartments, as well as commercial office units thoughtfully designed to maximize space and enhance modern living. Its sizes start from 383 sq. ft. to 1,327 sq. ft. for apartments & 637 sq. ft. for retail units. With prices starting from AED 886K for residential units & retail units. Danube Aspirz amenities such as swimming pools, gyms, cinemas, business lounges, kids' play areas, and wellness zones ensure a vibrant living experience. With flexible 1% monthly payment plans, Aspirz Danube guarantees smart and hassle-free ownership.",
+    "description": "Danube is an ultra-luxury mixed-use development by Danube Properties in Dubai Sports City. This one has style, comfort and affordability in perfect mix, making it one of the best in Dubai real estate. Aspirz by Danube offers fully furnished (with \"Flex Plus\" technology) studios, 1, 2, and 3-BR apartments, as well as commercial office units thoughtfully designed to maximize space and enhance modern living. Its sizes start from 383 sq ft to 1,327 sq ft for apartments & 637 sq ft for retail units. With prices starting from AED 886K for residential units & retail units. Danube Aspirz amenities such as swimming pools, gyms, cinemas, business lounges, kids' play areas, and wellness zones ensure a vibrant living experience. With flexible 1% monthly payment plans, Aspirz Danube guarantees smart and hassle-free ownership.",
+    "descriptionAr": "Danube is an ultra-luxury mixed-use development by Danube Properties in Dubai Sports City. This one has style, comfort and affordability in perfect mix, making it one of the best in Dubai real estate. Aspirz by Danube offers fully furnished (with \"Flex Plus\" technology) studios, 1, 2, and 3-BR apartments, as well as commercial office units thoughtfully designed to maximize space and enhance modern living. Its sizes start from 383 sq ft to 1,327 sq ft for apartments & 637 sq ft for retail units. With prices starting from AED 886K for residential units & retail units. Danube Aspirz amenities such as swimming pools, gyms, cinemas, business lounges, kids' play areas, and wellness zones ensure a vibrant living experience. With flexible 1% monthly payment plans, Aspirz Danube guarantees smart and hassle-free ownership.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -11317,7 +11317,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-skyblade",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-skyblade/20260611145056_brochure_Binghatti_Skyblade_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 396 Sq.Ft. - 3000 Sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 396 sq ft - 3000 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-skyblade-1",
@@ -11717,7 +11717,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-district",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/damac-district/20260608194111_brochure_DAMAC_DISTRICT_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1 BR, 2 BR & Office Spaces · 740 Sq.ft. - 6,588 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1 BR, 2 BR & Office Spaces · 740 sq ft - 6,588 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-district-1",
@@ -11858,8 +11858,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "District is a mixed-use development by DAMAC Properties in Dubai Hills. The project consists of 2 high-rise towers—one residential and one commercial—connected to DAMAC Mall for ultimate convenience. The residential tower has 1 & 2 bedroom apartments with sizes ranging from 740 Sq.ft. to 1220 Sq.ft., priced from AED 1.1M. The commercial tower contains office spaces which range between 3,164 Sq.ft. and 6,588 Sq.ft. with prices starting at AED 6.1M. The residents will find numerous top-tier facilities which include BBQ areas and private dining pods and urban farming sections and walkable paths. The commercial areas will include smart meeting spaces and relaxation zones and indoor and outdoor fitness facilities to create an environment which promotes both productivity and creativity. District by DAMAC possession date is 2026 to move into this wonderful community so you can plan your relocation at your own speed.",
-    "descriptionAr": "District is a mixed-use development by DAMAC Properties in Dubai Hills. The project consists of 2 high-rise towers—one residential and one commercial—connected to DAMAC Mall for ultimate convenience. The residential tower has 1 & 2 bedroom apartments with sizes ranging from 740 Sq.ft. to 1220 Sq.ft., priced from AED 1.1M. The commercial tower contains office spaces which range between 3,164 Sq.ft. and 6,588 Sq.ft. with prices starting at AED 6.1M. The residents will find numerous top-tier facilities which include BBQ areas and private dining pods and urban farming sections and walkable paths. The commercial areas will include smart meeting spaces and relaxation zones and indoor and outdoor fitness facilities to create an environment which promotes both productivity and creativity. District by DAMAC possession date is 2026 to move into this wonderful community so you can plan your relocation at your own speed.",
+    "description": "District is a mixed-use development by DAMAC Properties in Dubai Hills. The project consists of 2 high-rise towers—one residential and one commercial—connected to DAMAC Mall for ultimate convenience. The residential tower has 1 & 2 bedroom apartments with sizes ranging from 740 sq ft to 1220 sq ft, priced from AED 1.1M. The commercial tower contains office spaces which range between 3,164 sq ft and 6,588 sq ft with prices starting at AED 6.1M. The residents will find numerous top-tier facilities which include BBQ areas and private dining pods and urban farming sections and walkable paths. The commercial areas will include smart meeting spaces and relaxation zones and indoor and outdoor fitness facilities to create an environment which promotes both productivity and creativity. District by DAMAC possession date is 2026 to move into this wonderful community so you can plan your relocation at your own speed.",
+    "descriptionAr": "District is a mixed-use development by DAMAC Properties in Dubai Hills. The project consists of 2 high-rise towers—one residential and one commercial—connected to DAMAC Mall for ultimate convenience. The residential tower has 1 & 2 bedroom apartments with sizes ranging from 740 sq ft to 1220 sq ft, priced from AED 1.1M. The commercial tower contains office spaces which range between 3,164 sq ft and 6,588 sq ft with prices starting at AED 6.1M. The residents will find numerous top-tier facilities which include BBQ areas and private dining pods and urban farming sections and walkable paths. The commercial areas will include smart meeting spaces and relaxation zones and indoor and outdoor fitness facilities to create an environment which promotes both productivity and creativity. District by DAMAC possession date is 2026 to move into this wonderful community so you can plan your relocation at your own speed.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -12128,7 +12128,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/danube-breez",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/danube-breez/20260609130144_brochure_Danube_Breez_brochure.pdf",
-    "masterPlanNotes": "Waterfront Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 298 Sq.ft. to 1,276 Sq.ft.",
+    "masterPlanNotes": "Waterfront Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 298 sq ft to 1,276 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-breez-1",
@@ -12255,8 +12255,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Breez is a waterfront residential project by Danube Properties. A premium 60-Storey tower located in Dubai Maritime City offers luxurious Studio, 1, 2 and 3 BR apartments with ocean view. Danube Breez price starts from AED AED 1.37 M to AED 5.5M. Designed with elegance, each apartment comes with stylish layouts, high-quality finishes, and stunning water views. Residents will enjoy top-class amenities such as an infinity pool, gym, landscaped gardens, kids' play zones, and community spaces. Danube Breez sizes start from 298 Sq.ft. to 1,276 Sq.ft. With possession scheduled in 2029, Breez by Danube offers not just a home but a long-term investment in Dubai's thriving real estate market.",
-    "descriptionAr": "Breez is a waterfront residential project by Danube Properties. A premium 60-Storey tower located in Dubai Maritime City offers luxurious Studio, 1, 2 and 3 BR apartments with ocean view. Danube Breez price starts from AED AED 1.37 M to AED 5.5M. Designed with elegance, each apartment comes with stylish layouts, high-quality finishes, and stunning water views. Residents will enjoy top-class amenities such as an infinity pool, gym, landscaped gardens, kids' play zones, and community spaces. Danube Breez sizes start from 298 Sq.ft. to 1,276 Sq.ft. With possession scheduled in 2029, Breez by Danube offers not just a home but a long-term investment in Dubai's thriving real estate market.",
+    "description": "Breez is a waterfront residential project by Danube Properties. A premium 60-Storey tower located in Dubai Maritime City offers luxurious Studio, 1, 2 and 3 BR apartments with ocean view. Danube Breez price starts from AED AED 1.37 M to AED 5.5M. Designed with elegance, each apartment comes with stylish layouts, high-quality finishes, and stunning water views. Residents will enjoy top-class amenities such as an infinity pool, gym, landscaped gardens, kids' play zones, and community spaces. Danube Breez sizes start from 298 sq ft to 1,276 sq ft With possession scheduled in 2029, Breez by Danube offers not just a home but a long-term investment in Dubai's thriving real estate market.",
+    "descriptionAr": "Breez is a waterfront residential project by Danube Properties. A premium 60-Storey tower located in Dubai Maritime City offers luxurious Studio, 1, 2 and 3 BR apartments with ocean view. Danube Breez price starts from AED AED 1.37 M to AED 5.5M. Designed with elegance, each apartment comes with stylish layouts, high-quality finishes, and stunning water views. Residents will enjoy top-class amenities such as an infinity pool, gym, landscaped gardens, kids' play zones, and community spaces. Danube Breez sizes start from 298 sq ft to 1,276 sq ft With possession scheduled in 2029, Breez by Danube offers not just a home but a long-term investment in Dubai's thriving real estate market.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -12526,7 +12526,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-islands-phase-2",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/damac-islands-phase-2/20260609131837_brochure_DAMAC_ISLANDS_Phase_2_Brochure.pdf",
-    "masterPlanNotes": "Waterfront Luxury Villas & Townhouses · 4, 5, 6 and 7 BR · 2,200 Sq.ft. - 17,079 Sq.ft.",
+    "masterPlanNotes": "Waterfront Luxury Villas & Townhouses · 4, 5, 6 and 7 BR · 2,200 sq ft - 17,079 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-islands-phase-2-1",
@@ -12665,8 +12665,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Islands is a luxury waterfront development in Dubailands. Developed by DAMAC Properties offering an exclusive collection of 4 to 7-bedroom units, including townhouses and villas. Unit sizes range from 2,200 Sq.ft. to over 17,079 Sq.ft., with DAMAC Islands 2 price starting from AED 2.25M for 4-bedroom apartments and premium pricing for larger homes. DAMAC Islands is a luxury waterfront is inspired by tropical island paradises around the world with six clusters with distinct themes—Bora Bora, the Maldives, the Seychelles, Hawaii, Fiji, and Bali. DAMAC New launch property offers resort-style amenities such as infinity lagoon pools, private beaches, floating cabanas, wellness spas, aqua gyms, gyms, kids' play areas, landscaped gardens, waterfront dining, lounges, and smart home features. With a flexible 70:30 payment plan, handover by December 2029.",
-    "descriptionAr": "Islands is a luxury waterfront development in Dubailands. Developed by DAMAC Properties offering an exclusive collection of 4 to 7-bedroom units, including townhouses and villas. Unit sizes range from 2,200 Sq.ft. to over 17,079 Sq.ft., with DAMAC Islands 2 price starting from AED 2.25M for 4-bedroom apartments and premium pricing for larger homes. DAMAC Islands is a luxury waterfront is inspired by tropical island paradises around the world with six clusters with distinct themes—Bora Bora, the Maldives, the Seychelles, Hawaii, Fiji, and Bali. DAMAC New launch property offers resort-style amenities such as infinity lagoon pools, private beaches, floating cabanas, wellness spas, aqua gyms, gyms, kids' play areas, landscaped gardens, waterfront dining, lounges, and smart home features. With a flexible 70:30 payment plan, handover by December 2029.",
+    "description": "Islands is a luxury waterfront development in Dubailands. Developed by DAMAC Properties offering an exclusive collection of 4 to 7-bedroom units, including townhouses and villas. Unit sizes range from 2,200 sq ft to over 17,079 sq ft, with DAMAC Islands 2 price starting from AED 2.25M for 4-bedroom apartments and premium pricing for larger homes. DAMAC Islands is a luxury waterfront is inspired by tropical island paradises around the world with six clusters with distinct themes—Bora Bora, the Maldives, the Seychelles, Hawaii, Fiji, and Bali. DAMAC New launch property offers resort-style amenities such as infinity lagoon pools, private beaches, floating cabanas, wellness spas, aqua gyms, gyms, kids' play areas, landscaped gardens, waterfront dining, lounges, and smart home features. With a flexible 70:30 payment plan, handover by December 2029.",
+    "descriptionAr": "Islands is a luxury waterfront development in Dubailands. Developed by DAMAC Properties offering an exclusive collection of 4 to 7-bedroom units, including townhouses and villas. Unit sizes range from 2,200 sq ft to over 17,079 sq ft, with DAMAC Islands 2 price starting from AED 2.25M for 4-bedroom apartments and premium pricing for larger homes. DAMAC Islands is a luxury waterfront is inspired by tropical island paradises around the world with six clusters with distinct themes—Bora Bora, the Maldives, the Seychelles, Hawaii, Fiji, and Bali. DAMAC New launch property offers resort-style amenities such as infinity lagoon pools, private beaches, floating cabanas, wellness spas, aqua gyms, gyms, kids' play areas, landscaped gardens, waterfront dining, lounges, and smart home features. With a flexible 70:30 payment plan, handover by December 2029.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -12935,7 +12935,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-circle",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-circle/20260612004725_brochure_binghatti-circle-in-jvc-brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 307.63 Sq.ft. to 1,552.37 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 307.63 sq ft to 1,552.37 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-circle-1",
@@ -13064,8 +13064,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Circle is a new residential project by Binghatti Developers in the heart of Jumeirah Village Circle (JVC), Dubai. Designed in Binghatti's signature style, the project offers modern living at an affordable price. Apartments at Binghatti Circle JVC come in smart layouts with sizes starting from 307.63 Sq.ft. to 1,552.37 Sq.ft. suitable for singles and families. Prices are very competitive starting from AED 674.9K, great value for property buyers and investors. Circle by Binghatti has a swimming pool, gym, kids' play area, gardens, parking, elevators, 24/7 security and shops, so residents can live comfortably in JVC, Dubai. Possession is scheduled in March 2029, timely delivery, high quality finishing and good returns. Binghatti Properties stands as the best opportunity for anyone seeking stylish, affordable, and future-ready homes in Dubai real estate.",
-    "descriptionAr": "Circle is a new residential project by Binghatti Developers in the heart of Jumeirah Village Circle (JVC), Dubai. Designed in Binghatti's signature style, the project offers modern living at an affordable price. Apartments at Binghatti Circle JVC come in smart layouts with sizes starting from 307.63 Sq.ft. to 1,552.37 Sq.ft. suitable for singles and families. Prices are very competitive starting from AED 674.9K, great value for property buyers and investors. Circle by Binghatti has a swimming pool, gym, kids' play area, gardens, parking, elevators, 24/7 security and shops, so residents can live comfortably in JVC, Dubai. Possession is scheduled in March 2029, timely delivery, high quality finishing and good returns. Binghatti Properties stands as the best opportunity for anyone seeking stylish, affordable, and future-ready homes in Dubai real estate.",
+    "description": "Circle is a new residential project by Binghatti Developers in the heart of Jumeirah Village Circle (JVC), Dubai. Designed in Binghatti's signature style, the project offers modern living at an affordable price. Apartments at Binghatti Circle JVC come in smart layouts with sizes starting from 307.63 sq ft to 1,552.37 sq ft suitable for singles and families. Prices are very competitive starting from AED 674.9K, great value for property buyers and investors. Circle by Binghatti has a swimming pool, gym, kids' play area, gardens, parking, elevators, 24/7 security and shops, so residents can live comfortably in JVC, Dubai. Possession is scheduled in March 2029, timely delivery, high quality finishing and good returns. Binghatti Properties stands as the best opportunity for anyone seeking stylish, affordable, and future-ready homes in Dubai real estate.",
+    "descriptionAr": "Circle is a new residential project by Binghatti Developers in the heart of Jumeirah Village Circle (JVC), Dubai. Designed in Binghatti's signature style, the project offers modern living at an affordable price. Apartments at Binghatti Circle JVC come in smart layouts with sizes starting from 307.63 sq ft to 1,552.37 sq ft suitable for singles and families. Prices are very competitive starting from AED 674.9K, great value for property buyers and investors. Circle by Binghatti has a swimming pool, gym, kids' play area, gardens, parking, elevators, 24/7 security and shops, so residents can live comfortably in JVC, Dubai. Possession is scheduled in March 2029, timely delivery, high quality finishing and good returns. Binghatti Properties stands as the best opportunity for anyone seeking stylish, affordable, and future-ready homes in Dubai real estate.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -13317,7 +13317,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-flare",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-flare/20260612003927_brochure_Binghatti_Flare_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2, 3, 4 BR Apartments · 462 Sq.ft. - 2,327 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2, 3, 4 BR Apartments · 462 sq ft - 2,327 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-flare-1",
@@ -13458,8 +13458,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Flare is a ultra-luxury residential project which includes two towers developed by Binghatti Developers within Jumeirah Village Triangle (JVT) Dubai. The project follows Binghatti's signature architectural design which combines modern residential spaces with premium apartments. Binghatti Flare JVT provides 1,378 housing units together with 79 commercial spaces which serve both homebuyers and property investors. Binghatti Flare size starts at 462 Sq.ft. and reaches up to 2,327 Sq.ft while featuring intelligent floor plans which accommodate single residents and family units and married couples. Flare by Binghatti prices start at AED 800K. The project will achieve possession status in the second quarter of 2027 while maintaining its scheduled delivery timeline and delivering premium construction quality and promising investment returns. Residents will have access to top-tier amenities and shopping facilities and direct access to major Dubai destinations.",
-    "descriptionAr": "Flare is a ultra-luxury residential project which includes two towers developed by Binghatti Developers within Jumeirah Village Triangle (JVT) Dubai. The project follows Binghatti's signature architectural design which combines modern residential spaces with premium apartments. Binghatti Flare JVT provides 1,378 housing units together with 79 commercial spaces which serve both homebuyers and property investors. Binghatti Flare size starts at 462 Sq.ft. and reaches up to 2,327 Sq.ft while featuring intelligent floor plans which accommodate single residents and family units and married couples. Flare by Binghatti prices start at AED 800K. The project will achieve possession status in the second quarter of 2027 while maintaining its scheduled delivery timeline and delivering premium construction quality and promising investment returns. Residents will have access to top-tier amenities and shopping facilities and direct access to major Dubai destinations.",
+    "description": "Flare is a ultra-luxury residential project which includes two towers developed by Binghatti Developers within Jumeirah Village Triangle (JVT) Dubai. The project follows Binghatti's signature architectural design which combines modern residential spaces with premium apartments. Binghatti Flare JVT provides 1,378 housing units together with 79 commercial spaces which serve both homebuyers and property investors. Binghatti Flare size starts at 462 sq ft and reaches up to 2,327 sq ft while featuring intelligent floor plans which accommodate single residents and family units and married couples. Flare by Binghatti prices start at AED 800K. The project will achieve possession status in the second quarter of 2027 while maintaining its scheduled delivery timeline and delivering premium construction quality and promising investment returns. Residents will have access to top-tier amenities and shopping facilities and direct access to major Dubai destinations.",
+    "descriptionAr": "Flare is a ultra-luxury residential project which includes two towers developed by Binghatti Developers within Jumeirah Village Triangle (JVT) Dubai. The project follows Binghatti's signature architectural design which combines modern residential spaces with premium apartments. Binghatti Flare JVT provides 1,378 housing units together with 79 commercial spaces which serve both homebuyers and property investors. Binghatti Flare size starts at 462 sq ft and reaches up to 2,327 sq ft while featuring intelligent floor plans which accommodate single residents and family units and married couples. Flare by Binghatti prices start at AED 800K. The project will achieve possession status in the second quarter of 2027 while maintaining its scheduled delivery timeline and delivering premium construction quality and promising investment returns. Residents will have access to top-tier amenities and shopping facilities and direct access to major Dubai destinations.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -13728,7 +13728,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-pinnacle",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-pinnacle/20260612004004_brochure_Binghatti_Pinnacle_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 712 Sq.ft. - 1,702 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 712 sq ft - 1,702 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-pinnacle-1",
@@ -13857,8 +13857,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Pinnacle is a premium high-rise residential tower by Binghatti Developers, located in the rapidly growing Al Jaddaf community, Dubai. Showcasing Binghatti's signature architectural style, the project combines modern design, smart layouts and affordable luxury. Binghatti Pinnacle apartments range from 712 Sq.ft. to 1,702 Sq.ft. perfect for professionals, couples and small families. The project offers premium finishes, energy efficient interiors and large balconies with Dubai Creek and city views. Binghatti Pinnacle Al Jaddaf price starts from AED 1.44M and is an ideal for investors and end users. Residents can enjoy world class amenities including a swimming pool, gym, landscaped gardens, children's play areas and open space yoga. With its prime location near Downtown Dubai, Dubai Healthcare City and major roads and handover in Q4 2025, the project promises timely delivery, good ROI and modern living.",
-    "descriptionAr": "Pinnacle is a premium high-rise residential tower by Binghatti Developers, located in the rapidly growing Al Jaddaf community, Dubai. Showcasing Binghatti's signature architectural style, the project combines modern design, smart layouts and affordable luxury. Binghatti Pinnacle apartments range from 712 Sq.ft. to 1,702 Sq.ft. perfect for professionals, couples and small families. The project offers premium finishes, energy efficient interiors and large balconies with Dubai Creek and city views. Binghatti Pinnacle Al Jaddaf price starts from AED 1.44M and is an ideal for investors and end users. Residents can enjoy world class amenities including a swimming pool, gym, landscaped gardens, children's play areas and open space yoga. With its prime location near Downtown Dubai, Dubai Healthcare City and major roads and handover in Q4 2025, the project promises timely delivery, good ROI and modern living.",
+    "description": "Pinnacle is a premium high-rise residential tower by Binghatti Developers, located in the rapidly growing Al Jaddaf community, Dubai. Showcasing Binghatti's signature architectural style, the project combines modern design, smart layouts and affordable luxury. Binghatti Pinnacle apartments range from 712 sq ft to 1,702 sq ft perfect for professionals, couples and small families. The project offers premium finishes, energy efficient interiors and large balconies with Dubai Creek and city views. Binghatti Pinnacle Al Jaddaf price starts from AED 1.44M and is an ideal for investors and end users. Residents can enjoy world class amenities including a swimming pool, gym, landscaped gardens, children's play areas and open space yoga. With its prime location near Downtown Dubai, Dubai Healthcare City and major roads and handover in Q4 2025, the project promises timely delivery, good ROI and modern living.",
+    "descriptionAr": "Pinnacle is a premium high-rise residential tower by Binghatti Developers, located in the rapidly growing Al Jaddaf community, Dubai. Showcasing Binghatti's signature architectural style, the project combines modern design, smart layouts and affordable luxury. Binghatti Pinnacle apartments range from 712 sq ft to 1,702 sq ft perfect for professionals, couples and small families. The project offers premium finishes, energy efficient interiors and large balconies with Dubai Creek and city views. Binghatti Pinnacle Al Jaddaf price starts from AED 1.44M and is an ideal for investors and end users. Residents can enjoy world class amenities including a swimming pool, gym, landscaped gardens, children's play areas and open space yoga. With its prime location near Downtown Dubai, Dubai Healthcare City and major roads and handover in Q4 2025, the project promises timely delivery, good ROI and modern living.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -14127,7 +14127,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-haven",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-haven/20260612004319_brochure_binghatti-haven-brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 393 Sq.ft. to 1,600 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 393 sq ft to 1,600 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-haven-1",
@@ -14255,8 +14255,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Haven is a residential project in Dubai Sports City by Binghatti Developers, offering premium apartments at competitive pricing. The Binghatti Haven price starts from AED 750K, making it one of the most expensive properties in Dubai. The Binghatti Haven sizes range from 393 Sq.ft. to 1,600 Sq.ft., with studio, 1, 2 and 3 BR apartments designed for comfort, luxury, and style. Residents get to enjoy modern amenities like a swimming pool, gym, landscaped gardens, jogging tracks, kids play areas, and sports facilities for a family lifestyle. Located in Dubai Sports City, the project is close to Motor City, Downtown Dubai, Dubai Marina, and Dubai Hills. With a 60/40 payment plan and handover in Q1 2026, Binghatti Haven Dubai Sports City is perfect for homebuyers and property investors who want Dubai luxury apartments with high rental income and future property value growth.",
-    "descriptionAr": "Haven is a residential project in Dubai Sports City by Binghatti Developers, offering premium apartments at competitive pricing. The Binghatti Haven price starts from AED 750K, making it one of the most expensive properties in Dubai. The Binghatti Haven sizes range from 393 Sq.ft. to 1,600 Sq.ft., with studio, 1, 2 and 3 BR apartments designed for comfort, luxury, and style. Residents get to enjoy modern amenities like a swimming pool, gym, landscaped gardens, jogging tracks, kids play areas, and sports facilities for a family lifestyle. Located in Dubai Sports City, the project is close to Motor City, Downtown Dubai, Dubai Marina, and Dubai Hills. With a 60/40 payment plan and handover in Q1 2026, Binghatti Haven Dubai Sports City is perfect for homebuyers and property investors who want Dubai luxury apartments with high rental income and future property value growth.",
+    "description": "Haven is a residential project in Dubai Sports City by Binghatti Developers, offering premium apartments at competitive pricing. The Binghatti Haven price starts from AED 750K, making it one of the most expensive properties in Dubai. The Binghatti Haven sizes range from 393 sq ft to 1,600 sq ft, with studio, 1, 2 and 3 BR apartments designed for comfort, luxury, and style. Residents get to enjoy modern amenities like a swimming pool, gym, landscaped gardens, jogging tracks, kids play areas, and sports facilities for a family lifestyle. Located in Dubai Sports City, the project is close to Motor City, Downtown Dubai, Dubai Marina, and Dubai Hills. With a 60/40 payment plan and handover in Q1 2026, Binghatti Haven Dubai Sports City is perfect for homebuyers and property investors who want Dubai luxury apartments with high rental income and future property value growth.",
+    "descriptionAr": "Haven is a residential project in Dubai Sports City by Binghatti Developers, offering premium apartments at competitive pricing. The Binghatti Haven price starts from AED 750K, making it one of the most expensive properties in Dubai. The Binghatti Haven sizes range from 393 sq ft to 1,600 sq ft, with studio, 1, 2 and 3 BR apartments designed for comfort, luxury, and style. Residents get to enjoy modern amenities like a swimming pool, gym, landscaped gardens, jogging tracks, kids play areas, and sports facilities for a family lifestyle. Located in Dubai Sports City, the project is close to Motor City, Downtown Dubai, Dubai Marina, and Dubai Hills. With a 60/40 payment plan and handover in Q1 2026, Binghatti Haven Dubai Sports City is perfect for homebuyers and property investors who want Dubai luxury apartments with high rental income and future property value growth.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -14524,7 +14524,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-starlight",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-starlight/20260612004359_brochure_Binghatti-Starlight-Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR apartments · 415 Sq.ft. to 1,190 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR apartments · 415 sq ft to 1,190 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-starlight-1",
@@ -14641,8 +14641,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Starlight at Al Jaddaf, Dubai Healthcare City Phase 2 is the newly launched luxury residential development by Binghatti Developers offering studios, 1 & 2 bedroom apartments in Dubai. With Binghatti's signature geometric fa&ccedil;ade and modern layouts, the project combines beautiful interiors, spacious floor plans and stunning views of Dubai Creek and the city skyline. Binghatti Starlight price starts from AED 850K, it's one of the best investment properties in Dubai. Binghatti Starlight sizes range from 415 Sq.ft. to 1,190 Sq.ft. suitable for end-users and investors. Residents will enjoy world class amenities including an infinity swimming pool, state of the art fitness club, landscaped gardens, kids play zones, jogging tracks and retail outlets within the development. Located in Al Jaddaf, near Downtown Dubai, DIFC and Dubai International Airport, Binghatti Starlight Al Jaddaf offers the best network across the city. With a 60/40 payment plan and handover in Q1 2026.",
-    "descriptionAr": "Starlight at Al Jaddaf, Dubai Healthcare City Phase 2 is the newly launched luxury residential development by Binghatti Developers offering studios, 1 & 2 bedroom apartments in Dubai. With Binghatti's signature geometric fa&ccedil;ade and modern layouts, the project combines beautiful interiors, spacious floor plans and stunning views of Dubai Creek and the city skyline. Binghatti Starlight price starts from AED 850K, it's one of the best investment properties in Dubai. Binghatti Starlight sizes range from 415 Sq.ft. to 1,190 Sq.ft. suitable for end-users and investors. Residents will enjoy world class amenities including an infinity swimming pool, state of the art fitness club, landscaped gardens, kids play zones, jogging tracks and retail outlets within the development. Located in Al Jaddaf, near Downtown Dubai, DIFC and Dubai International Airport, Binghatti Starlight Al Jaddaf offers the best network across the city. With a 60/40 payment plan and handover in Q1 2026.",
+    "description": "Starlight at Al Jaddaf, Dubai Healthcare City Phase 2 is the newly launched luxury residential development by Binghatti Developers offering studios, 1 & 2 bedroom apartments in Dubai. With Binghatti's signature geometric fa&ccedil;ade and modern layouts, the project combines beautiful interiors, spacious floor plans and stunning views of Dubai Creek and the city skyline. Binghatti Starlight price starts from AED 850K, it's one of the best investment properties in Dubai. Binghatti Starlight sizes range from 415 sq ft to 1,190 sq ft suitable for end-users and investors. Residents will enjoy world class amenities including an infinity swimming pool, state of the art fitness club, landscaped gardens, kids play zones, jogging tracks and retail outlets within the development. Located in Al Jaddaf, near Downtown Dubai, DIFC and Dubai International Airport, Binghatti Starlight Al Jaddaf offers the best network across the city. With a 60/40 payment plan and handover in Q1 2026.",
+    "descriptionAr": "Starlight at Al Jaddaf, Dubai Healthcare City Phase 2 is the newly launched luxury residential development by Binghatti Developers offering studios, 1 & 2 bedroom apartments in Dubai. With Binghatti's signature geometric fa&ccedil;ade and modern layouts, the project combines beautiful interiors, spacious floor plans and stunning views of Dubai Creek and the city skyline. Binghatti Starlight price starts from AED 850K, it's one of the best investment properties in Dubai. Binghatti Starlight sizes range from 415 sq ft to 1,190 sq ft suitable for end-users and investors. Residents will enjoy world class amenities including an infinity swimming pool, state of the art fitness club, landscaped gardens, kids play zones, jogging tracks and retail outlets within the development. Located in Al Jaddaf, near Downtown Dubai, DIFC and Dubai International Airport, Binghatti Starlight Al Jaddaf offers the best network across the city. With a 60/40 payment plan and handover in Q1 2026.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -14910,7 +14910,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-hillcrest",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-hillcrest/20260612004432_brochure_Binghatti_Hillcrest_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR apartments · On Request",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR apartments · On Request",
     "floorPlans": [
       {
         "id": "fp-binghatti-hillcrest-1",
@@ -15295,7 +15295,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-skyhall",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-skyhall/20260612004613_brochure_Binghatti_Skyhall_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios & 1 BR apartments · 396 sq. ft. - 994 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios & 1 BR apartments · 396 sq ft - 994 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-skyhall-1",
@@ -15400,8 +15400,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Skyhall is a new mixed-use development by Binghatti Developers in the heart of Business Bay, Dubai. The project spans over 1,409 acres and has 717 units and 11 retail units on the ground floor. The development has studios and 1-bedroom apartments, perfect for families, professionals, and singles. Binghatti Skyhall sizes start from 396 sq. ft. for studio and 1-bedroom up to 994 sq. ft. with modern layouts and the latest urban living. Binghatti Skyhall price starts from AED 985K for studios and AED 1.85M for 1-bedroom apartments with a 70/30 payment plan. Residents will enjoy world-class amenities, including a swimming pool, kids play area, jacuzzi, sunken seating, jogging track, and 24/7 security with CCTV for safe and comfortable living. Skyhall by Binghatti has luxury, convenience, and strong investment in Business Bay.",
-    "descriptionAr": "Skyhall is a new mixed-use development by Binghatti Developers in the heart of Business Bay, Dubai. The project spans over 1,409 acres and has 717 units and 11 retail units on the ground floor. The development has studios and 1-bedroom apartments, perfect for families, professionals, and singles. Binghatti Skyhall sizes start from 396 sq. ft. for studio and 1-bedroom up to 994 sq. ft. with modern layouts and the latest urban living. Binghatti Skyhall price starts from AED 985K for studios and AED 1.85M for 1-bedroom apartments with a 70/30 payment plan. Residents will enjoy world-class amenities, including a swimming pool, kids play area, jacuzzi, sunken seating, jogging track, and 24/7 security with CCTV for safe and comfortable living. Skyhall by Binghatti has luxury, convenience, and strong investment in Business Bay.",
+    "description": "Skyhall is a new mixed-use development by Binghatti Developers in the heart of Business Bay, Dubai. The project spans over 1,409 acres and has 717 units and 11 retail units on the ground floor. The development has studios and 1-bedroom apartments, perfect for families, professionals, and singles. Binghatti Skyhall sizes start from 396 sq ft for studio and 1-bedroom up to 994 sq ft with modern layouts and the latest urban living. Binghatti Skyhall price starts from AED 985K for studios and AED 1.85M for 1-bedroom apartments with a 70/30 payment plan. Residents will enjoy world-class amenities, including a swimming pool, kids play area, jacuzzi, sunken seating, jogging track, and 24/7 security with CCTV for safe and comfortable living. Skyhall by Binghatti has luxury, convenience, and strong investment in Business Bay.",
+    "descriptionAr": "Skyhall is a new mixed-use development by Binghatti Developers in the heart of Business Bay, Dubai. The project spans over 1,409 acres and has 717 units and 11 retail units on the ground floor. The development has studios and 1-bedroom apartments, perfect for families, professionals, and singles. Binghatti Skyhall sizes start from 396 sq ft for studio and 1-bedroom up to 994 sq ft with modern layouts and the latest urban living. Binghatti Skyhall price starts from AED 985K for studios and AED 1.85M for 1-bedroom apartments with a 70/30 payment plan. Residents will enjoy world-class amenities, including a swimming pool, kids play area, jacuzzi, sunken seating, jogging track, and 24/7 security with CCTV for safe and comfortable living. Skyhall by Binghatti has luxury, convenience, and strong investment in Business Bay.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -15670,7 +15670,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/vincitore-wellness-estate",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/vincitore-wellness-estate/20260612004808_brochure_Vincitore_Wellness_Estate_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 Bedroom Apartment · On Request",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 Bedroom Apartment · On Request",
     "floorPlans": [
       {
         "id": "fp-vincitore-wellness-estate-1",
@@ -16069,7 +16069,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-skyparks",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-skyparks/20260609135122_brochure_Sobha_SkyParks_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2, & 3 BR apartments · 684 Sq.ft. - 2,272 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2, & 3 BR apartments · 684 sq ft - 2,272 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-skyparks-1",
@@ -16198,8 +16198,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Skyparks is an ultra-luxury residential development by Sobha Realty which will be located on Sheikh Zayed Road, right next to Business Bay Metro, Dubai. The building will reach a height of 450 meters and total 694 residential units which makes it one of the tallest residential buildings in Dubai and will create a new architectural standard for the city, it offers 1, 2, 3 & 4 BR apartments. The building will have 109 floors which will contain contemporary apartments with intelligent floor designs and stylish interior decor. Sobha Skyparks sizes range from 684 Sq.ft. to 2,272 Sq.ft. Sobha Skyparks price starts from AED 2.86M goes up to AED 9.35M. The development provides its residents with superior facilities which consist of an infinity pool and fitness center and landscaped outdoor spaces and wellness areas and rooftop lounges that offer spectacular views of the city skyline. Sobha Realty introduces the exclusive 4 Worlds in the Sky – Adventure, Active Life, Lush Life, and Luxe Life Zones – offering an unmatched lifestyle above the clouds.",
-    "descriptionAr": "Skyparks is an ultra-luxury residential development by Sobha Realty which will be located on Sheikh Zayed Road, right next to Business Bay Metro, Dubai. The building will reach a height of 450 meters and total 694 residential units which makes it one of the tallest residential buildings in Dubai and will create a new architectural standard for the city, it offers 1, 2, 3 & 4 BR apartments. The building will have 109 floors which will contain contemporary apartments with intelligent floor designs and stylish interior decor. Sobha Skyparks sizes range from 684 Sq.ft. to 2,272 Sq.ft. Sobha Skyparks price starts from AED 2.86M goes up to AED 9.35M. The development provides its residents with superior facilities which consist of an infinity pool and fitness center and landscaped outdoor spaces and wellness areas and rooftop lounges that offer spectacular views of the city skyline. Sobha Realty introduces the exclusive 4 Worlds in the Sky – Adventure, Active Life, Lush Life, and Luxe Life Zones – offering an unmatched lifestyle above the clouds.",
+    "description": "Skyparks is an ultra-luxury residential development by Sobha Realty which will be located on Sheikh Zayed Road, right next to Business Bay Metro, Dubai. The building will reach a height of 450 meters and total 694 residential units which makes it one of the tallest residential buildings in Dubai and will create a new architectural standard for the city, it offers 1, 2, 3 & 4 BR apartments. The building will have 109 floors which will contain contemporary apartments with intelligent floor designs and stylish interior decor. Sobha Skyparks sizes range from 684 sq ft to 2,272 sq ft Sobha Skyparks price starts from AED 2.86M goes up to AED 9.35M. The development provides its residents with superior facilities which consist of an infinity pool and fitness center and landscaped outdoor spaces and wellness areas and rooftop lounges that offer spectacular views of the city skyline. Sobha Realty introduces the exclusive 4 Worlds in the Sky – Adventure, Active Life, Lush Life, and Luxe Life Zones – offering an unmatched lifestyle above the clouds.",
+    "descriptionAr": "Skyparks is an ultra-luxury residential development by Sobha Realty which will be located on Sheikh Zayed Road, right next to Business Bay Metro, Dubai. The building will reach a height of 450 meters and total 694 residential units which makes it one of the tallest residential buildings in Dubai and will create a new architectural standard for the city, it offers 1, 2, 3 & 4 BR apartments. The building will have 109 floors which will contain contemporary apartments with intelligent floor designs and stylish interior decor. Sobha Skyparks sizes range from 684 sq ft to 2,272 sq ft Sobha Skyparks price starts from AED 2.86M goes up to AED 9.35M. The development provides its residents with superior facilities which consist of an infinity pool and fitness center and landscaped outdoor spaces and wellness areas and rooftop lounges that offer spectacular views of the city skyline. Sobha Realty introduces the exclusive 4 Worlds in the Sky – Adventure, Active Life, Lush Life, and Luxe Life Zones – offering an unmatched lifestyle above the clouds.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -16467,7 +16467,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/floating-seahorse-villas",
     "brochureUrl": "/api/projects/floating-seahorse-villas/brochure",
-    "masterPlanNotes": "Floating Villas · 2-BR Villas · 4,004 Sq.ft.",
+    "masterPlanNotes": "Floating Villas · 2-BR Villas · 4,004 sq ft",
     "floorPlans": [
       {
         "id": "fp-floating-seahorse-villas-1",
@@ -16852,7 +16852,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/meraas-solaya",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/meraas-solaya/20260609140914_brochure_Meraas_Solaya_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 2, 3, 4 & 5 Bedroom Apartment & Penthouses · 1,900 Sq.ft. to 7,600 sq.ft",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 2, 3, 4 & 5 Bedroom Apartment & Penthouses · 1,900 sq ft to 7,600 sq ft",
     "floorPlans": [
       {
         "id": "fp-meraas-solaya-1",
@@ -16993,8 +16993,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Solaya is an ultra-luxury beachfront residential property at La Mer, Jumeirah, for those who want to live by the sea in style and comfort. Developed by Meraas and Brookfield Properties and designed by Foster + Partners, with interiors by 1508 London. Solaya at Le Mer has 234 exclusive residences, including 2- to 5-bedroom apartments, duplexes, garden homes, and penthouses with stunning views of the Arabian Gulf and Dubai skyline. Meraas Solaya prices start from AED 14.2 M and Meraas Solaya sizes range from 1,900 Sq.ft. to 7,600 Sq.ft. It offers a flexible 20/40/40 payment plan and handover by 2029. Residents can enjoy world-class amenities, including private beach access, infinity pools, fitness and wellness centers, landscaped gardens, and gourmet dining, it makes Solaya by Meraas one of Dubai's most luxurious beachfront addresses.",
-    "descriptionAr": "Solaya is an ultra-luxury beachfront residential property at La Mer, Jumeirah, for those who want to live by the sea in style and comfort. Developed by Meraas and Brookfield Properties and designed by Foster + Partners, with interiors by 1508 London. Solaya at Le Mer has 234 exclusive residences, including 2- to 5-bedroom apartments, duplexes, garden homes, and penthouses with stunning views of the Arabian Gulf and Dubai skyline. Meraas Solaya prices start from AED 14.2 M and Meraas Solaya sizes range from 1,900 Sq.ft. to 7,600 Sq.ft. It offers a flexible 20/40/40 payment plan and handover by 2029. Residents can enjoy world-class amenities, including private beach access, infinity pools, fitness and wellness centers, landscaped gardens, and gourmet dining, it makes Solaya by Meraas one of Dubai's most luxurious beachfront addresses.",
+    "description": "Solaya is an ultra-luxury beachfront residential property at La Mer, Jumeirah, for those who want to live by the sea in style and comfort. Developed by Meraas and Brookfield Properties and designed by Foster + Partners, with interiors by 1508 London. Solaya at Le Mer has 234 exclusive residences, including 2- to 5-bedroom apartments, duplexes, garden homes, and penthouses with stunning views of the Arabian Gulf and Dubai skyline. Meraas Solaya prices start from AED 14.2 M and Meraas Solaya sizes range from 1,900 sq ft to 7,600 sq ft It offers a flexible 20/40/40 payment plan and handover by 2029. Residents can enjoy world-class amenities, including private beach access, infinity pools, fitness and wellness centers, landscaped gardens, and gourmet dining, it makes Solaya by Meraas one of Dubai's most luxurious beachfront addresses.",
+    "descriptionAr": "Solaya is an ultra-luxury beachfront residential property at La Mer, Jumeirah, for those who want to live by the sea in style and comfort. Developed by Meraas and Brookfield Properties and designed by Foster + Partners, with interiors by 1508 London. Solaya at Le Mer has 234 exclusive residences, including 2- to 5-bedroom apartments, duplexes, garden homes, and penthouses with stunning views of the Arabian Gulf and Dubai skyline. Meraas Solaya prices start from AED 14.2 M and Meraas Solaya sizes range from 1,900 sq ft to 7,600 sq ft It offers a flexible 20/40/40 payment plan and handover by 2029. Residents can enjoy world-class amenities, including private beach access, infinity pools, fitness and wellness centers, landscaped gardens, and gourmet dining, it makes Solaya by Meraas one of Dubai's most luxurious beachfront addresses.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -17262,7 +17262,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-titania",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-titania/20260612004835_brochure_Binghatti_Titania_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR Apartments · 369 Sq.ft. - 1,217 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR Apartments · 369 sq ft - 1,217 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-titania-1",
@@ -17379,8 +17379,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Titania is an ultra-luxury residential property developed by Binghatti Developers. Situated in Majan, Dubailand. These luxury apartments provide Studio, 1 BR, and 2 BR apartments which include floor-to-ceiling windows that allow natural light to enter while creating open air space and a grand lobby height. The price for Binghatti Titania Dubai starts at AED 680K to AED 1.54M. The Binghatti Titania sizes vary from 369 Sq.ft for Studio units and extend up to 1,217 Sq.ft. to serve different lifestyle needs. Each unit undergoes design work to maximize space efficiency and airflow and comfort which makes them suitable for contemporary family units and working professionals. These ultra luxurious apartments in Dubai offer premium amenities which include a Swimming Pool, Modern Gym, Lush Green Gardens, jogging track, Children's Play Zone & CCTV surveillance. Binghatti Titania handover date will occur during the first quarter of 2027.",
-    "descriptionAr": "Titania is an ultra-luxury residential property developed by Binghatti Developers. Situated in Majan, Dubailand. These luxury apartments provide Studio, 1 BR, and 2 BR apartments which include floor-to-ceiling windows that allow natural light to enter while creating open air space and a grand lobby height. The price for Binghatti Titania Dubai starts at AED 680K to AED 1.54M. The Binghatti Titania sizes vary from 369 Sq.ft for Studio units and extend up to 1,217 Sq.ft. to serve different lifestyle needs. Each unit undergoes design work to maximize space efficiency and airflow and comfort which makes them suitable for contemporary family units and working professionals. These ultra luxurious apartments in Dubai offer premium amenities which include a Swimming Pool, Modern Gym, Lush Green Gardens, jogging track, Children's Play Zone & CCTV surveillance. Binghatti Titania handover date will occur during the first quarter of 2027.",
+    "description": "Titania is an ultra-luxury residential property developed by Binghatti Developers. Situated in Majan, Dubailand. These luxury apartments provide Studio, 1 BR, and 2 BR apartments which include floor-to-ceiling windows that allow natural light to enter while creating open air space and a grand lobby height. The price for Binghatti Titania Dubai starts at AED 680K to AED 1.54M. The Binghatti Titania sizes vary from 369 sq ft for Studio units and extend up to 1,217 sq ft to serve different lifestyle needs. Each unit undergoes design work to maximize space efficiency and airflow and comfort which makes them suitable for contemporary family units and working professionals. These ultra luxurious apartments in Dubai offer premium amenities which include a Swimming Pool, Modern Gym, Lush Green Gardens, jogging track, Children's Play Zone & CCTV surveillance. Binghatti Titania handover date will occur during the first quarter of 2027.",
+    "descriptionAr": "Titania is an ultra-luxury residential property developed by Binghatti Developers. Situated in Majan, Dubailand. These luxury apartments provide Studio, 1 BR, and 2 BR apartments which include floor-to-ceiling windows that allow natural light to enter while creating open air space and a grand lobby height. The price for Binghatti Titania Dubai starts at AED 680K to AED 1.54M. The Binghatti Titania sizes vary from 369 sq ft for Studio units and extend up to 1,217 sq ft to serve different lifestyle needs. Each unit undergoes design work to maximize space efficiency and airflow and comfort which makes them suitable for contemporary family units and working professionals. These ultra luxurious apartments in Dubai offer premium amenities which include a Swimming Pool, Modern Gym, Lush Green Gardens, jogging track, Children's Play Zone & CCTV surveillance. Binghatti Titania handover date will occur during the first quarter of 2027.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -17649,7 +17649,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-aquacrest",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-aquacrest/20260609145206_brochure_Sobha_AquaCrest_Brochure.pdf",
-    "masterPlanNotes": "Waterfront Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 569 Sq.ft. - 1,217 Sq.ft.",
+    "masterPlanNotes": "Waterfront Luxury Apartments · 1, 2 & 3 Bedroom Apartment · 569 sq ft - 1,217 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-aquacrest-1",
@@ -17778,8 +17778,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "AquaCrest is an ultra-luxury waterfront residential development by Sobha Realty, located in Downtown Umm Al Quwain (UAQ), UAE. This showcases beach front living with a combination of modern design & heritage-inspired design. The residences at Sobha AquaCrest residential property offer 1 BR, 2 BR and 3-BR apartments that capture the essence of waterfront luxury through expansive glass fa&ccedil;ades, open layouts and panoramic sea views.The starting price for Sobha Aquacrest Downtown UAQ is AED 1.17M and the apartments come in various sizes from 569 Sq.ft to 1,217 Sq.ft. The premium waterfront property offers its residents a private beach along with an infinity pool and wellness park and clubhouse and yoga decks and jogging tracks and landscaped gardens. The Sobha AquaCrest handover date is expected in June 2029.",
-    "descriptionAr": "AquaCrest is an ultra-luxury waterfront residential development by Sobha Realty, located in Downtown Umm Al Quwain (UAQ), UAE. This showcases beach front living with a combination of modern design & heritage-inspired design. The residences at Sobha AquaCrest residential property offer 1 BR, 2 BR and 3-BR apartments that capture the essence of waterfront luxury through expansive glass fa&ccedil;ades, open layouts and panoramic sea views.The starting price for Sobha Aquacrest Downtown UAQ is AED 1.17M and the apartments come in various sizes from 569 Sq.ft to 1,217 Sq.ft. The premium waterfront property offers its residents a private beach along with an infinity pool and wellness park and clubhouse and yoga decks and jogging tracks and landscaped gardens. The Sobha AquaCrest handover date is expected in June 2029.",
+    "description": "AquaCrest is an ultra-luxury waterfront residential development by Sobha Realty, located in Downtown Umm Al Quwain (UAQ), UAE. This showcases beach front living with a combination of modern design & heritage-inspired design. The residences at Sobha AquaCrest residential property offer 1 BR, 2 BR and 3-BR apartments that capture the essence of waterfront luxury through expansive glass fa&ccedil;ades, open layouts and panoramic sea views. The starting price for Sobha Aquacrest Downtown UAQ is AED 1.17M and the apartments come in various sizes from 569 sq ft to 1,217 sq ft The premium waterfront property offers its residents a private beach along with an infinity pool and wellness park and clubhouse and yoga decks and jogging tracks and landscaped gardens. The Sobha AquaCrest handover date is expected in June 2029.",
+    "descriptionAr": "AquaCrest is an ultra-luxury waterfront residential development by Sobha Realty, located in Downtown Umm Al Quwain (UAQ), UAE. This showcases beach front living with a combination of modern design & heritage-inspired design. The residences at Sobha AquaCrest residential property offer 1 BR, 2 BR and 3-BR apartments that capture the essence of waterfront luxury through expansive glass fa&ccedil;ades, open layouts and panoramic sea views. The starting price for Sobha Aquacrest Downtown UAQ is AED 1.17M and the apartments come in various sizes from 569 sq ft to 1,217 sq ft The premium waterfront property offers its residents a private beach along with an infinity pool and wellness park and clubhouse and yoga decks and jogging tracks and landscaped gardens. The Sobha AquaCrest handover date is expected in June 2029.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -18010,7 +18010,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-hillside",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-hillside/20260612004907_brochure_Binghatti_Hillside_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios & 1 BR apartments · 359 Sq.ft. - 794 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios & 1 BR apartments · 359 sq ft - 794 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-hillside-1",
@@ -18115,8 +18115,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Hillside is an ultra-luxury residential property developed by Binghatti Developers, located in Dubai Science Park, offering luxurious & modern living. The building rises to 21 floors and offers studio and one-bedroom units which present contemporary design features along with outdoor balcony areas and expansive floor-to-ceiling windows that bring in daylight and show cityscapes. The Binghatti Hillside price starts from AED 775K,with Binghatti Hillside Apartment sizes ranging from 359 sq.ft. to 794 sq.ft. The community offers residents top-tier facilities that include a swimming pool and fitness centers and yoga spaces and meditation areas and a business lounge and BBQ deck and shopping facilities to create an all-inclusive living experience. The property at Binghatti Hillside Dubai Science Park will become available during the second quarter of 2026 which makes it an ideal option for people seeking contemporary residences and smart investment opportunities in Dubai real estate.",
-    "descriptionAr": "Hillside is an ultra-luxury residential property developed by Binghatti Developers, located in Dubai Science Park, offering luxurious & modern living. The building rises to 21 floors and offers studio and one-bedroom units which present contemporary design features along with outdoor balcony areas and expansive floor-to-ceiling windows that bring in daylight and show cityscapes. The Binghatti Hillside price starts from AED 775K,with Binghatti Hillside Apartment sizes ranging from 359 sq.ft. to 794 sq.ft. The community offers residents top-tier facilities that include a swimming pool and fitness centers and yoga spaces and meditation areas and a business lounge and BBQ deck and shopping facilities to create an all-inclusive living experience. The property at Binghatti Hillside Dubai Science Park will become available during the second quarter of 2026 which makes it an ideal option for people seeking contemporary residences and smart investment opportunities in Dubai real estate.",
+    "description": "Hillside is an ultra-luxury residential property developed by Binghatti Developers, located in Dubai Science Park, offering luxurious & modern living. The building rises to 21 floors and offers studio and one-bedroom units which present contemporary design features along with outdoor balcony areas and expansive floor-to-ceiling windows that bring in daylight and show cityscapes. The Binghatti Hillside price starts from AED 775K, with Binghatti Hillside Apartment sizes ranging from 359 sq ft to 794 sq ft The community offers residents top-tier facilities that include a swimming pool and fitness centers and yoga spaces and meditation areas and a business lounge and BBQ deck and shopping facilities to create an all-inclusive living experience. The property at Binghatti Hillside Dubai Science Park will become available during the second quarter of 2026 which makes it an ideal option for people seeking contemporary residences and smart investment opportunities in Dubai real estate.",
+    "descriptionAr": "Hillside is an ultra-luxury residential property developed by Binghatti Developers, located in Dubai Science Park, offering luxurious & modern living. The building rises to 21 floors and offers studio and one-bedroom units which present contemporary design features along with outdoor balcony areas and expansive floor-to-ceiling windows that bring in daylight and show cityscapes. The Binghatti Hillside price starts from AED 775K, with Binghatti Hillside Apartment sizes ranging from 359 sq ft to 794 sq ft The community offers residents top-tier facilities that include a swimming pool and fitness centers and yoga spaces and meditation areas and a business lounge and BBQ deck and shopping facilities to create an all-inclusive living experience. The property at Binghatti Hillside Dubai Science Park will become available during the second quarter of 2026 which makes it an ideal option for people seeking contemporary residences and smart investment opportunities in Dubai real estate.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -18386,7 +18386,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/emaar-terra-gardens",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/emaar-terra-gardens/20260612004946_brochure_Emaar_Terra_Gardens_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2 & 3 BR Apartment & Penthouses · 742 sq.ft. - 2,702 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2 & 3 BR Apartment & Penthouses · 742 sq ft - 2,702 sq ft",
     "floorPlans": [
       {
         "id": "fp-emaar-terra-gardens-1",
@@ -18527,8 +18527,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Terra Gardens is an ultra-luxury residential property developed by Emaar Properties in Expo City Dubai (Expo Living District) offers eco-friendly contemporary homes. TThe project includes residential units of different sizes which consist of 1-bedroom and 2-bedroom and 3-bedroom apartments plus 3-bedroom penthouses that feature both natural light and open spaces and garden environments. The Emaar Terra Gardens price starts from AED 1.55M, with apartment sizes ranging from 742 sq.ft. to 1,676 sq.ft. and townhouses between 2,580 sq.ft. and 2,702 sq.ft. The Emaar Terra Gardens residential property offers top-tier facilities such as a swimming pool, fully equipped gym, yoga lawn, kids' play area, BBQ zones, jogging & cycling tracks, and a clubhouse with co-working lounge. Residents can also enjoy retail caf&eacute;s, to residents who want to live in harmony with nature through sustainable design and smart home configurations. The Emaar Terra Gardens handover date will be in 2029 which positions it as a valuable off-plan investment choice for Dubai residents.",
-    "descriptionAr": "Terra Gardens is an ultra-luxury residential property developed by Emaar Properties in Expo City Dubai (Expo Living District) offers eco-friendly contemporary homes. TThe project includes residential units of different sizes which consist of 1-bedroom and 2-bedroom and 3-bedroom apartments plus 3-bedroom penthouses that feature both natural light and open spaces and garden environments. The Emaar Terra Gardens price starts from AED 1.55M, with apartment sizes ranging from 742 sq.ft. to 1,676 sq.ft. and townhouses between 2,580 sq.ft. and 2,702 sq.ft. The Emaar Terra Gardens residential property offers top-tier facilities such as a swimming pool, fully equipped gym, yoga lawn, kids' play area, BBQ zones, jogging & cycling tracks, and a clubhouse with co-working lounge. Residents can also enjoy retail caf&eacute;s, to residents who want to live in harmony with nature through sustainable design and smart home configurations. The Emaar Terra Gardens handover date will be in 2029 which positions it as a valuable off-plan investment choice for Dubai residents.",
+    "description": "Terra Gardens is an ultra-luxury residential property developed by Emaar Properties in Expo City Dubai (Expo Living District) offers eco-friendly contemporary homes. TThe project includes residential units of different sizes which consist of 1-bedroom and 2-bedroom and 3-bedroom apartments plus 3-bedroom penthouses that feature both natural light and open spaces and garden environments. The Emaar Terra Gardens price starts from AED 1.55M, with apartment sizes ranging from 742 sq ft to 1,676 sq ft and townhouses between 2,580 sq ft and 2,702 sq ft The Emaar Terra Gardens residential property offers top-tier facilities such as a swimming pool, fully equipped gym, yoga lawn, kids' play area, BBQ zones, jogging & cycling tracks, and a clubhouse with co-working lounge. Residents can also enjoy retail caf&eacute;s, to residents who want to live in harmony with nature through sustainable design and smart home configurations. The Emaar Terra Gardens handover date will be in 2029 which positions it as a valuable off-plan investment choice for Dubai residents.",
+    "descriptionAr": "Terra Gardens is an ultra-luxury residential property developed by Emaar Properties in Expo City Dubai (Expo Living District) offers eco-friendly contemporary homes. TThe project includes residential units of different sizes which consist of 1-bedroom and 2-bedroom and 3-bedroom apartments plus 3-bedroom penthouses that feature both natural light and open spaces and garden environments. The Emaar Terra Gardens price starts from AED 1.55M, with apartment sizes ranging from 742 sq ft to 1,676 sq ft and townhouses between 2,580 sq ft and 2,702 sq ft The Emaar Terra Gardens residential property offers top-tier facilities such as a swimming pool, fully equipped gym, yoga lawn, kids' play area, BBQ zones, jogging & cycling tracks, and a clubhouse with co-working lounge. Residents can also enjoy retail caf&eacute;s, to residents who want to live in harmony with nature through sustainable design and smart home configurations. The Emaar Terra Gardens handover date will be in 2029 which positions it as a valuable off-plan investment choice for Dubai residents.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -18796,7 +18796,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-hills-dubai",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-hills-dubai/20260612005028_brochure_Binghatti_Hills_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR apartments · 446 Sq.ft. - 1,888 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR apartments · 446 sq ft - 1,888 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-hills-dubai-1",
@@ -18913,8 +18913,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Hills is an ultra-luxury residential property by Binghatti Developers in the growing Dubai Science Park area of Al Barsha South. Two signature towers in the development feature 21 retails spaces & 1,666 high-end units that range from Studio apartments starting at AED 777K to 1‑Bedroom apartments at AED 1.1M and 2‑Bedroom apartments starting at AED 2.2M.The studio units is 466 to 726 sq. ft. while one-bedroom units start at 751 Sq.ft. to 1,570 Sq.ft. and two-bedroom units is 1,400 to 1,890 sq. ft.with contemporary floor plans and large windows and roomy balconies. The project will reach completion date by Q4 2026 which provides early investors with a beneficial investment opportunity. The world-class facilities at Binghatti Hills Dubai Science park including landscaped gardens and pools and gyms and retail spaces together with its iconic architecture and Hills by Binghatti is the perfect environment for luxurious living and smart investment in Dubai real estate.",
-    "descriptionAr": "Hills is an ultra-luxury residential property by Binghatti Developers in the growing Dubai Science Park area of Al Barsha South. Two signature towers in the development feature 21 retails spaces & 1,666 high-end units that range from Studio apartments starting at AED 777K to 1‑Bedroom apartments at AED 1.1M and 2‑Bedroom apartments starting at AED 2.2M.The studio units is 466 to 726 sq. ft. while one-bedroom units start at 751 Sq.ft. to 1,570 Sq.ft. and two-bedroom units is 1,400 to 1,890 sq. ft.with contemporary floor plans and large windows and roomy balconies. The project will reach completion date by Q4 2026 which provides early investors with a beneficial investment opportunity. The world-class facilities at Binghatti Hills Dubai Science park including landscaped gardens and pools and gyms and retail spaces together with its iconic architecture and Hills by Binghatti is the perfect environment for luxurious living and smart investment in Dubai real estate.",
+    "description": "Hills is an ultra-luxury residential property by Binghatti Developers in the growing Dubai Science Park area of Al Barsha South. Two signature towers in the development feature 21 retails spaces & 1,666 high-end units that range from Studio apartments starting at AED 777K to 1‑Bedroom apartments at AED 1.1M and 2‑Bedroom apartments starting at AED 2.2M.The studio units is 466 to 726 sq ft while one-bedroom units start at 751 sq ft to 1,570 sq ft and two-bedroom units is 1,400 to 1,890 sq ft with contemporary floor plans and large windows and roomy balconies. The project will reach completion date by Q4 2026 which provides early investors with a beneficial investment opportunity. The world-class facilities at Binghatti Hills Dubai Science park including landscaped gardens and pools and gyms and retail spaces together with its iconic architecture and Hills by Binghatti is the perfect environment for luxurious living and smart investment in Dubai real estate.",
+    "descriptionAr": "Hills is an ultra-luxury residential property by Binghatti Developers in the growing Dubai Science Park area of Al Barsha South. Two signature towers in the development feature 21 retails spaces & 1,666 high-end units that range from Studio apartments starting at AED 777K to 1‑Bedroom apartments at AED 1.1M and 2‑Bedroom apartments starting at AED 2.2M.The studio units is 466 to 726 sq ft while one-bedroom units start at 751 sq ft to 1,570 sq ft and two-bedroom units is 1,400 to 1,890 sq ft with contemporary floor plans and large windows and roomy balconies. The project will reach completion date by Q4 2026 which provides early investors with a beneficial investment opportunity. The world-class facilities at Binghatti Hills Dubai Science park including landscaped gardens and pools and gyms and retail spaces together with its iconic architecture and Hills by Binghatti is the perfect environment for luxurious living and smart investment in Dubai real estate.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -19186,7 +19186,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/burj-binghatti-jacob-co-residences",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/burj-binghatti-jacob-co-residences/20260612005058_brochure_Burj_Binghatti_Jacob_Co__Residences_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Villas, Mansions & Penthouses · 2, 3, 4, 5, 6 & 7 Bedroom · 3299 Sq.ft. to 22469 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas, Mansions & Penthouses · 2, 3, 4, 5, 6 & 7 Bedroom · 3299 sq ft to 22469 sq ft",
     "floorPlans": [
       {
         "id": "fp-burj-binghatti-jacob-co-residences-1",
@@ -19351,8 +19351,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Binghatti Jacob & Co. Residences in Business Bay, Dubai, is an ultra-luxury Hyper-Tower developed by Binghatti Developers in partnership with Jacob & Co. This one-of-a-kind masterpiece offers 2, 3, 4, 5, 6 & 7-bedroom villas, sky mansions & penthouses sized from 3299 sq. ft. to 22469 sq. ft. Burj Binghatti Jacob & Co. Residences price starts from AED 8.2Mwith possession by Q4 2026.The Hyper-Tower's mansions, penthouses and villas draw inspiration from Jacob & Co.'s iconic jewelry and time pieces. The quarter-floor units of Emerald and Sapphire Villas consist of 2 and 2.5 bedrooms while Ruby Villas feature 3 bedrooms all with private infinity pools. Larger residences—Fleurs de Jardin and Diamond Sky Mansions—offer half-floor layouts with unmatched views and pools. Crowning the tower are the Astronomia Sky Penthouse, spanning an entire top floor, and the Billionaire Sky Penthouse, a two-level masterpiece overlooking Dubai's skyline. Burj Binghatti Jacob & Co. Residences amenities including sky gardens, luxury spa, and modern gym. Residents enjoy concierge, butler, chauffeur, and private chef services, along with valet parking, 24x7 security, and exclusive lounge areas.",
-    "descriptionAr": "Binghatti Jacob & Co. Residences in Business Bay, Dubai, is an ultra-luxury Hyper-Tower developed by Binghatti Developers in partnership with Jacob & Co. This one-of-a-kind masterpiece offers 2, 3, 4, 5, 6 & 7-bedroom villas, sky mansions & penthouses sized from 3299 sq. ft. to 22469 sq. ft. Burj Binghatti Jacob & Co. Residences price starts from AED 8.2Mwith possession by Q4 2026.The Hyper-Tower's mansions, penthouses and villas draw inspiration from Jacob & Co.'s iconic jewelry and time pieces. The quarter-floor units of Emerald and Sapphire Villas consist of 2 and 2.5 bedrooms while Ruby Villas feature 3 bedrooms all with private infinity pools. Larger residences—Fleurs de Jardin and Diamond Sky Mansions—offer half-floor layouts with unmatched views and pools. Crowning the tower are the Astronomia Sky Penthouse, spanning an entire top floor, and the Billionaire Sky Penthouse, a two-level masterpiece overlooking Dubai's skyline. Burj Binghatti Jacob & Co. Residences amenities including sky gardens, luxury spa, and modern gym. Residents enjoy concierge, butler, chauffeur, and private chef services, along with valet parking, 24x7 security, and exclusive lounge areas.",
+    "description": "Binghatti Jacob & Co. Residences in Business Bay, Dubai, is an ultra-luxury Hyper-Tower developed by Binghatti Developers in partnership with Jacob & Co. This one-of-a-kind masterpiece offers 2, 3, 4, 5, 6 & 7-bedroom villas, sky mansions & penthouses sized from 3299 sq ft to 22469 sq ft Burj Binghatti Jacob & Co. Residences price starts from AED 8.2Mwith possession by Q4 2026.The Hyper-Tower's mansions, penthouses and villas draw inspiration from Jacob & Co.'s iconic jewelry and time pieces. The quarter-floor units of Emerald and Sapphire Villas consist of 2 and 2.5 bedrooms while Ruby Villas feature 3 bedrooms all with private infinity pools. Larger residences—Fleurs de Jardin and Diamond Sky Mansions—offer half-floor layouts with unmatched views and pools. Crowning the tower are the Astronomia Sky Penthouse, spanning an entire top floor, and the Billionaire Sky Penthouse, a two-level masterpiece overlooking Dubai's skyline. Burj Binghatti Jacob & Co. Residences amenities including sky gardens, luxury spa, and modern gym. Residents enjoy concierge, butler, chauffeur, and private chef services, along with valet parking, 24x7 security, and exclusive lounge areas.",
+    "descriptionAr": "Binghatti Jacob & Co. Residences in Business Bay, Dubai, is an ultra-luxury Hyper-Tower developed by Binghatti Developers in partnership with Jacob & Co. This one-of-a-kind masterpiece offers 2, 3, 4, 5, 6 & 7-bedroom villas, sky mansions & penthouses sized from 3299 sq ft to 22469 sq ft Burj Binghatti Jacob & Co. Residences price starts from AED 8.2Mwith possession by Q4 2026.The Hyper-Tower's mansions, penthouses and villas draw inspiration from Jacob & Co.'s iconic jewelry and time pieces. The quarter-floor units of Emerald and Sapphire Villas consist of 2 and 2.5 bedrooms while Ruby Villas feature 3 bedrooms all with private infinity pools. Larger residences—Fleurs de Jardin and Diamond Sky Mansions—offer half-floor layouts with unmatched views and pools. Crowning the tower are the Astronomia Sky Penthouse, spanning an entire top floor, and the Billionaire Sky Penthouse, a two-level masterpiece overlooking Dubai's skyline. Burj Binghatti Jacob & Co. Residences amenities including sky gardens, luxury spa, and modern gym. Residents enjoy concierge, butler, chauffeur, and private chef services, along with valet parking, 24x7 security, and exclusive lounge areas.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -19620,7 +19620,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-gabriel",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/azizi-gabriel/20260612005142_brochure_Azizi_Gabriel_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR Apartments · TBA",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR Apartments · TBA",
     "floorPlans": [
       {
         "id": "fp-azizi-gabriel-1",
@@ -20006,7 +20006,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-vintage",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-vintage/20260612005218_brochure_Binghatti_Vintage_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR apartments · 372 Sq.ft. to 2271 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR apartments · 372 sq ft to 2271 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-vintage-1",
@@ -20123,8 +20123,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Vintage is an ultra-luxury residential development by Binghatti Developers, located in the heart of Majan, Dubailand. The newly launched tower features 36 residential floors and offers a studio, 1 BR & 2 BR with smartly designed floor plan and stylish interior decor. Binghatti Vintage sizes range from 372 Sq.ft. to 2271 Sq.ft. Binghatti Vintage apartments price starts from AED 674K. The development provides world-class amenities including a pool, Gym, outdoor seating area, wellness areas, rooftop lounges that offer breathtaking views of the city skyline. Binghatti Vintage handover date is 31 March, 2027. Live luxury, convenience and modern comfort at Binghatti Vintage Majan where every detail is Dubai urban living.",
-    "descriptionAr": "Vintage is an ultra-luxury residential development by Binghatti Developers, located in the heart of Majan, Dubailand. The newly launched tower features 36 residential floors and offers a studio, 1 BR & 2 BR with smartly designed floor plan and stylish interior decor. Binghatti Vintage sizes range from 372 Sq.ft. to 2271 Sq.ft. Binghatti Vintage apartments price starts from AED 674K. The development provides world-class amenities including a pool, Gym, outdoor seating area, wellness areas, rooftop lounges that offer breathtaking views of the city skyline. Binghatti Vintage handover date is 31 March, 2027. Live luxury, convenience and modern comfort at Binghatti Vintage Majan where every detail is Dubai urban living.",
+    "description": "Vintage is an ultra-luxury residential development by Binghatti Developers, located in the heart of Majan, Dubailand. The newly launched tower features 36 residential floors and offers a studio, 1 BR & 2 BR with smartly designed floor plan and stylish interior decor. Binghatti Vintage sizes range from 372 sq ft to 2271 sq ft Binghatti Vintage apartments price starts from AED 674K. The development provides world-class amenities including a pool, Gym, outdoor seating area, wellness areas, rooftop lounges that offer breathtaking views of the city skyline. Binghatti Vintage handover date is 31 March, 2027. Live luxury, convenience and modern comfort at Binghatti Vintage Majan where every detail is Dubai urban living.",
+    "descriptionAr": "Vintage is an ultra-luxury residential development by Binghatti Developers, located in the heart of Majan, Dubailand. The newly launched tower features 36 residential floors and offers a studio, 1 BR & 2 BR with smartly designed floor plan and stylish interior decor. Binghatti Vintage sizes range from 372 sq ft to 2271 sq ft Binghatti Vintage apartments price starts from AED 674K. The development provides world-class amenities including a pool, Gym, outdoor seating area, wellness areas, rooftop lounges that offer breathtaking views of the city skyline. Binghatti Vintage handover date is 31 March, 2027. Live luxury, convenience and modern comfort at Binghatti Vintage Majan where every detail is Dubai urban living.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -20393,7 +20393,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/bnw-orvessa-residences",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/bnw-orvessa-residences/20260612005247_brochure_BNW_Orvessa_Residences_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 Bedroom Apartment · AED 1.28M / ₹3.09 Cr*",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 Bedroom Apartment · AED 1.28M / ₹3.09 Cr*",
     "floorPlans": [
       {
         "id": "fp-bnw-orvessa-residences-1",
@@ -20522,8 +20522,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Residences by BNW Developments is a mid-rise tower in the sought-after Al Furjan community of Dubai, near to Sheikh Zayed Road and&ensp;the new Al Furjan Metro station. The project is a freehold property that offers contemporary style 1, 2 & 3 bedroom apartments with spacious living room and state of&ensp;the art interior finishes. Unit sizes at Orvessa&ensp;Residences range from 721 sq. ft. and 1,583 sq. ft.,&ensp;designed for today's family living and investment purposes. BNW Orvessa Residences Dubai starting from an attractive price of AED 1.28M. Residents can enjoy high-end amenities including a rooftop infinity pool, gym, landscaped gardens, kids play areas and ample parking. BNW Orvessa Residences handover date is in Q4 2027, offering an exceptional opportunity to own a home in one of Dubai's fastest-growing neighborhoods. With its strategic location near Dubai Marina, Ibn Battuta Mall, and Expo City Dubai, it promises both lifestyle convenience and strong investment potential.",
-    "descriptionAr": "Residences by BNW Developments is a mid-rise tower in the sought-after Al Furjan community of Dubai, near to Sheikh Zayed Road and&ensp;the new Al Furjan Metro station. The project is a freehold property that offers contemporary style 1, 2 & 3 bedroom apartments with spacious living room and state of&ensp;the art interior finishes. Unit sizes at Orvessa&ensp;Residences range from 721 sq. ft. and 1,583 sq. ft.,&ensp;designed for today's family living and investment purposes. BNW Orvessa Residences Dubai starting from an attractive price of AED 1.28M. Residents can enjoy high-end amenities including a rooftop infinity pool, gym, landscaped gardens, kids play areas and ample parking. BNW Orvessa Residences handover date is in Q4 2027, offering an exceptional opportunity to own a home in one of Dubai's fastest-growing neighborhoods. With its strategic location near Dubai Marina, Ibn Battuta Mall, and Expo City Dubai, it promises both lifestyle convenience and strong investment potential.",
+    "description": "Residences by BNW Developments is a mid-rise tower in the sought-after Al Furjan community of Dubai, near to Sheikh Zayed Road and&ensp;the new Al Furjan Metro station. The project is a freehold property that offers contemporary style 1, 2 & 3 bedroom apartments with spacious living room and state of&ensp;the art interior finishes. Unit sizes at Orvessa&ensp;Residences range from 721 sq ft and 1,583 sq ft,&ensp;designed for today's family living and investment purposes. BNW Orvessa Residences Dubai starting from an attractive price of AED 1.28M. Residents can enjoy high-end amenities including a rooftop infinity pool, gym, landscaped gardens, kids play areas and ample parking. BNW Orvessa Residences handover date is in Q4 2027, offering an exceptional opportunity to own a home in one of Dubai's fastest-growing neighborhoods. With its strategic location near Dubai Marina, Ibn Battuta Mall, and Expo City Dubai, it promises both lifestyle convenience and strong investment potential.",
+    "descriptionAr": "Residences by BNW Developments is a mid-rise tower in the sought-after Al Furjan community of Dubai, near to Sheikh Zayed Road and&ensp;the new Al Furjan Metro station. The project is a freehold property that offers contemporary style 1, 2 & 3 bedroom apartments with spacious living room and state of&ensp;the art interior finishes. Unit sizes at Orvessa&ensp;Residences range from 721 sq ft and 1,583 sq ft,&ensp;designed for today's family living and investment purposes. BNW Orvessa Residences Dubai starting from an attractive price of AED 1.28M. Residents can enjoy high-end amenities including a rooftop infinity pool, gym, landscaped gardens, kids play areas and ample parking. BNW Orvessa Residences handover date is in Q4 2027, offering an exceptional opportunity to own a home in one of Dubai's fastest-growing neighborhoods. With its strategic location near Dubai Marina, Ibn Battuta Mall, and Expo City Dubai, it promises both lifestyle convenience and strong investment potential.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -20741,7 +20741,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/palm-central-private-residences",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/palm-central-private-residences/20260612005920_brochure_Palm_Central_Private_Residences_Brochure.pdf",
-    "masterPlanNotes": "Beachfront Apartments, Townhouses & Penthouses · 1,2,3,4 & 5 BR · 801 Sq.ft - 9797 Sq.ft",
+    "masterPlanNotes": "Beachfront Apartments, Townhouses & Penthouses · 1,2,3,4 & 5 BR · 801 sq ft - 9797 sq ft",
     "floorPlans": [
       {
         "id": "fp-palm-central-private-residences-1",
@@ -20906,8 +20906,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Central Private Residences, located in the center of Nakheel Palm Jebel Ali, consists of 212 contemporary, resort-style villas distributed across three magnificent towers. This new launch property provides a range of options, including apartments, duplex townhouses and luxury penthouses, all with 1 to 5 bedrooms. It is situated between Fronds M and N of palm jebel ali, the architecture's stepped form ensures each home has uninterrupted panoramic views overlooking the Cove. Palm central units sizes start from a compact 801 Sq.ft for (1-BR units) all the way up to a spacious 9,797 Sq.ft (5-BR penthouses). Palm central prices start with a 1 BR from AED 2.5 million. The lifestyle you get at Palm Central Private Residences offers top-end amenities handed to you on a plate, such as an infinity pool with Jacuzzi, a state of the art indoor gym, an on-site kids club and direct access to the beach.",
-    "descriptionAr": "Central Private Residences, located in the center of Nakheel Palm Jebel Ali, consists of 212 contemporary, resort-style villas distributed across three magnificent towers. This new launch property provides a range of options, including apartments, duplex townhouses and luxury penthouses, all with 1 to 5 bedrooms. It is situated between Fronds M and N of palm jebel ali, the architecture's stepped form ensures each home has uninterrupted panoramic views overlooking the Cove. Palm central units sizes start from a compact 801 Sq.ft for (1-BR units) all the way up to a spacious 9,797 Sq.ft (5-BR penthouses). Palm central prices start with a 1 BR from AED 2.5 million. The lifestyle you get at Palm Central Private Residences offers top-end amenities handed to you on a plate, such as an infinity pool with Jacuzzi, a state of the art indoor gym, an on-site kids club and direct access to the beach.",
+    "description": "Central Private Residences, located in the center of Nakheel Palm Jebel Ali, consists of 212 contemporary, resort-style villas distributed across three magnificent towers. This new launch property provides a range of options, including apartments, duplex townhouses and luxury penthouses, all with 1 to 5 bedrooms. It is situated between Fronds M and N of palm jebel ali, the architecture's stepped form ensures each home has uninterrupted panoramic views overlooking the Cove. Palm central units sizes start from a compact 801 sq ft for (1-BR units) all the way up to a spacious 9,797 sq ft (5-BR penthouses). Palm central prices start with a 1 BR from AED 2.5 million. The lifestyle you get at Palm Central Private Residences offers top-end amenities handed to you on a plate, such as an infinity pool with Jacuzzi, a state of the art indoor gym, an on-site kids club and direct access to the beach.",
+    "descriptionAr": "Central Private Residences, located in the center of Nakheel Palm Jebel Ali, consists of 212 contemporary, resort-style villas distributed across three magnificent towers. This new launch property provides a range of options, including apartments, duplex townhouses and luxury penthouses, all with 1 to 5 bedrooms. It is situated between Fronds M and N of palm jebel ali, the architecture's stepped form ensures each home has uninterrupted panoramic views overlooking the Cove. Palm central units sizes start from a compact 801 sq ft for (1-BR units) all the way up to a spacious 9,797 sq ft (5-BR penthouses). Palm central prices start with a 1 BR from AED 2.5 million. The lifestyle you get at Palm Central Private Residences offers top-end amenities handed to you on a plate, such as an infinity pool with Jacuzzi, a state of the art indoor gym, an on-site kids club and direct access to the beach.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -21176,7 +21176,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/ellington-windsor-house",
     "brochureUrl": "/api/projects/ellington-windsor-house/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 432 Sq.ft - 1690 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 432 sq ft - 1690 sq ft",
     "floorPlans": [
       {
         "id": "fp-ellington-windsor-house-1",
@@ -21303,8 +21303,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Ellington Windsor House II Dubai South offers premium studio, 1 & 2 BHK apartments starting from 432 sq. ft. with prices from AED 675K. Designed with luxury finishes and top-notch amenities.",
-    "descriptionAr": "Ellington Windsor House II Dubai South offers premium studio, 1 & 2 BHK apartments starting from 432 sq. ft. with prices from AED 675K. Designed with luxury finishes and top-notch amenities.",
+    "description": "Ellington Windsor House II Dubai South offers premium studio, 1 & 2 BHK apartments starting from 432 sq ft with prices from AED 675K. Designed with luxury finishes and top-notch amenities.",
+    "descriptionAr": "Ellington Windsor House II Dubai South offers premium studio, 1 & 2 BHK apartments starting from 432 sq ft with prices from AED 675K. Designed with luxury finishes and top-notch amenities.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -21575,7 +21575,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/ellington-hillgate",
     "brochureUrl": "/api/projects/ellington-hillgate/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Duplexes · Studios, 1, 2, 3 & 4 BR · 416 sq.ft. - 4,047 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Duplexes · Studios, 1, 2, 3 & 4 BR · 416 sq ft - 4,047 sq ft",
     "floorPlans": [
       {
         "id": "fp-ellington-hillgate-1",
@@ -21997,7 +21997,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-david",
     "brochureUrl": "/api/projects/azizi-david/brochure",
-    "masterPlanNotes": "Luxury Apartments & Penthouses · Studios, 1, 2 BR Apartments · 327 Sq.ft to 838 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments & Penthouses · Studios, 1, 2 BR Apartments · 327 sq ft to 838 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-david-1",
@@ -22395,7 +22395,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-elwood",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-elwood/20260609152806_brochure_Sobha_Elwood_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Villas · 4, 5 and 6 BR · 6000 Sq.ft",
+    "masterPlanNotes": "Ultra-Luxury Villas · 4, 5 and 6 BR · 6000 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-elwood-1",
@@ -22512,8 +22512,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Elwood Dubailand offers a peaceful natural environment for upscale living through its development which contains more than 10,000 trees and large green areas. The location provides direct access to the Dubai–Al Ain Road which leads to Downtown Dubai, Dubai Outlet Mall, Dubai Rugby Sevens, both airports, and major city centers. The Sobha Elwood villas in Dubai present 4 to 6 BR villas which include private pools and expansive windows, and stylish interiors to create a comfortable home environment for families. Sobha Elwood luxury Villa sizes start from 6000 sq.ft for 4 BR with the starting price of AED 9.92M. The Sobha Elwood villas amenities at these ultra luxury residences include a clubhouse and sports courts, jogging and cycling tracks, water activities, play areas for children, gardens, and essential services including a school, clinic, daycare, and retail spaces. The official announcement will provide the details about Sobha Elwood possession date.",
-    "descriptionAr": "Elwood Dubailand offers a peaceful natural environment for upscale living through its development which contains more than 10,000 trees and large green areas. The location provides direct access to the Dubai–Al Ain Road which leads to Downtown Dubai, Dubai Outlet Mall, Dubai Rugby Sevens, both airports, and major city centers. The Sobha Elwood villas in Dubai present 4 to 6 BR villas which include private pools and expansive windows, and stylish interiors to create a comfortable home environment for families. Sobha Elwood luxury Villa sizes start from 6000 sq.ft for 4 BR with the starting price of AED 9.92M. The Sobha Elwood villas amenities at these ultra luxury residences include a clubhouse and sports courts, jogging and cycling tracks, water activities, play areas for children, gardens, and essential services including a school, clinic, daycare, and retail spaces. The official announcement will provide the details about Sobha Elwood possession date.",
+    "description": "Elwood Dubailand offers a peaceful natural environment for upscale living through its development which contains more than 10,000 trees and large green areas. The location provides direct access to the Dubai–Al Ain Road which leads to Downtown Dubai, Dubai Outlet Mall, Dubai Rugby Sevens, both airports, and major city centers. The Sobha Elwood villas in Dubai present 4 to 6 BR villas which include private pools and expansive windows, and stylish interiors to create a comfortable home environment for families. Sobha Elwood luxury Villa sizes start from 6000 sq ft for 4 BR with the starting price of AED 9.92M. The Sobha Elwood villas amenities at these ultra-luxury residences include a clubhouse and sports courts, jogging and cycling tracks, water activities, play areas for children, gardens, and essential services including a school, clinic, daycare, and retail spaces. The official announcement will provide the details about Sobha Elwood possession date.",
+    "descriptionAr": "Elwood Dubailand offers a peaceful natural environment for upscale living through its development which contains more than 10,000 trees and large green areas. The location provides direct access to the Dubai–Al Ain Road which leads to Downtown Dubai, Dubai Outlet Mall, Dubai Rugby Sevens, both airports, and major city centers. The Sobha Elwood villas in Dubai present 4 to 6 BR villas which include private pools and expansive windows, and stylish interiors to create a comfortable home environment for families. Sobha Elwood luxury Villa sizes start from 6000 sq ft for 4 BR with the starting price of AED 9.92M. The Sobha Elwood villas amenities at these ultra-luxury residences include a clubhouse and sports courts, jogging and cycling tracks, water activities, play areas for children, gardens, and essential services including a school, clinic, daycare, and retail spaces. The official announcement will provide the details about Sobha Elwood possession date.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -22782,7 +22782,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-sky-terraces",
     "brochureUrl": "/api/projects/binghatti-sky-terraces/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 311 Sq.ft. - 2,725 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 311 sq ft - 2,725 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-sky-terraces-1",
@@ -23581,7 +23581,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-cullinan",
     "brochureUrl": "/api/projects/binghatti-cullinan/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studio & 1,2,3 Bedroom Apartments · From 382 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments · Studio & 1,2,3 Bedroom Apartments · From 382 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-cullinan-1",
@@ -23721,8 +23721,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Discover Binghatti Cullinan in Al Jaddaf, offering Studios, 1BR, 2BR & 3BR units from 382 sq.ft. Starting at AED 819,999. Explore premium living in a prime Dubai location.",
-    "descriptionAr": "Discover Binghatti Cullinan in Al Jaddaf, offering Studios, 1BR, 2BR & 3BR units from 382 sq.ft. Starting at AED 819,999. Explore premium living in a prime Dubai location.",
+    "description": "Discover Binghatti Cullinan in Al Jaddaf, offering Studios, 1BR, 2BR & 3BR units from 382 sq ft Starting at AED 819,999. Explore premium living in a prime Dubai location.",
+    "descriptionAr": "Discover Binghatti Cullinan in Al Jaddaf, offering Studios, 1BR, 2BR & 3BR units from 382 sq ft Starting at AED 819,999. Explore premium living in a prime Dubai location.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -24390,7 +24390,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/mercedes-benz-places-by-binghatti",
     "brochureUrl": "/api/projects/mercedes-benz-places-by-binghatti/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 2, 3, 4 BR Apartments & 5, 6 BR Penthouses · From 1897 Sq.ft",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 2, 3, 4 BR Apartments & 5, 6 BR Penthouses · From 1897 sq ft",
     "floorPlans": [
       {
         "id": "fp-mercedes-benz-places-by-binghatti-1",
@@ -24531,8 +24531,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Mercedes Benz Places by Binghatti offers ultra-luxury residences in Downtown Dubai, starting from AED 10M with spacious layouts from 1,837 sq.ft. Featuring futuristic Mercedes-Benz–inspired design, panoramic skyline views, and world-class amenities, this 341m hyper-tower delivers elite living for buyers seeking premium quality, prime location, and long-term investment value.",
-    "descriptionAr": "Mercedes Benz Places by Binghatti offers ultra-luxury residences in Downtown Dubai, starting from AED 10M with spacious layouts from 1,837 sq.ft. Featuring futuristic Mercedes-Benz–inspired design, panoramic skyline views, and world-class amenities, this 341m hyper-tower delivers elite living for buyers seeking premium quality, prime location, and long-term investment value.",
+    "description": "Mercedes Benz Places by Binghatti offers ultra-luxury residences in Downtown Dubai, starting from AED 10M with spacious layouts from 1,837 sq ft Featuring futuristic Mercedes-Benz–inspired design, panoramic skyline views, and world-class amenities, this 341m hyper-tower delivers elite living for buyers seeking premium quality, prime location, and long-term investment value.",
+    "descriptionAr": "Mercedes Benz Places by Binghatti offers ultra-luxury residences in Downtown Dubai, starting from AED 10M with spacious layouts from 1,837 sq ft Featuring futuristic Mercedes-Benz–inspired design, panoramic skyline views, and world-class amenities, this 341m hyper-tower delivers elite living for buyers seeking premium quality, prime location, and long-term investment value.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -24802,7 +24802,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/avarra-by-palace",
     "brochureUrl": "/api/projects/avarra-by-palace/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1,2, 3 & 4 Bedroom Apartments · 789 sq.ft. to 4,795 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1,2, 3 & 4 Bedroom Apartments · 789 sq ft to 4,795 sq ft",
     "floorPlans": [
       {
         "id": "fp-avarra-by-palace-1",
@@ -24942,8 +24942,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Avarra Palace by Emaar Properties offers 1 to 4 BR apartments ranging from 789 sq.ft. to 4,795 sq.ft. Enjoy canal views,world-class amenities and a central Dubai location.",
-    "descriptionAr": "Avarra Palace by Emaar Properties offers 1 to 4 BR apartments ranging from 789 sq.ft. to 4,795 sq.ft. Enjoy canal views,world-class amenities and a central Dubai location.",
+    "description": "Avarra Palace by Emaar Properties offers 1 to 4 BR apartments ranging from 789 sq ft to 4,795 sq ft Enjoy canal views, world-class amenities and a central Dubai location.",
+    "descriptionAr": "Avarra Palace by Emaar Properties offers 1 to 4 BR apartments ranging from 789 sq ft to 4,795 sq ft Enjoy canal views, world-class amenities and a central Dubai location.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -25212,7 +25212,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/ihcl-hotel-apartments-by-bnw",
     "brochureUrl": "/api/projects/ihcl-hotel-apartments-by-bnw/brochure",
-    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 Bedroom Apartments · 810 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 Bedroom Apartments · 810 sq ft",
     "floorPlans": [
       {
         "id": "fp-ihcl-hotel-apartments-by-bnw-1",
@@ -25340,8 +25340,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Explore IHCL Hotel Apartments in Dubai Marina managed by Taj Hotels from 1 to 3 bedroom apartments from AED 3.02M, offering spacious layouts from 810 Sq.ft.",
-    "descriptionAr": "Explore IHCL Hotel Apartments in Dubai Marina managed by Taj Hotels from 1 to 3 bedroom apartments from AED 3.02M, offering spacious layouts from 810 Sq.ft.",
+    "description": "Explore IHCL Hotel Apartments in Dubai Marina managed by Taj Hotels from 1 to 3 bedroom apartments from AED 3.02M, offering spacious layouts from 810 sq ft",
+    "descriptionAr": "Explore IHCL Hotel Apartments in Dubai Marina managed by Taj Hotels from 1 to 3 bedroom apartments from AED 3.02M, offering spacious layouts from 810 sq ft",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -25559,7 +25559,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-wasel",
     "brochureUrl": "/api/projects/azizi-wasel/brochure",
-    "masterPlanNotes": "Luxury Apartments & Penthouses · Studio,1,2,3 & 4 Apartments and Penthouses · 372 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments & Penthouses · Studio,1,2,3 & 4 Apartments and Penthouses · 372 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-wasel-1",
@@ -25993,7 +25993,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/rise-by-atlon",
     "brochureUrl": "/api/projects/rise-by-atlon/brochure",
-    "masterPlanNotes": "Luxury Apartments · 1, 2, 3 & 4 Bedroom Apartments · 936 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments · 1, 2, 3 & 4 Bedroom Apartments · 936 sq ft",
     "floorPlans": [
       {
         "id": "fp-rise-by-atlon-1",
@@ -26132,8 +26132,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Discover Rise by Athlon in Dubailand, a wellness-driven residential community with active lifestyle loops, premium amenities, and nature-integrated architecture. Starting at AED 1.35M with sizes from 936 sq. ft. and a 60:40 payment plan. Handover in Q4 2029. Ideal for modern living and long-term investment in Dubai.",
-    "descriptionAr": "Discover Rise by Athlon in Dubailand, a wellness-driven residential community with active lifestyle loops, premium amenities, and nature-integrated architecture. Starting at AED 1.35M with sizes from 936 sq. ft. and a 60:40 payment plan. Handover in Q4 2029. Ideal for modern living and long-term investment in Dubai.",
+    "description": "Discover Rise by Athlon in Dubailand, a wellness-driven residential community with active lifestyle loops, premium amenities, and nature-integrated architecture. Starting at AED 1.35M with sizes from 936 sq ft and a 60:40 payment plan. Handover in Q4 2029. Ideal for modern living and long-term investment in Dubai.",
+    "descriptionAr": "Discover Rise by Athlon in Dubailand, a wellness-driven residential community with active lifestyle loops, premium amenities, and nature-integrated architecture. Starting at AED 1.35M with sizes from 936 sq ft and a 60:40 payment plan. Handover in Q4 2029. Ideal for modern living and long-term investment in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -26292,7 +26292,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-hills-2-edge-by-rotana",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/damac-hills-2-edge-by-rotana/20260609154314_brochure_DAMAC_HILLS_2_HOTEL_EDGE_BY_ROTANA_BROCHURE.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studio & 1 BR Apartments · 346 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments · Studio & 1 BR Apartments · 346 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-hills-2-edge-by-rotana-1",
@@ -26420,8 +26420,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Hills 2 Edge by Rotana is a luxurious 3-star hotel development within the vibrant DAMAC Hills 2 community in Dubai. The property comes under the management of Rotana which is a well-known international brand that combines contemporary design with operational excellence and guest comfort. The hotel style residences offer 295 well-designed rooms and suites which include modern smart technology and private balconies and work areas that serve business travelers and vacation guests. The residential units at Damac Hills 2 start with studios priced at AED 531,000 which measure between 346 and 475 sq.ft. The community offers residents access to a fitness center which includes a complete gym and two heated swimming pools and a casual bar and all-day dining facilities. The property at Damac Hills 2 handover is ready which enables both instant hospitality operations and investment opportunities.",
-    "descriptionAr": "Hills 2 Edge by Rotana is a luxurious 3-star hotel development within the vibrant DAMAC Hills 2 community in Dubai. The property comes under the management of Rotana which is a well-known international brand that combines contemporary design with operational excellence and guest comfort. The hotel style residences offer 295 well-designed rooms and suites which include modern smart technology and private balconies and work areas that serve business travelers and vacation guests. The residential units at Damac Hills 2 start with studios priced at AED 531,000 which measure between 346 and 475 sq.ft. The community offers residents access to a fitness center which includes a complete gym and two heated swimming pools and a casual bar and all-day dining facilities. The property at Damac Hills 2 handover is ready which enables both instant hospitality operations and investment opportunities.",
+    "description": "Hills 2 Edge by Rotana is a luxurious 3-star hotel development within the vibrant DAMAC Hills 2 community in Dubai. The property comes under the management of Rotana which is a well-known international brand that combines contemporary design with operational excellence and guest comfort. The hotel style residences offer 295 well-designed rooms and suites which include modern smart technology and private balconies and work areas that serve business travelers and vacation guests. The residential units at Damac Hills 2 start with studios priced at AED 531,000 which measure between 346 and 475 sq ft The community offers residents access to a fitness center which includes a complete gym and two heated swimming pools and a casual bar and all-day dining facilities. The property at Damac Hills 2 handover is ready which enables both instant hospitality operations and investment opportunities.",
+    "descriptionAr": "Hills 2 Edge by Rotana is a luxurious 3-star hotel development within the vibrant DAMAC Hills 2 community in Dubai. The property comes under the management of Rotana which is a well-known international brand that combines contemporary design with operational excellence and guest comfort. The hotel style residences offer 295 well-designed rooms and suites which include modern smart technology and private balconies and work areas that serve business travelers and vacation guests. The residential units at Damac Hills 2 start with studios priced at AED 531,000 which measure between 346 and 475 sq ft The community offers residents access to a fitness center which includes a complete gym and two heated swimming pools and a casual bar and all-day dining facilities. The property at Damac Hills 2 handover is ready which enables both instant hospitality operations and investment opportunities.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -26688,7 +26688,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-rose",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/azizi-rose/20260612011542_brochure_Azizi_Rose_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios & 1 BR apartments · 339 Sq.ft. to 1190 Sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios & 1 BR apartments · 339 sq ft to 1190 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-rose-1",
@@ -27062,7 +27062,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-sanctuary",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/sobha-sanctuary/20260610131900_brochure_SOBHA_SANCTUARY_BROCHURE.pdf",
-    "masterPlanNotes": "Ultra-Luxury Townhouses & Villas · 4, 5 & 6 BR · 2,590 sq. ft.- 4,905 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Townhouses & Villas · 4, 5 & 6 BR · 2,590 sq ft- 4,905 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-sanctuary-1",
@@ -27190,8 +27190,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Sanctuary is a ultra-luxury residential property developed by Sobha Realty in Dubailand (Al Yufrah), Dubai to provide high-end townhouses and villas for contemporary family life. Sobha Sanctuary sizes start for townhouses from 2,700 sq.ft. and villas from 3,200 sq.ft., with prices starting at AED 5.2 Million for villas & townhouses, providing the best opportunity to own freehold property in Dubai Real Estate. The community includes swimming pools, fitness centers which are complemented by yoga and meditation areas, children's play spaces, beautifully maintained gardens, a clubhouse, smart home systems and 24/7 security. Sobha Sanctuary Residential Property offers residents direct access to Downtown Dubai and Dubai Marina and Dubai International Airport and Global Village and all major shopping centers. The area provides perfect conditions for families to reside while their properties generate investment returns.",
-    "descriptionAr": "Sanctuary is a ultra-luxury residential property developed by Sobha Realty in Dubailand (Al Yufrah), Dubai to provide high-end townhouses and villas for contemporary family life. Sobha Sanctuary sizes start for townhouses from 2,700 sq.ft. and villas from 3,200 sq.ft., with prices starting at AED 5.2 Million for villas & townhouses, providing the best opportunity to own freehold property in Dubai Real Estate. The community includes swimming pools, fitness centers which are complemented by yoga and meditation areas, children's play spaces, beautifully maintained gardens, a clubhouse, smart home systems and 24/7 security. Sobha Sanctuary Residential Property offers residents direct access to Downtown Dubai and Dubai Marina and Dubai International Airport and Global Village and all major shopping centers. The area provides perfect conditions for families to reside while their properties generate investment returns.",
+    "description": "Sanctuary is a ultra-luxury residential property developed by Sobha Realty in Dubailand (Al Yufrah), Dubai to provide high-end townhouses and villas for contemporary family life. Sobha Sanctuary sizes start for townhouses from 2,700 sq ft and villas from 3,200 sq ft, with prices starting at AED 5.2 Million for villas & townhouses, providing the best opportunity to own freehold property in Dubai Real Estate. The community includes swimming pools, fitness centers which are complemented by yoga and meditation areas, children's play spaces, beautifully maintained gardens, a clubhouse, smart home systems and 24/7 security. Sobha Sanctuary Residential Property offers residents direct access to Downtown Dubai and Dubai Marina and Dubai International Airport and Global Village and all major shopping centers. The area provides perfect conditions for families to reside while their properties generate investment returns.",
+    "descriptionAr": "Sanctuary is a ultra-luxury residential property developed by Sobha Realty in Dubailand (Al Yufrah), Dubai to provide high-end townhouses and villas for contemporary family life. Sobha Sanctuary sizes start for townhouses from 2,700 sq ft and villas from 3,200 sq ft, with prices starting at AED 5.2 Million for villas & townhouses, providing the best opportunity to own freehold property in Dubai Real Estate. The community includes swimming pools, fitness centers which are complemented by yoga and meditation areas, children's play spaces, beautifully maintained gardens, a clubhouse, smart home systems and 24/7 security. Sobha Sanctuary Residential Property offers residents direct access to Downtown Dubai and Dubai Marina and Dubai International Airport and Global Village and all major shopping centers. The area provides perfect conditions for families to reside while their properties generate investment returns.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -27461,7 +27461,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/vista-ridge-by-emaar",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/vista-ridge-by-emaar/20260612011513_brochure_Vista_Ridge_By_Emaar_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments · 788 Sq.ft. to 2,728 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments · 788 sq ft to 2,728 sq ft",
     "floorPlans": [
       {
         "id": "fp-vista-ridge-by-emaar-1",
@@ -27871,7 +27871,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/mercedes-benz-places-binghatti-city",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/mercedes-benz-places-binghatti-city/20260612011436_brochure_Mercedes_Benz_Places_Binghatti_City_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR Apartments · 362 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR Apartments · 362 sq ft",
     "floorPlans": [
       {
         "id": "fp-mercedes-benz-places-binghatti-city-1",
@@ -28000,8 +28000,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Places Binghatti City is a branded residences in Meydan, Dubai. The Meydan district hosts a new launch project which presents a premium lifestyle through its landmark development in Dubai's most rapidly expanding investment area. Binghatti City Mercedes Benz Places offers 3 types of luxury residential spaces that includes Studio, 1 BR, 2 BR and 3 BR apartments which designers built to provide both comfort and useful space and enduring worth. Mercedes Benz Places at Binghatti City sizes start at 362 sq.ft. which makes them suitable for people who want to live there as well as for investors who want to buy high-value properties in Dubai. The project offers buyers a chance to acquire branded homes through its starting price of AED 1.3 M in Dubai's most desirable area.",
-    "descriptionAr": "Places Binghatti City is a branded residences in Meydan, Dubai. The Meydan district hosts a new launch project which presents a premium lifestyle through its landmark development in Dubai's most rapidly expanding investment area. Binghatti City Mercedes Benz Places offers 3 types of luxury residential spaces that includes Studio, 1 BR, 2 BR and 3 BR apartments which designers built to provide both comfort and useful space and enduring worth. Mercedes Benz Places at Binghatti City sizes start at 362 sq.ft. which makes them suitable for people who want to live there as well as for investors who want to buy high-value properties in Dubai. The project offers buyers a chance to acquire branded homes through its starting price of AED 1.3 M in Dubai's most desirable area.",
+    "description": "Places Binghatti City is a branded residences in Meydan, Dubai. The Meydan district hosts a new launch project which presents a premium lifestyle through its landmark development in Dubai's most rapidly expanding investment area. Binghatti City Mercedes Benz Places offers 3 types of luxury residential spaces that includes Studio, 1 BR, 2 BR and 3 BR apartments which designers built to provide both comfort and useful space and enduring worth. Mercedes Benz Places at Binghatti City sizes start at 362 sq ft which makes them suitable for people who want to live there as well as for investors who want to buy high-value properties in Dubai. The project offers buyers a chance to acquire branded homes through its starting price of AED 1.3 M in Dubai's most desirable area.",
+    "descriptionAr": "Places Binghatti City is a branded residences in Meydan, Dubai. The Meydan district hosts a new launch project which presents a premium lifestyle through its landmark development in Dubai's most rapidly expanding investment area. Binghatti City Mercedes Benz Places offers 3 types of luxury residential spaces that includes Studio, 1 BR, 2 BR and 3 BR apartments which designers built to provide both comfort and useful space and enduring worth. Mercedes Benz Places at Binghatti City sizes start at 362 sq ft which makes them suitable for people who want to live there as well as for investors who want to buy high-value properties in Dubai. The project offers buyers a chance to acquire branded homes through its starting price of AED 1.3 M in Dubai's most desirable area.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -28269,7 +28269,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-valencia",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/damac-valencia/20260610131410_brochure_DAMAC_VALENCIA_BROCHURE.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2BR apartments · 650 sq.ft. - 1,250 sq,ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2BR apartments · 650 sq ft - 1,250 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-valencia-1",
@@ -28386,8 +28386,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Valencia is an ultra-luxury residential property by DAMAC Properties, which is located in the heart of DAMAC Lagoons, Dubailand, Dubai. The ultra-luxury property offers studio apartments together with 1 and 2 bedroom units which come in various floor plans to attract both property buyers and investment seekers. The starting price for Valencia by DAMAC properties begins at about AED 780K thus presenting a competitive choice for Dubai property buyers. The apartments range from 650 sq.ft. to 1,250 sq,ft, with well-designed layouts which feature modern architectural details and personal outdoor spaces. The resort-style lagoon amenities in Valencia at DAMAC Lagoons attract investors because the property offers excellent rental potential and strong price growth and high returns through this Dubai residence.",
-    "descriptionAr": "Valencia is an ultra-luxury residential property by DAMAC Properties, which is located in the heart of DAMAC Lagoons, Dubailand, Dubai. The ultra-luxury property offers studio apartments together with 1 and 2 bedroom units which come in various floor plans to attract both property buyers and investment seekers. The starting price for Valencia by DAMAC properties begins at about AED 780K thus presenting a competitive choice for Dubai property buyers. The apartments range from 650 sq.ft. to 1,250 sq,ft, with well-designed layouts which feature modern architectural details and personal outdoor spaces. The resort-style lagoon amenities in Valencia at DAMAC Lagoons attract investors because the property offers excellent rental potential and strong price growth and high returns through this Dubai residence.",
+    "description": "Valencia is an ultra-luxury residential property by DAMAC Properties, which is located in the heart of DAMAC Lagoons, Dubailand, Dubai. The ultra-luxury property offers studio apartments together with 1 and 2 bedroom units which come in various floor plans to attract both property buyers and investment seekers. The starting price for Valencia by DAMAC properties begins at about AED 780K thus presenting a competitive choice for Dubai property buyers. The apartments range from 650 sq ft to 1,250 sq ft, with well-designed layouts which feature modern architectural details and personal outdoor spaces. The resort-style lagoon amenities in Valencia at DAMAC Lagoons attract investors because the property offers excellent rental potential and strong price growth and high returns through this Dubai residence.",
+    "descriptionAr": "Valencia is an ultra-luxury residential property by DAMAC Properties, which is located in the heart of DAMAC Lagoons, Dubailand, Dubai. The ultra-luxury property offers studio apartments together with 1 and 2 bedroom units which come in various floor plans to attract both property buyers and investment seekers. The starting price for Valencia by DAMAC properties begins at about AED 780K thus presenting a competitive choice for Dubai property buyers. The apartments range from 650 sq ft to 1,250 sq ft, with well-designed layouts which feature modern architectural details and personal outdoor spaces. The resort-style lagoon amenities in Valencia at DAMAC Lagoons attract investors because the property offers excellent rental potential and strong price growth and high returns through this Dubai residence.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -28655,7 +28655,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-luxuria",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-luxuria/20260612011356_brochure_Binghatti_Luxuria_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 490 sq.ft. to 1,600 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 490 sq ft to 1,600 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-luxuria-1",
@@ -28772,8 +28772,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Luxuria is a mixed-used development by Binghatti Developer. The property is located in Jumeirah Village Triangle (JVT) area, Dubai which enables residents to experience both contemporary lifestyle and strong financial growth. The project includes a G + 4 Podium + 24 Floors tower which developers designed to deliver contemporary city-style residences and attractive financial benefits for their investors. The Binghatti Luxuria apartment sizes span from 490 sq.ft. to 1,600 sq.ft. and feature 3.60-meter high ceilings which create a sense of openness while allowing more daylight to enter & price starts from AED 760,000. Binghatti Luxuria Jumeirah Village Triangle (JVT) offers luxury, resort-style amenities, strong rental demand, and long-term capital appreciation in Dubai's growing real estate market.",
-    "descriptionAr": "Luxuria is a mixed-used development by Binghatti Developer. The property is located in Jumeirah Village Triangle (JVT) area, Dubai which enables residents to experience both contemporary lifestyle and strong financial growth. The project includes a G + 4 Podium + 24 Floors tower which developers designed to deliver contemporary city-style residences and attractive financial benefits for their investors. The Binghatti Luxuria apartment sizes span from 490 sq.ft. to 1,600 sq.ft. and feature 3.60-meter high ceilings which create a sense of openness while allowing more daylight to enter & price starts from AED 760,000. Binghatti Luxuria Jumeirah Village Triangle (JVT) offers luxury, resort-style amenities, strong rental demand, and long-term capital appreciation in Dubai's growing real estate market.",
+    "description": "Luxuria is a mixed-used development by Binghatti Developer. The property is located in Jumeirah Village Triangle (JVT) area, Dubai which enables residents to experience both contemporary lifestyle and strong financial growth. The project includes a G + 4 Podium + 24 Floors tower which developers designed to deliver contemporary city-style residences and attractive financial benefits for their investors. The Binghatti Luxuria apartment sizes span from 490 sq ft to 1,600 sq ft and feature 3.60-meter high ceilings which create a sense of openness while allowing more daylight to enter & price starts from AED 760,000. Binghatti Luxuria Jumeirah Village Triangle (JVT) offers luxury, resort-style amenities, strong rental demand, and long-term capital appreciation in Dubai's growing real estate market.",
+    "descriptionAr": "Luxuria is a mixed-used development by Binghatti Developer. The property is located in Jumeirah Village Triangle (JVT) area, Dubai which enables residents to experience both contemporary lifestyle and strong financial growth. The project includes a G + 4 Podium + 24 Floors tower which developers designed to deliver contemporary city-style residences and attractive financial benefits for their investors. The Binghatti Luxuria apartment sizes span from 490 sq ft to 1,600 sq ft and feature 3.60-meter high ceilings which create a sense of openness while allowing more daylight to enter & price starts from AED 760,000. Binghatti Luxuria Jumeirah Village Triangle (JVT) offers luxury, resort-style amenities, strong rental demand, and long-term capital appreciation in Dubai's growing real estate market.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -29042,7 +29042,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/serenz-by-danube",
     "brochureUrl": "/api/projects/serenz-by-danube/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 380 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 380 sq ft",
     "floorPlans": [
       {
         "id": "fp-serenz-by-danube-1",
@@ -29437,7 +29437,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/kingdom-gate-tower-by-mag",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/kingdom-gate-tower-by-mag/20260612011317_brochure_Kingdom_Gate_Tower_by_MAG_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 BR apartments · 823.83 sq, ft. to 2,371.93 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 BR apartments · 823.83 sq ft to 2,371.93 sq ft",
     "floorPlans": [
       {
         "id": "fp-kingdom-gate-tower-by-mag-1",
@@ -29565,8 +29565,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Gate Tower is a residential project by MAG Group, providing high-end apartments that cater to&ensp;the sophisticated and distinctive living in the city. Located in Al Furjan community, this premium tower offers a low-density living experience with privacy and space that comprises only 6 residences on&ensp;every level. The development includes fully finished 1, 2 and 3 BR apartments&ensp;with maid's rooms, as well as private duplex apartments on the highest floors. The Kingdom Gate Tower apartments sizes range from 823.83 sq, ft., to 2,371.93 sq. ft. The price of these luxury residential property starts at AED 1.4M, posing a great option for premium homebuyers and investors. Kingdom Gate Tower by MAG combines easy connectivity, world-class amenities, and a flexible payment plan for long-term value in Dubai.",
-    "descriptionAr": "Gate Tower is a residential project by MAG Group, providing high-end apartments that cater to&ensp;the sophisticated and distinctive living in the city. Located in Al Furjan community, this premium tower offers a low-density living experience with privacy and space that comprises only 6 residences on&ensp;every level. The development includes fully finished 1, 2 and 3 BR apartments&ensp;with maid's rooms, as well as private duplex apartments on the highest floors. The Kingdom Gate Tower apartments sizes range from 823.83 sq, ft., to 2,371.93 sq. ft. The price of these luxury residential property starts at AED 1.4M, posing a great option for premium homebuyers and investors. Kingdom Gate Tower by MAG combines easy connectivity, world-class amenities, and a flexible payment plan for long-term value in Dubai.",
+    "description": "Gate Tower is a residential project by MAG Group, providing high-end apartments that cater to&ensp;the sophisticated and distinctive living in the city. Located in Al Furjan community, this premium tower offers a low-density living experience with privacy and space that comprises only 6 residences on&ensp;every level. The development includes fully finished 1, 2 and 3 BR apartments&ensp;with maid's rooms, as well as private duplex apartments on the highest floors. The Kingdom Gate Tower apartments sizes range from 823.83 sq ft, to 2,371.93 sq ft The price of these luxury residential property starts at AED 1.4M, posing a great option for premium homebuyers and investors. Kingdom Gate Tower by MAG combines easy connectivity, world-class amenities, and a flexible payment plan for long-term value in Dubai.",
+    "descriptionAr": "Gate Tower is a residential project by MAG Group, providing high-end apartments that cater to&ensp;the sophisticated and distinctive living in the city. Located in Al Furjan community, this premium tower offers a low-density living experience with privacy and space that comprises only 6 residences on&ensp;every level. The development includes fully finished 1, 2 and 3 BR apartments&ensp;with maid's rooms, as well as private duplex apartments on the highest floors. The Kingdom Gate Tower apartments sizes range from 823.83 sq ft, to 2,371.93 sq ft The price of these luxury residential property starts at AED 1.4M, posing a great option for premium homebuyers and investors. Kingdom Gate Tower by MAG combines easy connectivity, world-class amenities, and a flexible payment plan for long-term value in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -29782,7 +29782,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-meriva-collection-by-ellington",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/the-meriva-collection-by-ellington/20260612011223_brochure_The_Meriva_Collection_by_Ellington_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2 & 3 BR apartments · 750 sq. ft. - 4,500 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2 & 3 BR apartments · 750 sq ft - 4,500 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-meriva-collection-by-ellington-1",
@@ -29921,8 +29921,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Meriva Collection by Ellington is a hospitality-led beachfront development on Island B, Dubai Islands. Prices start from approx. AED 2.7M, with a payment plan of 20% on booking, 50% during construction and 30% on handover. Handover is expected in Q2 2030. Ellington's launch plan includes five residential buildings, a signature beachfront residence and a dedicated hotel. The homes include 1, 2 and 3 bedroom apartments from about 750 sq.ft. to over 4,500 sq.ft., along with a limited number of penthouses and signature residences. Residents get direct beach access, resort-style pools, wellness spaces and landscaped walkways. The project suits end-users who want a beachfront setting and investors who are comparing the wider Dubai Islands pipeline. Dubai Islands is still being built out, so confirm the building, view and handover date in the unit SPA before booking.",
-    "descriptionAr": "Meriva Collection by Ellington is a hospitality-led beachfront development on Island B, Dubai Islands. Prices start from approx. AED 2.7M, with a payment plan of 20% on booking, 50% during construction and 30% on handover. Handover is expected in Q2 2030. Ellington's launch plan includes five residential buildings, a signature beachfront residence and a dedicated hotel. The homes include 1, 2 and 3 bedroom apartments from about 750 sq.ft. to over 4,500 sq.ft., along with a limited number of penthouses and signature residences. Residents get direct beach access, resort-style pools, wellness spaces and landscaped walkways. The project suits end-users who want a beachfront setting and investors who are comparing the wider Dubai Islands pipeline. Dubai Islands is still being built out, so confirm the building, view and handover date in the unit SPA before booking.",
+    "description": "Meriva Collection by Ellington is a hospitality-led beachfront development on Island B, Dubai Islands. Prices start from approx. AED 2.7M, with a payment plan of 20% on booking, 50% during construction and 30% on handover. Handover is expected in Q2 2030. Ellington's launch plan includes five residential buildings, a signature beachfront residence and a dedicated hotel. The homes include 1, 2 and 3 bedroom apartments from about 750 sq ft to over 4,500 sq ft, along with a limited number of penthouses and signature residences. Residents get direct beach access, resort-style pools, wellness spaces and landscaped walkways. The project suits end-users who want a beachfront setting and investors who are comparing the wider Dubai Islands pipeline. Dubai Islands is still being built out, so confirm the building, view and handover date in the unit SPA before booking.",
+    "descriptionAr": "Meriva Collection by Ellington is a hospitality-led beachfront development on Island B, Dubai Islands. Prices start from approx. AED 2.7M, with a payment plan of 20% on booking, 50% during construction and 30% on handover. Handover is expected in Q2 2030. Ellington's launch plan includes five residential buildings, a signature beachfront residence and a dedicated hotel. The homes include 1, 2 and 3 bedroom apartments from about 750 sq ft to over 4,500 sq ft, along with a limited number of penthouses and signature residences. Residents get direct beach access, resort-style pools, wellness spaces and landscaped walkways. The project suits end-users who want a beachfront setting and investors who are comparing the wider Dubai Islands pipeline. Dubai Islands is still being built out, so confirm the building, view and handover date in the unit SPA before booking.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -30190,7 +30190,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-skyflame",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-skyflame/20260612011156_brochure_Binghatti_Skyflame_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR apartments · On Request",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR apartments · On Request",
     "floorPlans": [
       {
         "id": "fp-binghatti-skyflame-1",
@@ -30579,7 +30579,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-edit-at-d3-by-meraas",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/the-edit-at-d3-by-meraas/20260612011111_brochure_The_Edit_at_d3_by_Meraas_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2, 3 & 4 BR apartments · 700 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2, 3 & 4 BR apartments · 700 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-edit-at-d3-by-meraas-1",
@@ -30732,8 +30732,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Edit at d3 by Meraas is an ultra-luxury waterfront residential development by Meraas, located in the Dubai Design District (d3) which represents Dubai's leading creative and rapidly expanding area. The development offers exclusive access to 1, 2, 3 and 4 bedroom apartments & penthouses which provide residents with elegant metropolitan residences. The Edit at d3 by Meraas price start from AED 2M which makes this property attractive to both luxury homebuyers and investment seekers. The Edit by Meraas apartments begin at 700 sq.ft. while they provide modern design elements together with luxurious materials and stunning views of the city and creek. The Edit at d3 Dubai functions as a leading Meraas property in Dubai because it provides direct entry to Downtown Dubai, DIFC, Business Bay, and DXB Airport while offering a perfect combination of residential experience and strategic position and enduring financial worth.",
-    "descriptionAr": "Edit at d3 by Meraas is an ultra-luxury waterfront residential development by Meraas, located in the Dubai Design District (d3) which represents Dubai's leading creative and rapidly expanding area. The development offers exclusive access to 1, 2, 3 and 4 bedroom apartments & penthouses which provide residents with elegant metropolitan residences. The Edit at d3 by Meraas price start from AED 2M which makes this property attractive to both luxury homebuyers and investment seekers. The Edit by Meraas apartments begin at 700 sq.ft. while they provide modern design elements together with luxurious materials and stunning views of the city and creek. The Edit at d3 Dubai functions as a leading Meraas property in Dubai because it provides direct entry to Downtown Dubai, DIFC, Business Bay, and DXB Airport while offering a perfect combination of residential experience and strategic position and enduring financial worth.",
+    "description": "Edit at d3 by Meraas is an ultra-luxury waterfront residential development by Meraas, located in the Dubai Design District (d3) which represents Dubai's leading creative and rapidly expanding area. The development offers exclusive access to 1, 2, 3 and 4 bedroom apartments & penthouses which provide residents with elegant metropolitan residences. The Edit at d3 by Meraas price start from AED 2M which makes this property attractive to both luxury homebuyers and investment seekers. The Edit by Meraas apartments begin at 700 sq ft while they provide modern design elements together with luxurious materials and stunning views of the city and creek. The Edit at d3 Dubai functions as a leading Meraas property in Dubai because it provides direct entry to Downtown Dubai, DIFC, Business Bay, and DXB Airport while offering a perfect combination of residential experience and strategic position and enduring financial worth.",
+    "descriptionAr": "Edit at d3 by Meraas is an ultra-luxury waterfront residential development by Meraas, located in the Dubai Design District (d3) which represents Dubai's leading creative and rapidly expanding area. The development offers exclusive access to 1, 2, 3 and 4 bedroom apartments & penthouses which provide residents with elegant metropolitan residences. The Edit at d3 by Meraas price start from AED 2M which makes this property attractive to both luxury homebuyers and investment seekers. The Edit by Meraas apartments begin at 700 sq ft while they provide modern design elements together with luxurious materials and stunning views of the city and creek. The Edit at d3 Dubai functions as a leading Meraas property in Dubai because it provides direct entry to Downtown Dubai, DIFC, Business Bay, and DXB Airport while offering a perfect combination of residential experience and strategic position and enduring financial worth.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -31001,7 +31001,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-etherea",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-etherea/20260612011040_brochure_Binghatti_Etherea_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 336 sq. ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 336 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-etherea-1",
@@ -31118,8 +31118,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Etherea Jumeirah Village Circle is an luxury property by Binghatti Developers, designed to give you that feeling of living the high life in comfort. Binghatti Etherea residential project offers studio, 1 BR and 2 BR apartments - ideal for both looking for a new home and ones who are in the market to invest. The new launch apartments in JVC start from 336 sq. ft., starting at AED 776K, making it an affordable choice in Dubai's growing property market. The master plan for this newly launched project offers B + G + 5 parking levels and 22 residential floors, providing ample parking space and well-planned living areas. Binghatti Etherea luxury residences stands in JVC which serves as a sought-after neighborhood because it enables residents to reach essential highways along with educational institutions and commercial centers and work locations.",
-    "descriptionAr": "Etherea Jumeirah Village Circle is an luxury property by Binghatti Developers, designed to give you that feeling of living the high life in comfort. Binghatti Etherea residential project offers studio, 1 BR and 2 BR apartments - ideal for both looking for a new home and ones who are in the market to invest. The new launch apartments in JVC start from 336 sq. ft., starting at AED 776K, making it an affordable choice in Dubai's growing property market. The master plan for this newly launched project offers B + G + 5 parking levels and 22 residential floors, providing ample parking space and well-planned living areas. Binghatti Etherea luxury residences stands in JVC which serves as a sought-after neighborhood because it enables residents to reach essential highways along with educational institutions and commercial centers and work locations.",
+    "description": "Etherea Jumeirah Village Circle is an luxury property by Binghatti Developers, designed to give you that feeling of living the high life in comfort. Binghatti Etherea residential project offers studio, 1 BR and 2 BR apartments - ideal for both looking for a new home and ones who are in the market to invest. The new launch apartments in JVC start from 336 sq ft, starting at AED 776K, making it an affordable choice in Dubai's growing property market. The master plan for this newly launched project offers B + G + 5 parking levels and 22 residential floors, providing ample parking space and well-planned living areas. Binghatti Etherea luxury residences stands in JVC which serves as a sought-after neighborhood because it enables residents to reach essential highways along with educational institutions and commercial centers and work locations.",
+    "descriptionAr": "Etherea Jumeirah Village Circle is an luxury property by Binghatti Developers, designed to give you that feeling of living the high life in comfort. Binghatti Etherea residential project offers studio, 1 BR and 2 BR apartments - ideal for both looking for a new home and ones who are in the market to invest. The new launch apartments in JVC start from 336 sq ft, starting at AED 776K, making it an affordable choice in Dubai's growing property market. The master plan for this newly launched project offers B + G + 5 parking levels and 22 residential floors, providing ample parking space and well-planned living areas. Binghatti Etherea luxury residences stands in JVC which serves as a sought-after neighborhood because it enables residents to reach essential highways along with educational institutions and commercial centers and work locations.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -31386,7 +31386,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-jaddaf-beach-oasis",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/azizi-jaddaf-beach-oasis/20260612011004_brochure_Azizi_Jaddaf_Beach_Oasis_Brochure.pdf",
-    "masterPlanNotes": "Waterfront Apartments · Studios & 1 BR apartments · 314 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · Studios & 1 BR apartments · 314 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-jaddaf-beach-oasis-1",
@@ -31491,8 +31491,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Jaddaf Beach Oasis is a waterfront-inspired residential development by Azizi Developments, located in Al Jaddaf, Dubai, one of the most desired investment hubs near Dubai Creek, Downtown Dubai, and Dubai International Airport. This upcoming luxury project offers elegantly designed studio and 1-bedroom apartments, with unit sizes starting from 314 sq.ft., thoughtfully planned for modern urban living. Azizi Jaddaf Beach Oasis apartments price starts at AED 720K, providing end-users and conditions with an appealing opportunity to purchase, as well as good demand for rentals and appreciation in the Dubai real estate market. Azizi Jaddaf Beach Oasis residential property possession date is expected in 2028 & providing exceptional new construction facilities with ample lifestyle opportunities, excellent access to the city, and strong future value as an investment.",
-    "descriptionAr": "Jaddaf Beach Oasis is a waterfront-inspired residential development by Azizi Developments, located in Al Jaddaf, Dubai, one of the most desired investment hubs near Dubai Creek, Downtown Dubai, and Dubai International Airport. This upcoming luxury project offers elegantly designed studio and 1-bedroom apartments, with unit sizes starting from 314 sq.ft., thoughtfully planned for modern urban living. Azizi Jaddaf Beach Oasis apartments price starts at AED 720K, providing end-users and conditions with an appealing opportunity to purchase, as well as good demand for rentals and appreciation in the Dubai real estate market. Azizi Jaddaf Beach Oasis residential property possession date is expected in 2028 & providing exceptional new construction facilities with ample lifestyle opportunities, excellent access to the city, and strong future value as an investment.",
+    "description": "Jaddaf Beach Oasis is a waterfront-inspired residential development by Azizi Developments, located in Al Jaddaf, Dubai, one of the most desired investment hubs near Dubai Creek, Downtown Dubai, and Dubai International Airport. This upcoming luxury project offers elegantly designed studio and 1-bedroom apartments, with unit sizes starting from 314 sq ft, thoughtfully planned for modern urban living. Azizi Jaddaf Beach Oasis apartments price starts at AED 720K, providing end-users and conditions with an appealing opportunity to purchase, as well as good demand for rentals and appreciation in the Dubai real estate market. Azizi Jaddaf Beach Oasis residential property possession date is expected in 2028 & providing exceptional new construction facilities with ample lifestyle opportunities, excellent access to the city, and strong future value as an investment.",
+    "descriptionAr": "Jaddaf Beach Oasis is a waterfront-inspired residential development by Azizi Developments, located in Al Jaddaf, Dubai, one of the most desired investment hubs near Dubai Creek, Downtown Dubai, and Dubai International Airport. This upcoming luxury project offers elegantly designed studio and 1-bedroom apartments, with unit sizes starting from 314 sq ft, thoughtfully planned for modern urban living. Azizi Jaddaf Beach Oasis apartments price starts at AED 720K, providing end-users and conditions with an appealing opportunity to purchase, as well as good demand for rentals and appreciation in the Dubai real estate market. Azizi Jaddaf Beach Oasis residential property possession date is expected in 2028 & providing exceptional new construction facilities with ample lifestyle opportunities, excellent access to the city, and strong future value as an investment.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -31762,7 +31762,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/emaar-terra-woods",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/emaar-terra-woods/20260612010933_brochure_Emaar_Terra_Woods_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments · 742 Sq.ft. to 2,580 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments · 742 sq ft to 2,580 sq ft",
     "floorPlans": [
       {
         "id": "fp-emaar-terra-woods-1",
@@ -31903,8 +31903,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Terra Woods at Expo Living is an ultra-luxury residential property by Emaar Properties, located near Expo City Dubai, and minutes from Al Maktoum International Airport. The luxury residential development provides residents with large 1 to 3 bedroom apartments and private townhouses which span from 742 sq.ft. to 2,580 sq.ft. to fulfill contemporary city dwelling needs and achieve maximum rental returns. The Emaar Terra Woods apartments which are surrounded by landscaped parks and lifestyle amenities offer strong capital appreciation in the Dubai real estate market. The off-plan investment in Dubai starts at AED 1.6M and delivers sustainable growth together with top-notch accessibility and outstanding investment potential in one of Dubai's most rapidly expanding property markets. The Dubai community prepares for the future. It requires investment today.",
-    "descriptionAr": "Terra Woods at Expo Living is an ultra-luxury residential property by Emaar Properties, located near Expo City Dubai, and minutes from Al Maktoum International Airport. The luxury residential development provides residents with large 1 to 3 bedroom apartments and private townhouses which span from 742 sq.ft. to 2,580 sq.ft. to fulfill contemporary city dwelling needs and achieve maximum rental returns. The Emaar Terra Woods apartments which are surrounded by landscaped parks and lifestyle amenities offer strong capital appreciation in the Dubai real estate market. The off-plan investment in Dubai starts at AED 1.6M and delivers sustainable growth together with top-notch accessibility and outstanding investment potential in one of Dubai's most rapidly expanding property markets. The Dubai community prepares for the future. It requires investment today.",
+    "description": "Terra Woods at Expo Living is an ultra-luxury residential property by Emaar Properties, located near Expo City Dubai, and minutes from Al Maktoum International Airport. The luxury residential development provides residents with large 1 to 3 bedroom apartments and private townhouses which span from 742 sq ft to 2,580 sq ft to fulfill contemporary city dwelling needs and achieve maximum rental returns. The Emaar Terra Woods apartments which are surrounded by landscaped parks and lifestyle amenities offer strong capital appreciation in the Dubai real estate market. The off-plan investment in Dubai starts at AED 1.6M and delivers sustainable growth together with top-notch accessibility and outstanding investment potential in one of Dubai's most rapidly expanding property markets. The Dubai community prepares for the future. It requires investment today.",
+    "descriptionAr": "Terra Woods at Expo Living is an ultra-luxury residential property by Emaar Properties, located near Expo City Dubai, and minutes from Al Maktoum International Airport. The luxury residential development provides residents with large 1 to 3 bedroom apartments and private townhouses which span from 742 sq ft to 2,580 sq ft to fulfill contemporary city dwelling needs and achieve maximum rental returns. The Emaar Terra Woods apartments which are surrounded by landscaped parks and lifestyle amenities offer strong capital appreciation in the Dubai real estate market. The off-plan investment in Dubai starts at AED 1.6M and delivers sustainable growth together with top-notch accessibility and outstanding investment potential in one of Dubai's most rapidly expanding property markets. The Dubai community prepares for the future. It requires investment today.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -32174,7 +32174,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-wilds-residences-by-aldar",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/the-wilds-residences-by-aldar/20260612010904_brochure_The_Wilds_Residences_by_Aldar_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Duplexes · 1, 2 & 3 BR Apartments · 893 Sq.Ft. to 2,840 Sq.Ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Duplexes · 1, 2 & 3 BR Apartments · 893 sq ft to 2,840 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-wilds-residences-by-aldar-1",
@@ -32330,8 +32330,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Wilds Residences by Aldar is a nature-focused new launch in Dubai South - is a residential community project that has really taken to its surroundings. This ultra-luxury residential project offers apartments & duplex homes in a range of 1, 2 and 3-BR sizes. Aldar The Wilds Residences apartments prices start from AED 1.6 M, with sizes ranging from 893 Sq.Ft. to 2,840 Sq.Ft. The Wilds Residences by Aldar at Dubai South presents the best living space for families and investors who want peaceful nature-based living in Dubai together with housing that delivers enduring value. This new launch project by Aldar in dubai south is designed for eco-friendly, luxury living, featuring open layouts, natural light, and landscaped green views. With LEED Platinum and Fitwel 3-Star sustainability certifications, this is Dubai's most consciously designed community & estimated handover in Q2 2030.",
-    "descriptionAr": "Wilds Residences by Aldar is a nature-focused new launch in Dubai South - is a residential community project that has really taken to its surroundings. This ultra-luxury residential project offers apartments & duplex homes in a range of 1, 2 and 3-BR sizes. Aldar The Wilds Residences apartments prices start from AED 1.6 M, with sizes ranging from 893 Sq.Ft. to 2,840 Sq.Ft. The Wilds Residences by Aldar at Dubai South presents the best living space for families and investors who want peaceful nature-based living in Dubai together with housing that delivers enduring value. This new launch project by Aldar in dubai south is designed for eco-friendly, luxury living, featuring open layouts, natural light, and landscaped green views. With LEED Platinum and Fitwel 3-Star sustainability certifications, this is Dubai's most consciously designed community & estimated handover in Q2 2030.",
+    "description": "Wilds Residences by Aldar is a nature-focused new launch in Dubai South - is a residential community project that has really taken to its surroundings. This ultra-luxury residential project offers apartments & duplex homes in a range of 1, 2 and 3-BR sizes. Aldar The Wilds Residences apartments prices start from AED 1.6 M, with sizes ranging from 893 sq ft to 2,840 sq ft The Wilds Residences by Aldar at Dubai South presents the best living space for families and investors who want peaceful nature-based living in Dubai together with housing that delivers enduring value. This new launch project by Aldar in dubai south is designed for eco-friendly, luxury living, featuring open layouts, natural light, and landscaped green views. With LEED Platinum and Fitwel 3-Star sustainability certifications, this is Dubai's most consciously designed community & estimated handover in Q2 2030.",
+    "descriptionAr": "Wilds Residences by Aldar is a nature-focused new launch in Dubai South - is a residential community project that has really taken to its surroundings. This ultra-luxury residential project offers apartments & duplex homes in a range of 1, 2 and 3-BR sizes. Aldar The Wilds Residences apartments prices start from AED 1.6 M, with sizes ranging from 893 sq ft to 2,840 sq ft The Wilds Residences by Aldar at Dubai South presents the best living space for families and investors who want peaceful nature-based living in Dubai together with housing that delivers enduring value. This new launch project by Aldar in dubai south is designed for eco-friendly, luxury living, featuring open layouts, natural light, and landscaped green views. With LEED Platinum and Fitwel 3-Star sustainability certifications, this is Dubai's most consciously designed community & estimated handover in Q2 2030.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -32600,7 +32600,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/belgravia-gardens-by-ellington",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/belgravia-gardens-by-ellington/20260612010836_brochure_Belgravia_Gardens_by_Ellington_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 482 Sq.ft. - 2,544 Sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 482 sq ft - 2,544 sq ft",
     "floorPlans": [
       {
         "id": "fp-belgravia-gardens-by-ellington-1",
@@ -32729,8 +32729,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Gardens is a luxury residential property developed by Ellington Properties, located in Dubailand, Dubai which is one of the most rapidly developing lifestyle destinations of the city with excellent connectivity via the major highways and close to Falcon City of Wonders. The Ellington new launch project comprises a total of 735 units and features beautiful Studio, 1, 2 and 3 bedroom apartments meant for contemporary living. The apartments begin from a size of 482 sq.ft. for studios to 2,544 sq.ft. for 3 bedroom apartments. Belgravia Gardens apartments in Dubai property price for the residences will begin from AED 750K and can go higher based on the plan and size of the residence. The estimated delivery (handover) will be in the year 2028 which makes it the perfect investment as well as end-user option looking for future-ready homes in Dubai.",
-    "descriptionAr": "Gardens is a luxury residential property developed by Ellington Properties, located in Dubailand, Dubai which is one of the most rapidly developing lifestyle destinations of the city with excellent connectivity via the major highways and close to Falcon City of Wonders. The Ellington new launch project comprises a total of 735 units and features beautiful Studio, 1, 2 and 3 bedroom apartments meant for contemporary living. The apartments begin from a size of 482 sq.ft. for studios to 2,544 sq.ft. for 3 bedroom apartments. Belgravia Gardens apartments in Dubai property price for the residences will begin from AED 750K and can go higher based on the plan and size of the residence. The estimated delivery (handover) will be in the year 2028 which makes it the perfect investment as well as end-user option looking for future-ready homes in Dubai.",
+    "description": "Gardens is a luxury residential property developed by Ellington Properties, located in Dubailand, Dubai which is one of the most rapidly developing lifestyle destinations of the city with excellent connectivity via the major highways and close to Falcon City of Wonders. The Ellington new launch project comprises a total of 735 units and features beautiful Studio, 1, 2 and 3 bedroom apartments meant for contemporary living. The apartments begin from a size of 482 sq ft for studios to 2,544 sq ft for 3 bedroom apartments. Belgravia Gardens apartments in Dubai property price for the residences will begin from AED 750K and can go higher based on the plan and size of the residence. The estimated delivery (handover) will be in the year 2028 which makes it the perfect investment as well as end-user option looking for future-ready homes in Dubai.",
+    "descriptionAr": "Gardens is a luxury residential property developed by Ellington Properties, located in Dubailand, Dubai which is one of the most rapidly developing lifestyle destinations of the city with excellent connectivity via the major highways and close to Falcon City of Wonders. The Ellington new launch project comprises a total of 735 units and features beautiful Studio, 1, 2 and 3 bedroom apartments meant for contemporary living. The apartments begin from a size of 482 sq ft for studios to 2,544 sq ft for 3 bedroom apartments. Belgravia Gardens apartments in Dubai property price for the residences will begin from AED 750K and can go higher based on the plan and size of the residence. The estimated delivery (handover) will be in the year 2028 which makes it the perfect investment as well as end-user option looking for future-ready homes in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -32998,7 +32998,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/inara-residence-by-imtiaz",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/inara-residence-by-imtiaz/20260612010739_brochure_inara-residence-by-imtiaz-brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 419 Sq.ft. to 1,528 Sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 419 sq ft to 1,528 sq ft",
     "floorPlans": [
       {
         "id": "fp-inara-residence-by-imtiaz-1",
@@ -33113,8 +33113,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Residence by Imtiaz is a modern residential development by Imtiaz Developments, located in the rapidly growing community of Dubai South. The Imtiaz new launch project presents studio apartments together with 1, and 2 bedroom units, which offer contemporary urban designs through their floor areas from 419 Sq.ft. to 1,528 Sq.ft. The Imtiaz Inara Residences will feature 9 floors of residential space and a rooftop. Inara by Imtiaz apartments price start from around AED 650K which makes this property attractive to both luxury homebuyers and investment seekers. The design which will begin construction during Q1 2028 provides an outstanding investment occasion for buyers who want to live a modern lifestyle.",
-    "descriptionAr": "Residence by Imtiaz is a modern residential development by Imtiaz Developments, located in the rapidly growing community of Dubai South. The Imtiaz new launch project presents studio apartments together with 1, and 2 bedroom units, which offer contemporary urban designs through their floor areas from 419 Sq.ft. to 1,528 Sq.ft. The Imtiaz Inara Residences will feature 9 floors of residential space and a rooftop. Inara by Imtiaz apartments price start from around AED 650K which makes this property attractive to both luxury homebuyers and investment seekers. The design which will begin construction during Q1 2028 provides an outstanding investment occasion for buyers who want to live a modern lifestyle.",
+    "description": "Residence by Imtiaz is a modern residential development by Imtiaz Developments, located in the rapidly growing community of Dubai South. The Imtiaz new launch project presents studio apartments together with 1, and 2 bedroom units, which offer contemporary urban designs through their floor areas from 419 sq ft to 1,528 sq ft The Imtiaz Inara Residences will feature 9 floors of residential space and a rooftop. Inara by Imtiaz apartments price start from around AED 650K which makes this property attractive to both luxury homebuyers and investment seekers. The design which will begin construction during Q1 2028 provides an outstanding investment occasion for buyers who want to live a modern lifestyle.",
+    "descriptionAr": "Residence by Imtiaz is a modern residential development by Imtiaz Developments, located in the rapidly growing community of Dubai South. The Imtiaz new launch project presents studio apartments together with 1, and 2 bedroom units, which offer contemporary urban designs through their floor areas from 419 sq ft to 1,528 sq ft The Imtiaz Inara Residences will feature 9 floors of residential space and a rooftop. Inara by Imtiaz apartments price start from around AED 650K which makes this property attractive to both luxury homebuyers and investment seekers. The design which will begin construction during Q1 2028 provides an outstanding investment occasion for buyers who want to live a modern lifestyle.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -33384,7 +33384,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/golf-vale-by-emaar",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/golf-vale-by-emaar/20260612010515_brochure_Golf_Vale_by_Emaar_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments & Townhouses · 672 Sq.ft",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments & Townhouses · 672 sq ft",
     "floorPlans": [
       {
         "id": "fp-golf-vale-by-emaar-1",
@@ -33524,8 +33524,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Vale at Emaar South is a premium residential property developed by Emaar Properties, offering a perfect mix of luxury living and golf- course views in one of Dubai's swift- growing communities. This ultra luxury property features 1, 2 & 3- bedroom apartments and spacious 3-bedroom townhouses, with courteously designed layouts and contemporary elements. Golf Vale Emaar price starts from around AED 1.2 M *, with well- planned unit sizes suitable for both families and investors. Located near Expo City and Al Maktoum International Airport, the design provides excellent connectivity across Dubai. Its crucial highlights include an 18-hole crown golf course, perpetuity pool, fitness zones, lush green geographies, and decoration life amenities, making Emaar Golf Vale residential property an ideal choice for luxury living and high-return real estate investment in Dubai.",
-    "descriptionAr": "Vale at Emaar South is a premium residential property developed by Emaar Properties, offering a perfect mix of luxury living and golf- course views in one of Dubai's swift- growing communities. This ultra luxury property features 1, 2 & 3- bedroom apartments and spacious 3-bedroom townhouses, with courteously designed layouts and contemporary elements. Golf Vale Emaar price starts from around AED 1.2 M *, with well- planned unit sizes suitable for both families and investors. Located near Expo City and Al Maktoum International Airport, the design provides excellent connectivity across Dubai. Its crucial highlights include an 18-hole crown golf course, perpetuity pool, fitness zones, lush green geographies, and decoration life amenities, making Emaar Golf Vale residential property an ideal choice for luxury living and high-return real estate investment in Dubai.",
+    "description": "Vale at Emaar South is a premium residential property developed by Emaar Properties, offering a perfect mix of luxury living and golf- course views in one of Dubai's swift- growing communities. This ultra-luxury property features 1, 2 & 3- bedroom apartments and spacious 3-bedroom townhouses, with courteously designed layouts and contemporary elements. Golf Vale Emaar price starts from around AED 1.2 M *, with well- planned unit sizes suitable for both families and investors. Located near Expo City and Al Maktoum International Airport, the design provides excellent connectivity across Dubai. Its crucial highlights include an 18-hole crown golf course, perpetuity pool, fitness zones, lush green geographies, and decoration life amenities, making Emaar Golf Vale residential property an ideal choice for luxury living and high-return real estate investment in Dubai.",
+    "descriptionAr": "Vale at Emaar South is a premium residential property developed by Emaar Properties, offering a perfect mix of luxury living and golf- course views in one of Dubai's swift- growing communities. This ultra-luxury property features 1, 2 & 3- bedroom apartments and spacious 3-bedroom townhouses, with courteously designed layouts and contemporary elements. Golf Vale Emaar price starts from around AED 1.2 M *, with well- planned unit sizes suitable for both families and investors. Located near Expo City and Al Maktoum International Airport, the design provides excellent connectivity across Dubai. Its crucial highlights include an 18-hole crown golf course, perpetuity pool, fitness zones, lush green geographies, and decoration life amenities, making Emaar Golf Vale residential property an ideal choice for luxury living and high-return real estate investment in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -33795,7 +33795,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/greenz-by-danube",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/greenz-by-danube/20260610150507_brochure_Greenz_by_Danube_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Villas & Townhouses · 3, 4 & 5 BR · 2,350 sq. ft. - 3,950 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas & Townhouses · 3, 4 & 5 BR · 2,350 sq ft - 3,950 sq ft",
     "floorPlans": [
       {
         "id": "fp-greenz-by-danube-1",
@@ -33936,8 +33936,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "by Danube is an ultra-luxury, nature-inspired fully furnished townhouses and villas community developed by Danube Properties, featuring layouts of 3, 4, and 5 bedrooms. Branded by Dolce Vita and located in the heart of Dubai Academic City, Al Rowaiyah First, this exclusive development introduces a new benchmark of ultra-luxury family living in Dubai. The design of Greenz includes natural green areas together with peaceful paths, and resort-like facilities, which appeal to people who want their homes to be both stylish and comfortable. Danube Greenz apartments price starts at AED 3.5M and unit sizes ranging from 2,350 sq. ft. to 3,950 sq. ft. With Danube's iconic 1% monthly payment plan, owning a freehold villa or townhouse is more accessible than ever.",
-    "descriptionAr": "by Danube is an ultra-luxury, nature-inspired fully furnished townhouses and villas community developed by Danube Properties, featuring layouts of 3, 4, and 5 bedrooms. Branded by Dolce Vita and located in the heart of Dubai Academic City, Al Rowaiyah First, this exclusive development introduces a new benchmark of ultra-luxury family living in Dubai. The design of Greenz includes natural green areas together with peaceful paths, and resort-like facilities, which appeal to people who want their homes to be both stylish and comfortable. Danube Greenz apartments price starts at AED 3.5M and unit sizes ranging from 2,350 sq. ft. to 3,950 sq. ft. With Danube's iconic 1% monthly payment plan, owning a freehold villa or townhouse is more accessible than ever.",
+    "description": "by Danube is an ultra-luxury, nature-inspired fully furnished townhouses and villas community developed by Danube Properties, featuring layouts of 3, 4, and 5 bedrooms. Branded by Dolce Vita and located in the heart of Dubai Academic City, Al Rowaiyah First, this exclusive development introduces a new benchmark of ultra-luxury family living in Dubai. The design of Greenz includes natural green areas together with peaceful paths, and resort-like facilities, which appeal to people who want their homes to be both stylish and comfortable. Danube Greenz apartments price starts at AED 3.5M and unit sizes ranging from 2,350 sq ft to 3,950 sq ft With Danube's iconic 1% monthly payment plan, owning a freehold villa or townhouse is more accessible than ever.",
+    "descriptionAr": "by Danube is an ultra-luxury, nature-inspired fully furnished townhouses and villas community developed by Danube Properties, featuring layouts of 3, 4, and 5 bedrooms. Branded by Dolce Vita and located in the heart of Dubai Academic City, Al Rowaiyah First, this exclusive development introduces a new benchmark of ultra-luxury family living in Dubai. The design of Greenz includes natural green areas together with peaceful paths, and resort-like facilities, which appeal to people who want their homes to be both stylish and comfortable. Danube Greenz apartments price starts at AED 3.5M and unit sizes ranging from 2,350 sq ft to 3,950 sq ft With Danube's iconic 1% monthly payment plan, owning a freehold villa or townhouse is more accessible than ever.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -34606,7 +34606,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/grove-ridge-by-emaar",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/grove-ridge-by-emaar/20260612010252_brochure_Grove_Ridge_by_Emaar_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR · 788 Sq.ft. to 2,651 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR · 788 sq ft to 2,651 sq ft",
     "floorPlans": [
       {
         "id": "fp-grove-ridge-by-emaar-1",
@@ -34747,8 +34747,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Ridge by Emaar Properties is a residential property in Emaar South in Dubai, near the Al Maktoum International Airport and Expo City Dubai. The development has been designed as a low-density community of luxury homes surrounded by landscaped green space and a World Championship golf course. The project has classically designed 1, 2, 3 bedroom apartments and 3 BR townhouses with sizes starting from 788 sq.ft. to over 2,651 sq.ft. Emaar Grove Rigid price starts from AED 1.2M is a great deal to buy and offers attractive returns as well. Every home is designed with open-plan living areas, large balconies which allows natural light to make daily life more comfortable and enjoyable.",
-    "descriptionAr": "Ridge by Emaar Properties is a residential property in Emaar South in Dubai, near the Al Maktoum International Airport and Expo City Dubai. The development has been designed as a low-density community of luxury homes surrounded by landscaped green space and a World Championship golf course. The project has classically designed 1, 2, 3 bedroom apartments and 3 BR townhouses with sizes starting from 788 sq.ft. to over 2,651 sq.ft. Emaar Grove Rigid price starts from AED 1.2M is a great deal to buy and offers attractive returns as well. Every home is designed with open-plan living areas, large balconies which allows natural light to make daily life more comfortable and enjoyable.",
+    "description": "Ridge by Emaar Properties is a residential property in Emaar South in Dubai, near the Al Maktoum International Airport and Expo City Dubai. The development has been designed as a low-density community of luxury homes surrounded by landscaped green space and a World Championship golf course. The project has classically designed 1, 2, 3 bedroom apartments and 3 BR townhouses with sizes starting from 788 sq ft to over 2,651 sq ft Emaar Grove Rigid price starts from AED 1.2M is a great deal to buy and offers attractive returns as well. Every home is designed with open-plan living areas, large balconies which allows natural light to make daily life more comfortable and enjoyable.",
+    "descriptionAr": "Ridge by Emaar Properties is a residential property in Emaar South in Dubai, near the Al Maktoum International Airport and Expo City Dubai. The development has been designed as a low-density community of luxury homes surrounded by landscaped green space and a World Championship golf course. The project has classically designed 1, 2, 3 bedroom apartments and 3 BR townhouses with sizes starting from 788 sq ft to over 2,651 sq ft Emaar Grove Rigid price starts from AED 1.2M is a great deal to buy and offers attractive returns as well. Every home is designed with open-plan living areas, large balconies which allows natural light to make daily life more comfortable and enjoyable.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -35604,7 +35604,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-greenfield",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/samana-greenfield/20260606190747_brochure_SAMANA_Greenfield_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · 1 & 2 BR Apartments · 650 Sq.ft. - 950 Sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · 1 & 2 BR Apartments · 650 sq ft - 950 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-greenfield-1",
@@ -35719,8 +35719,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Greenfield by Samana Developers is a new launch residential property located in Al Warsan 4, Dubai. The new development offers residential units with 1 & 2 bedrooms which can be transformed into different layouts spanning between 650 and 950 sq.ft. Samana Greenfield apartments price starts from AED 850K. The highlight of Samana Greenfield residential property is its convertible apartment concept, offering flexible layouts to suit changing needs. The development offers a monthly payment plan of 1% and will deliver the property in Q1 2029 while providing residents with comfortable living and convenient access and excellent opportunities to invest in Dubai real estate.",
-    "descriptionAr": "Greenfield by Samana Developers is a new launch residential property located in Al Warsan 4, Dubai. The new development offers residential units with 1 & 2 bedrooms which can be transformed into different layouts spanning between 650 and 950 sq.ft. Samana Greenfield apartments price starts from AED 850K. The highlight of Samana Greenfield residential property is its convertible apartment concept, offering flexible layouts to suit changing needs. The development offers a monthly payment plan of 1% and will deliver the property in Q1 2029 while providing residents with comfortable living and convenient access and excellent opportunities to invest in Dubai real estate.",
+    "description": "Greenfield by Samana Developers is a new launch residential property located in Al Warsan 4, Dubai. The new development offers residential units with 1 & 2 bedrooms which can be transformed into different layouts spanning between 650 and 950 sq ft Samana Greenfield apartments price starts from AED 850K. The highlight of Samana Greenfield residential property is its convertible apartment concept, offering flexible layouts to suit changing needs. The development offers a monthly payment plan of 1% and will deliver the property in Q1 2029 while providing residents with comfortable living and convenient access and excellent opportunities to invest in Dubai real estate.",
+    "descriptionAr": "Greenfield by Samana Developers is a new launch residential property located in Al Warsan 4, Dubai. The new development offers residential units with 1 & 2 bedrooms which can be transformed into different layouts spanning between 650 and 950 sq ft Samana Greenfield apartments price starts from AED 850K. The highlight of Samana Greenfield residential property is its convertible apartment concept, offering flexible layouts to suit changing needs. The development offers a monthly payment plan of 1% and will deliver the property in Q1 2029 while providing residents with comfortable living and convenient access and excellent opportunities to invest in Dubai real estate.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -35878,7 +35878,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-boulevard-heights",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/samana-boulevard-heights/20260612010202_brochure_Samana_Boulevard_Heights_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR Apartments · 418 sq.ft. - 1,816 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR Apartments · 418 sq ft - 1,816 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-boulevard-heights-1",
@@ -35995,8 +35995,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Boulevard Heights is an off-plan residential property developed by Samana Developers, stands out in Dubai Land Residence Complex (DLRC), Wadi Al Safa 5, Dubai. This luxury project offers studio, 1 BR and 2 BR apartments, where modern architecture meets modern design to give you an urban lifestyle. Samana Boulevard Heights apartments sizes ranging from 418 sq.ft. to 1,816 sq.ft. & price starts from AED 693K. The property stands out from other Dubai developments because it offers modern housing designs together with residences that include private pools and best amenities, and multiple payment options. If you are looking at off-plan apartments in Dubai, this development combines convenience, lifestyle, and long-term rental prospects all within one of the rapidly growing residential destinations in Dubai.",
-    "descriptionAr": "Boulevard Heights is an off-plan residential property developed by Samana Developers, stands out in Dubai Land Residence Complex (DLRC), Wadi Al Safa 5, Dubai. This luxury project offers studio, 1 BR and 2 BR apartments, where modern architecture meets modern design to give you an urban lifestyle. Samana Boulevard Heights apartments sizes ranging from 418 sq.ft. to 1,816 sq.ft. & price starts from AED 693K. The property stands out from other Dubai developments because it offers modern housing designs together with residences that include private pools and best amenities, and multiple payment options. If you are looking at off-plan apartments in Dubai, this development combines convenience, lifestyle, and long-term rental prospects all within one of the rapidly growing residential destinations in Dubai.",
+    "description": "Boulevard Heights is an off-plan residential property developed by Samana Developers, stands out in Dubai Land Residence Complex (DLRC), Wadi Al Safa 5, Dubai. This luxury project offers studio, 1 BR and 2 BR apartments, where modern architecture meets modern design to give you an urban lifestyle. Samana Boulevard Heights apartments sizes ranging from 418 sq ft to 1,816 sq ft & price starts from AED 693K. The property stands out from other Dubai developments because it offers modern housing designs together with residences that include private pools and best amenities, and multiple payment options. If you are looking at off-plan apartments in Dubai, this development combines convenience, lifestyle, and long-term rental prospects all within one of the rapidly growing residential destinations in Dubai.",
+    "descriptionAr": "Boulevard Heights is an off-plan residential property developed by Samana Developers, stands out in Dubai Land Residence Complex (DLRC), Wadi Al Safa 5, Dubai. This luxury project offers studio, 1 BR and 2 BR apartments, where modern architecture meets modern design to give you an urban lifestyle. Samana Boulevard Heights apartments sizes ranging from 418 sq ft to 1,816 sq ft & price starts from AED 693K. The property stands out from other Dubai developments because it offers modern housing designs together with residences that include private pools and best amenities, and multiple payment options. If you are looking at off-plan apartments in Dubai, this development combines convenience, lifestyle, and long-term rental prospects all within one of the rapidly growing residential destinations in Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -36267,7 +36267,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/verdana-by-reportage",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/verdana-by-reportage/20260612010118_brochure_Verdana_by_Reportage_Brochure.pdf",
-    "masterPlanNotes": "Luxury Apartments & Townhouses · Studios, 1, 2, 3 & 4 BR · 409 Sq.ft",
+    "masterPlanNotes": "Luxury Apartments & Townhouses · Studios, 1, 2, 3 & 4 BR · 409 sq ft",
     "floorPlans": [
       {
         "id": "fp-verdana-by-reportage-1",
@@ -36419,8 +36419,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "by Reportage Dubai Investments Park (DIP) is a well-planned, green community that balances modern city life with a calm & neighbourhood feel. The newly launched property offers 280 townhouses and 363 apartments. The studio apartments begin at 409 Sq.ft with prices starting at AED 600K which allows residents to enter the market at an affordable level despite Dubai's expensive real estate market. The location allows users to reach Dubai Marina, Palm Jumeirah and Dubai Mall through a short drive that takes about 30 minutes. The community seems to handle all daily requirements which creates an environment where residents experience life as fully managed. Inside the community, daily life feels taken care of and kids have their own pool and play area. Adults have a proper gym, shaded seating, and BBQ spots for weekends.",
-    "descriptionAr": "by Reportage Dubai Investments Park (DIP) is a well-planned, green community that balances modern city life with a calm & neighbourhood feel. The newly launched property offers 280 townhouses and 363 apartments. The studio apartments begin at 409 Sq.ft with prices starting at AED 600K which allows residents to enter the market at an affordable level despite Dubai's expensive real estate market. The location allows users to reach Dubai Marina, Palm Jumeirah and Dubai Mall through a short drive that takes about 30 minutes. The community seems to handle all daily requirements which creates an environment where residents experience life as fully managed. Inside the community, daily life feels taken care of and kids have their own pool and play area. Adults have a proper gym, shaded seating, and BBQ spots for weekends.",
+    "description": "by Reportage Dubai Investments Park (DIP) is a well-planned, green community that balances modern city life with a calm & neighbourhood feel. The newly launched property offers 280 townhouses and 363 apartments. The studio apartments begin at 409 sq ft with prices starting at AED 600K which allows residents to enter the market at an affordable level despite Dubai's expensive real estate market. The location allows users to reach Dubai Marina, Palm Jumeirah and Dubai Mall through a short drive that takes about 30 minutes. The community seems to handle all daily requirements which creates an environment where residents experience life as fully managed. Inside the community, daily life feels taken care of and kids have their own pool and play area. Adults have a proper gym, shaded seating, and BBQ spots for weekends.",
+    "descriptionAr": "by Reportage Dubai Investments Park (DIP) is a well-planned, green community that balances modern city life with a calm & neighbourhood feel. The newly launched property offers 280 townhouses and 363 apartments. The studio apartments begin at 409 sq ft with prices starting at AED 600K which allows residents to enter the market at an affordable level despite Dubai's expensive real estate market. The location allows users to reach Dubai Marina, Palm Jumeirah and Dubai Mall through a short drive that takes about 30 minutes. The community seems to handle all daily requirements which creates an environment where residents experience life as fully managed. Inside the community, daily life feels taken care of and kids have their own pool and play area. Adults have a proper gym, shaded seating, and BBQ spots for weekends.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -36690,7 +36690,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/burj-azizi",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/burj-azizi/20260612010031_brochure_burj-azizi-dubai-Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2 & 3 BR · 900 Sq.ft. - 5,000 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2 & 3 BR · 900 sq ft - 5,000 sq ft",
     "floorPlans": [
       {
         "id": "fp-burj-azizi-1",
@@ -36830,8 +36830,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Azizi is a high rise ultra-luxury skyscraper by Azizi Developments, strategically located on Sheikh Zayed Road, Dubai. These branded residences offer 1, 2, and 3-bedroom layouts, with sizes ranging from 900 sq. ft. to over 5,000 sq. ft., including ultra luxury penthouses. Burj Azizi price starts from AED 8M, reflecting its prime location, record-breaking height, and unmatched luxury. The high-end project enhances everyday living through premium amenities such as sky lounges, infinity pools, modern wellness and fitness centers, fine-dining spaces, high-end retail zones, and panoramic observation decks. The possession date is 2029, making it a highly anticipated investment opportunity in Dubai's luxury real estate market.",
-    "descriptionAr": "Azizi is a high rise ultra-luxury skyscraper by Azizi Developments, strategically located on Sheikh Zayed Road, Dubai. These branded residences offer 1, 2, and 3-bedroom layouts, with sizes ranging from 900 sq. ft. to over 5,000 sq. ft., including ultra luxury penthouses. Burj Azizi price starts from AED 8M, reflecting its prime location, record-breaking height, and unmatched luxury. The high-end project enhances everyday living through premium amenities such as sky lounges, infinity pools, modern wellness and fitness centers, fine-dining spaces, high-end retail zones, and panoramic observation decks. The possession date is 2029, making it a highly anticipated investment opportunity in Dubai's luxury real estate market.",
+    "description": "Azizi is a high rise ultra-luxury skyscraper by Azizi Developments, strategically located on Sheikh Zayed Road, Dubai. These branded residences offer 1, 2, and 3-bedroom layouts, with sizes ranging from 900 sq ft to over 5,000 sq ft, including ultra-luxury penthouses. Burj Azizi price starts from AED 8M, reflecting its prime location, record-breaking height, and unmatched luxury. The high-end project enhances everyday living through premium amenities such as sky lounges, infinity pools, modern wellness and fitness centers, fine-dining spaces, high-end retail zones, and panoramic observation decks. The possession date is 2029, making it a highly anticipated investment opportunity in Dubai's luxury real estate market.",
+    "descriptionAr": "Azizi is a high rise ultra-luxury skyscraper by Azizi Developments, strategically located on Sheikh Zayed Road, Dubai. These branded residences offer 1, 2, and 3-bedroom layouts, with sizes ranging from 900 sq ft to over 5,000 sq ft, including ultra-luxury penthouses. Burj Azizi price starts from AED 8M, reflecting its prime location, record-breaking height, and unmatched luxury. The high-end project enhances everyday living through premium amenities such as sky lounges, infinity pools, modern wellness and fitness centers, fine-dining spaces, high-end retail zones, and panoramic observation decks. The possession date is 2029, making it a highly anticipated investment opportunity in Dubai's luxury real estate market.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -37100,7 +37100,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-wraith",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-wraith/20260609121708_brochure_BINGHATTI_WRAITH_BROCHURE.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 · 341 sq. ft. - 2,563 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 · 341 sq ft - 2,563 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-wraith-1",
@@ -37229,8 +37229,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Wraith is a newly launched residential project by Binghatti Developers, situated in Al Jaddaf, Dubai, only a short distance from Burj Khalifa and Dubai Mall. The low-rise building provides residents with a boutique resort-style lifestyle through Binghatti's signature architectural design, which stands in Dubai's rapidly developing neighborhood with excellent transportation access. This new launch property offers studio, 1-, 2- & 3-bedroom units, with sizes starting at 341 sq. ft. to 2,563 sq.ft. Binghatti Wraith Al Jaddaf price starts at AED 799K and requires only AED 20,000 to reserve a unit. The investment opportunity in Binghatti Wraith Residential Property exists for both investors and for people who want to buy a high-quality city residence located in central Dubai.",
-    "descriptionAr": "Wraith is a newly launched residential project by Binghatti Developers, situated in Al Jaddaf, Dubai, only a short distance from Burj Khalifa and Dubai Mall. The low-rise building provides residents with a boutique resort-style lifestyle through Binghatti's signature architectural design, which stands in Dubai's rapidly developing neighborhood with excellent transportation access. This new launch property offers studio, 1-, 2- & 3-bedroom units, with sizes starting at 341 sq. ft. to 2,563 sq.ft. Binghatti Wraith Al Jaddaf price starts at AED 799K and requires only AED 20,000 to reserve a unit. The investment opportunity in Binghatti Wraith Residential Property exists for both investors and for people who want to buy a high-quality city residence located in central Dubai.",
+    "description": "Wraith is a newly launched residential project by Binghatti Developers, situated in Al Jaddaf, Dubai, only a short distance from Burj Khalifa and Dubai Mall. The low-rise building provides residents with a boutique resort-style lifestyle through Binghatti's signature architectural design, which stands in Dubai's rapidly developing neighborhood with excellent transportation access. This new launch property offers studio, 1-, 2- & 3-bedroom units, with sizes starting at 341 sq ft to 2,563 sq ft Binghatti Wraith Al Jaddaf price starts at AED 799K and requires only AED 20,000 to reserve a unit. The investment opportunity in Binghatti Wraith Residential Property exists for both investors and for people who want to buy a high-quality city residence located in central Dubai.",
+    "descriptionAr": "Wraith is a newly launched residential project by Binghatti Developers, situated in Al Jaddaf, Dubai, only a short distance from Burj Khalifa and Dubai Mall. The low-rise building provides residents with a boutique resort-style lifestyle through Binghatti's signature architectural design, which stands in Dubai's rapidly developing neighborhood with excellent transportation access. This new launch property offers studio, 1-, 2- & 3-bedroom units, with sizes starting at 341 sq ft to 2,563 sq ft Binghatti Wraith Al Jaddaf price starts at AED 799K and requires only AED 20,000 to reserve a unit. The investment opportunity in Binghatti Wraith Residential Property exists for both investors and for people who want to buy a high-quality city residence located in central Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -37500,7 +37500,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-skyrise",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/binghatti-skyrise/20260611145458_brochure_Binghatti-Skyrise-Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studio & 1,2,3 Bedroom Apartments · 477 Sq.ft. - 1838 Sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studio & 1,2,3 Bedroom Apartments · 477 sq ft - 1838 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-skyrise-1",
@@ -37641,8 +37641,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Skyrise Dubai is a tall apartment building by Binghatti Developers. It is located in one of the fast-growing areas for work and living in Dubai that is Business Bay. Its unique architectural makeup features the developer's signature fa&ccedil;ade with geometrical patterns and unique balcony layouts which make it quite striking in the skyline. Binghatti Skyrise Price starts at AED 978K. Binghatti Skyrise Sizes range to 477 sq.ft. to 1838 sq. ft. It is more of luxury and functionality. Here, again, it has some fine floor plans with added space and natural light. The master plan of the property houses 48 stories of homes spread over 3 towers of 3302 apartments. It has 5 podium levels for leisure and fun with 31 retail shops. A few minutes away from the Business Bay Metro station. Its fantastic location makes it accessible to central highways, Downtown Dubai, and Dubai Canal. For employees and families looking for convenience with style in the midst of the city center, this is perfect.",
-    "descriptionAr": "Skyrise Dubai is a tall apartment building by Binghatti Developers. It is located in one of the fast-growing areas for work and living in Dubai that is Business Bay. Its unique architectural makeup features the developer's signature fa&ccedil;ade with geometrical patterns and unique balcony layouts which make it quite striking in the skyline. Binghatti Skyrise Price starts at AED 978K. Binghatti Skyrise Sizes range to 477 sq.ft. to 1838 sq. ft. It is more of luxury and functionality. Here, again, it has some fine floor plans with added space and natural light. The master plan of the property houses 48 stories of homes spread over 3 towers of 3302 apartments. It has 5 podium levels for leisure and fun with 31 retail shops. A few minutes away from the Business Bay Metro station. Its fantastic location makes it accessible to central highways, Downtown Dubai, and Dubai Canal. For employees and families looking for convenience with style in the midst of the city center, this is perfect.",
+    "description": "Skyrise Dubai is a tall apartment building by Binghatti Developers. It is located in one of the fast-growing areas for work and living in Dubai that is Business Bay. Its unique architectural makeup features the developer's signature fa&ccedil;ade with geometrical patterns and unique balcony layouts which make it quite striking in the skyline. Binghatti Skyrise Price starts at AED 978K. Binghatti Skyrise Sizes range to 477 sq ft to 1838 sq ft It is more of luxury and functionality. Here, again, it has some fine floor plans with added space and natural light. The master plan of the property houses 48 stories of homes spread over 3 towers of 3302 apartments. It has 5 podium levels for leisure and fun with 31 retail shops. A few minutes away from the Business Bay Metro station. Its fantastic location makes it accessible to central highways, Downtown Dubai, and Dubai Canal. For employees and families looking for convenience with style in the midst of the city center, this is perfect.",
+    "descriptionAr": "Skyrise Dubai is a tall apartment building by Binghatti Developers. It is located in one of the fast-growing areas for work and living in Dubai that is Business Bay. Its unique architectural makeup features the developer's signature fa&ccedil;ade with geometrical patterns and unique balcony layouts which make it quite striking in the skyline. Binghatti Skyrise Price starts at AED 978K. Binghatti Skyrise Sizes range to 477 sq ft to 1838 sq ft It is more of luxury and functionality. Here, again, it has some fine floor plans with added space and natural light. The master plan of the property houses 48 stories of homes spread over 3 towers of 3302 apartments. It has 5 podium levels for leisure and fun with 31 retail shops. A few minutes away from the Business Bay Metro station. Its fantastic location makes it accessible to central highways, Downtown Dubai, and Dubai Canal. For employees and families looking for convenience with style in the midst of the city center, this is perfect.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -37895,7 +37895,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-safa-gate",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/damac-safa-gate/20260610134850_brochure_DAMAC_SAFA_GATE_BROCHURE.pdf",
-    "masterPlanNotes": "Luxury Apartments · Studio, 1, 2, 3 & 5 Bedroom Apartment · 392 Sq.ft. to 5,381 Sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studio, 1, 2, 3 & 5 Bedroom Apartment · 392 sq ft to 5,381 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-safa-gate-1",
@@ -38044,8 +38044,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Safa Gate is a luxury residential property by DAMAC Properties, located on Sheikh Zayed Road near Safa Park. This iconic 50-floor tower offers Studio, 1 BR & 2 BR apartments and 3 BR & 5 BR super luxury units with a stylish interior design and smart home features that create an unparalleled living experience. DAMAC Safa Gate price starts from AED 1.2M / ₹ 2.92 Cr*. & sizes vary from 392 Sq.ft. to 5,381 Sq.ft. Residents can enjoy panoramic views of verdant park, the Burj Khalifa and Palm Jumeirah. Safe Gate features an Aurora pool, co-working pods, fusion SPA, cigar lounge, rooftop sunset bar, and fully equipped gym. Its expected possession date is October 2029, making it a good fit for both homeowners and investors looking for comfort and luxury living in the heart of Dubai.",
-    "descriptionAr": "Safa Gate is a luxury residential property by DAMAC Properties, located on Sheikh Zayed Road near Safa Park. This iconic 50-floor tower offers Studio, 1 BR & 2 BR apartments and 3 BR & 5 BR super luxury units with a stylish interior design and smart home features that create an unparalleled living experience. DAMAC Safa Gate price starts from AED 1.2M / ₹ 2.92 Cr*. & sizes vary from 392 Sq.ft. to 5,381 Sq.ft. Residents can enjoy panoramic views of verdant park, the Burj Khalifa and Palm Jumeirah. Safe Gate features an Aurora pool, co-working pods, fusion SPA, cigar lounge, rooftop sunset bar, and fully equipped gym. Its expected possession date is October 2029, making it a good fit for both homeowners and investors looking for comfort and luxury living in the heart of Dubai.",
+    "description": "Safa Gate is a luxury residential property by DAMAC Properties, located on Sheikh Zayed Road near Safa Park. This iconic 50-floor tower offers Studio, 1 BR & 2 BR apartments and 3 BR & 5 BR super luxury units with a stylish interior design and smart home features that create an unparalleled living experience. DAMAC Safa Gate price starts from AED 1.2M / ₹ 2.92 Cr*. & sizes vary from 392 sq ft to 5,381 sq ft Residents can enjoy panoramic views of verdant park, the Burj Khalifa and Palm Jumeirah. Safe Gate features an Aurora pool, co-working pods, fusion SPA, cigar lounge, rooftop sunset bar, and fully equipped gym. Its expected possession date is October 2029, making it a good fit for both homeowners and investors looking for comfort and luxury living in the heart of Dubai.",
+    "descriptionAr": "Safa Gate is a luxury residential property by DAMAC Properties, located on Sheikh Zayed Road near Safa Park. This iconic 50-floor tower offers Studio, 1 BR & 2 BR apartments and 3 BR & 5 BR super luxury units with a stylish interior design and smart home features that create an unparalleled living experience. DAMAC Safa Gate price starts from AED 1.2M / ₹ 2.92 Cr*. & sizes vary from 392 sq ft to 5,381 sq ft Residents can enjoy panoramic views of verdant park, the Burj Khalifa and Palm Jumeirah. Safe Gate features an Aurora pool, co-working pods, fusion SPA, cigar lounge, rooftop sunset bar, and fully equipped gym. Its expected possession date is October 2029, making it a good fit for both homeowners and investors looking for comfort and luxury living in the heart of Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -38314,7 +38314,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/bellavista-damac-hills",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/bellavista-damac-hills/20230110191445_brochure_Damac_Bellavista_Brochure1.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Studios · Studio, 1 & 2 BR Apt. · 405 - 1332 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Studios · Studio, 1 & 2 BR Apt. · 405 - 1332 sq ft",
     "floorPlans": [
       {
         "id": "fp-bellavista-damac-hills-1",
@@ -38691,7 +38691,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/golf-gate-damac-hills",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/golf-gate-damac-hills/20230113182958_brochure_Damac_Hills_Golf_Gate_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1 & 2 BR Apartments · 621 - 1400 Sq ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1 & 2 BR Apartments · 621 - 1400 sq ft",
     "floorPlans": [
       {
         "id": "fp-golf-gate-damac-hills-1",
@@ -39091,7 +39091,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-legends-damac-hills",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/the-legends-damac-hills/20230109130604_brochure_The_Legends_Damac_Hills_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Townhouses · 3, 4, 5 & 7 BHK Townhouse · 1,983 to 4,556 Sq Ft",
+    "masterPlanNotes": "Ultra-Luxury Townhouses · 3, 4, 5 & 7 BHK Townhouse · 1,983 to 4,556 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-legends-damac-hills-1",
@@ -39235,8 +39235,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Legends at Damac Hills is the newest project by Damac Properties. It is located in Damac Hills, Dubai, and has townhouses and villas with 3 BHK, 4 BHK, 5 BHK to 7 BHK. This is the final phase of development in this golfers' community, and Ivanka Trump has designed the buildings. Positioned in Dubai's golfers' community of Damac Hills, residents enjoy quick and simple access to the city's most important neighborhoods and landmarks. The Legends at Damac Hills is conveniently situated close to the city's major thoroughfares, making it easy to travel throughout the rest of Dubai. The financial district, entertainment district, and shopping mecca are all within walking distance of this pristine development. Ivanka Trump designed the Trump brand's high-quality, modern interiors. Golf, Classic, and Park-style homes have different floor plans. These large houses have been meticulously crafted to exude opulence and welcomeness, offering the highest standard in convenience and comfort. Its flexible payment plans and central Dubai location,UAE make it a great investment. Don't miss out on this once-in-a-lifetime opportunity to own a beautiful piece of paradise as luxury homes in dubai.",
-    "descriptionAr": "Legends at Damac Hills is the newest project by Damac Properties. It is located in Damac Hills, Dubai, and has townhouses and villas with 3 BHK, 4 BHK, 5 BHK to 7 BHK. This is the final phase of development in this golfers' community, and Ivanka Trump has designed the buildings. Positioned in Dubai's golfers' community of Damac Hills, residents enjoy quick and simple access to the city's most important neighborhoods and landmarks. The Legends at Damac Hills is conveniently situated close to the city's major thoroughfares, making it easy to travel throughout the rest of Dubai. The financial district, entertainment district, and shopping mecca are all within walking distance of this pristine development. Ivanka Trump designed the Trump brand's high-quality, modern interiors. Golf, Classic, and Park-style homes have different floor plans. These large houses have been meticulously crafted to exude opulence and welcomeness, offering the highest standard in convenience and comfort. Its flexible payment plans and central Dubai location,UAE make it a great investment. Don't miss out on this once-in-a-lifetime opportunity to own a beautiful piece of paradise as luxury homes in dubai.",
+    "description": "Legends at Damac Hills is the newest project by Damac Properties. It is located in Damac Hills, Dubai, and has townhouses and villas with 3 BHK, 4 BHK, 5 BHK to 7 BHK. This is the final phase of development in this golfers' community, and Ivanka Trump has designed the buildings. Positioned in Dubai's golfers' community of Damac Hills, residents enjoy quick and simple access to the city's most important neighborhoods and landmarks. The Legends at Damac Hills is conveniently situated close to the city's major thoroughfares, making it easy to travel throughout the rest of Dubai. The financial district, entertainment district, and shopping mecca are all within walking distance of this pristine development. Ivanka Trump designed the Trump brand's high-quality, modern interiors. Golf, Classic, and Park-style homes have different floor plans. These large houses have been meticulously crafted to exude opulence and welcomeness, offering the highest standard in convenience and comfort. Its flexible payment plans and central Dubai location, UAE make it a great investment. Don't miss out on this once-in-a-lifetime opportunity to own a beautiful piece of paradise as luxury homes in dubai.",
+    "descriptionAr": "Legends at Damac Hills is the newest project by Damac Properties. It is located in Damac Hills, Dubai, and has townhouses and villas with 3 BHK, 4 BHK, 5 BHK to 7 BHK. This is the final phase of development in this golfers' community, and Ivanka Trump has designed the buildings. Positioned in Dubai's golfers' community of Damac Hills, residents enjoy quick and simple access to the city's most important neighborhoods and landmarks. The Legends at Damac Hills is conveniently situated close to the city's major thoroughfares, making it easy to travel throughout the rest of Dubai. The financial district, entertainment district, and shopping mecca are all within walking distance of this pristine development. Ivanka Trump designed the Trump brand's high-quality, modern interiors. Golf, Classic, and Park-style homes have different floor plans. These large houses have been meticulously crafted to exude opulence and welcomeness, offering the highest standard in convenience and comfort. Its flexible payment plans and central Dubai location, UAE make it a great investment. Don't miss out on this once-in-a-lifetime opportunity to own a beautiful piece of paradise as luxury homes in dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -39503,7 +39503,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/commercial_property/danube-shahrukhz",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/commercial_property/danube-shahrukhz/20260606174142_brochure_SHARUKHZ_Danube_Brochure.pdf",
-    "masterPlanNotes": "Commercial Project · 450 Sq.ft.-11,000 Sq.ft.",
+    "masterPlanNotes": "Commercial Project · 450 sq ft-11,000 sq ft",
     "floorPlans": [
       {
         "id": "fp-danube-shahrukhz-1",
@@ -39604,8 +39604,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Shahrukhz is the iconic new launch by Danube Properties in collaboration with Shah Rukh Khan, bringing Bollywood glamour into Dubai's real estate world. The celebrity-branded project unites high-end living with modern lifestyle features and intelligent space design, which aligns with Danube's established design philosophy. Loacted in Al Sufouh 1, Sheikh Zayed Road, Dubai. The 55-storey premium business tower provides Standard, Executive, Premium & Prestige office spaces starts from AED 2M . Shahrukhz Danube sizes starts from 450 Sq.ft. to 11,000 Sq.ft. Shahrukhz by Danube Luxury Offices delivers an iconic brand presence through its world-class architecture and premium finishes, and its location in a prime business district. The luxurious office tower provides a 6-year payment plan which splits payments into a 70:30 ratio to attract investors who want to build long-term value. The Danube Shahrukhz handover date in June 2029. This enables you to acquire a stake in Dubai's upcoming commercial development. You can become part of history by submitting your EOI with AED 50,000 now.",
-    "descriptionAr": "Shahrukhz is the iconic new launch by Danube Properties in collaboration with Shah Rukh Khan, bringing Bollywood glamour into Dubai's real estate world. The celebrity-branded project unites high-end living with modern lifestyle features and intelligent space design, which aligns with Danube's established design philosophy. Loacted in Al Sufouh 1, Sheikh Zayed Road, Dubai. The 55-storey premium business tower provides Standard, Executive, Premium & Prestige office spaces starts from AED 2M . Shahrukhz Danube sizes starts from 450 Sq.ft. to 11,000 Sq.ft. Shahrukhz by Danube Luxury Offices delivers an iconic brand presence through its world-class architecture and premium finishes, and its location in a prime business district. The luxurious office tower provides a 6-year payment plan which splits payments into a 70:30 ratio to attract investors who want to build long-term value. The Danube Shahrukhz handover date in June 2029. This enables you to acquire a stake in Dubai's upcoming commercial development. You can become part of history by submitting your EOI with AED 50,000 now.",
+    "description": "Shahrukhz is the iconic new launch by Danube Properties in collaboration with Shah Rukh Khan, bringing Bollywood glamour into Dubai's real estate world. The celebrity-branded project unites high-end living with modern lifestyle features and intelligent space design, which aligns with Danube's established design philosophy. Loacted in Al Sufouh 1, Sheikh Zayed Road, Dubai. The 55-storey premium business tower provides Standard, Executive, Premium & Prestige office spaces starts from AED 2M . Shahrukhz Danube sizes starts from 450 sq ft to 11,000 sq ft Shahrukhz by Danube Luxury Offices delivers an iconic brand presence through its world-class architecture and premium finishes, and its location in a prime business district. The luxurious office tower provides a 6-year payment plan which splits payments into a 70:30 ratio to attract investors who want to build long-term value. The Danube Shahrukhz handover date in June 2029. This enables you to acquire a stake in Dubai's upcoming commercial development. You can become part of history by submitting your EOI with AED 50,000 now.",
+    "descriptionAr": "Shahrukhz is the iconic new launch by Danube Properties in collaboration with Shah Rukh Khan, bringing Bollywood glamour into Dubai's real estate world. The celebrity-branded project unites high-end living with modern lifestyle features and intelligent space design, which aligns with Danube's established design philosophy. Loacted in Al Sufouh 1, Sheikh Zayed Road, Dubai. The 55-storey premium business tower provides Standard, Executive, Premium & Prestige office spaces starts from AED 2M . Shahrukhz Danube sizes starts from 450 sq ft to 11,000 sq ft Shahrukhz by Danube Luxury Offices delivers an iconic brand presence through its world-class architecture and premium finishes, and its location in a prime business district. The luxurious office tower provides a 6-year payment plan which splits payments into a 70:30 ratio to attract investors who want to build long-term value. The Danube Shahrukhz handover date in June 2029. This enables you to acquire a stake in Dubai's upcoming commercial development. You can become part of history by submitting your EOI with AED 50,000 now.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -39872,7 +39872,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/commercial_property/samana-barari-avenue",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/commercial_property/samana-barari-avenue/20260606172849_brochure_SAMANA_BARARI_AVENUE_BROCHURE.pdf",
-    "masterPlanNotes": "Commercial Property · 679.42 Sq.ft.",
+    "masterPlanNotes": "Commercial Property · 679.42 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-barari-avenue-1",
@@ -39974,8 +39974,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Barari Avenue by Samana Developers is a new launch commercial project, located in Majan, Dubai. It is a perfect investment opportunity for those businesses seeking a prime location that offers excellent connectivity and is future-ready. The project designed office spaces and retail units to suit different business needs. Samana Barari Avenue office spaces sizes starts from 679.44 Sq.ft., with prices starting at AED 1.8M. This makes it an attractive investment option set within one of the city's emerging commercial districts. What differentiates Samana Barari Avenue Dubai are its combination of strategic positioning, flexible unit sizes, modern commercial architecture, and potential for high returns on investments. For anyone looking to buy commercial property in Dubai, this project provides an ideal mix of business functionality, visibility as well as future-proof value within a growing business hub.",
-    "descriptionAr": "Barari Avenue by Samana Developers is a new launch commercial project, located in Majan, Dubai. It is a perfect investment opportunity for those businesses seeking a prime location that offers excellent connectivity and is future-ready. The project designed office spaces and retail units to suit different business needs. Samana Barari Avenue office spaces sizes starts from 679.44 Sq.ft., with prices starting at AED 1.8M. This makes it an attractive investment option set within one of the city's emerging commercial districts. What differentiates Samana Barari Avenue Dubai are its combination of strategic positioning, flexible unit sizes, modern commercial architecture, and potential for high returns on investments. For anyone looking to buy commercial property in Dubai, this project provides an ideal mix of business functionality, visibility as well as future-proof value within a growing business hub.",
+    "description": "Barari Avenue by Samana Developers is a new launch commercial project, located in Majan, Dubai. It is a perfect investment opportunity for those businesses seeking a prime location that offers excellent connectivity and is future-ready. The project designed office spaces and retail units to suit different business needs. Samana Barari Avenue office spaces sizes starts from 679.44 sq ft, with prices starting at AED 1.8M. This makes it an attractive investment option set within one of the city's emerging commercial districts. What differentiates Samana Barari Avenue Dubai are its combination of strategic positioning, flexible unit sizes, modern commercial architecture, and potential for high returns on investments. For anyone looking to buy commercial property in Dubai, this project provides an ideal mix of business functionality, visibility as well as future-proof value within a growing business hub.",
+    "descriptionAr": "Barari Avenue by Samana Developers is a new launch commercial project, located in Majan, Dubai. It is a perfect investment opportunity for those businesses seeking a prime location that offers excellent connectivity and is future-ready. The project designed office spaces and retail units to suit different business needs. Samana Barari Avenue office spaces sizes starts from 679.44 sq ft, with prices starting at AED 1.8M. This makes it an attractive investment option set within one of the city's emerging commercial districts. What differentiates Samana Barari Avenue Dubai are its combination of strategic positioning, flexible unit sizes, modern commercial architecture, and potential for high returns on investments. For anyone looking to buy commercial property in Dubai, this project provides an ideal mix of business functionality, visibility as well as future-proof value within a growing business hub.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -40245,7 +40245,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-florence",
     "brochureUrl": "/api/projects/azizi-florence/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Villas & Townhouses · 3, 4, 5 & 6 BR · On Request",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Villas & Townhouses · 3, 4, 5 & 6 BR · On Request",
     "floorPlans": [
       {
         "id": "fp-azizi-florence-1",
@@ -40381,8 +40381,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Azizi Florence Sharjah offers 3, 4, 5 & 6 BR villas, townhouses & apartments across a 30M sq.ft. master community on Emirates Road.",
-    "descriptionAr": "Azizi Florence Sharjah offers 3, 4, 5 & 6 BR villas, townhouses & apartments across a 30M sq.ft. master community on Emirates Road.",
+    "description": "Azizi Florence Sharjah offers 3, 4, 5 & 6 BR villas, townhouses & apartments across a 30M sq ft master community on Emirates Road.",
+    "descriptionAr": "Azizi Florence Sharjah offers 3, 4, 5 & 6 BR villas, townhouses & apartments across a 30M sq ft master community on Emirates Road.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -40653,7 +40653,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/seef-residences-by-alef",
     "brochureUrl": "/api/projects/seef-residences-by-alef/brochure",
-    "masterPlanNotes": "Waterfront Apartments & Penthouses · 1, 2, 3 & 4 BR · 664 sq.ft - 5,136 sq.ft,",
+    "masterPlanNotes": "Waterfront Apartments & Penthouses · 1, 2, 3 & 4 BR · 664 sq ft - 5,136 sq ft,",
     "floorPlans": [
       {
         "id": "fp-seef-residences-by-alef-1",
@@ -41077,7 +41077,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/bnw-aqua-maya",
     "brochureUrl": "/api/projects/bnw-aqua-maya/brochure",
-    "masterPlanNotes": "Waterfront Luxury Apartments · 1, 2, 3 & 4 BR Apartments · 678.23 Sq.ft - 5,079 Sq.ft.",
+    "masterPlanNotes": "Waterfront Luxury Apartments · 1, 2, 3 & 4 BR Apartments · 678.23 sq ft - 5,079 sq ft",
     "floorPlans": [
       {
         "id": "fp-bnw-aqua-maya-1",
@@ -41216,8 +41216,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "BNW Aqua Maya on Al Marjan Island, Ras Al Khaimah offers 1, 2, 3 & 4 BR beachfront apartments ranging from 700 sq.ft. to 5,079 sq.ft., with handover scheduled for 2027.",
-    "descriptionAr": "BNW Aqua Maya on Al Marjan Island, Ras Al Khaimah offers 1, 2, 3 & 4 BR beachfront apartments ranging from 700 sq.ft. to 5,079 sq.ft., with handover scheduled for 2027.",
+    "description": "BNW Aqua Maya on Al Marjan Island, Ras Al Khaimah offers 1, 2, 3 & 4 BR beachfront apartments ranging from 700 sq ft to 5,079 sq ft, with handover scheduled for 2027.",
+    "descriptionAr": "BNW Aqua Maya on Al Marjan Island, Ras Al Khaimah offers 1, 2, 3 & 4 BR beachfront apartments ranging from 700 sq ft to 5,079 sq ft, with handover scheduled for 2027.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -41488,7 +41488,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/bnw-tonino-lamborghini-residences",
     "brochureUrl": "/api/projects/bnw-tonino-lamborghini-residences/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Villas & Mansions · Studios, 1, 2 & 3 BR Apartments · 415 sq.ft. - 7,881 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Villas & Mansions · Studios, 1, 2 & 3 BR Apartments · 415 sq ft - 7,881 sq ft",
     "floorPlans": [
       {
         "id": "fp-bnw-tonino-lamborghini-residences-1",
@@ -41911,7 +41911,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/taj-wellington-mews-by-bnw",
     "brochureUrl": "/api/projects/taj-wellington-mews-by-bnw/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 490 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2 & 3 BR apartments · 490 sq ft",
     "floorPlans": [
       {
         "id": "fp-taj-wellington-mews-by-bnw-1",
@@ -42311,7 +42311,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/soto-grande-by-ellington",
     "brochureUrl": "/api/projects/soto-grande-by-ellington/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1, 2, 3 & 4 BR · 421 sq.ft. - 3,280 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1, 2, 3 & 4 BR · 421 sq ft - 3,280 sq ft",
     "floorPlans": [
       {
         "id": "fp-soto-grande-by-ellington-1",
@@ -42726,7 +42726,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/costa-mare-by-ellington",
     "brochureUrl": "/api/projects/costa-mare-by-ellington/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Duplexes, Penthouses & Villas · Studios, 1, 2, 3, 4, 5 & 6 BR · 385 sq.ft. - 3,181 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Duplexes, Penthouses & Villas · Studios, 1, 2, 3, 4, 5 & 6 BR · 385 sq ft - 3,181 sq ft",
     "floorPlans": [
       {
         "id": "fp-costa-mare-by-ellington-1",
@@ -43176,7 +43176,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/playa-del-sol-by-ellington",
     "brochureUrl": "/api/projects/playa-del-sol-by-ellington/brochure",
-    "masterPlanNotes": "Waterfront Apartments & Villas · Studio, 1, 2, 3, 4 & 5 BR · 410 sq.ft. - 8,675 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments & Villas · Studio, 1, 2, 3, 4 & 5 BR · 410 sq ft - 8,675 sq ft",
     "floorPlans": [
       {
         "id": "fp-playa-del-sol-by-ellington-1",
@@ -43593,7 +43593,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/brabus-island",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/brabus-island/20260617122944_brochure_brabus-island-by-reportage-brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 2, 3 & 4 BR · 1,157 Sq.ft-8,340 Sq ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 2, 3 & 4 BR · 1,157 sq ft-8,340 sq ft",
     "floorPlans": [
       {
         "id": "fp-brabus-island-1",
@@ -43733,8 +43733,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Island Abu Dhabi is a luxury waterfront development located in Al Raha Beach, Abu Dhabi, blending elite living with the high-performance design ethos of the German brand BRABUS. This private island features limited-edition residences, including 2, 3 and 4-bedroom apartments and penthouses, ranging in size from 1,157 Sq.ft. to 8,340 Sq ft. Each home offers smart technology, bespoke interiors, and panoramic sea views. Prices start from AED 2.86M, with ultra-premium penthouses reaching AED 16M and beyond. Inspired by BRABUS' supercars and yachts, the island's architecture and lifestyle amenities cater to those who value exclusivity, power, and sophistication. Brabus Island amenities includes Private beach & marina access, Infinity pools, rooftop jacuzzis, Gym, spa, sauna, wellness zones, Brabus-branded clubhouse, lounges, Smart-home features in every unit, Kids' play areas & landscaped gardens. With private beach access, world-class facilities, and seamless connectivity to Abu Dhabi city, Brabus Island redefines waterfront luxury living for investors and residents seeking bold design, privacy, and a truly iconic address in the UAE.",
-    "descriptionAr": "Island Abu Dhabi is a luxury waterfront development located in Al Raha Beach, Abu Dhabi, blending elite living with the high-performance design ethos of the German brand BRABUS. This private island features limited-edition residences, including 2, 3 and 4-bedroom apartments and penthouses, ranging in size from 1,157 Sq.ft. to 8,340 Sq ft. Each home offers smart technology, bespoke interiors, and panoramic sea views. Prices start from AED 2.86M, with ultra-premium penthouses reaching AED 16M and beyond. Inspired by BRABUS' supercars and yachts, the island's architecture and lifestyle amenities cater to those who value exclusivity, power, and sophistication. Brabus Island amenities includes Private beach & marina access, Infinity pools, rooftop jacuzzis, Gym, spa, sauna, wellness zones, Brabus-branded clubhouse, lounges, Smart-home features in every unit, Kids' play areas & landscaped gardens. With private beach access, world-class facilities, and seamless connectivity to Abu Dhabi city, Brabus Island redefines waterfront luxury living for investors and residents seeking bold design, privacy, and a truly iconic address in the UAE.",
+    "description": "Island Abu Dhabi is a luxury waterfront development located in Al Raha Beach, Abu Dhabi, blending elite living with the high-performance design ethos of the German brand BRABUS. This private island features limited-edition residences, including 2, 3 and 4-bedroom apartments and penthouses, ranging in size from 1,157 sq ft to 8,340 sq ft Each home offers smart technology, bespoke interiors, and panoramic sea views. Prices start from AED 2.86M, with ultra-premium penthouses reaching AED 16M and beyond. Inspired by BRABUS' supercars and yachts, the island's architecture and lifestyle amenities cater to those who value exclusivity, power, and sophistication. Brabus Island amenities includes Private beach & marina access, Infinity pools, rooftop jacuzzis, Gym, spa, sauna, wellness zones, Brabus-branded clubhouse, lounges, Smart-home features in every unit, Kids' play areas & landscaped gardens. With private beach access, world-class facilities, and seamless connectivity to Abu Dhabi city, Brabus Island redefines waterfront luxury living for investors and residents seeking bold design, privacy, and a truly iconic address in the UAE.",
+    "descriptionAr": "Island Abu Dhabi is a luxury waterfront development located in Al Raha Beach, Abu Dhabi, blending elite living with the high-performance design ethos of the German brand BRABUS. This private island features limited-edition residences, including 2, 3 and 4-bedroom apartments and penthouses, ranging in size from 1,157 sq ft to 8,340 sq ft Each home offers smart technology, bespoke interiors, and panoramic sea views. Prices start from AED 2.86M, with ultra-premium penthouses reaching AED 16M and beyond. Inspired by BRABUS' supercars and yachts, the island's architecture and lifestyle amenities cater to those who value exclusivity, power, and sophistication. Brabus Island amenities includes Private beach & marina access, Infinity pools, rooftop jacuzzis, Gym, spa, sauna, wellness zones, Brabus-branded clubhouse, lounges, Smart-home features in every unit, Kids' play areas & landscaped gardens. With private beach access, world-class facilities, and seamless connectivity to Abu Dhabi city, Brabus Island redefines waterfront luxury living for investors and residents seeking bold design, privacy, and a truly iconic address in the UAE.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -43967,7 +43967,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-row-saadiyat",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/the-row-saadiyat/20260617123552_brochure_The_Row_Saadiyat_by_Aldar-Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1,2 & 3 Bedroom Apartments · From 957 Sq.ft",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1,2 & 3 Bedroom Apartments · From 957 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-row-saadiyat-1",
@@ -44110,8 +44110,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Row Saadiyat by Aldar is a prestigious new launch in Saadiyat Island, Abu Dhabi, offering front-row living in the iconic Saadiyat Cultural District. The residential area exists between well-known museums and coastal areas and protected climate-friendly paths which connect architectural structures to cultural aspects and high-end living amenities. The Row Saadiyat Luxury Homes start at AED 3.7M, with starting sizes of 957 sq.ft across elegant 1 BR, 2 BR, and 3 BR layouts. The Row Saadiyat Phase 1 includes three buildings which contain 315 units that provide elegant living spaces for residents who seek both comfort and practical living solutions. The flexible payment plan of 65:35 allows buyers to purchase Abu Dhabi's popular location through a future-ready investment. The Row Saadiyat handover date will occur in the Q1 of 2030. The Row Saadiyat establishes a fresh benchmark for luxurious urban living through its combination of upscale facilities and boutique shopping and wellness spaces and cultural connections.",
-    "descriptionAr": "Row Saadiyat by Aldar is a prestigious new launch in Saadiyat Island, Abu Dhabi, offering front-row living in the iconic Saadiyat Cultural District. The residential area exists between well-known museums and coastal areas and protected climate-friendly paths which connect architectural structures to cultural aspects and high-end living amenities. The Row Saadiyat Luxury Homes start at AED 3.7M, with starting sizes of 957 sq.ft across elegant 1 BR, 2 BR, and 3 BR layouts. The Row Saadiyat Phase 1 includes three buildings which contain 315 units that provide elegant living spaces for residents who seek both comfort and practical living solutions. The flexible payment plan of 65:35 allows buyers to purchase Abu Dhabi's popular location through a future-ready investment. The Row Saadiyat handover date will occur in the Q1 of 2030. The Row Saadiyat establishes a fresh benchmark for luxurious urban living through its combination of upscale facilities and boutique shopping and wellness spaces and cultural connections.",
+    "description": "Row Saadiyat by Aldar is a prestigious new launch in Saadiyat Island, Abu Dhabi, offering front-row living in the iconic Saadiyat Cultural District. The residential area exists between well-known museums and coastal areas and protected climate-friendly paths which connect architectural structures to cultural aspects and high-end living amenities. The Row Saadiyat Luxury Homes start at AED 3.7M, with starting sizes of 957 sq ft across elegant 1 BR, 2 BR, and 3 BR layouts. The Row Saadiyat Phase 1 includes three buildings which contain 315 units that provide elegant living spaces for residents who seek both comfort and practical living solutions. The flexible payment plan of 65:35 allows buyers to purchase Abu Dhabi's popular location through a future-ready investment. The Row Saadiyat handover date will occur in the Q1 of 2030. The Row Saadiyat establishes a fresh benchmark for luxurious urban living through its combination of upscale facilities and boutique shopping and wellness spaces and cultural connections.",
+    "descriptionAr": "Row Saadiyat by Aldar is a prestigious new launch in Saadiyat Island, Abu Dhabi, offering front-row living in the iconic Saadiyat Cultural District. The residential area exists between well-known museums and coastal areas and protected climate-friendly paths which connect architectural structures to cultural aspects and high-end living amenities. The Row Saadiyat Luxury Homes start at AED 3.7M, with starting sizes of 957 sq ft across elegant 1 BR, 2 BR, and 3 BR layouts. The Row Saadiyat Phase 1 includes three buildings which contain 315 units that provide elegant living spaces for residents who seek both comfort and practical living solutions. The flexible payment plan of 65:35 allows buyers to purchase Abu Dhabi's popular location through a future-ready investment. The Row Saadiyat handover date will occur in the Q1 of 2030. The Row Saadiyat establishes a fresh benchmark for luxurious urban living through its combination of upscale facilities and boutique shopping and wellness spaces and cultural connections.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -44380,7 +44380,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/yas-riva-residences",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/yas-riva-residences/20260617123705_brochure_Yas_Riva_Residences_by_Aldar_brochure.pdf",
-    "masterPlanNotes": "Waterfront Apartments · Studios, 1, 2 & 3 BR apartments · 506 sq.ft. - 2,012 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · Studios, 1, 2 & 3 BR apartments · 506 sq ft - 2,012 sq ft",
     "floorPlans": [
       {
         "id": "fp-yas-riva-residences-1",
@@ -44524,8 +44524,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Riva Residences by Aldar Properties is a resort-style development in the heart of Yas Island, Abu Dhabi, just minutes from Yas Mall, Yas Bay, Ferrari World, SeaWorld and all the island's top attractions. Yas Riva by Aldar offers modern Studio, 1, 2 & 3 bedroom + maid apartments with warm neutral interiors, premium finishes and contemporary design. Yas Riva Residences sizes range from 506 sq.ft. to 2,012 sq.ft. with smart and spacious layouts for both residents and investors. From AED 1.35M, the project offers great value in one of Abu Dhabi's most popular lifestyle destinations. Residents will enjoy world-class amenities including a canal-view gym, wellness spa, pools, yoga room, sports courts, kids' play areas and community library. Yas Riva Apartments handover date is Q4 2029. Own a refined home in a growing waterfront area with great connectivity to Abu Dhabi and Dubai.",
-    "descriptionAr": "Riva Residences by Aldar Properties is a resort-style development in the heart of Yas Island, Abu Dhabi, just minutes from Yas Mall, Yas Bay, Ferrari World, SeaWorld and all the island's top attractions. Yas Riva by Aldar offers modern Studio, 1, 2 & 3 bedroom + maid apartments with warm neutral interiors, premium finishes and contemporary design. Yas Riva Residences sizes range from 506 sq.ft. to 2,012 sq.ft. with smart and spacious layouts for both residents and investors. From AED 1.35M, the project offers great value in one of Abu Dhabi's most popular lifestyle destinations. Residents will enjoy world-class amenities including a canal-view gym, wellness spa, pools, yoga room, sports courts, kids' play areas and community library. Yas Riva Apartments handover date is Q4 2029. Own a refined home in a growing waterfront area with great connectivity to Abu Dhabi and Dubai.",
+    "description": "Riva Residences by Aldar Properties is a resort-style development in the heart of Yas Island, Abu Dhabi, just minutes from Yas Mall, Yas Bay, Ferrari World, SeaWorld and all the island's top attractions. Yas Riva by Aldar offers modern Studio, 1, 2 & 3 bedroom + maid apartments with warm neutral interiors, premium finishes and contemporary design. Yas Riva Residences sizes range from 506 sq ft to 2,012 sq ft with smart and spacious layouts for both residents and investors. From AED 1.35M, the project offers great value in one of Abu Dhabi's most popular lifestyle destinations. Residents will enjoy world-class amenities including a canal-view gym, wellness spa, pools, yoga room, sports courts, kids' play areas and community library. Yas Riva Apartments handover date is Q4 2029. Own a refined home in a growing waterfront area with great connectivity to Abu Dhabi and Dubai.",
+    "descriptionAr": "Riva Residences by Aldar Properties is a resort-style development in the heart of Yas Island, Abu Dhabi, just minutes from Yas Mall, Yas Bay, Ferrari World, SeaWorld and all the island's top attractions. Yas Riva by Aldar offers modern Studio, 1, 2 & 3 bedroom + maid apartments with warm neutral interiors, premium finishes and contemporary design. Yas Riva Residences sizes range from 506 sq ft to 2,012 sq ft with smart and spacious layouts for both residents and investors. From AED 1.35M, the project offers great value in one of Abu Dhabi's most popular lifestyle destinations. Residents will enjoy world-class amenities including a canal-view gym, wellness spa, pools, yoga room, sports courts, kids' play areas and community library. Yas Riva Apartments handover date is Q4 2029. Own a refined home in a growing waterfront area with great connectivity to Abu Dhabi and Dubai.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -44797,7 +44797,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sobha-city-abu-dhabi",
     "brochureUrl": "/api/projects/sobha-city-abu-dhabi/brochure",
-    "masterPlanNotes": "Waterfront Apartments, Villas & Townhouses · 1, 2, 3 , 4, 5 & 6 BR · 566 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments, Villas & Townhouses · 1, 2, 3 , 4, 5 & 6 BR · 566 sq ft",
     "floorPlans": [
       {
         "id": "fp-sobha-city-abu-dhabi-1",
@@ -46465,7 +46465,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sei-saadiyat-by-aldar",
     "brochureUrl": "/api/projects/sei-saadiyat-by-aldar/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Lofts · 1, 2 & 3 BR · 747 sq.ft. - 1,625 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Lofts · 1, 2 & 3 BR · 747 sq ft - 1,625 sq ft",
     "floorPlans": [
       {
         "id": "fp-sei-saadiyat-by-aldar-1",
@@ -46771,7 +46771,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-ritz-carlton-residences-by-saas",
     "brochureUrl": "/api/projects/the-ritz-carlton-residences-by-saas/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Duplexes & Penthouses · 1, 2, 3 & 4 BR · On Request",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Duplexes & Penthouses · 1, 2, 3 & 4 BR · On Request",
     "floorPlans": [
       {
         "id": "fp-the-ritz-carlton-residences-by-saas-1",
@@ -47202,7 +47202,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/yas-riva-reserve-by-aldar",
     "brochureUrl": "/api/projects/yas-riva-reserve-by-aldar/brochure",
-    "masterPlanNotes": "Ultra Luxury Villas · 4, 5 & 6 BR · 4,704 sq.ft. to 6,555 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas · 4, 5 & 6 BR · 4,704 sq ft to 6,555 sq ft",
     "floorPlans": [
       {
         "id": "fp-yas-riva-reserve-by-aldar-1",
@@ -47608,7 +47608,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/saadiyat-grove-by-aldar",
     "brochureUrl": "/api/projects/saadiyat-grove-by-aldar/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Villas & Penthouses · Studios, 1, 2, 3, 4 & 5 BR · 495 sq.ft. - 13,864 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Villas & Penthouses · Studios, 1, 2, 3, 4 & 5 BR · 495 sq ft - 13,864 sq ft",
     "floorPlans": [
       {
         "id": "fp-saadiyat-grove-by-aldar-1",
@@ -48055,7 +48055,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-wadi-by-reportage",
     "brochureUrl": "/api/projects/the-wadi-by-reportage/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 380 sq.ft. - 3,435 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 380 sq ft - 3,435 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-wadi-by-reportage-1",
@@ -48827,7 +48827,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/golf-fields-by-emaar",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/golf-fields-by-emaar/20260611150619_brochure_Golf_Fields_by_Emaar_Brochure.pdf",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments · 791 sq.ft. - 2,778 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR Apartments · 791 sq ft - 2,778 sq ft",
     "floorPlans": [
       {
         "id": "fp-golf-fields-by-emaar-1",
@@ -48968,8 +48968,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Fields at Emaar South is an upcoming residential project by Emaar Properties, located in Dubai South (Dubai World Central), minutes from Al Maktoum International Airport and Expo City Dubai. The mid-rise G+P+11 building brings a golf-front address to one of Dubai's largest master-planned communities through Emaar's build quality and design standards. Golf Fields by Emaar offers 1 BR, 2 BR, 3 BR golf-facing apartments and 3 BR Townhouses ranging from 791 sq.ft. to 2,778 sq.ft. Golf Fields at Emaar price starts at AED 1.26M with an 80:20 payment plan. Golf Fields by Emaar works equally well for NRI investors seeking long-term returns and end-users looking for a permanent golf-course view address in Dubai's fastest-growing corridor.",
-    "descriptionAr": "Fields at Emaar South is an upcoming residential project by Emaar Properties, located in Dubai South (Dubai World Central), minutes from Al Maktoum International Airport and Expo City Dubai. The mid-rise G+P+11 building brings a golf-front address to one of Dubai's largest master-planned communities through Emaar's build quality and design standards. Golf Fields by Emaar offers 1 BR, 2 BR, 3 BR golf-facing apartments and 3 BR Townhouses ranging from 791 sq.ft. to 2,778 sq.ft. Golf Fields at Emaar price starts at AED 1.26M with an 80:20 payment plan. Golf Fields by Emaar works equally well for NRI investors seeking long-term returns and end-users looking for a permanent golf-course view address in Dubai's fastest-growing corridor.",
+    "description": "Fields at Emaar South is an upcoming residential project by Emaar Properties, located in Dubai South (Dubai World Central), minutes from Al Maktoum International Airport and Expo City Dubai. The mid-rise G+P+11 building brings a golf-front address to one of Dubai's largest master-planned communities through Emaar's build quality and design standards. Golf Fields by Emaar offers 1 BR, 2 BR, 3 BR golf-facing apartments and 3 BR Townhouses ranging from 791 sq ft to 2,778 sq ft Golf Fields at Emaar price starts at AED 1.26M with an 80:20 payment plan. Golf Fields by Emaar works equally well for NRI investors seeking long-term returns and end-users looking for a permanent golf-course view address in Dubai's fastest-growing corridor.",
+    "descriptionAr": "Fields at Emaar South is an upcoming residential project by Emaar Properties, located in Dubai South (Dubai World Central), minutes from Al Maktoum International Airport and Expo City Dubai. The mid-rise G+P+11 building brings a golf-front address to one of Dubai's largest master-planned communities through Emaar's build quality and design standards. Golf Fields by Emaar offers 1 BR, 2 BR, 3 BR golf-facing apartments and 3 BR Townhouses ranging from 791 sq ft to 2,778 sq ft Golf Fields at Emaar price starts at AED 1.26M with an 80:20 payment plan. Golf Fields by Emaar works equally well for NRI investors seeking long-term returns and end-users looking for a permanent golf-course view address in Dubai's fastest-growing corridor.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -49241,7 +49241,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/raw-district-by-imtiaz",
     "brochureUrl": "/api/projects/raw-district-by-imtiaz/brochure",
-    "masterPlanNotes": "Luxury Apartments, Office Spaces & Retail Spaces · Studios, 1 BR Suites, 1, 2 & 3-BR · 380 sq. ft. - 1,400 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments, Office Spaces & Retail Spaces · Studios, 1 BR Suites, 1, 2 & 3-BR · 380 sq ft - 1,400 sq ft",
     "floorPlans": [
       {
         "id": "fp-raw-district-by-imtiaz-1",
@@ -49679,7 +49679,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/raw-district-2-by-imtiaz",
     "brochureUrl": "/api/projects/raw-district-2-by-imtiaz/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Office & Retail Spaces · Studios, 1, 2 & 3 BR · 380 sq.ft. - 1,400 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Office & Retail Spaces · Studios, 1, 2 & 3 BR · 380 sq ft - 1,400 sq ft",
     "floorPlans": [
       {
         "id": "fp-raw-district-2-by-imtiaz-1",
@@ -50114,7 +50114,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/avior-by-acube",
     "brochureUrl": "/api/projects/avior-by-acube/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments, Villas & Duplexes · 1, 2, 3, 4 & 5 BR · 1,020 sq. ft. - 14,623 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments, Villas & Duplexes · 1, 2, 3, 4 & 5 BR · 1,020 sq ft - 14,623 sq ft",
     "floorPlans": [
       {
         "id": "fp-avior-by-acube-1",
@@ -50496,7 +50496,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/mercer-house-by-ellington",
     "brochureUrl": "/api/projects/mercer-house-by-ellington/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · Studio, 1, 2 & 3 · 513 sq. ft. - 9,485 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · Studio, 1, 2 & 3 · 513 sq ft - 9,485 sq ft",
     "floorPlans": [
       {
         "id": "fp-mercer-house-by-ellington-1",
@@ -50649,8 +50649,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Mercer House by Ellington Properties offers Studio to 4BR + Duplex Penthouses in Uptown Dubai. 45,000 sq.ft beach club, freehold, Q3 2027 handover. Enquire now.",
-    "descriptionAr": "Mercer House by Ellington Properties offers Studio to 4BR + Duplex Penthouses in Uptown Dubai. 45,000 sq.ft beach club, freehold, Q3 2027 handover. Enquire now.",
+    "description": "Mercer House by Ellington Properties offers Studio to 4BR + Duplex Penthouses in Uptown Dubai. 45,000 sq ft beach club, freehold, Q3 2027 handover. Enquire now.",
+    "descriptionAr": "Mercer House by Ellington Properties offers Studio to 4BR + Duplex Penthouses in Uptown Dubai. 45,000 sq ft beach club, freehold, Q3 2027 handover. Enquire now.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -51220,7 +51220,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-ocean-crest",
     "brochureUrl": "/api/projects/samana-ocean-crest/brochure",
-    "masterPlanNotes": "Waterfront Luxury Apartments · 1,2, 3 & 4 Bedroom Apartments · 1,128 sq.ft. - 2,876 sq.ft.",
+    "masterPlanNotes": "Waterfront Luxury Apartments · 1,2, 3 & 4 Bedroom Apartments · 1,128 sq ft - 2,876 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-ocean-crest-1",
@@ -51633,7 +51633,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/eltiera-views-by-ellington",
     "brochureUrl": "/api/projects/eltiera-views-by-ellington/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1,2, 3 & 4 BR · 796 sq.ft. - 5,985 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1,2, 3 & 4 BR · 796 sq ft - 5,985 sq ft",
     "floorPlans": [
       {
         "id": "fp-eltiera-views-by-ellington-1",
@@ -52055,7 +52055,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/chelsea-residences-by-damac",
     "brochureUrl": "/api/projects/chelsea-residences-by-damac/brochure",
-    "masterPlanNotes": "Waterfront Apartments · 1, 2 & 3 BR Apartments · 775 sq.ft. - 1,260 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1, 2 & 3 BR Apartments · 775 sq ft - 1,260 sq ft",
     "floorPlans": [
       {
         "id": "fp-chelsea-residences-by-damac-1",
@@ -52451,7 +52451,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/selvara-4-by-emaar",
     "brochureUrl": "/api/projects/selvara-4-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Villas · 4 BR · 3,690 Sq.ft. - 3,832 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas · 4 BR · 3,690 sq ft - 3,832 sq ft",
     "floorPlans": [
       {
         "id": "fp-selvara-4-by-emaar-1",
@@ -52835,7 +52835,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/selvara-3-by-emaar",
     "brochureUrl": "/api/projects/selvara-3-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Villas · 4 BR · 3,652 Sq.ft. - 3,832 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas · 4 BR · 3,652 sq ft - 3,832 sq ft",
     "floorPlans": [
       {
         "id": "fp-selvara-3-by-emaar-1",
@@ -53229,7 +53229,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-south-haven",
     "brochureUrl": "/api/projects/samana-south-haven/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 400 sq.ft. - 1,100 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 400 sq ft - 1,100 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-south-haven-1",
@@ -53615,7 +53615,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-south-haven-2",
     "brochureUrl": "/api/projects/samana-south-haven-2/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 343 sq.ft. - 1,050 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR apartments · 343 sq ft - 1,050 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-south-haven-2-1",
@@ -54000,7 +54000,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/address-residences-zabeel-by-emaar",
     "brochureUrl": "/api/projects/address-residences-zabeel-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2, 3 & 6 BR · 777 sq.ft. - 11,588 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2, 3 & 6 BR · 777 sq ft - 11,588 sq ft",
     "floorPlans": [
       {
         "id": "fp-address-residences-zabeel-by-emaar-1",
@@ -54420,7 +54420,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sea-cliff-by-imtiaz",
     "brochureUrl": "/api/projects/sea-cliff-by-imtiaz/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2, 3 & 4 BR · 727 Sq.ft. to 4,120 Sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2, 3 & 4 BR · 727 sq ft to 4,120 sq ft",
     "floorPlans": [
       {
         "id": "fp-sea-cliff-by-imtiaz-1",
@@ -54831,7 +54831,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/alba-tower-by-reportage",
     "brochureUrl": "/api/projects/alba-tower-by-reportage/brochure",
-    "masterPlanNotes": "Luxury Apartments & Retail Spaces · 1, 2 BR & Retail Spaces · 415 sq. ft. - 6,000 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments & Retail Spaces · 1, 2 BR & Retail Spaces · 415 sq ft - 6,000 sq ft",
     "floorPlans": [
       {
         "id": "fp-alba-tower-by-reportage-1",
@@ -55175,7 +55175,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/golf-trails-by-emaar",
     "brochureUrl": "/api/projects/golf-trails-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR · 719 Sq.ft. - 2,610 Sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR · 719 sq ft - 2,610 sq ft",
     "floorPlans": [
       {
         "id": "fp-golf-trails-by-emaar-1",
@@ -55585,7 +55585,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-ocean-bay",
     "brochureUrl": "/api/projects/samana-ocean-bay/brochure",
-    "masterPlanNotes": "Waterfront Apartments · 1, 2, 3 & 4 BR Apartments · 822 sq. ft. - 1,900 sq. ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1, 2, 3 & 4 BR Apartments · 822 sq ft - 1,900 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-ocean-bay-1",
@@ -55995,7 +55995,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/valia-by-emaar",
     "brochureUrl": "https://whitecollarrealty.com/admin/assets/residential_property/valia-by-emaar/20261006120343_brochure_VALIA_BY_EMAAR_DUBAI_CREEK_HARBOUR_BROCHURE.pdf",
-    "masterPlanNotes": "Waterfront Apartments · 1, 2, 3 & 4 BR · 821 sq. ft. - 2,561 sq. ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1, 2, 3 & 4 BR · 821 sq ft - 2,561 sq ft",
     "floorPlans": [
       {
         "id": "fp-valia-by-emaar-1",
@@ -56135,8 +56135,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Valia is a new launch waterfront residential project developed by Emaar Properties, rising within Dubai Creek Harbour, directly beside the site of the upcoming Dubai Square Mall. The Valia project features a tall building that stands on a green base to combine waterfront residences with upcoming shopping centers and dining establishments and metro stations at a single location. This property offers 1-, 2-, 3-, & 4-bedroom apartments, with sizes starting at 821 sq. ft. to 2,561 sq. ft., across a tower of two basement levels, a ground floor, two podium levels, and around 50-plus residential stories, comprising approximately 491 homes. Valia by Emaar at Dubai Creek Harbour price that starts at approximately AED 2.06 million, with a flexible payment plan structured across the construction period. Valia suits both homebuyers and investors, offering an address positioned at the center of one of Dubai's most closely watched waterfront communities.",
-    "descriptionAr": "Valia is a new launch waterfront residential project developed by Emaar Properties, rising within Dubai Creek Harbour, directly beside the site of the upcoming Dubai Square Mall. The Valia project features a tall building that stands on a green base to combine waterfront residences with upcoming shopping centers and dining establishments and metro stations at a single location. This property offers 1-, 2-, 3-, & 4-bedroom apartments, with sizes starting at 821 sq. ft. to 2,561 sq. ft., across a tower of two basement levels, a ground floor, two podium levels, and around 50-plus residential stories, comprising approximately 491 homes. Valia by Emaar at Dubai Creek Harbour price that starts at approximately AED 2.06 million, with a flexible payment plan structured across the construction period. Valia suits both homebuyers and investors, offering an address positioned at the center of one of Dubai's most closely watched waterfront communities.",
+    "description": "Valia is a new launch waterfront residential project developed by Emaar Properties, rising within Dubai Creek Harbour, directly beside the site of the upcoming Dubai Square Mall. The Valia project features a tall building that stands on a green base to combine waterfront residences with upcoming shopping centers and dining establishments and metro stations at a single location. This property offers 1-, 2-, 3-, & 4-bedroom apartments, with sizes starting at 821 sq ft to 2,561 sq ft, across a tower of two basement levels, a ground floor, two podium levels, and around 50-plus residential stories, comprising approximately 491 homes. Valia by Emaar at Dubai Creek Harbour price that starts at approximately AED 2.06 million, with a flexible payment plan structured across the construction period. Valia suits both homebuyers and investors, offering an address positioned at the center of one of Dubai's most closely watched waterfront communities.",
+    "descriptionAr": "Valia is a new launch waterfront residential project developed by Emaar Properties, rising within Dubai Creek Harbour, directly beside the site of the upcoming Dubai Square Mall. The Valia project features a tall building that stands on a green base to combine waterfront residences with upcoming shopping centers and dining establishments and metro stations at a single location. This property offers 1-, 2-, 3-, & 4-bedroom apartments, with sizes starting at 821 sq ft to 2,561 sq ft, across a tower of two basement levels, a ground floor, two podium levels, and around 50-plus residential stories, comprising approximately 491 homes. Valia by Emaar at Dubai Creek Harbour price that starts at approximately AED 2.06 million, with a flexible payment plan structured across the construction period. Valia suits both homebuyers and investors, offering an address positioned at the center of one of Dubai's most closely watched waterfront communities.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -56818,7 +56818,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/binghatti-starfall",
     "brochureUrl": "/api/projects/binghatti-starfall/brochure",
-    "masterPlanNotes": "Luxury Apartments & Retail Spaces · Studio, 1 & 2 BR · 348 sq. ft. - 3,026 sq. ft.",
+    "masterPlanNotes": "Luxury Apartments & Retail Spaces · Studio, 1 & 2 BR · 348 sq ft - 3,026 sq ft",
     "floorPlans": [
       {
         "id": "fp-binghatti-starfall-1",
@@ -57193,7 +57193,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-archive-by-imtiaz",
     "brochureUrl": "/api/projects/the-archive-by-imtiaz/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR · 390 sq. ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR · 390 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-archive-by-imtiaz-1",
@@ -57586,7 +57586,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-lagoon-views",
     "brochureUrl": "/api/projects/damac-lagoon-views/brochure",
-    "masterPlanNotes": "Waterfront Apartments · 1 & 2 BR · 763 sq.ft. - 1298 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1 & 2 BR · 763 sq ft - 1298 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-lagoon-views-1",
@@ -57973,7 +57973,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-lagoons",
     "brochureUrl": "/api/projects/damac-lagoons/brochure",
-    "masterPlanNotes": "Waterfront Apartments, Villas & Townhouses · Studios, 1, 2, 3, 4, 5 & 6 BR · 2,012 sq.ft. - 18,217 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments, Villas & Townhouses · Studios, 1, 2, 3, 4, 5 & 6 BR · 2,012 sq ft - 18,217 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-lagoons-1",
@@ -58406,7 +58406,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/alva-by-emaar",
     "brochureUrl": "/api/projects/alva-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Townhouses · 3 & 4 BR · 2,788 sq.ft. - 3,600 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Townhouses · 3 & 4 BR · 2,788 sq ft - 3,600 sq ft",
     "floorPlans": [
       {
         "id": "fp-alva-by-emaar-1",
@@ -58803,7 +58803,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/violet-by-damac",
     "brochureUrl": "/api/projects/violet-by-damac/brochure",
-    "masterPlanNotes": "Ultra Luxury Townhouses · 4 BR · 2,415 sq.ft. - 2,352 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Townhouses · 4 BR · 2,415 sq ft - 2,352 sq ft",
     "floorPlans": [
       {
         "id": "fp-violet-by-damac-1",
@@ -59189,7 +59189,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/everly-place-by-ellington",
     "brochureUrl": "/api/projects/everly-place-by-ellington/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 BR Apartments · 693 sq.ft. - 1,818 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 BR Apartments · 693 sq ft - 1,818 sq ft",
     "floorPlans": [
       {
         "id": "fp-everly-place-by-ellington-1",
@@ -60000,7 +60000,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/avenue-park-towers-2-by-wasl",
     "brochureUrl": "/api/projects/avenue-park-towers-2-by-wasl/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2, 3 & 4 BR · 857 sq.ft. - 4,408 sq ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2, 3 & 4 BR · 857 sq ft - 4,408 sq ft",
     "floorPlans": [
       {
         "id": "fp-avenue-park-towers-2-by-wasl-1",
@@ -60300,7 +60300,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sunset-bay-grand-by-imtiaz",
     "brochureUrl": "/api/projects/sunset-bay-grand-by-imtiaz/brochure",
-    "masterPlanNotes": "Waterfront Apartments & Duplexes · 1,2 & 3 BR · 845 sq.ft.- 2,565 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments & Duplexes · 1,2 & 3 BR · 845 sq ft- 2,565 sq ft",
     "floorPlans": [
       {
         "id": "fp-sunset-bay-grand-by-imtiaz-1",
@@ -60441,8 +60441,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Sunset Bay Grand by Imtiaz at Dubai Islands offers furnished 1, 2 & 3 BR apartments and duplexes from 845–2565 sq.ft. Price starts AED 1.95 M onwards*.",
-    "descriptionAr": "Sunset Bay Grand by Imtiaz at Dubai Islands offers furnished 1, 2 & 3 BR apartments and duplexes from 845–2565 sq.ft. Price starts AED 1.95 M onwards*.",
+    "description": "Sunset Bay Grand by Imtiaz at Dubai Islands offers furnished 1, 2 & 3 BR apartments and duplexes from 845–2565 sq ft Price starts AED 1.95 M onwards*.",
+    "descriptionAr": "Sunset Bay Grand by Imtiaz at Dubai Islands offers furnished 1, 2 & 3 BR apartments and duplexes from 845–2565 sq ft Price starts AED 1.95 M onwards*.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -60711,7 +60711,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/cove-boulevard-by-imtiaz",
     "brochureUrl": "/api/projects/cove-boulevard-by-imtiaz/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR · 362 sq.ft. - 1,400 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1, 2 & 3 BR · 362 sq ft - 1,400 sq ft",
     "floorPlans": [
       {
         "id": "fp-cove-boulevard-by-imtiaz-1",
@@ -60840,8 +60840,8 @@ export const EXCEL_182_PROJECTS: Project[] = [
       "dataSource": "Contact for latest availability",
       "sourceType": "unavailable"
     },
-    "description": "Cove Boulevard by Imtiaz in DLRC, Dubailand, offers furnished studio–3BR homes & offices from AED 650K, 362–1,400 sq. ft., 60/40 plan. Q2 2028 handover.",
-    "descriptionAr": "Cove Boulevard by Imtiaz in DLRC, Dubailand, offers furnished studio–3BR homes & offices from AED 650K, 362–1,400 sq. ft., 60/40 plan. Q2 2028 handover.",
+    "description": "Cove Boulevard by Imtiaz in DLRC, Dubailand, offers furnished studio–3BR homes & offices from AED 650K, 362–1,400 sq ft, 60/40 plan. Q2 2028 handover.",
+    "descriptionAr": "Cove Boulevard by Imtiaz in DLRC, Dubailand, offers furnished studio–3BR homes & offices from AED 650K, 362–1,400 sq ft, 60/40 plan. Q2 2028 handover.",
     "sourceOrigin": "excel_import",
     "importBatchId": "excel_182_verified_sync",
     "createdAt": "2026-11-24T12:00:00Z",
@@ -61112,7 +61112,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/eden-house-the-park-by-hh-development",
     "brochureUrl": "/api/projects/eden-house-the-park-by-hh-development/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · Studios, 1, 2, 3 & 4 BR · 833 sq.ft. –8,000 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · Studios, 1, 2, 3 & 4 BR · 833 sq ft –8,000 sq ft",
     "floorPlans": [
       {
         "id": "fp-eden-house-the-park-by-hh-development-1",
@@ -61533,7 +61533,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/fior-1-by-emaar",
     "brochureUrl": "/api/projects/fior-1-by-emaar/brochure",
-    "masterPlanNotes": "Waterfront Apartments · 1, 2 & 3 BR · 760 sq.ft. - 2,973 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1, 2 & 3 BR · 760 sq ft - 2,973 sq ft",
     "floorPlans": [
       {
         "id": "fp-fior-1-by-emaar-1",
@@ -61932,7 +61932,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/verso-by-reportage",
     "brochureUrl": "/api/projects/verso-by-reportage/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 4 BR · 505 sq.ft. - 1,802 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 4 BR · 505 sq ft - 1,802 sq ft",
     "floorPlans": [
       {
         "id": "fp-verso-by-reportage-1",
@@ -62277,7 +62277,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/sofitel-residences-by-cityview",
     "brochureUrl": "/api/projects/sofitel-residences-by-cityview/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2, 3 & 5 BR · 889 sq.ft. - 5,935 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2, 3 & 5 BR · 889 sq ft - 5,935 sq ft",
     "floorPlans": [
       {
         "id": "fp-sofitel-residences-by-cityview-1",
@@ -62696,7 +62696,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-woods-serenity-by-sobha",
     "brochureUrl": "/api/projects/the-woods-serenity-by-sobha/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1 & 2 BR · 546.70 sq.ft. - 963.80 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1 & 2 BR · 546.70 sq ft - 963.80 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-woods-serenity-by-sobha-1",
@@ -63026,7 +63026,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/bay-estate-by-nakheel",
     "brochureUrl": "/api/projects/bay-estate-by-nakheel/brochure",
-    "masterPlanNotes": "Waterfront Villas & Townhouses · 3 & 4 BR · 3,055 sq.ft.",
+    "masterPlanNotes": "Waterfront Villas & Townhouses · 3 & 4 BR · 3,055 sq ft",
     "floorPlans": [
       {
         "id": "fp-bay-estate-by-nakheel-1",
@@ -63434,7 +63434,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/greencrest-by-emaar",
     "brochureUrl": "/api/projects/greencrest-by-emaar/brochure",
-    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 BR · 832 sq.ft. - 1,878 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · 1, 2 & 3 BR · 832 sq ft - 1,878 sq ft",
     "floorPlans": [
       {
         "id": "fp-greencrest-by-emaar-1",
@@ -63796,7 +63796,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/damac-sorrento",
     "brochureUrl": "/api/projects/damac-sorrento/brochure",
-    "masterPlanNotes": "Waterfront Apartments · Studio & 1 BR · 341 sq.ft. - 879 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · Studio & 1 BR · 341 sq ft - 879 sq ft",
     "floorPlans": [
       {
         "id": "fp-damac-sorrento-1",
@@ -64184,7 +64184,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/azizi-creek-views-4",
     "brochureUrl": "/api/projects/azizi-creek-views-4/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1 & 3 BR · 543 sq.ft. - 2,346 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1 & 3 BR · 543 sq ft - 2,346 sq ft",
     "floorPlans": [
       {
         "id": "fp-azizi-creek-views-4-1",
@@ -64594,7 +64594,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/epoque-by-reportage",
     "brochureUrl": "/api/projects/epoque-by-reportage/brochure",
-    "masterPlanNotes": "Waterfront Apartments · 1 & 2 BR · 546 sq.ft. - 773 sq.ft.",
+    "masterPlanNotes": "Waterfront Apartments · 1 & 2 BR · 546 sq ft - 773 sq ft",
     "floorPlans": [
       {
         "id": "fp-epoque-by-reportage-1",
@@ -64866,7 +64866,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/kore-by-imtiaz",
     "brochureUrl": "/api/projects/kore-by-imtiaz/brochure",
-    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR · 409 sq.ft. - 1,406 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · Studios, 1 & 2 BR · 409 sq ft - 1,406 sq ft",
     "floorPlans": [
       {
         "id": "fp-kore-by-imtiaz-1",
@@ -65253,7 +65253,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/boulevard-living-2-by-wasl",
     "brochureUrl": "/api/projects/boulevard-living-2-by-wasl/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 BR · 832 sq.ft. - 1,705 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 BR · 832 sq ft - 1,705 sq ft",
     "floorPlans": [
       {
         "id": "fp-boulevard-living-2-by-wasl-1",
@@ -65634,7 +65634,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/wasl-boulevard-living-1",
     "brochureUrl": "/api/projects/wasl-boulevard-living-1/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 BR Apartments · 380 sq. ft. - 1,982 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 BR Apartments · 380 sq ft - 1,982 sq ft",
     "floorPlans": [
       {
         "id": "fp-wasl-boulevard-living-1-1",
@@ -66015,7 +66015,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/nine-collective-by-wasl",
     "brochureUrl": "/api/projects/nine-collective-by-wasl/brochure",
-    "masterPlanNotes": "Ultra-luxury Apartments, Duplexes and Penthouses · 2, 3, 4 & 5 BR · 1,950 sq.ft.",
+    "masterPlanNotes": "Ultra-luxury Apartments, Duplexes and Penthouses · 2, 3, 4 & 5 BR · 1,950 sq ft",
     "floorPlans": [
       {
         "id": "fp-nine-collective-by-wasl-1",
@@ -66437,7 +66437,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-portside",
     "brochureUrl": "/api/projects/samana-portside/brochure",
-    "masterPlanNotes": "Luxury Apartments · 1 & 2 BR · 623 sq.ft. - 933 sq.ft.",
+    "masterPlanNotes": "Luxury Apartments · 1 & 2 BR · 623 sq ft - 933 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-portside-1",
@@ -66823,7 +66823,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/samana-downtown-one",
     "brochureUrl": "/api/projects/samana-downtown-one/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR · 335 sq.ft. - 943 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR · 335 sq ft - 943 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-downtown-one-1",
@@ -67593,7 +67593,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/greenwoods-by-aldar",
     "brochureUrl": "/api/projects/greenwoods-by-aldar/brochure",
-    "masterPlanNotes": "Ultra Luxury Villas & Townhouses · 3, 4 & 5 BR · To Be Announced",
+    "masterPlanNotes": "Ultra-Luxury Villas & Townhouses · 3, 4 & 5 BR · To Be Announced",
     "floorPlans": [
       {
         "id": "fp-greenwoods-by-aldar-1",
@@ -67945,7 +67945,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/address-villas-tierra-by-emaar",
     "brochureUrl": "/api/projects/address-villas-tierra-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Villas · 4, 5 & 6 BR · 9,174 sq.ft. - 16,000 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas · 4, 5 & 6 BR · 9,174 sq ft - 16,000 sq ft",
     "floorPlans": [
       {
         "id": "fp-address-villas-tierra-by-emaar-1",
@@ -68330,7 +68330,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/virella-3-by-emaar",
     "brochureUrl": "/api/projects/virella-3-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Townhouses · 3 & 4 BR · 2,400 sq.ft. - 2,700 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Townhouses · 3 & 4 BR · 2,400 sq ft - 2,700 sq ft",
     "floorPlans": [
       {
         "id": "fp-virella-3-by-emaar-1",
@@ -68677,7 +68677,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/artistry-one-residences-by-select-group",
     "brochureUrl": "/api/projects/artistry-one-residences-by-select-group/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Penthouses · 1, 2, 3 & 4 BR · 741 sq.ft. - 7,765 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Penthouses · 1, 2, 3 & 4 BR · 741 sq ft - 7,765 sq ft",
     "floorPlans": [
       {
         "id": "fp-artistry-one-residences-by-select-group-1",
@@ -69100,7 +69100,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/arancia-yards-by-beyond",
     "brochureUrl": "/api/projects/arancia-yards-by-beyond/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · 1, 2 & 3 BR · 760 sq.ft. - 1,600 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments · 1, 2 & 3 BR · 760 sq ft - 1,600 sq ft",
     "floorPlans": [
       {
         "id": "fp-arancia-yards-by-beyond-1",
@@ -69498,7 +69498,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/vida-residences-hillside-by-emaar",
     "brochureUrl": "/api/projects/vida-residences-hillside-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR · 726 sq.ft. - 2,622 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR · 726 sq ft - 2,622 sq ft",
     "floorPlans": [
       {
         "id": "fp-vida-residences-hillside-by-emaar-1",
@@ -69910,7 +69910,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/palace-residences-hillside-by-emaar",
     "brochureUrl": "/api/projects/palace-residences-hillside-by-emaar/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · 1, 2 & 3 BR · 675 sq.ft. – 2,622 sq. ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · 1, 2 & 3 BR · 675 sq ft – 2,622 sq ft",
     "floorPlans": [
       {
         "id": "fp-palace-residences-hillside-by-emaar-1",
@@ -70320,7 +70320,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/palm-springs-by-nakheel",
     "brochureUrl": "/api/projects/palm-springs-by-nakheel/brochure",
-    "masterPlanNotes": "Ultra Luxury Villas & Townhouses · 3 & 5 BR · 2,326 sq.ft. - 4,921 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Villas & Townhouses · 3 & 5 BR · 2,326 sq ft - 4,921 sq ft",
     "floorPlans": [
       {
         "id": "fp-palm-springs-by-nakheel-1",
@@ -70730,7 +70730,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/lilac-by-damac",
     "brochureUrl": "/api/projects/lilac-by-damac/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments & Townhouses · Studios, 1, 2 & 3 BR · 611 sq.ft. - 3,177 sq.ft.",
+    "masterPlanNotes": "Ultra-Luxury Apartments & Townhouses · Studios, 1, 2 & 3 BR · 611 sq ft - 3,177 sq ft",
     "floorPlans": [
       {
         "id": "fp-lilac-by-damac-1",
@@ -71137,7 +71137,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/residential_property/the-arts-district-by-binghatti",
     "brochureUrl": "/api/projects/the-arts-district-by-binghatti/brochure",
-    "masterPlanNotes": "Ultra Luxury Apartments · Studios, 1 & 2 BR · To Be Announced",
+    "masterPlanNotes": "Ultra-Luxury Apartments · Studios, 1 & 2 BR · To Be Announced",
     "floorPlans": [
       {
         "id": "fp-the-arts-district-by-binghatti-1",
@@ -71502,7 +71502,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/commercial_property/berkeley-tower-by-ellington",
     "brochureUrl": "/api/projects/berkeley-tower-by-ellington/brochure",
-    "masterPlanNotes": "Grade A Commercial Offices · 1,132 sq.ft. - 21,873 sq.ft.",
+    "masterPlanNotes": "Grade A Commercial Offices · 1,132 sq ft - 21,873 sq ft",
     "floorPlans": [
       {
         "id": "fp-berkeley-tower-by-ellington-1",
@@ -71872,7 +71872,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/commercial_property/samana-business-hub",
     "brochureUrl": "/api/projects/samana-business-hub/brochure",
-    "masterPlanNotes": "Commercial Property · 610 sq.ft. - 2,574 sq.ft.",
+    "masterPlanNotes": "Commercial Property · 610 sq ft - 2,574 sq ft",
     "floorPlans": [
       {
         "id": "fp-samana-business-hub-1",
@@ -72241,7 +72241,7 @@ export const EXCEL_182_PROJECTS: Project[] = [
     ],
     "projectUrl": "https://whitecollarrealty.com/commercial_property/the-yards-plaza-by-beyond",
     "brochureUrl": "/api/projects/the-yards-plaza-by-beyond/brochure",
-    "masterPlanNotes": "Commercial Property · 1,324 sq.ft. –3,186 sq.ft.",
+    "masterPlanNotes": "Commercial Property · 1,324 sq ft –3,186 sq ft",
     "floorPlans": [
       {
         "id": "fp-the-yards-plaza-by-beyond-1",

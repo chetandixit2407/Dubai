@@ -1691,8 +1691,12 @@ async function startServer() {
     const years = Math.min(30, Math.max(1, Number(installmentYears) || 5));
     const annualRent = Math.max(0, Number(estimatedAnnualRentAed) || 0);
     const serviceCharge = Math.max(0, Number(annualServiceChargeAed) || 0);
-    const dldFee = price * ((Number(dldFeePct) || 4) / 100);
-    const agencyFee = price * ((Number(agencyFeePct) || 2) / 100);
+    const parsedDld = Number(dldFeePct);
+    const parsedAgency = Number(agencyFeePct);
+    const dldPct = Number.isFinite(parsedDld) && parsedDld >= 0 ? parsedDld : 4;
+    const agencyPct = Number.isFinite(parsedAgency) && parsedAgency >= 0 ? parsedAgency : 2;
+    const dldFee = price * (dldPct / 100);
+    const agencyFee = price * (agencyPct / 100);
     const trusteeAndAdminAed = 5400;
 
     const downPaymentAed = price * (downPct / 100);
@@ -1755,8 +1759,8 @@ async function startServer() {
       },
       fiveYearProjection,
       assumptions: [
-        'Dubai Land Department (DLD) transfer / Oqood fee modeled at 4% unless developer waiver applies.',
-        'Brokerage & registration trustee fee modeled separately as an estimate.',
+        `Dubai Land Department (DLD) transfer / Oqood fee modeled at ${dldPct}%${dldPct === 0 ? ' (developer waiver applied)' : ''}.`,
+        `Brokerage fee modeled at ${agencyPct}% plus AED 5,400 registration trustee & administrative estimate.`,
         'Rental yields assume 95%+ annual occupancy and do not include personal income tax (0% in UAE).',
       ],
     });

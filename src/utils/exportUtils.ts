@@ -1,6 +1,7 @@
 import * as XLSX from 'xlsx';
 import { Developer, Project } from '../types/realEstate.ts';
-import { convertFromAed, formatCurrency } from './currency.ts';
+import { formatCurrency } from './currency.ts';
+import { getEffectiveCompanyInfo } from '../data/companyInfo.ts';
 import { getEffectiveTourStatus, TOUR_STATUS_LABELS } from './mediaValidation.ts';
 import {
   formatFloorPlanAreaSqFt,
@@ -16,6 +17,7 @@ export function exportCatalogToExcel(
   developers: Developer[],
   fileName = 'WhiteCollarRealty_UAE_182_Properties_Intelligence.xlsx'
 ): void {
+  const company = getEffectiveCompanyInfo();
   const wb = XLSX.utils.book_new();
 
   // 1. Projects Sheet
@@ -66,12 +68,12 @@ export function exportCatalogToExcel(
       'Video Upload Date': primaryVideo?.publishedAt || 'N/A',
       'Original Video Source URL': primaryVideo?.sourceUrl || p.walkthroughVideoUrl || 'Not Available',
       'Official Project URL': p.projectUrl || 'Not Available',
-      'Developer Official Website': p.developerWebsite || 'https://whitecollarrealty.com',
+      'Developer Official Website': p.developerWebsite || company.website,
       'Google Maps Link': p.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${p.coordinates.lat},${p.coordinates.lng}`,
-      'Sales Office Address': p.salesOfficeAddress || 'Contact White Collar Realty Advisory',
-      'Sales Office Phone': p.salesOfficePhone || '+91 88102 86629',
-      'Sales Office WhatsApp': p.salesOfficeWhatsapp || '+91 88102 86629',
-      'Sales Office Email': p.salesOfficeEmail || 'info@whitecollarrealty.com',
+      'Sales Office Address': p.salesOfficeAddress || `Contact ${company.name} Advisory`,
+      'Sales Office Phone': p.salesOfficePhone || company.primaryPhone,
+      'Sales Office WhatsApp': p.salesOfficeWhatsapp || company.whatsappNumber,
+      'Sales Office Email': p.salesOfficeEmail || company.email,
       'Registration Number': p.registrationNumber,
       'Last Verified Date': p.lastVerifiedAt || p.updatedAt,
       'Verification Source': p.verificationSource || 'UAE Land Registry & Developer Official Portal',
@@ -95,7 +97,7 @@ export function exportCatalogToExcel(
     'Official Website': d.website,
     'Sales Office Address': d.salesOfficeAddress || 'Dubai Corporate Gallery',
     'Official Sales Phone': d.salesOfficePhone || d.contactPhone,
-    'Official Sales WhatsApp': d.salesOfficeWhatsapp || '+91 88102 86629',
+    'Official Sales WhatsApp': d.salesOfficeWhatsapp || company.whatsappNumber,
     'Official Sales Email': d.salesOfficeEmail || d.contactEmail,
   }));
 
@@ -129,6 +131,7 @@ export function exportCatalogToExcel(
 }
 
 export function exportSingleProjectToExcel(project: Project, developer?: Developer): void {
+  const company = getEffectiveCompanyInfo();
   const wb = XLSX.utils.book_new();
   const effStatus = getEffectiveTourStatus(project);
   const primaryVideo = project.primaryVideo;
@@ -166,9 +169,9 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     { Field: 'Official Project Link', Details: project.projectUrl || 'Not Available' },
     { Field: 'Developer Website', Details: developer?.website || 'Not Available' },
     { Field: 'Sales Office Address', Details: project.salesOfficeAddress || developer?.salesOfficeAddress || 'Corporate Sales Gallery' },
-    { Field: 'Sales Office Phone', Details: project.salesOfficePhone || developer?.salesOfficePhone || '+91 88102 86629' },
-    { Field: 'Sales Office WhatsApp', Details: project.salesOfficeWhatsapp || developer?.salesOfficeWhatsapp || '+91 88102 86629' },
-    { Field: 'Sales Office Email', Details: project.salesOfficeEmail || developer?.salesOfficeEmail || 'info@whitecollarrealty.com' },
+    { Field: 'Sales Office Phone', Details: project.salesOfficePhone || developer?.salesOfficePhone || company.primaryPhone },
+    { Field: 'Sales Office WhatsApp', Details: project.salesOfficeWhatsapp || developer?.salesOfficeWhatsapp || company.whatsappNumber },
+    { Field: 'Sales Office Email', Details: project.salesOfficeEmail || developer?.salesOfficeEmail || company.email },
     { Field: 'RERA / Registration No.', Details: project.registrationNumber },
     { Field: 'Last Verified Date', Details: project.lastVerifiedAt || project.updatedAt },
     { Field: 'Verification Citation', Details: project.verificationSource || project.investment.dataCitation },

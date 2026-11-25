@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   AdvancedMarker,
   APIProvider,
+  CollisionBehavior,
   InfoWindow,
   Map as GoogleMap,
   useAdvancedMarkerRef,
@@ -70,10 +71,14 @@ import {
   MEDIA_CLASSIFICATION_LABELS,
   TOUR_STATUS_LABELS,
 } from '../utils/mediaValidation.ts';
-import { isValidCoordinate, LatLng } from '../utils/coordinates.ts';
+import {
+  getGoogleMapsDirectionsUrl,
+  isValidCoordinate,
+  LatLng,
+} from '../utils/coordinates.ts';
 import { geocodeAddressOnServer, GeocodeResultItem } from '../services/apiClient.ts';
-import { COMPANY_INFO } from '../data/companyInfo.ts';
-import { GoogleMapsGuard } from './GoogleMapsGuard.tsx';
+import { useCompanyInfo } from '../data/companyInfo.ts';
+import { GoogleMapsGuard, MapsErrorReason } from './GoogleMapsGuard.tsx';
 import { InvestmentCalculator } from './InvestmentCalculator.tsx';
 import {
   formatFloorPlanAreaSqFt,
@@ -92,6 +97,7 @@ interface ProjectDetailsPageProps {
   comparableProjects: Project[];
   inventoryLogs: InventoryLog[];
   mapsApiKey: string;
+  mapsLoading?: boolean;
   currency: CurrencyCode;
   language: Language;
   isSaved: boolean;
@@ -107,6 +113,7 @@ interface ProjectDetailsPageProps {
     context?: 'availability_sheet'
   ) => void;
   onRefreshInventory: (project: Project) => Promise<void>;
+  onRetryMapsConfig?: () => void;
 }
 
 const ProjectMapRecenter: React.FC<{
@@ -129,7 +136,7 @@ const ProjectMapRecenter: React.FC<{
         map.panTo(target);
         map.setZoom(zoom);
       }}
-      className="absolute bottom-3 left-3 z-10 h-9 px-3 bg-[#080808]/90 border border-[#D4AF72]/45 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 shadow-lg cursor-pointer"
+      className="absolute bottom-7 left-2.5 z-10 h-8 sm:h-9 px-2.5 sm:px-3 bg-[#080808]/95 border border-[#D4AF72]/45 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 shadow-lg cursor-pointer"
     >
       <Crosshair className="w-3.5 h-3.5 text-[#D4AF72]" />
       <span>Recenter Pin</span>
@@ -150,6 +157,7 @@ const ProjectPinWithPopup: React.FC<{
         ref={markerRef}
         position={position}
         title={project.name}
+        collisionBehavior={CollisionBehavior.REQUIRED}
         onClick={() => setOpen((v) => !v)}
       >
         <div className="px-2.5 py-1 bg-[#080808] text-[#F5F1E8] text-xs font-semibold border border-[#D4AF72] shadow-lg cursor-pointer flex items-center gap-1.5 whitespace-nowrap">
@@ -159,7 +167,7 @@ const ProjectPinWithPopup: React.FC<{
       </AdvancedMarker>
       {open && marker && (
         <InfoWindow anchor={marker} onCloseClick={() => setOpen(false)}>
-          <div className="p-3 bg-[#121212] text-[#F5F1E8] max-w-[250px] space-y-1 text-xs">
+          <div className="p-2.5 sm:p-3 bg-[#121212] text-[#F5F1E8] w-[min(250px,calc(100vw-64px))] space-y-1 text-xs">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#D4AF72]">
               {project.emirate} · {project.community}
             </p>
@@ -171,10 +179,7 @@ const ProjectPinWithPopup: React.FC<{
               {position.lat.toFixed(5)}° N, {position.lng.toFixed(5)}° E
             </p>
             <a
-              href={
-                project.googleMapsUrl ||
-                `https://www.google.com/maps/dir/?api=1&destination=${position.lat},${position.lng}`
-              }
+              href={getGoogleMapsDirectionsUrl(position, project.googleMapsUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 mt-1 px-2.5 py-1 bg-[#D4AF72] text-[#080808] text-[11px] font-semibold"
@@ -196,6 +201,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
   comparableProjects,
   inventoryLogs,
   mapsApiKey,
+  mapsLoading = false,
   currency,
   language,
   isSaved,
@@ -207,12 +213,16 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
   onOpenVirtualTour,
   onOpenEnquiry,
   onRefreshInventory,
+  onRetryMapsConfig,
 }) => {
+  const companyInfo = useCompanyInfo();
   const [activePhoto, setActivePhoto] = useState(project.heroImage);
+  const [failedUrls, setFailedUrls] = useState<Set<string>>(() => new Set());
   const [mediaCategoryFilter, setMediaCategoryFilter] = useState<MediaCategory | 'all'>('all');
   const [refreshing, setRefreshing] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-  const [mapUnavailable, setMapUnavailable] = useState(false);
+  const [mapErrorReason, setMapErrorReason] = useState<MapsErrorReason | null>(null);
+  const [mapRetryToken, setMapRetryToken] = useState(0);
   const [areaSearch, setAreaSearch] = useState('');
   const [areaSearching, setAreaSearching] = useState(false);
   const [areaError, setAreaError] = useState<string | null>(null);
@@ -223,8 +233,19 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     () => project.primaryVideo?.id || project.videoItems?.[0]?.id || ''
   );
 
+  const markUrlFailed = React.useCallback((url: string) => {
+    if (!url) return;
+    setFailedUrls((prev) => {
+      if (prev.has(url)) return prev;
+      const next = new Set(prev);
+      next.add(url);
+      return next;
+    });
+  }, []);
+
   React.useEffect(() => {
     setActivePhoto(project.heroImage);
+    setFailedUrls(new Set());
     setMediaCategoryFilter('all');
     setSelectedVideoId(project.primaryVideo?.id || project.videoItems?.[0]?.id || '');
     setAreaResult(null);
@@ -332,7 +353,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
   };
 
   const handleCopyShare = async () => {
-    const shareUrl = `${window.location.origin}/#project/${project.slug}`;
+    const shareUrl = `${window.location.origin}/#project/${encodeURIComponent(project.slug)}`;
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl);
@@ -349,7 +370,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     `${project.name} (${project.community}, ${project.emirate}) — ${formatProjectPrice(
       project.startingPriceAed,
       currency
-    )} via WHITE COLLAR REALTY: ${window.location.origin}/#project/${project.slug}`
+    )} via WHITE COLLAR REALTY: ${window.location.origin}/#project/${encodeURIComponent(project.slug)}`
   )}`;
 
   const emailShareUrl = `mailto:?subject=${encodeURIComponent(
@@ -358,7 +379,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     `Explore ${project.name} by ${project.developerName} in ${project.community}, ${project.emirate}.\nStarting Price: ${formatProjectPrice(
       project.startingPriceAed,
       currency
-    )}\nLink: ${window.location.origin}/#project/${project.slug}`
+    )}\nLink: ${window.location.origin}/#project/${encodeURIComponent(project.slug)}`
   )}`;
 
   return (
@@ -464,11 +485,12 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
           <div className="lg:col-span-7 min-w-0 flex flex-col gap-3">
             <div className="relative aspect-[16/10] w-full bg-[#121212] border border-[#D4AF72]/25 overflow-hidden">
-              {activePhoto ? (
+              {activePhoto && !failedUrls.has(activePhoto) ? (
                 <img
                   src={activePhoto}
                   alt={activeMedia?.caption || project.name}
                   referrerPolicy="no-referrer"
+                  onError={() => markUrlFailed(activePhoto)}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -498,12 +520,12 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   <button
                     type="button"
                     onClick={() => onOpenVirtualTour(project)}
-                    className="group px-3 sm:px-4 py-2 sm:py-2.5 bg-[#080808]/95 text-[#F5F1E8] text-[11px] sm:text-xs font-semibold hover:bg-[#D4AF72] hover:text-[#080808] transition-colors flex items-center gap-1.5 sm:gap-2 border border-[#D4AF72] shadow-lg cursor-pointer max-w-full"
+                    className="group px-2.5 sm:px-4 py-1.5 sm:py-2.5 bg-[#080808]/95 text-[#F5F1E8] text-[10px] sm:text-xs font-semibold hover:bg-[#D4AF72] hover:text-[#080808] transition-colors flex items-center gap-1.5 sm:gap-2 border border-[#D4AF72] shadow-lg cursor-pointer max-w-full"
                   >
-                    <Compass className="w-4 h-4 text-[#D4AF72] group-hover:text-[#080808] transition-colors" />
+                    <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D4AF72] group-hover:text-[#080808] transition-colors shrink-0" />
                     <span>EXPLORE 3D VIRTUAL TOUR</span>
                     {(project.virtualTour.tours || []).length > 1 && (
-                      <span className="bg-[#D4AF72] text-[#080808] text-[10px] px-1.5 py-0.5 font-mono-tabular">
+                      <span className="bg-[#D4AF72] text-[#080808] text-[10px] px-1.5 py-0.5 font-mono-tabular shrink-0">
                         {(project.virtualTour.tours || []).length} Tours
                       </span>
                     )}
@@ -516,27 +538,27 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                       else onOpenVirtualTour(project);
                     }}
-                    className="px-4 py-2.5 bg-[#064E3B]/95 text-[#ECFDF5] text-xs font-semibold hover:bg-[#047857] transition-colors flex items-center gap-2 border border-[#34D399]/50 shadow-lg cursor-pointer"
+                    className="px-2.5 sm:px-4 py-1.5 sm:py-2.5 bg-[#064E3B]/95 text-[#ECFDF5] text-[10px] sm:text-xs font-semibold hover:bg-[#047857] transition-colors flex items-center gap-1.5 sm:gap-2 border border-[#34D399]/50 shadow-lg cursor-pointer max-w-full"
                   >
-                    <Video className="w-4 h-4 text-[#6EE7B7]" />
+                    <Video className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6EE7B7] shrink-0" />
                     <span>WATCH VIDEO WALKTHROUGH</span>
                     {(project.videoItems || []).length > 1 && (
-                      <span className="bg-[#080808] text-[#F5F1E8] text-[10px] px-1.5 py-0.5 font-mono-tabular">
+                      <span className="bg-[#080808] text-[#F5F1E8] text-[10px] px-1.5 py-0.5 font-mono-tabular shrink-0">
                         {(project.videoItems || []).length} Videos
                       </span>
                     )}
                   </button>
                 ) : (
-                  <div className="flex items-center gap-2 bg-[#080808]/90 backdrop-blur-sm p-1.5 border border-[#D4AF72]/30">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#D4AF72] px-2">
+                  <div className="flex flex-wrap items-center justify-between sm:justify-end gap-1.5 sm:gap-2 bg-[#080808]/90 backdrop-blur-sm p-1 sm:p-1.5 border border-[#D4AF72]/30 max-w-full">
+                    <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#D4AF72] px-1.5 sm:px-2">
                       MEDIA NOT AVAILABLE
                     </span>
                     <button
                       type="button"
                       onClick={() => onOpenEnquiry('virtual_consultation', project)}
-                      className="px-3 py-1.5 bg-[#D4AF72] text-[#080808] text-[11px] font-semibold hover:bg-[#E6C77A] transition-colors flex items-center gap-1 cursor-pointer"
+                      className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#D4AF72] text-[#080808] text-[10px] sm:text-[11px] font-semibold hover:bg-[#E6C77A] transition-colors flex items-center gap-1 cursor-pointer shrink-0"
                     >
-                      <Video className="w-3.5 h-3.5" />
+                      <Video className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
                       <span>Request Tour</span>
                     </button>
                   </div>
@@ -581,13 +603,20 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                         : 'border-[#D4AF72]/20 hover:border-[#D4AF72]/60'
                     }`}
                   >
-                    <img
-                      src={item.url}
-                      alt={item.caption}
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover"
-                    />
+                    {failedUrls.has(item.url) ? (
+                      <div className="w-full h-full bg-[#121212] flex items-center justify-center">
+                        <Camera className="w-5 h-5 text-[#D4AF72]/70" />
+                      </div>
+                    ) : (
+                      <img
+                        src={item.url}
+                        alt={item.caption}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        onError={() => markUrlFailed(item.url)}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                     <span className="absolute bottom-0 inset-x-0 bg-[#080808]/85 text-[#F5F1E8] text-[10px] px-1.5 py-0.5 truncate text-left">
                       {MEDIA_CATEGORY_LABELS[item.category]}
                     </span>
@@ -678,8 +707,8 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       : `${project.downPaymentPct || 10}%`}
                   </p>
                   {currency !== 'INR' &&
-                    project.bookingAmountAed &&
-                    project.bookingAmountAed > 0 && (
+                    Boolean(project.bookingAmountAed) &&
+                    (project.bookingAmountAed ?? 0) > 0 && (
                       <p className="text-xs font-mono-tabular text-[#D4AF72] font-semibold mt-0.5">
                         ≈ {formatCurrency(project.bookingAmountAed, 'INR')}
                       </p>
@@ -762,24 +791,6 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   </dd>
                 </div>
                 <div className="min-w-0">
-                  <dt className="text-[#A5A19A]">BHK</dt>
-                  <dd className="font-semibold text-[#F5F1E8] mt-0.5 break-words">
-                    {formatPropertyBhk(project)}
-                  </dd>
-                </div>
-                <div className="min-w-0">
-                  <dt className="text-[#A5A19A]">Bathrooms</dt>
-                  <dd className="font-semibold text-[#F5F1E8] mt-0.5 break-words">
-                    {formatPropertyBathrooms(project)}
-                  </dd>
-                </div>
-                <div className="min-w-0">
-                  <dt className="text-[#A5A19A]">Area</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5 break-words">
-                    {formatPropertyAreaSqFt(project)}
-                  </dd>
-                </div>
-                <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Payment Plan</dt>
                   <dd className="font-medium text-[#F5F1E8] mt-0.5 break-words">{project.paymentPlan}</dd>
                 </div>
@@ -794,14 +805,20 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Verified Sales Hotline</dt>
                   <dd className="text-[#F5F1E8] font-semibold mt-0.5">
-                    <a
-                      href={`tel:${project.salesOfficePhone || developer?.salesOfficePhone || '+918810286629'}`}
-                      className="hover:text-[#D4AF72] transition-colors"
-                    >
-                      {project.salesOfficePhone ||
+                    {(() => {
+                      const hotline =
+                        project.salesOfficePhone ||
                         developer?.salesOfficePhone ||
-                        '+91 88102 86629'}
-                    </a>
+                        companyInfo.primaryPhone;
+                      return (
+                        <a
+                          href={`tel:${hotline.replace(/\s+/g, '')}`}
+                          className="hover:text-[#D4AF72] transition-colors font-mono-tabular"
+                        >
+                          {hotline}
+                        </a>
+                      );
+                    })()}
                   </dd>
                 </div>
                 {project.projectUrl && (
@@ -1109,13 +1126,20 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                               : 'border-[#D4AF72]/15 bg-[#080808] hover:border-[#D4AF72]/60'
                           }`}
                         >
-                          <img
-                            src={vItem.thumbnailUrl}
-                            alt={vItem.title}
-                            loading="lazy"
-                            referrerPolicy="no-referrer"
-                            className="w-24 aspect-video object-cover bg-[#080808] shrink-0 border border-[#D4AF72]/20"
-                          />
+                          {vItem.thumbnailUrl && !failedUrls.has(vItem.thumbnailUrl) ? (
+                            <img
+                              src={vItem.thumbnailUrl}
+                              alt={vItem.title}
+                              loading="lazy"
+                              referrerPolicy="no-referrer"
+                              onError={() => markUrlFailed(vItem.thumbnailUrl)}
+                              className="w-24 aspect-video object-cover bg-[#080808] shrink-0 border border-[#D4AF72]/20"
+                            />
+                          ) : (
+                            <div className="w-24 aspect-video bg-[#080808] shrink-0 border border-[#D4AF72]/20 flex items-center justify-center">
+                              <Video className="w-4 h-4 text-[#D4AF72]" />
+                            </div>
+                          )}
                           <div className="min-w-0 flex-1 space-y-1">
                             <span
                               className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 ${
@@ -1164,12 +1188,13 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               {/* Active Video Metadata Card */}
               <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-start gap-3.5 min-w-0">
-                  {activeVideo?.thumbnailUrl && (
+                  {activeVideo?.thumbnailUrl && !failedUrls.has(activeVideo.thumbnailUrl) && (
                     <img
                       src={activeVideo.thumbnailUrl}
                       alt={activeVideo.title}
                       loading="lazy"
                       referrerPolicy="no-referrer"
+                      onError={() => markUrlFailed(activeVideo.thumbnailUrl)}
                       className="w-24 aspect-video object-cover border border-[#D4AF72]/20 shrink-0 hidden sm:block"
                     />
                   )}
@@ -1194,10 +1219,10 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                           <span className="font-mono-tabular">{activeVideo.duration}</span>
                         </>
                       )}
-                      {activeVideo?.viewCount && (
+                      {Boolean(activeVideo?.viewCount) && (
                         <>
                           <span aria-hidden="true">·</span>
-                          <span>{activeVideo.viewCount}</span>
+                          <span>{activeVideo?.viewCount}</span>
                         </>
                       )}
                     </div>
@@ -1348,13 +1373,23 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   }`}
                 >
                   <div className="relative aspect-[16/10] bg-[#080808] overflow-hidden">
-                    <img
-                      src={item.url}
-                      alt={item.caption}
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover"
-                    />
+                    {failedUrls.has(item.url) ? (
+                      <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                        <Camera className="w-6 h-6 text-[#D4AF72]/70 mb-1" />
+                        <span className="text-[10px] uppercase tracking-wider text-[#A5A19A]">
+                          Image Unavailable
+                        </span>
+                      </div>
+                    ) : (
+                      <img
+                        src={item.url}
+                        alt={item.caption}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        onError={() => markUrlFailed(item.url)}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                     <span className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-[#080808]/90 border border-[#D4AF72]/25 text-[#F5F1E8] text-[10px] font-semibold">
                       {MEDIA_CLASSIFICATION_LABELS[item.classification]}
                     </span>
@@ -1588,7 +1623,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 <div>
                   <span className="text-[#A5A19A] block text-[11px]">Developer Sales Hotline</span>
                   <span className="font-mono-tabular text-[#6EE7B7]">
-                    {project.salesOfficePhone || developer?.contactPhone || COMPANY_INFO.primaryPhone}
+                    {project.salesOfficePhone || developer?.contactPhone || companyInfo.primaryPhone}
                   </span>
                 </div>
               </div>
@@ -1603,7 +1638,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   <span>Request Verified Developer Availability Sheet</span>
                 </button>
                 <a
-                  href={COMPANY_INFO.whatsappDeskUrl(
+                  href={companyInfo.whatsappDeskUrl(
                     `Hello White Collar Realty Desk, please share the latest verified developer availability sheet for ${project.name} (${project.community}, ${project.emirate}).`
                   )}
                   target="_blank"
@@ -1749,10 +1784,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 </h2>
               </div>
               <a
-                href={
-                  project.googleMapsUrl ||
-                  `https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}`
-                }
+                href={getGoogleMapsDirectionsUrl(project.coordinates, project.googleMapsUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-semibold text-[#D4AF72] hover:underline flex items-center gap-1"
@@ -1803,9 +1835,23 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
             {areaError && <p className="text-[11px] text-[#FCA5A5] mb-2">{areaError}</p>}
 
             <div className="h-[280px] sm:h-[340px] lg:h-[380px] w-full border border-[#D4AF72]/25 bg-[#080808] mb-5 relative">
-              {mapsApiKey && !mapUnavailable && isValidCoordinate(project.coordinates) ? (
-                <APIProvider apiKey={mapsApiKey} libraries={['marker']} language="en">
-                  <GoogleMapsGuard onStatusError={() => setMapUnavailable(true)}>
+              {mapsLoading && !mapsApiKey ? (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-xs text-[#A5A19A]">
+                  <Loader2 className="w-6 h-6 animate-spin text-[#D4AF72]" />
+                  <span>Loading interactive property location map...</span>
+                </div>
+              ) : mapsApiKey && !mapErrorReason && isValidCoordinate(project.coordinates) ? (
+                <APIProvider
+                  key={`project-detail-map-${mapRetryToken}`}
+                  apiKey={mapsApiKey}
+                  libraries={['marker']}
+                  language="en"
+                  region="AE"
+                >
+                  <GoogleMapsGuard
+                    loadingLabel={`Loading ${project.community} map tiles...`}
+                    onStatusError={(reason) => setMapErrorReason(reason)}
+                  >
                     <div className="w-full h-full relative">
                       <GoogleMap
                         defaultCenter={project.coordinates}
@@ -1857,18 +1903,41 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       <p className="mt-1">
                         {project.fullAddress || `${project.community}, ${project.emirate}, UAE`}
                       </p>
-                      <a
-                        href={
-                          project.googleMapsUrl ||
-                          `https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] inline-flex items-center gap-1.5"
-                      >
-                        <Navigation className="w-3.5 h-3.5" />
-                        <span>Open in Google Maps</span>
-                      </a>
+                      {mapErrorReason && (
+                        <p className="text-[11px] text-[#FCA5A5] mt-2 max-w-sm">
+                          {mapErrorReason === 'quota_exceeded'
+                            ? 'Google Maps daily preview quota exceeded. Exact GPS directions remain active.'
+                            : 'Unable to load Google Maps tiles for this view.'}
+                        </p>
+                      )}
+                      <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                        {mapErrorReason && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMapErrorReason(null);
+                              setMapRetryToken((n) => n + 1);
+                              onRetryMapsConfig?.();
+                            }}
+                            className="px-3.5 py-2 border border-[#D4AF72]/40 text-xs font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] inline-flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <RefreshCw className="w-3.5 h-3.5" />
+                            <span>Retry Live Map</span>
+                          </button>
+                        )}
+                        <a
+                          href={getGoogleMapsDirectionsUrl(
+                            project.coordinates,
+                            project.googleMapsUrl
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] inline-flex items-center gap-1.5"
+                        >
+                          <Navigation className="w-3.5 h-3.5" />
+                          <span>Open in Google Maps</span>
+                        </a>
+                      </div>
                     </>
                   ) : (
                     <>
@@ -1979,30 +2048,40 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       </span>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 pt-1">
-                      <p>
-                        Official Hotline:{' '}
-                        <a
-                          href={`tel:${developer.salesOfficePhone || project.salesOfficePhone || '+918810286629'}`}
-                          className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72]"
-                        >
-                          {developer.salesOfficePhone ||
-                            project.salesOfficePhone ||
-                            '+91 88102 86629'}
-                        </a>
-                      </p>
-                      <p>
-                        WhatsApp:{' '}
-                        <a
-                          href={`https://wa.me/${(developer.salesOfficeWhatsapp || project.salesOfficeWhatsapp || '918810286629').replace(/[^0-9]/g, '')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#6EE7B7] font-semibold hover:underline"
-                        >
-                          {developer.salesOfficeWhatsapp ||
-                            project.salesOfficeWhatsapp ||
-                            '+91 88102 86629'}
-                        </a>
-                      </p>
+                      {(() => {
+                        const hotline =
+                          developer.salesOfficePhone ||
+                          project.salesOfficePhone ||
+                          companyInfo.primaryPhone;
+                        const whatsapp =
+                          developer.salesOfficeWhatsapp ||
+                          project.salesOfficeWhatsapp ||
+                          companyInfo.whatsappNumber;
+                        return (
+                          <>
+                            <p>
+                              Official Hotline:{' '}
+                              <a
+                                href={`tel:${hotline.replace(/\s+/g, '')}`}
+                                className="text-[#F5F1E8] font-semibold font-mono-tabular hover:text-[#D4AF72]"
+                              >
+                                {hotline}
+                              </a>
+                            </p>
+                            <p>
+                              WhatsApp:{' '}
+                              <a
+                                href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#6EE7B7] font-semibold font-mono-tabular hover:underline"
+                              >
+                                {whatsapp}
+                              </a>
+                            </p>
+                          </>
+                        );
+                      })()}
                     </div>
                     <div className="pt-1">
                       <a
@@ -2060,7 +2139,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               </p>
               {project.investment.historicalTransactions.length > 0 ? (
                 <div className="h-56 sm:h-60 w-full min-w-0">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                     <AreaChart data={project.investment.historicalTransactions}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
                       <XAxis dataKey="quarter" tick={{ fontSize: 11, fill: '#A5A19A' }} />
