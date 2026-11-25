@@ -85,6 +85,41 @@ export type TourAvailabilityStatus =
   | 'video_available'
   | 'coming_soon';
 
+export type VideoCreatorType =
+  | 'independent_agent'
+  | 'independent_reviewer'
+  | 'construction_monitor'
+  | 'developer_official';
+
+export type VideoCategory =
+  | 'walkthrough'
+  | 'apartment_tour'
+  | 'construction_progress'
+  | 'area_drone'
+  | 'developer_showcase';
+
+export type VideoPriorityLevel = 1 | 2 | 3 | 4;
+// 1 = Independent Project Walkthrough, 2 = Independent Property Video, 3 = Verified Portal, 4 = Developer Official
+
+export interface ProjectVideoItem {
+  id: string;
+  projectId: string;
+  title: string;
+  channelName: string;
+  channelType: VideoCreatorType;
+  priorityLevel: VideoPriorityLevel;
+  priorityLabel: string;
+  publishedAt: string;
+  thumbnailUrl: string;
+  embedUrl: string;
+  sourceUrl: string;
+  videoCategory: VideoCategory;
+  duration?: string;
+  viewCount?: string;
+  verifiedProjectSpecific: boolean;
+  notes?: string;
+}
+
 export interface VirtualTourHotspot {
   id: string;
   yawDeg: number;
@@ -293,11 +328,14 @@ export interface Project {
   salesOfficePhone?: string;
   salesOfficeWhatsapp?: string;
   salesOfficeEmail?: string;
+  developerWebsite?: string;
   fullAddress?: string;
   googleMapsUrl?: string;
   lastVerifiedAt?: string;
   verificationSource?: string;
   walkthroughVideoUrl?: string;
+  videoItems?: ProjectVideoItem[];
+  primaryVideo?: ProjectVideoItem;
   sourceOrigin?: 'excel_import' | 'manual_admin' | 'catalog_seed';
   importBatchId?: string;
   createdAt?: string;
@@ -323,6 +361,9 @@ export interface ExcelImportReport {
   duplicateRecordsInFile: number;
   projectsWithVerifiedPhotos: number;
   projectsWithAvailable360Tours: number;
+  projectsWithVideoAlternatives?: number;
+  projectsWithIndependentVideos?: number;
+  projectsWithMediaNotAvailable?: number;
   errors: ExcelImportRowError[];
 }
 
@@ -343,6 +384,10 @@ export interface CatalogMediaAuditReport {
   duplicateCollisions: ImageCollisionRecord[];
   projectsWithGenuine360Tours: number;
   projectsWith3dOrVideoTours: number;
+  projectsWithIndependentWalkthroughs?: number;
+  projectsWithConstructionVideos?: number;
+  projectsWithDeveloperVideos?: number;
+  projectsWithMediaNotAvailable?: number;
   projectsWithMissingTours: number;
   projectsWithProjectUrls: number;
   projectsMissingProjectUrls: number;
@@ -493,6 +538,8 @@ export interface SearchFilters {
   developerId: string;
   minBudgetAed: number | '';
   maxBudgetAed: number | '';
+  minSizeSqFt: number | '';
+  maxSizeSqFt: number | '';
   maxMonthlyPaymentAed: number | '';
   maxDownPaymentPct: number | '';
   minConstructionPct: number | '';
@@ -503,6 +550,8 @@ export interface SearchFilters {
   minYieldPct: number | '';
   maxLandmarkDistanceKm: number | '';
   landmarkCategory: string;
+  tourFilter: '' | 'any_media' | '3d_or_360' | 'video_only';
+  investmentOnly: boolean;
   waterfrontOnly: boolean;
   verifiedAvailableOnly: boolean;
   sortBy: SortOption;

@@ -6,6 +6,7 @@ import {
   FloorPlanItem,
   NearbyLandmark,
   Project,
+  ProjectVideoItem,
 } from '../src/types/realEstate.ts';
 import {
   EXCEL_182_DEVELOPERS,
@@ -190,6 +191,24 @@ const DEVELOPER_SALES_OFFICES: Record<
     salesOfficeEmail: 'info@thoe.com',
   },
 };
+
+const REAL_VIDEO_INDEX_PATH = path.resolve(__dirname, '../src/data/realVideoIndex.json');
+const REAL_VIDEO_INDEX: Record<string, ProjectVideoItem[]> = fs.existsSync(REAL_VIDEO_INDEX_PATH)
+  ? JSON.parse(fs.readFileSync(REAL_VIDEO_INDEX_PATH, 'utf-8'))
+  : {};
+
+function getVerifiedProjectVideos(p: Project): ProjectVideoItem[] {
+  const indexed = REAL_VIDEO_INDEX[p.id];
+  if (!Array.isArray(indexed) || indexed.length === 0) {
+    return [];
+  }
+  return [...indexed].sort((a, b) => {
+    if (a.priorityLevel !== b.priorityLevel) {
+      return a.priorityLevel - b.priorityLevel;
+    }
+    return b.publishedAt.localeCompare(a.publishedAt);
+  });
+}
 
 function getCommunityInfrastructure(community: string, emirate: string): {
   landmarks: NearbyLandmark[];
@@ -684,6 +703,26 @@ const enrichedProjects: Project[] = EXCEL_182_PROJECTS.map((p) => {
   )}`;
 
   const floorPlans = generateFloorPlans(p);
+  const matchedDev = EXCEL_182_DEVELOPERS.find((d) => d.id === p.developerId);
+  const developerWebsite = matchedDev?.website || p.developerWebsite || 'https://whitecollarrealty.com';
+
+  const videoItems = getVerifiedProjectVideos(p);
+  const primaryVideo = videoItems.length > 0 ? videoItems[0] : undefined;
+  const walkthroughVideoUrl = primaryVideo ? primaryVideo.embedUrl : undefined;
+
+  const has3dTour =
+    p.virtualTour?.tourStatus === '3d_available' || p.virtualTour?.tourStatus === '360_available';
+
+  const virtualTour = {
+    ...p.virtualTour,
+    tourStatus: has3dTour
+      ? p.virtualTour.tourStatus
+      : videoItems.length > 0
+      ? ('video_available' as const)
+      : ('coming_soon' as const),
+    available: has3dTour ? true : videoItems.length > 0,
+    walkthroughVideoUrl,
+  };
 
   return {
     ...p,
@@ -694,9 +733,14 @@ const enrichedProjects: Project[] = EXCEL_182_PROJECTS.map((p) => {
     salesOfficePhone: devOffice.salesOfficePhone,
     salesOfficeWhatsapp: devOffice.salesOfficeWhatsapp,
     salesOfficeEmail: devOffice.salesOfficeEmail,
+    developerWebsite,
+    walkthroughVideoUrl,
+    videoItems,
+    primaryVideo,
+    virtualTour,
     fullAddress,
     googleMapsUrl,
-    lastVerifiedAt: '2026-11-24T12:00:00Z',
+    lastVerifiedAt: '2026-11-25T00:00:00Z',
     verificationSource: `UAE Land Registry & Authorized Developer Documentation (${p.registrationNumber})`,
     nearbyLandmarks: infra.landmarks,
     floorPlans,
@@ -717,7 +761,7 @@ const enrichedProjects: Project[] = EXCEL_182_PROJECTS.map((p) => {
         { quarter: '2026 Q1', avgPricePerSqFtAed: p.pricePerSqFtAed, transactionVolume: 280 },
       ],
     },
-    updatedAt: '2026-11-24T12:00:00Z',
+    updatedAt: '2026-11-25T00:00:00Z',
   };
 });
 
@@ -727,6 +771,15 @@ const updatedReport = {
   projectsWithVerifiedPhotos: 182,
   projectsWithAvailable360Tours: enrichedProjects.filter(
     (p) => p.virtualTour?.tourStatus === '3d_available' || p.virtualTour?.tourStatus === '360_available'
+  ).length,
+  projectsWithVideoAlternatives: enrichedProjects.filter(
+    (p) => (p.videoItems?.length || 0) > 0
+  ).length,
+  projectsWithIndependentVideos: enrichedProjects.filter(
+    (p) => p.primaryVideo?.priorityLevel === 1 || p.primaryVideo?.priorityLevel === 2
+  ).length,
+  projectsWithMediaNotAvailable: enrichedProjects.filter(
+    (p) => p.virtualTour?.tourStatus === 'coming_soon'
   ).length,
 };
 

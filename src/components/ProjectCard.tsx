@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Bookmark, Building2, Compass, GitCompare, MapPin } from 'lucide-react';
+import { Bookmark, Building2, Compass, GitCompare, MapPin, Video } from 'lucide-react';
 import { CurrencyCode, Language, Project } from '../types/realEstate.ts';
-import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
+import {
+  formatCurrency,
+  formatInrTimestampNote,
+  formatProjectPrice,
+} from '../utils/currency.ts';
 import { TRANSLATIONS } from '../i18n/translations.ts';
 import {
   getEffectiveTourStatus,
@@ -41,6 +45,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       ? MEDIA_CLASSIFICATION_LABELS[project.heroClassification]
       : null;
 
+  const sizeRangeText =
+    project.minSizeSqFt > 0
+      ? project.maxSizeSqFt > project.minSizeSqFt
+        ? `${project.minSizeSqFt.toLocaleString()}–${project.maxSizeSqFt.toLocaleString()} sq.ft`
+        : `${project.minSizeSqFt.toLocaleString()} sq.ft`
+      : 'Size on Request';
+
+  const verifiedDateLabel = project.lastVerifiedAt
+    ? new Date(project.lastVerifiedAt).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+    : null;
+
   return (
     <article
       onClick={() => onSelect(project)}
@@ -52,37 +71,38 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           onSelect(project);
         }
       }}
-      className="group bg-white border border-[#E5E2DC] hover:border-[#9A7B3C] transition-colors duration-200 cursor-pointer flex flex-col focus-visible:outline-2 focus-visible:outline-[#9A7B3C]"
+      className="group bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] hover:shadow-[0_18px_46px_-18px_rgba(212,175,114,0.28)] transition-all duration-300 cursor-pointer flex flex-col focus-visible:outline-2 focus-visible:outline-[#D4AF72]"
     >
       {/* Visual Media Slot */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#F3F1EC]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#121212]">
         {!imgFailed && project.heroImage ? (
           <img
             src={project.heroImage}
             alt={`${project.name} in ${project.community}, ${project.emirate}`}
+            loading="lazy"
             referrerPolicy="no-referrer"
             onError={() => setImgFailed(true)}
-            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-[#181D27] text-white p-6 text-center">
-            <Building2 className="w-8 h-8 mb-2.5 text-[#E6C77A]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E6C77A]">
+          <div className="w-full h-full flex flex-col items-center justify-center bg-[#121212] text-[#F5F1E8] p-6 text-center">
+            <Building2 className="w-8 h-8 mb-2.5 text-[#D4AF72]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
               PROJECT PHOTOGRAPHS NOT AVAILABLE
             </span>
-            <span className="font-display text-lg font-semibold text-white mt-1 line-clamp-2">
+            <span className="font-display text-lg font-medium text-[#F5F1E8] mt-1 line-clamp-2">
               {displayName}
             </span>
-            <span className="text-[11px] text-white/65 mt-1">
+            <span className="text-[11px] text-[#A5A19A] mt-1">
               Unique project photography pending verification
             </span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/90 via-[#080808]/25 to-transparent pointer-events-none" />
 
-        {/* Honest Media Classification Label (Top Left — Clean Scrim Text) */}
+        {/* Honest Media Classification Label (Top Left) */}
         {!imgFailed && project.heroImage && mediaClassLabel && (
-          <div className="absolute top-3 left-3 bg-black/70 text-white/95 px-2.5 py-1 text-[11px] font-medium">
+          <div className="absolute top-3 left-3 bg-[#080808]/85 border border-[#D4AF72]/30 text-[#F5F1E8] px-2.5 py-1 text-[11px] font-medium">
             {mediaClassLabel}
           </div>
         )}
@@ -93,10 +113,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             type="button"
             onClick={(e) => onToggleCompare(project, e)}
             title={isCompared ? t.comparingBtn : t.compareBtn}
-            className={`h-9 px-3 text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
+            className={`h-9 px-3 text-xs font-medium flex items-center gap-1.5 transition-colors duration-200 whitespace-nowrap shrink-0 border ${
               isCompared
-                ? 'bg-[#9A7B3C] text-white'
-                : 'bg-white/95 text-[#111827] hover:bg-white'
+                ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
+                : 'bg-[#080808]/85 text-[#F5F1E8] border-[#D4AF72]/35 hover:border-[#D4AF72] hover:text-[#D4AF72]'
             }`}
           >
             <GitCompare className="w-3.5 h-3.5" />
@@ -106,32 +126,42 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             type="button"
             onClick={(e) => onToggleSave(project, e)}
             aria-label={isSaved ? t.savedBtn : t.saveBtn}
-            className={`w-9 h-9 flex items-center justify-center transition-colors ${
+            className={`w-9 h-9 flex items-center justify-center transition-colors duration-200 border ${
               isSaved
-                ? 'bg-[#111827] text-[#E6C77A]'
-                : 'bg-white/95 text-[#111827] hover:bg-white'
+                ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
+                : 'bg-[#080808]/85 text-[#F5F1E8] border-[#D4AF72]/35 hover:border-[#D4AF72] hover:text-[#D4AF72]'
             }`}
           >
             <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
           </button>
         </div>
 
-        {/* Bottom Scrim Location & Tour Status */}
-        <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-2 text-white">
-          <p className="text-xs text-white/90 flex items-center gap-1.5 min-w-0 truncate">
-            <MapPin className="w-3.5 h-3.5 shrink-0" />
+        {/* Bottom Scrim Location & Section 8 Media Availability Badge */}
+        <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-2 text-[#F5F1E8]">
+          <p className="text-xs text-[#F5F1E8]/90 flex items-center gap-1.5 min-w-0 truncate">
+            <MapPin className="w-3.5 h-3.5 shrink-0 text-[#D4AF72]" />
             <span className="truncate">
               {project.community} · {project.emirate}
             </span>
           </p>
-          <span
-            className={`text-[11px] font-medium flex items-center gap-1 whitespace-nowrap shrink-0 ${
-              tourStatus !== 'coming_soon' ? 'text-[#E6C77A]' : 'text-white/80'
-            }`}
-          >
-            <Compass className="w-3.5 h-3.5" />
-            <span>{tourLabel}</span>
-          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {tourStatus === '3d_available' || tourStatus === '360_available' ? (
+              <span className="text-[11px] font-semibold text-[#080808] bg-[#D4AF72] px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap shadow-sm">
+                <Compass className="w-3 h-3" />
+                <span>{tourLabel}</span>
+              </span>
+            ) : tourStatus === 'video_available' ? (
+              <span className="text-[11px] font-semibold text-[#ECFDF5] bg-[#064E3B]/95 border border-[#34D399]/45 px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap shadow-sm">
+                <Video className="w-3 h-3 text-[#6EE7B7]" />
+                <span>{tourLabel}</span>
+              </span>
+            ) : (
+              <span className="text-[11px] font-medium text-[#A5A19A] bg-[#080808]/85 border border-[#D4AF72]/20 px-2.5 py-0.5 flex items-center gap-1 whitespace-nowrap">
+                <Compass className="w-3 h-3 text-[#A5A19A]" />
+                <span>{tourLabel}</span>
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -139,48 +169,58 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Clean Unboxed Metadata */}
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#4B5563] mb-2">
-            <span className="font-medium text-[#9A7B3C]">{project.category}</span>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#A5A19A] mb-2">
+            <span className="font-medium text-[#D4AF72]">{project.category}</span>
             <span aria-hidden="true">·</span>
             <span>{project.developerName}</span>
             <span aria-hidden="true">·</span>
             <span className="tabular-nums">{project.handoverDate}</span>
           </div>
 
-          <h3 className="font-display text-2xl font-semibold text-[#111827] leading-snug mb-1.5 group-hover:text-[#9A7B3C] transition-colors">
+          <h3 className="font-display text-2xl font-medium text-[#F5F1E8] leading-snug mb-1.5 group-hover:text-[#D4AF72] transition-colors duration-200">
             {displayName}
           </h3>
 
-          <p className="text-xs text-[#4B5563] mb-3 truncate">
-            {project.propertyTypes.slice(0, 4).join(' · ')}
+          <p className="text-xs text-[#A5A19A] mb-3.5 truncate">
+            {project.propertyTypes.slice(0, 3).join(' · ')} · {sizeRangeText}
           </p>
 
           {/* Pricing & Yield Row */}
-          <div className="grid grid-cols-2 gap-4 py-3 border-y border-[#E5E2DC] mb-4">
+          <div className="grid grid-cols-2 gap-4 py-3.5 border-y border-[#D4AF72]/15 mb-4">
             <div>
-              <p className="text-xs text-[#6B7280] mb-0.5">Starting Price</p>
-              <p className="font-mono-tabular text-base font-semibold text-[#111827]">
+              <p className="text-[11px] uppercase tracking-wider text-[#A5A19A] mb-0.5">
+                Starting Price
+              </p>
+              <p className="font-mono-tabular text-base font-semibold text-[#F5F1E8]">
                 {formatProjectPrice(project.startingPriceAed, currency)}
               </p>
               {currency !== 'INR' && project.startingPriceAed > 0 && (
-                <p className="text-[11px] font-mono-tabular text-[#9A7B3C] font-medium mt-0.5">
+                <p
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5"
+                  title={formatInrTimestampNote()}
+                >
                   ≈ {formatCurrency(project.startingPriceAed, 'INR')}
                 </p>
               )}
               {currency === 'INR' && project.startingPriceAed > 0 && (
-                <p className="text-[11px] font-mono-tabular text-[#9A7B3C] font-medium mt-0.5">
+                <p
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium mt-0.5"
+                  title={formatInrTimestampNote()}
+                >
                   ≈ AED {project.startingPriceAed.toLocaleString()}
                 </p>
               )}
             </div>
             <div>
-              <p className="text-xs text-[#6B7280] mb-0.5">Est. Gross ROI / Bathrooms</p>
-              <p className="font-mono-tabular text-sm font-semibold text-[#047857]">
+              <p className="text-[11px] uppercase tracking-wider text-[#A5A19A] mb-0.5">
+                Est. Yield / Baths
+              </p>
+              <p className="font-mono-tabular text-sm font-semibold text-[#6EE7B7]">
                 {project.investment.grossYieldPct
-                  ? `${project.investment.grossYieldPct.toFixed(1)}% Gross Yield`
+                  ? `${project.investment.grossYieldPct.toFixed(1)}% Est. Gross`
                   : 'Yield on Request'}
               </p>
-              <p className="text-[11px] text-[#4B5563] mt-0.5 truncate">
+              <p className="text-[11px] text-[#A5A19A] mt-0.5 truncate">
                 {project.bathrooms || '1 - 3 Bathrooms'}
               </p>
             </div>
@@ -189,40 +229,42 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Real-Time Inventory Truthfulness Block */}
           <div className="mb-4">
             {inv.status === 'verified_live' && inv.availableUnits !== null ? (
-              <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
+              <div className="bg-[#121212] border border-[#D4AF72]/20 p-3">
                 <div className="flex items-center justify-between text-xs mb-1.5">
-                  <span className="font-semibold text-[#047857]">Verified Live Inventory</span>
-                  <span className="font-mono-tabular text-[#4B5563]">
+                  <span className="font-semibold text-[#6EE7B7]">Verified Live Inventory</span>
+                  <span className="font-mono-tabular text-[#A5A19A]">
                     {inv.availabilityPct !== null ? `${inv.availabilityPct}% Available` : ''}
                   </span>
                 </div>
                 <div className="grid grid-cols-4 gap-2 text-xs font-mono-tabular">
                   <div>
-                    <span className="block text-[11px] text-[#6B7280]">Total</span>
-                    <span className="font-semibold text-[#111827]">{inv.totalRegisteredUnits}</span>
+                    <span className="block text-[11px] text-[#A5A19A]">Total</span>
+                    <span className="font-semibold text-[#F5F1E8]">{inv.totalRegisteredUnits}</span>
                   </div>
                   <div>
-                    <span className="block text-[11px] text-[#6B7280]">Available</span>
-                    <span className="font-semibold text-[#047857]">{inv.availableUnits}</span>
+                    <span className="block text-[11px] text-[#A5A19A]">Available</span>
+                    <span className="font-semibold text-[#6EE7B7]">{inv.availableUnits}</span>
                   </div>
                   <div>
-                    <span className="block text-[11px] text-[#6B7280]">Reserved</span>
-                    <span className="font-semibold text-[#B45309]">{inv.reservedUnits ?? 0}</span>
+                    <span className="block text-[11px] text-[#A5A19A]">Reserved</span>
+                    <span className="font-semibold text-[#D4AF72]">{inv.reservedUnits ?? 0}</span>
                   </div>
                   <div>
-                    <span className="block text-[11px] text-[#6B7280]">Sold</span>
-                    <span className="font-semibold text-[#4B5563]">{inv.soldUnits ?? 0}</span>
+                    <span className="block text-[11px] text-[#A5A19A]">Sold</span>
+                    <span className="font-semibold text-[#A5A19A]">{inv.soldUnits ?? 0}</span>
                   </div>
                 </div>
-                <p className="text-[11px] text-[#6B7280] mt-2 truncate" title={inv.dataSource}>
+                <p className="text-[11px] text-[#A5A19A] mt-2 truncate" title={inv.dataSource}>
                   Source: {inv.dataSource}
+                  {verifiedDateLabel ? ` · Verified ${verifiedDateLabel}` : ''}
                 </p>
               </div>
             ) : (
-              <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-                <p className="text-xs font-medium text-[#4B5563] mb-1">{t.inventoryUnavailable}</p>
-                <p className="text-[11px] text-[#6B7280] truncate" title={inv.dataSource}>
+              <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+                <p className="text-xs font-medium text-[#F5F1E8] mb-1">{t.inventoryUnavailable}</p>
+                <p className="text-[11px] text-[#A5A19A] truncate" title={inv.dataSource}>
                   Registry: {inv.dataSource}
+                  {verifiedDateLabel ? ` · Verified ${verifiedDateLabel}` : ''}
                 </p>
               </div>
             )}
@@ -230,11 +272,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
 
         {/* Footer Construction & Action */}
-        <div className="flex items-center justify-between pt-2 text-xs font-medium">
-          <span className="text-[#4B5563] tabular-nums truncate pr-2">
+        <div className="flex items-center justify-between pt-2 border-t border-[#D4AF72]/10 text-xs font-medium">
+          <span className="text-[#A5A19A] tabular-nums truncate pr-2">
             Construction {project.constructionPct}% · {project.status}
           </span>
-          <span className="text-[#9A7B3C] group-hover:underline whitespace-nowrap shrink-0">
+          <span className="text-[#D4AF72] group-hover:underline whitespace-nowrap shrink-0">
             {t.viewDetails} →
           </span>
         </div>

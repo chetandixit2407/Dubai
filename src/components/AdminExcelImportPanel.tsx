@@ -320,13 +320,13 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
   return (
     <div className="space-y-6">
       {/* 1. LIVE DATABASE MEDIA, DUPLICATE-IMAGE & 360° AUDIT REPORT */}
-      <div className="bg-white border border-[#E5E2DC] p-6 space-y-4">
+      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#9A7B3C]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
               Strict Anti-Duplication & Media Verification Report
             </p>
-            <h3 className="font-display text-2xl font-semibold text-[#111827]">
+            <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
               Database Media, URL & 360° Tour Integrity Audit
             </h3>
           </div>
@@ -338,78 +338,82 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                 auditReport
               )
             }
-            className="h-9 px-3.5 border border-[#E5E2DC] hover:border-[#9A7B3C] text-xs font-medium flex items-center gap-1.5"
+            className="h-9 px-3.5 border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] text-xs font-medium flex items-center gap-1.5 cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-[#9A7B3C]" />
+            <Download className="w-3.5 h-3.5 text-[#D4AF72]" />
             <span>Download Audit JSON</span>
           </button>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 text-xs">
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">Total Projects</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#111827] mt-1">
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">Total Projects</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#F5F1E8] mt-1">
               {auditReport.totalProjects}
             </p>
           </div>
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">Verified Real Photos</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#047857] mt-1">
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">Verified Real Photos</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#6EE7B7] mt-1">
               {auditReport.projectsWithVerifiedRealImages}
             </p>
           </div>
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">Renders Only</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#111827] mt-1">
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">Renders Only</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#F5F1E8] mt-1">
               {auditReport.projectsWithRendersOnly}
             </p>
           </div>
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">Missing Photos</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#B45309] mt-1">
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">Missing Photos</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#FCD34D] mt-1">
               {auditReport.projectsWithMissingImages}
             </p>
           </div>
           <div
             className={`border p-3 ${
               auditReport.projectsWithDuplicateImages === 0
-                ? 'bg-[#ECFDF5] border-[#A7F3D0]'
-                : 'bg-[#FEF2F2] border-[#FECACA]'
+                ? 'bg-[#064E3B]/45 border-[#34D399]/35'
+                : 'bg-[#7F1D1D]/45 border-[#F87171]/35'
             }`}
           >
-            <p className="text-[#4B5563]">Duplicate Images</p>
+            <p className="text-[#F5F1E8]">Duplicate Images</p>
             <p
               className={`font-mono-tabular text-xl font-semibold mt-1 ${
                 auditReport.projectsWithDuplicateImages === 0
-                  ? 'text-[#047857]'
-                  : 'text-[#B91C1C]'
+                  ? 'text-[#6EE7B7]'
+                  : 'text-[#FCA5A5]'
               }`}
             >
               {auditReport.projectsWithDuplicateImages}
             </p>
           </div>
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">360° Tours</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#9A7B3C] mt-1">
-              {auditReport.projectsWithGenuine360Tours}
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">3D / 360° Tours</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#D4AF72] mt-1">
+              {auditReport.projectsWithGenuine360Tours +
+                projects.filter((p) => p.virtualTour?.tourStatus === '3d_available').length}
             </p>
           </div>
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">3D / Video Tours</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#111827] mt-1">
-              {auditReport.projectsWith3dOrVideoTours}
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">Verified Videos (Indep.)</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#6EE7B7] mt-1">
+              {projects.filter((p) => (p.videoItems?.length || 0) > 0).length} (
+              {(auditReport.projectsWithIndependentWalkthroughs || 0) +
+                (auditReport.projectsWithConstructionVideos || 0)}
+              )
             </p>
           </div>
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-3">
-            <p className="text-[#6B7280]">Project URLs</p>
-            <p className="font-mono-tabular text-xl font-semibold text-[#111827] mt-1">
-              {auditReport.projectsWithProjectUrls} / {auditReport.totalProjects}
+          <div className="bg-[#121212] border border-[#D4AF72]/15 p-3">
+            <p className="text-[#A5A19A]">Media Not Available</p>
+            <p className="font-mono-tabular text-xl font-semibold text-[#FCD34D] mt-1">
+              {auditReport.projectsWithMediaNotAvailable ?? auditReport.projectsWithMissingTours}
             </p>
           </div>
         </div>
 
         {auditReport.duplicateCollisions.length > 0 ? (
-          <div className="bg-[#FEF2F2] border border-[#FECACA] p-4 text-xs text-[#991B1B] space-y-2">
+          <div className="bg-[#7F1D1D]/45 border border-[#F87171]/35 p-4 text-xs text-[#FCA5A5] space-y-2">
             <div className="flex items-center gap-2 font-semibold">
               <ShieldAlert className="w-4 h-4 shrink-0" />
               <span>
@@ -427,7 +431,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
             </ul>
           </div>
         ) : (
-          <div className="bg-[#ECFDF5] border border-[#A7F3D0] px-4 py-2.5 text-xs text-[#065F46] flex items-center gap-2 font-medium">
+          <div className="bg-[#064E3B]/45 border border-[#34D399]/35 px-4 py-2.5 text-xs text-[#6EE7B7] flex items-center gap-2 font-medium">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             <span>
               Zero-Duplicate Policy Verified: 0 projects share identical photographs or image hashes.
@@ -437,23 +441,23 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
       </div>
 
       {/* 2. EXCEL WORKBOOK (.XLSX / .XLS / .CSV) 182+ RECORD SYNCHRONIZATION */}
-      <div className="bg-white border border-[#E5E2DC] p-6 space-y-5">
+      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 text-[#9A7B3C] text-xs font-semibold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-[#D4AF72] text-xs font-semibold uppercase tracking-wider">
               <FileSpreadsheet className="w-4 h-4" />
               <span>Excel Workbook Synchronization</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold text-[#111827] mt-1">
+            <h3 className="font-display text-2xl font-semibold text-[#F5F1E8] mt-1">
               Import & Sync UAE Projects Workbook (.xlsx / .xls / .csv)
             </h3>
-            <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
+            <p className="text-xs text-[#A5A19A] mt-1 leading-relaxed">
               Imports every row without skipping, preserves exact project names, locations, Emirates, and project URLs, assigns deterministic stable project IDs so re-uploading updates existing records with zero duplicates, and verifies all image URLs against cross-project collisions.
             </p>
           </div>
 
           <label
-            className={`h-10 px-4 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] cursor-pointer flex items-center gap-2 ${
+            className={`h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] cursor-pointer flex items-center gap-2 transition-colors ${
               !canManageProjects || parsing ? 'opacity-50 pointer-events-none' : ''
             }`}
           >
@@ -471,13 +475,13 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
 
         {/* Import Verification Report */}
         {importReport && (
-          <div className="border border-[#E5E2DC] bg-[#FAF9F6] p-5 space-y-4">
+          <div className="border border-[#D4AF72]/20 bg-[#121212] p-5 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#9A7B3C]">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                   Mandatory Excel Import Verification Report
                 </p>
-                <h4 className="font-display text-xl font-semibold text-[#111827]">
+                <h4 className="font-display text-xl font-semibold text-[#F5F1E8]">
                   {importReport.fileName} · Batch {importReport.batchId}
                 </h4>
               </div>
@@ -490,9 +494,9 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                       importReport
                     )
                   }
-                  className="h-9 px-3 border border-[#E5E2DC] bg-white text-xs font-medium hover:border-[#9A7B3C] flex items-center gap-1.5"
+                  className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Download className="w-3.5 h-3.5" />
+                  <Download className="w-3.5 h-3.5 text-[#D4AF72]" />
                   <span>Export Report JSON</span>
                 </button>
                 {stagedProjects.length > 0 && canManageProjects ? (
@@ -500,7 +504,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                     type="button"
                     disabled={committing}
                     onClick={handleCommitBatchToFirestore}
-                    className="h-9 px-4 bg-[#047857] text-white text-xs font-semibold hover:opacity-90 disabled:opacity-50"
+                    className="h-9 px-4 bg-[#064E3B] border border-[#34D399]/40 text-[#6EE7B7] text-xs font-semibold hover:bg-[#047857] hover:text-[#F5F1E8] disabled:opacity-50 cursor-pointer"
                   >
                     {committing
                       ? 'Syncing to Firestore...'
@@ -533,7 +537,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                           setCommitting(false);
                         }
                       }}
-                      className="h-9 px-4 bg-[#111827] text-white text-xs font-semibold hover:bg-[#9A7B3C] disabled:opacity-50"
+                      className="h-9 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] disabled:opacity-50 cursor-pointer"
                     >
                       {committing
                         ? 'Syncing 182 Projects...'
@@ -545,63 +549,63 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Total Excel Records</span>
-                <strong className="font-mono-tabular text-lg text-[#111827]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Total Excel Records</span>
+                <strong className="font-mono-tabular text-lg text-[#F5F1E8]">
                   {importReport.totalExcelRecords}
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Ready / Imported</span>
-                <strong className="font-mono-tabular text-lg text-[#047857]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Ready / Imported</span>
+                <strong className="font-mono-tabular text-lg text-[#6EE7B7]">
                   {importReport.successfullyImported} ({importReport.createdCount} new ·{' '}
                   {importReport.updatedCount} updates)
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Failed Imports</span>
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Failed Imports</span>
                 <strong
                   className={`font-mono-tabular text-lg ${
-                    importReport.failedImports > 0 ? 'text-[#B91C1C]' : 'text-[#047857]'
+                    importReport.failedImports > 0 ? 'text-[#FCA5A5]' : 'text-[#6EE7B7]'
                   }`}
                 >
                   {importReport.failedImports}
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Missing Project URLs</span>
-                <strong className="font-mono-tabular text-lg text-[#B45309]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Missing Project URLs</span>
+                <strong className="font-mono-tabular text-lg text-[#FCD34D]">
                   {importReport.missingProjectUrls}
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Duplicate Rows in File</span>
-                <strong className="font-mono-tabular text-lg text-[#111827]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Duplicate Rows in File</span>
+                <strong className="font-mono-tabular text-lg text-[#F5F1E8]">
                   {importReport.duplicateRecordsInFile}
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Verified Project Photos</span>
-                <strong className="font-mono-tabular text-lg text-[#111827]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Verified Project Photos</span>
+                <strong className="font-mono-tabular text-lg text-[#F5F1E8]">
                   {importReport.projectsWithVerifiedPhotos}
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Available 360° / 3D Tours</span>
-                <strong className="font-mono-tabular text-lg text-[#9A7B3C]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Available 360° / 3D Tours</span>
+                <strong className="font-mono-tabular text-lg text-[#D4AF72]">
                   {importReport.projectsWithAvailable360Tours}
                 </strong>
               </div>
-              <div className="bg-white border border-[#E5E2DC] p-3">
-                <span className="text-[#6B7280] block">Commit Status</span>
-                <strong className="font-mono-tabular text-sm text-[#111827]">
+              <div className="bg-[#1B1B1B] border border-[#D4AF72]/15 p-3">
+                <span className="text-[#A5A19A] block">Commit Status</span>
+                <strong className="font-mono-tabular text-sm text-[#F5F1E8]">
                   {stagedProjects.length > 0 ? 'Staged · Click Commit' : 'Committed to Firestore'}
                 </strong>
               </div>
             </div>
 
             {importReport.errors.length > 0 && (
-              <div className="bg-[#FEF2F2] border border-[#FECACA] p-3 text-xs text-[#991B1B] space-y-1">
+              <div className="bg-[#7F1D1D]/45 border border-[#F87171]/35 p-3 text-xs text-[#FCA5A5] space-y-1">
                 <p className="font-semibold flex items-center gap-1.5">
                   <AlertTriangle className="w-3.5 h-3.5" />
                   <span>Row Warnings / Failed Rows ({importReport.errors.length})</span>
@@ -616,25 +620,25 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
             )}
 
             {stagedProjects.length > 0 && (
-              <div className="max-h-64 overflow-y-auto border border-[#E5E2DC] bg-white">
+              <div className="max-h-64 overflow-y-auto border border-[#D4AF72]/20 bg-[#080808]">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="border-b border-[#E5E2DC] bg-[#FAF9F6] text-[#6B7280]">
+                    <tr className="border-b border-[#D4AF72]/20 bg-[#121212] text-[#A5A19A]">
                       <th className="py-2 px-3">Project Name</th>
                       <th className="py-2 px-3">Emirate & Location</th>
                       <th className="py-2 px-3">Developer</th>
                       <th className="py-2 px-3">Project URL</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E5E2DC]">
+                  <tbody className="divide-y divide-[#D4AF72]/10">
                     {stagedProjects.slice(0, 50).map((p) => (
                       <tr key={p.id}>
-                        <td className="py-2 px-3 font-medium text-[#111827]">{p.name}</td>
-                        <td className="py-2 px-3 text-[#4B5563]">
+                        <td className="py-2 px-3 font-medium text-[#F5F1E8]">{p.name}</td>
+                        <td className="py-2 px-3 text-[#A5A19A]">
                           {p.community}, {p.emirate}
                         </td>
-                        <td className="py-2 px-3 text-[#4B5563]">{p.developerName}</td>
-                        <td className="py-2 px-3 font-mono-tabular text-[#6B7280] truncate max-w-[220px]">
+                        <td className="py-2 px-3 text-[#A5A19A]">{p.developerName}</td>
+                        <td className="py-2 px-3 font-mono-tabular text-[#A5A19A] truncate max-w-[220px]">
                           {p.projectUrl || 'Missing URL'}
                         </td>
                       </tr>
@@ -642,7 +646,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                   </tbody>
                 </table>
                 {stagedProjects.length > 50 && (
-                  <p className="p-2 text-[11px] text-[#6B7280] text-center border-t border-[#E5E2DC]">
+                  <p className="p-2 text-[11px] text-[#A5A19A] text-center border-t border-[#D4AF72]/15">
                     Showing first 50 of {stagedProjects.length} parsed projects. All{' '}
                     {stagedProjects.length} will be committed.
                   </p>
@@ -654,19 +658,19 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
       </div>
 
       {/* 3. PROJECT-URL VERIFIED METADATA, BROCHURE, UNIQUE PHOTO & 360° LINK RETRIEVER */}
-      <div className="bg-white border border-[#E5E2DC] p-6 space-y-4">
+      <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 text-[#9A7B3C] text-xs font-semibold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-[#D4AF72] text-xs font-semibold uppercase tracking-wider">
               <Globe className="w-4 h-4" />
               <span>Project-URL Verification & Unique Photo Retrieval</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold text-[#111827] mt-1">
+            <h3 className="font-display text-2xl font-semibold text-[#F5F1E8] mt-1">
               Retrieve Verified Info & Unique Photos from Project URLs
             </h3>
-            <p className="text-xs text-[#4B5563] mt-1">
+            <p className="text-xs text-[#A5A19A] mt-1">
               Scans each project’s official Project URL via SSRF-safe HTTPS fetch to extract verified descriptions, brochures, Matterport/360° links, and SHA-256 deduplicated project-specific photos. Currently{' '}
-              <strong className="font-mono-tabular">{enrichCandidates.length}</strong> projects have a Project URL and await unique photography.
+              <strong className="font-mono-tabular text-[#F5F1E8]">{enrichCandidates.length}</strong> projects have a Project URL and await unique photography.
             </p>
           </div>
 
@@ -677,7 +681,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                 onClick={() => {
                   stopEnrichRef.current = true;
                 }}
-                className="h-10 px-4 bg-[#B91C1C] text-white text-xs font-medium flex items-center gap-1.5"
+                className="h-10 px-4 bg-[#7F1D1D] border border-[#F87171]/40 text-[#FCA5A5] text-xs font-medium flex items-center gap-1.5 cursor-pointer"
               >
                 <Square className="w-3.5 h-3.5" />
                 <span>Stop Retrieval</span>
@@ -687,7 +691,7 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
                 type="button"
                 disabled={!canManageProjects || enrichCandidates.length === 0}
                 onClick={handleRunUrlEnrichment}
-                className="h-10 px-4 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] flex items-center gap-1.5 disabled:opacity-50"
+                className="h-10 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Retrieve Unique Info & Photos ({enrichCandidates.length})</span>
@@ -697,21 +701,21 @@ export const AdminExcelImportPanel: React.FC<AdminExcelImportPanelProps> = ({
         </div>
 
         {enrichProgress && (
-          <div className="bg-[#FAF9F6] border border-[#E5E2DC] p-4 text-xs space-y-2">
+          <div className="bg-[#121212] border border-[#D4AF72]/20 p-4 text-xs space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="font-semibold text-[#111827]">
+              <span className="font-semibold text-[#F5F1E8]">
                 {enriching ? `Fetching: ${enrichProgress.currentProject}` : 'Retrieval Finished'}
               </span>
-              <span className="font-mono-tabular text-[#4B5563]">
+              <span className="font-mono-tabular text-[#A5A19A]">
                 {enrichProgress.processed} / {enrichProgress.total} processed ·{' '}
-                <strong className="text-[#047857]">{enrichProgress.updated} updated</strong> ·{' '}
+                <strong className="text-[#6EE7B7]">{enrichProgress.updated} updated</strong> ·{' '}
                 {enrichProgress.skippedDuplicates} duplicates blocked · {enrichProgress.failed}{' '}
                 unreachable
               </span>
             </div>
-            <div className="w-full h-2 bg-[#E5E2DC]">
+            <div className="w-full h-2 bg-[#080808] border border-[#D4AF72]/15">
               <div
-                className="h-full bg-[#9A7B3C] transition-all"
+                className="h-full bg-[#D4AF72] transition-all"
                 style={{
                   width: `${
                     enrichProgress.total > 0

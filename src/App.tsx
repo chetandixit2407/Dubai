@@ -6,9 +6,11 @@ import {
   Bell,
   Bookmark,
   Building2,
+  Clock,
   Compass,
   ExternalLink,
   FileSpreadsheet,
+  Film,
   GitCompare,
   Globe,
   Mail,
@@ -97,7 +99,11 @@ import { EnquiryModal } from './components/EnquiryModal.tsx';
 import { CustomerPortalModal } from './components/CustomerPortalModal.tsx';
 import { AdminDashboard } from './components/AdminDashboard.tsx';
 import { OfficeLocationMap } from './components/OfficeLocationMap.tsx';
+import { CinematicIntro, INTRO_SEEN_STORAGE_KEY } from './components/CinematicIntro.tsx';
+import { AnimatedNumber, ScrollReveal } from './components/ScrollReveal.tsx';
 import { COMPANY_INFO } from './data/companyInfo.ts';
+
+const RECENTLY_VIEWED_KEY = 'wcr_recently_viewed_ids';
 
 const DEFAULT_FILTERS: SearchFilters = {
   query: '',
@@ -109,6 +115,8 @@ const DEFAULT_FILTERS: SearchFilters = {
   developerId: '',
   minBudgetAed: '',
   maxBudgetAed: '',
+  minSizeSqFt: '',
+  maxSizeSqFt: '',
   maxMonthlyPaymentAed: '',
   maxDownPaymentPct: '',
   minConstructionPct: '',
@@ -119,6 +127,8 @@ const DEFAULT_FILTERS: SearchFilters = {
   minYieldPct: '',
   maxLandmarkDistanceKm: '',
   landmarkCategory: '',
+  tourFilter: '',
+  investmentOnly: false,
   waterfrontOnly: false,
   verifiedAvailableOnly: false,
   sortBy: 'featured',
@@ -157,10 +167,33 @@ const EMIRATE_SLUG_MAP: Record<string, EmiratesName> = {
 
 const CURRENCIES: CurrencyCode[] = ['AED', 'USD', 'INR', 'GBP', 'EUR', 'SAR'];
 
-type CatalogSegment = 'all' | 'featured' | 'newly_launched' | 'ready' | 'off_plan' | 'live_inventory';
+type CatalogSegment =
+  | 'all'
+  | 'featured'
+  | 'exclusive_luxury'
+  | 'newly_launched'
+  | 'trending_investment'
+  | 'off_plan'
+  | 'ready'
+  | 'live_inventory'
+  | 'recently_added';
 const PAGE_SIZE = 24;
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState<boolean>(() => {
+    try {
+      if (typeof window === 'undefined') return false;
+      const prefersReduced =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return false;
+      return window.localStorage.getItem(INTRO_SEEN_STORAGE_KEY) !== '1';
+    } catch {
+      return false;
+    }
+  });
+  const [heroParallaxY, setHeroParallaxY] = useState(0);
+
   const [language, setLanguage] = useState<Language>('en');
   const [currency, setCurrency] = useState<CurrencyCode>('AED');
   const [mapsApiKey, setMapsApiKey] = useState<string>('');
@@ -171,6 +204,16 @@ export default function App() {
   const [developers, setDevelopers] = useState<Developer[]>(INITIAL_DEVELOPERS);
   const [inventoryLogs, setInventoryLogs] = useState<InventoryLog[]>(INITIAL_INVENTORY_LOGS);
   const [syncProviders, setSyncProviders] = useState<SyncProvider[]>(INITIAL_SYNC_PROVIDERS);
+
+  // Recently Viewed IDs (persisted cleanly in localStorage)
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>(() => {
+    try {
+      const raw = window.localStorage.getItem(RECENTLY_VIEWED_KEY);
+      return raw ? (JSON.parse(raw) as string[]) : [];
+    } catch {
+      return [];
+    }
+  });
 
   // Auth & User State
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
@@ -232,6 +275,35 @@ export default function App() {
     setToast(msg);
     setTimeout(() => setToast((curr) => (curr === msg ? null : curr)), 4500);
   };
+
+  const handleReplayIntro = () => {
+    setShowAdminModal(false);
+    setShowPortalModal(false);
+    setShowIntro(true);
+  };
+
+  // Restrained desktop-only parallax for hero skyline
+  useEffect(() => {
+    if (selectedProjectSlug) return;
+    const prefersReduced =
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || window.innerWidth < 1024) return;
+
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const y = Math.min(36, Math.max(0, window.scrollY * 0.08));
+        setHeroParallaxY(y);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [selectedProjectSlug]);
 
   // Document direction & lang attribute sync
   useEffect(() => {
@@ -432,6 +504,15 @@ export default function App() {
   };
 
   const openProjectPage = (project: Project) => {
+    setRecentlyViewedIds((prev) => {
+      const next = [project.id, ...prev.filter((id) => id !== project.id)].slice(0, 8);
+      try {
+        window.localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(next));
+      } catch {
+        // ignore storage errors
+      }
+      return next;
+    });
     window.location.hash = `project/${encodeURIComponent(project.slug)}`;
     setSelectedProjectSlug(project.slug);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -468,7 +549,9 @@ export default function App() {
     }
     const currentlySaved = favorites.some((f) => f.projectId === project.id);
     await toggleUserFavorite(userProfile.uid, project.id, project.name, currentlySaved);
-    showToast(currentlySaved ? `Removed "${project.name}" from saved.` : `Saved "${project.name}".`);
+    showToast(
+      currentlySaved ? `Removed "${project.name}" from saved.` : `Saved "${project.name}".`
+    );
   };
 
   const handleToggleCompare = (project: Project, e?: React.MouseEvent) => {
@@ -539,17 +622,29 @@ export default function App() {
     return Array.from(new Set(filteredByEmirate.map((p) => p.community))).sort();
   }, [projects, filters.emirate]);
 
+  const recentlyViewedProjects = useMemo(() => {
+    return recentlyViewedIds
+      .map((id) => projects.find((p) => p.id === id))
+      .filter((p): p is Project => Boolean(p));
+  }, [recentlyViewedIds, projects]);
+
   // Dynamic Filtering & Sorting Engine
   const filteredProjects = useMemo(() => {
     const list = projects.filter((p) => {
       // Quick Segment Tabs
       if (segment === 'featured' && !p.featured) return false;
+      if (segment === 'exclusive_luxury' && p.startingPriceAed < 8000000 && !p.brandedResidence) {
+        return false;
+      }
       if (
         segment === 'newly_launched' &&
         p.category !== 'Upcoming launch' &&
         !p.launchDate.startsWith('2025') &&
         !p.launchDate.startsWith('2026')
       ) {
+        return false;
+      }
+      if (segment === 'trending_investment' && (p.investment.grossYieldPct ?? 0) < 7.0) {
         return false;
       }
       if (segment === 'ready' && p.category !== 'Ready-to-move') return false;
@@ -564,7 +659,8 @@ export default function App() {
       // Text query
       if (filters.query.trim()) {
         const q = filters.query.trim().toLowerCase();
-        const hay = `${p.name} ${p.nameAr} ${p.community} ${p.neighbourhood} ${p.emirate} ${p.developerName} ${p.registrationNumber} ${p.buildingName}`.toLowerCase();
+        const hay =
+          `${p.name} ${p.nameAr} ${p.community} ${p.neighbourhood} ${p.emirate} ${p.developerName} ${p.registrationNumber} ${p.buildingName}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
 
@@ -597,6 +693,18 @@ export default function App() {
       if (
         filters.maxBudgetAed !== '' &&
         (p.startingPriceAed <= 0 || p.startingPriceAed > Number(filters.maxBudgetAed))
+      ) {
+        return false;
+      }
+      if (
+        filters.minSizeSqFt !== '' &&
+        (p.maxSizeSqFt <= 0 || p.maxSizeSqFt < Number(filters.minSizeSqFt))
+      ) {
+        return false;
+      }
+      if (
+        filters.maxSizeSqFt !== '' &&
+        (p.minSizeSqFt <= 0 || p.minSizeSqFt > Number(filters.maxSizeSqFt))
       ) {
         return false;
       }
@@ -643,6 +751,17 @@ export default function App() {
       ) {
         return false;
       }
+      if (filters.investmentOnly && (p.investment.grossYieldPct ?? 0) < 7.0) {
+        return false;
+      }
+      if (filters.tourFilter) {
+        const eff = getEffectiveTourStatus(p);
+        if (filters.tourFilter === 'any_media' && eff === 'coming_soon') return false;
+        if (filters.tourFilter === '3d_or_360' && eff !== '360_available' && eff !== '3d_available') {
+          return false;
+        }
+        if (filters.tourFilter === 'video_only' && eff !== 'video_available') return false;
+      }
       if (filters.landmarkCategory || filters.maxLandmarkDistanceKm !== '') {
         const maxKm =
           filters.maxLandmarkDistanceKm === '' ? 999 : Number(filters.maxLandmarkDistanceKm);
@@ -663,9 +782,11 @@ export default function App() {
       return true;
     });
 
+    const effectiveSort = segment === 'recently_added' ? 'newest' : filters.sortBy;
+
     // Sort results
     return [...list].sort((a, b) => {
-      switch (filters.sortBy) {
+      switch (effectiveSort) {
         case 'lowest_price': {
           const ap = a.startingPriceAed > 0 ? a.startingPriceAed : Number.MAX_SAFE_INTEGER;
           const bp = b.startingPriceAed > 0 ? b.startingPriceAed : Number.MAX_SAFE_INTEGER;
@@ -674,7 +795,7 @@ export default function App() {
         case 'highest_price':
           return b.startingPriceAed - a.startingPriceAed;
         case 'newest':
-          return b.launchDate.localeCompare(a.launchDate);
+          return (b.updatedAt || b.launchDate).localeCompare(a.updatedAt || a.launchDate);
         case 'highest_availability':
           return (b.inventory.availableUnits ?? -1) - (a.inventory.availableUnits ?? -1);
         case 'nearest_handover':
@@ -718,7 +839,8 @@ export default function App() {
   const activeDetailProject = useMemo(
     () =>
       selectedProjectSlug
-        ? projects.find((p) => p.slug === selectedProjectSlug || p.id === selectedProjectSlug) || null
+        ? projects.find((p) => p.slug === selectedProjectSlug || p.id === selectedProjectSlug) ||
+          null
         : null,
     [projects, selectedProjectSlug]
   );
@@ -753,6 +875,13 @@ export default function App() {
     return [...live, ...coming].slice(0, 4);
   }, [projects]);
 
+  const liveInventoryCount = useMemo(
+    () =>
+      projects.filter((p) => p.inventory.status === 'verified_live' && p.inventory.availableUnits)
+        .length,
+    [projects]
+  );
+
   const handleDeskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!deskName.trim() || !deskEmail.trim()) return;
@@ -773,17 +902,22 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-[#111827] flex flex-col">
+    <div className="min-h-screen bg-[#080808] text-[#F5F1E8] flex flex-col">
+      {/* First-Visit Cinematic Ultra-Luxury Dubai Intro */}
+      <CinematicIntro open={showIntro} onComplete={() => setShowIntro(false)} />
+
       {/* Tier 2 Google Maps Demo Key Quota Warning Banner */}
       {mapsQuotaExceeded && (
         <div
           role="alert"
-          className="sticky top-0 z-50 bg-[#FEF3C7] border-b border-[#F59E0B] text-[#78350F] px-4 py-2.5 text-xs flex flex-wrap items-center justify-between gap-2"
+          className="sticky top-0 z-50 bg-[#1B1B1B] border-b border-[#D4AF72]/50 text-[#D4AF72] px-4 py-2.5 text-xs flex flex-wrap items-center justify-between gap-2"
         >
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 shrink-0" />
             <span>
-              <strong>Google Maps Demo Key Quota Exceeded:</strong> The preview key has hit its daily limit. Map pins remain accessible in coordinate mode or you can attach a billed Cloud project API key.
+              <strong>Google Maps Demo Key Quota Exceeded:</strong> The preview key has hit its
+              daily limit. Map pins remain accessible in coordinate mode or you can attach a billed
+              Cloud project API key.
             </span>
           </div>
           <button
@@ -797,15 +931,15 @@ export default function App() {
       )}
 
       {/* Top Official Contact Bar */}
-      <div className="bg-[#111827] text-white/90 text-[11px] border-b border-white/10 hidden sm:block">
+      <div className="bg-[#121212] text-[#A5A19A] text-[11px] border-b border-[#D4AF72]/15 hidden sm:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <span className="text-[#E6C77A] font-semibold tracking-wider uppercase text-[10px]">
+            <span className="text-[#D4AF72] font-semibold tracking-wider uppercase text-[10px]">
               WHITE COLLAR REALTY · Official Advisory
             </span>
-            <span className="text-white/30">|</span>
-            <span className="flex items-center gap-1.5 text-white/80">
-              <MapPin className="w-3 h-3 text-[#E6C77A] shrink-0" />
+            <span className="text-[#D4AF72]/30">|</span>
+            <span className="flex items-center gap-1.5 text-[#A5A19A]">
+              <MapPin className="w-3 h-3 text-[#D4AF72] shrink-0" />
               <span className="truncate max-w-xs md:max-w-md">{COMPANY_INFO.shortAddress}</span>
             </span>
           </div>
@@ -813,32 +947,32 @@ export default function App() {
           <div className="flex items-center gap-4 shrink-0 font-medium">
             <a
               href={COMPANY_INFO.phoneHref}
-              className="hover:text-[#E6C77A] flex items-center gap-1.5 transition-colors"
+              className="hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors text-[#F5F1E8]"
             >
-              <Phone className="w-3 h-3 text-[#E6C77A]" />
+              <Phone className="w-3 h-3 text-[#D4AF72]" />
               <span>{COMPANY_INFO.phone}</span>
             </a>
             <a
               href={COMPANY_INFO.whatsappDeskUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#34D399] flex items-center gap-1.5 transition-colors"
+              className="hover:text-[#6EE7B7] flex items-center gap-1.5 transition-colors text-[#F5F1E8]"
             >
-              <MessageCircle className="w-3 h-3 text-[#34D399]" />
+              <MessageCircle className="w-3 h-3 text-[#6EE7B7]" />
               <span>WhatsApp Desk</span>
             </a>
             <a
               href={COMPANY_INFO.emailHref}
-              className="hover:text-[#E6C77A] flex items-center gap-1.5 transition-colors"
+              className="hover:text-[#D4AF72] flex items-center gap-1.5 transition-colors text-[#F5F1E8]"
             >
-              <Mail className="w-3 h-3 text-[#E6C77A]" />
+              <Mail className="w-3 h-3 text-[#D4AF72]" />
               <span>{COMPANY_INFO.email}</span>
             </a>
             <a
               href={COMPANY_INFO.googleMapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#E6C77A] hover:underline flex items-center gap-1"
+              className="text-[#D4AF72] hover:underline flex items-center gap-1"
             >
               <span>Get Directions</span>
               <ExternalLink className="w-2.5 h-2.5" />
@@ -848,7 +982,7 @@ export default function App() {
       </div>
 
       {/* Top Navigation Bar (Strict 3-Zone Contract: Brand | <=5 Nav Links | 1 Primary CTA) */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E2DC]">
+      <header className="sticky top-0 z-40 bg-[#080808]/95 backdrop-blur-md border-b border-[#D4AF72]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
           <a
             href="#"
@@ -859,8 +993,8 @@ export default function App() {
             }}
             className="flex items-center gap-2.5 shrink-0 whitespace-nowrap"
           >
-            <Building2 className="w-5 h-5 text-[#9A7B3C]" />
-            <span className="font-display text-xl sm:text-2xl font-semibold tracking-wide text-[#111827]">
+            <Building2 className="w-5 h-5 text-[#D4AF72]" />
+            <span className="font-display text-xl sm:text-2xl font-medium tracking-wide text-[#F5F1E8]">
               {t.brand}
             </span>
           </a>
@@ -869,35 +1003,35 @@ export default function App() {
             <a
               href="#projects"
               onClick={closeProjectPage}
-              className="text-xs font-medium text-[#4B5563] hover:text-[#111827] whitespace-nowrap shrink-0"
+              className="text-xs font-medium text-[#A5A19A] hover:text-[#D4AF72] transition-colors whitespace-nowrap shrink-0"
             >
               {t.navProjects}
             </a>
             <a
               href="#uae-map"
               onClick={closeProjectPage}
-              className="text-xs font-medium text-[#4B5563] hover:text-[#111827] whitespace-nowrap shrink-0"
+              className="text-xs font-medium text-[#A5A19A] hover:text-[#D4AF72] transition-colors whitespace-nowrap shrink-0"
             >
               {t.navMap}
             </a>
             <a
               href="#developers"
               onClick={closeProjectPage}
-              className="text-xs font-medium text-[#4B5563] hover:text-[#111827] whitespace-nowrap shrink-0"
+              className="text-xs font-medium text-[#A5A19A] hover:text-[#D4AF72] transition-colors whitespace-nowrap shrink-0"
             >
               {t.navDevelopers}
             </a>
             <a
               href="#calculator"
               onClick={closeProjectPage}
-              className="text-xs font-medium text-[#4B5563] hover:text-[#111827] whitespace-nowrap shrink-0"
+              className="text-xs font-medium text-[#A5A19A] hover:text-[#D4AF72] transition-colors whitespace-nowrap shrink-0"
             >
               {t.navCalculator}
             </a>
             <a
               href="#insights"
               onClick={closeProjectPage}
-              className="text-xs font-medium text-[#4B5563] hover:text-[#111827] whitespace-nowrap shrink-0"
+              className="text-xs font-medium text-[#A5A19A] hover:text-[#D4AF72] transition-colors whitespace-nowrap shrink-0"
             >
               {t.navInsights}
             </a>
@@ -907,7 +1041,7 @@ export default function App() {
             <a
               href={COMPANY_INFO.phoneHref}
               aria-label={`Call ${COMPANY_INFO.phone}`}
-              className="md:hidden w-8 h-8 border border-[#E5E2DC] flex items-center justify-center text-[#111827] hover:border-[#9A7B3C]"
+              className="md:hidden w-8 h-8 border border-[#D4AF72]/30 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72]"
             >
               <Phone className="w-3.5 h-3.5" />
             </a>
@@ -916,14 +1050,14 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp White Collar Realty"
-              className="md:hidden w-8 h-8 border border-[#E5E2DC] flex items-center justify-center text-[#047857] hover:border-[#9A7B3C]"
+              className="md:hidden w-8 h-8 border border-[#D4AF72]/30 flex items-center justify-center text-[#6EE7B7] hover:border-[#D4AF72]"
             >
               <MessageCircle className="w-3.5 h-3.5" />
             </a>
             <button
               type="button"
               onClick={() => setEnquiryModalState({ open: true, type: 'callback', project: null })}
-              className="h-9 px-4 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] transition-colors whitespace-nowrap shrink-0"
+              className="h-9 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors duration-200 whitespace-nowrap shrink-0"
             >
               {t.primaryCta}
             </button>
@@ -932,10 +1066,10 @@ export default function App() {
       </header>
 
       {/* Workspace Utility Strip (Language, Multi-Currency, Portal, Compare, Admin) */}
-      <div className="bg-[#FAF9F6] border-b border-[#E5E2DC]">
+      <div className="bg-[#121212] border-b border-[#D4AF72]/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-[#6B7280] hidden sm:inline">
+            <span className="text-[#A5A19A] hidden sm:inline">
               Dubai · Abu Dhabi · Sharjah · Ajman · RAK · Fujairah · UAQ
             </span>
           </div>
@@ -945,9 +1079,9 @@ export default function App() {
             <button
               type="button"
               onClick={() => setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'))}
-              className="h-8 px-2.5 bg-white border border-[#E5E2DC] hover:border-[#9A7B3C] flex items-center gap-1.5 font-medium text-[#111827]"
+              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors"
             >
-              <Globe className="w-3.5 h-3.5 text-[#9A7B3C]" />
+              <Globe className="w-3.5 h-3.5 text-[#D4AF72]" />
               <span>{language === 'en' ? 'EN | العربية' : 'العربية | EN'}</span>
             </button>
 
@@ -956,7 +1090,7 @@ export default function App() {
               value={currency}
               onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
               aria-label="Select display currency"
-              className="h-8 px-2.5 bg-white border border-[#E5E2DC] font-mono-tabular font-medium text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular font-medium text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             >
               {CURRENCIES.map((cur) => (
                 <option key={cur} value={cur}>
@@ -969,9 +1103,9 @@ export default function App() {
             <button
               type="button"
               onClick={() => setShowCompareModal(true)}
-              className="h-8 px-2.5 bg-white border border-[#E5E2DC] hover:border-[#9A7B3C] flex items-center gap-1.5 font-medium"
+              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors"
             >
-              <GitCompare className="w-3.5 h-3.5 text-[#9A7B3C]" />
+              <GitCompare className="w-3.5 h-3.5 text-[#D4AF72]" />
               <span>Compare ({compareIds.length}/4)</span>
             </button>
 
@@ -979,14 +1113,10 @@ export default function App() {
             <button
               type="button"
               onClick={() => setShowPortalModal(true)}
-              className="h-8 px-2.5 bg-white border border-[#E5E2DC] hover:border-[#9A7B3C] flex items-center gap-1.5 font-medium"
+              className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors"
             >
-              <Bookmark className="w-3.5 h-3.5 text-[#9A7B3C]" />
-              <span>
-                {userProfile
-                  ? `${t.navPortal} (${favorites.length})`
-                  : t.signInGoogle}
-              </span>
+              <Bookmark className="w-3.5 h-3.5 text-[#D4AF72]" />
+              <span>{userProfile ? `${t.navPortal} (${favorites.length})` : t.signInGoogle}</span>
             </button>
 
             {/* Role-Gated Staff / Admin Console */}
@@ -994,7 +1124,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setShowAdminModal(true)}
-                className="h-8 px-3 bg-[#111827] text-[#E6C77A] border border-[#111827] hover:bg-[#9A7B3C] hover:text-white flex items-center gap-1.5 font-medium"
+                className="h-8 px-3 bg-[#D4AF72] text-[#080808] border border-[#D4AF72] hover:bg-[#E6C77A] flex items-center gap-1.5 font-semibold transition-colors"
               >
                 <Shield className="w-3.5 h-3.5" />
                 <span>{t.navAdmin}</span>
@@ -1039,51 +1169,102 @@ export default function App() {
           />
         ) : (
           <>
-            {/* 1. LUXURY HERO SECTION */}
-            <section className="relative bg-[#111827] text-white">
-              <div className="relative min-h-[540px] lg:min-h-[600px] flex items-center overflow-hidden">
+            {/* 1. ULTRA-LUXURY ARCHITECTURAL HERO SECTION */}
+            <section className="relative bg-[#080808] text-[#F5F1E8]">
+              <div className="relative min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden">
                 <img
                   src={IMG_HERO_DUBAI}
                   alt="Dubai and UAE architectural waterfront skyline at twilight"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover animate-hero-ken-burns"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#111827]/95 via-[#111827]/75 to-[#111827]/45" />
+                {/* Obsidian Gradient Scrims */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-[#080808]/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/45" />
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-                  <div className="max-w-3xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#E6C77A] mb-3">
-                      {t.heroKicker}
-                    </p>
-                    <h1
-                      style={{ fontSize: 'clamp(2.25rem, 4vw, 3.75rem)' }}
-                      className="font-display font-semibold leading-[1.08] tracking-tight text-white mb-5"
-                    >
-                      {t.heroTitle}
-                    </h1>
-                    <p className="text-sm sm:text-base text-white/85 leading-relaxed max-w-2xl mb-8">
-                      {t.heroSubtitle}
-                    </p>
+                {/* Subtle Animated Architectural Skyline Silhouette Accent */}
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 800 320"
+                  preserveAspectRatio="xMaxYMax slice"
+                  className="pointer-events-none hidden lg:block absolute right-0 bottom-0 w-[62%] h-[78%] animate-skyline-glow"
+                  style={{
+                    transform: `translate3d(0, ${-heroParallaxY}px, 0)`,
+                  }}
+                >
+                  <g fill="none" stroke="#D4AF72" strokeOpacity="0.22" strokeWidth="1">
+                    <polygon points="520,320 520,120 562,92 562,320" />
+                    <polygon points="580,320 584,18 592,140 602,148 612,320" />
+                    <rect x="438" y="156" width="54" height="164" />
+                    <rect x="635" y="138" width="58" height="182" />
+                    <path d="M710 320 Q725 180 760 110 Q768 205 766 320 Z" />
+                  </g>
+                </svg>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      <a
-                        href="#projects"
-                        className="px-6 py-3 bg-[#9A7B3C] text-white text-xs sm:text-sm font-medium hover:bg-[#7D622D] transition-colors"
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 w-full">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+                    <div className="lg:col-span-8">
+                      <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#D4AF72] mb-4">
+                        {t.heroKicker}
+                      </p>
+                      <h1
+                        style={{ fontSize: 'clamp(2.5rem, 4.6vw, 4.4rem)' }}
+                        className="font-display font-medium leading-[1.06] tracking-tight text-[#F5F1E8] mb-5"
                       >
-                        {t.exploreProjects}
-                      </a>
-                      <a
-                        href="#uae-map"
-                        className="px-6 py-3 bg-white/10 border border-white/30 text-white text-xs sm:text-sm font-medium hover:bg-white/20 transition-colors"
-                      >
-                        {t.openMap}
-                      </a>
+                        {t.heroTitle}
+                      </h1>
+                      <p className="text-sm sm:text-base text-[#A5A19A] leading-relaxed max-w-2xl mb-8">
+                        {t.heroSubtitle}
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        <a
+                          href="#projects"
+                          className="px-6 py-3.5 bg-[#D4AF72] text-[#080808] text-xs sm:text-sm font-semibold hover:bg-[#E6C77A] transition-colors duration-200"
+                        >
+                          {t.exploreProjects}
+                        </a>
+                        <a
+                          href="#uae-map"
+                          className="px-6 py-3.5 bg-[#121212]/80 border border-[#D4AF72]/40 text-[#F5F1E8] text-xs sm:text-sm font-medium hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors duration-200"
+                        >
+                          {t.openMap}
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Architectural Portfolio Telemetry Metrics */}
+                    <div className="lg:col-span-4 grid grid-cols-3 lg:grid-cols-1 gap-3 border-t lg:border-t-0 lg:border-l border-[#D4AF72]/25 pt-6 lg:pt-0 lg:pl-8">
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#A5A19A]">
+                          Verified Developments
+                        </p>
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#D4AF72] mt-0.5">
+                          <AnimatedNumber value={projects.length} />
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#A5A19A]">
+                          Master Developers
+                        </p>
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-0.5">
+                          <AnimatedNumber value={developers.length} />
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#A5A19A]">
+                          Live Inventory Feeds
+                        </p>
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#6EE7B7] mt-0.5">
+                          <AnimatedNumber value={liveInventoryCount} />
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* 2. ADVANCED PROPERTY SEARCH ENGINE (anchored cleanly across hero bottom) */}
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-12 z-20 pb-8">
+              {/* 2. ADVANCED PROPERTY SEARCH ENGINE */}
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-12 z-20 pb-10">
                 <SearchEngineBar
                   filters={filters}
                   developers={developers}
@@ -1100,10 +1281,73 @@ export default function App() {
               </div>
             </section>
 
-            {/* 3. VERIFIED UAE PROJECTS CATALOG, DEDICATED EMIRATE VIEWS & PAGINATION */}
+            {/* RECENTLY VIEWED RESIDENCES (when user has visited projects) */}
+            {recentlyViewedProjects.length > 0 && (
+              <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 border-b border-[#D4AF72]/15">
+                <div className="flex items-center justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-[#D4AF72]" />
+                    <h2 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8]">
+                      {t.recentlyViewedHeading}
+                    </h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRecentlyViewedIds([]);
+                      try {
+                        window.localStorage.removeItem(RECENTLY_VIEWED_KEY);
+                      } catch {
+                        // ignore
+                      }
+                    }}
+                    className="text-xs text-[#A5A19A] hover:text-[#D4AF72] transition-colors"
+                  >
+                    Clear History
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {recentlyViewedProjects.slice(0, 4).map((proj) => (
+                    <button
+                      key={proj.id}
+                      type="button"
+                      onClick={() => openProjectPage(proj)}
+                      className="text-left bg-[#121212] border border-[#D4AF72]/20 hover:border-[#D4AF72] p-3 flex items-center gap-3 transition-colors group"
+                    >
+                      {proj.heroImage ? (
+                        <img
+                          src={proj.heroImage}
+                          alt={proj.name}
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                          className="w-16 h-14 object-cover bg-[#1B1B1B] shrink-0 border border-[#D4AF72]/15"
+                        />
+                      ) : (
+                        <div className="w-16 h-14 bg-[#1B1B1B] border border-[#D4AF72]/15 flex items-center justify-center shrink-0">
+                          <Building2 className="w-5 h-5 text-[#D4AF72]" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[10px] uppercase tracking-wider text-[#D4AF72] truncate">
+                          {proj.community}
+                        </p>
+                        <p className="font-display text-base font-medium text-[#F5F1E8] group-hover:text-[#D4AF72] truncate">
+                          {proj.name}
+                        </p>
+                        <p className="font-mono-tabular text-[11px] text-[#A5A19A]">
+                          {formatProjectPrice(proj.startingPriceAed, currency, true)}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* 3. VERIFIED UAE PROJECTS CATALOG, CURATED SEGMENTS & PAGINATION */}
             <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-              {/* Emirate Directory Tabs (All Projects, Dubai, Abu Dhabi, RAK, Sharjah, UAQ, etc.) */}
-              <div className="mb-6 pb-4 border-b border-[#E5E2DC] flex flex-wrap items-center gap-2">
+              {/* Emirate Directory Tabs */}
+              <div className="mb-6 pb-4 border-b border-[#D4AF72]/15 flex flex-wrap items-center gap-2">
                 {PRIMARY_EMIRATE_PAGES.map(({ emirate, label }) => {
                   const active = filters.emirate === emirate;
                   const count = emirateCounts[emirate] ?? 0;
@@ -1114,14 +1358,14 @@ export default function App() {
                       onClick={() => openEmiratePage(emirate)}
                       className={`px-3.5 py-2 text-xs font-medium border transition-colors whitespace-nowrap flex items-center gap-2 ${
                         active
-                          ? 'bg-[#111827] text-white border-[#111827]'
-                          : 'bg-white text-[#111827] border-[#E5E2DC] hover:border-[#9A7B3C]'
+                          ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72] font-semibold'
+                          : 'bg-[#121212] text-[#F5F1E8] border-[#D4AF72]/20 hover:border-[#D4AF72]'
                       }`}
                     >
                       <span>{label}</span>
                       <span
                         className={`font-mono-tabular text-[11px] ${
-                          active ? 'text-[#E6C77A]' : 'text-[#6B7280]'
+                          active ? 'text-[#080808]/80' : 'text-[#A5A19A]'
                         }`}
                       >
                         ({count})
@@ -1133,22 +1377,28 @@ export default function App() {
 
               <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A7B3C]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                     Audited Multi-Emirate Inventory · {filteredProjects.length} Projects Matching
                   </p>
-                  <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] mt-1">
+                  <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
                     {filters.emirate
                       ? `${filters.emirate} Real Estate Projects (${filteredProjects.length})`
                       : segment === 'featured'
                       ? t.featuredHeading
+                      : segment === 'exclusive_luxury'
+                      ? t.exclusiveLuxuryHeading
                       : segment === 'newly_launched'
                       ? t.newlyLaunchedHeading
+                      : segment === 'trending_investment'
+                      ? t.trendingInvestmentHeading
                       : segment === 'ready'
                       ? t.readyToMoveHeading
                       : segment === 'off_plan'
                       ? t.offPlanHeading
                       : segment === 'live_inventory'
                       ? t.verifiedInventoryHeading
+                      : segment === 'recently_added'
+                      ? t.recentlyAddedHeading
                       : `All UAE Real Estate Projects (${filteredProjects.length})`}
                   </h2>
                 </div>
@@ -1157,49 +1407,53 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => exportCatalogToExcel(filteredProjects, developers)}
-                    className="h-9 px-3.5 border border-[#E5E2DC] bg-white text-xs font-semibold text-[#111827] hover:border-[#9A7B3C] hover:text-[#9A7B3C] transition-colors flex items-center gap-2 shrink-0 shadow-xs"
+                    className="h-9 px-3.5 border border-[#D4AF72]/25 bg-[#121212] text-xs font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors flex items-center gap-2 shrink-0"
                     title="Export filtered property intelligence & developer directory to Excel (.xlsx)"
                   >
-                    <FileSpreadsheet className="w-3.5 h-3.5 text-[#047857]" />
+                    <FileSpreadsheet className="w-3.5 h-3.5 text-[#6EE7B7]" />
                     <span>Export to Excel ({filteredProjects.length})</span>
                   </button>
-
-                  {/* Clean Segment Selector */}
-                  <div className="flex flex-wrap items-center gap-1.5 border border-[#E5E2DC] bg-white p-1">
-                  {(
-                    [
-                      ['all', 'All Projects'],
-                      ['featured', 'Featured'],
-                      ['newly_launched', 'New Launches'],
-                      ['off_plan', 'Off-Plan'],
-                      ['ready', 'Ready-to-Move'],
-                      ['live_inventory', 'Live Inventory Only'],
-                    ] as Array<[CatalogSegment, string]>
-                  ).map(([segKey, segLabel]) => (
-                    <button
-                      key={segKey}
-                      type="button"
-                      onClick={() => setSegment(segKey)}
-                      className={`px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap ${
-                        segment === segKey
-                          ? 'bg-[#111827] text-white'
-                          : 'text-[#4B5563] hover:text-[#111827]'
-                      }`}
-                    >
-                      {segLabel}
-                    </button>
-                  ))}
-                  </div>
                 </div>
               </div>
 
+              {/* Clean Collection Segment Selector */}
+              <div className="mb-7 flex flex-wrap items-center gap-1.5 border border-[#D4AF72]/20 bg-[#121212] p-1.5">
+                {(
+                  [
+                    ['all', 'All Projects'],
+                    ['featured', 'Featured'],
+                    ['exclusive_luxury', 'Exclusive Luxury'],
+                    ['newly_launched', 'Newly Launched'],
+                    ['trending_investment', 'Trending Investments'],
+                    ['off_plan', 'Off-Plan'],
+                    ['ready', 'Ready-to-Move'],
+                    ['live_inventory', 'Live Inventory'],
+                    ['recently_added', 'Recently Added'],
+                  ] as Array<[CatalogSegment, string]>
+                ).map(([segKey, segLabel]) => (
+                  <button
+                    key={segKey}
+                    type="button"
+                    onClick={() => setSegment(segKey)}
+                    className={`px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap ${
+                      segment === segKey
+                        ? 'bg-[#D4AF72] text-[#080808] font-semibold'
+                        : 'text-[#A5A19A] hover:text-[#F5F1E8]'
+                    }`}
+                  >
+                    {segLabel}
+                  </button>
+                ))}
+              </div>
+
               {filteredProjects.length === 0 ? (
-                <div className="bg-white border border-[#E5E2DC] p-12 text-center">
-                  <h3 className="font-display text-2xl font-semibold text-[#111827]">
+                <div className="bg-[#121212] border border-[#D4AF72]/25 p-12 text-center">
+                  <h3 className="font-display text-2xl font-medium text-[#F5F1E8]">
                     No UAE projects match your exact filter criteria
                   </h3>
-                  <p className="text-sm text-[#4B5563] mt-2 mb-5">
-                    Adjust your budget ceiling, Emirate selection, or minimum rental yield, or register an availability alert for upcoming releases.
+                  <p className="text-sm text-[#A5A19A] mt-2 mb-5">
+                    Adjust your budget ceiling, Emirate selection, unit size, or minimum rental
+                    yield, or register an availability alert for upcoming releases.
                   </p>
                   <button
                     type="button"
@@ -1207,7 +1461,7 @@ export default function App() {
                       setFilters(DEFAULT_FILTERS);
                       setSegment('all');
                     }}
-                    className="px-5 py-2.5 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C]"
+                    className="px-5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A]"
                   >
                     Reset All Search Filters
                   </button>
@@ -1215,25 +1469,26 @@ export default function App() {
               ) : (
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {visibleCatalogProjects.map((project) => (
-                      <ProjectCard
-                        key={project.id}
-                        project={project}
-                        currency={currency}
-                        language={language}
-                        isSaved={favorites.some((f) => f.projectId === project.id)}
-                        isCompared={compareIds.includes(project.id)}
-                        onSelect={openProjectPage}
-                        onToggleSave={handleToggleFavorite}
-                        onToggleCompare={handleToggleCompare}
-                      />
+                    {visibleCatalogProjects.map((project, idx) => (
+                      <ScrollReveal key={project.id} delayMs={(idx % 6) * 45}>
+                        <ProjectCard
+                          project={project}
+                          currency={currency}
+                          language={language}
+                          isSaved={favorites.some((f) => f.projectId === project.id)}
+                          isCompared={compareIds.includes(project.id)}
+                          onSelect={openProjectPage}
+                          onToggleSave={handleToggleFavorite}
+                          onToggleCompare={handleToggleCompare}
+                        />
+                      </ScrollReveal>
                     ))}
                   </div>
 
                   {/* Pagination Controls for 182+ Projects */}
                   {filteredProjects.length > PAGE_SIZE && (
-                    <div className="mt-8 pt-6 border-t border-[#E5E2DC] flex flex-wrap items-center justify-between gap-4 text-xs">
-                      <span className="font-mono-tabular text-[#4B5563]">
+                    <div className="mt-8 pt-6 border-t border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-4 text-xs">
+                      <span className="font-mono-tabular text-[#A5A19A]">
                         Showing{' '}
                         {showAllPaged
                           ? `1–${filteredProjects.length}`
@@ -1255,11 +1510,11 @@ export default function App() {
                                   .getElementById('projects')
                                   ?.scrollIntoView({ behavior: 'smooth' });
                               }}
-                              className="h-9 px-3 border border-[#E5E2DC] bg-white hover:border-[#9A7B3C] disabled:opacity-40"
+                              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] disabled:opacity-40"
                             >
                               Previous
                             </button>
-                            <span className="font-mono-tabular px-2 text-[#111827]">
+                            <span className="font-mono-tabular px-2 text-[#F5F1E8]">
                               Page {catalogPage} of {totalCatalogPages}
                             </span>
                             <button
@@ -1271,7 +1526,7 @@ export default function App() {
                                   .getElementById('projects')
                                   ?.scrollIntoView({ behavior: 'smooth' });
                               }}
-                              className="h-9 px-3 border border-[#E5E2DC] bg-white hover:border-[#9A7B3C] disabled:opacity-40"
+                              className="h-9 px-3 border border-[#D4AF72]/25 bg-[#121212] text-[#F5F1E8] hover:border-[#D4AF72] disabled:opacity-40"
                             >
                               Next
                             </button>
@@ -1280,7 +1535,7 @@ export default function App() {
                         <button
                           type="button"
                           onClick={() => setShowAllPaged((prev) => !prev)}
-                          className="h-9 px-3.5 bg-[#111827] text-white font-medium hover:bg-[#9A7B3C]"
+                          className="h-9 px-3.5 bg-[#D4AF72] text-[#080808] font-semibold hover:bg-[#E6C77A] transition-colors"
                         >
                           {showAllPaged
                             ? `Paginate (${PAGE_SIZE}/page)`
@@ -1294,12 +1549,12 @@ export default function App() {
             </section>
 
             {/* 4. EXPLORE BY EMIRATE (ALL 7 UAE EMIRATES) */}
-            <section className="bg-white border-y border-[#E5E2DC] py-14">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A7B3C]">
+            <section className="bg-[#121212] border-y border-[#D4AF72]/20 py-14">
+              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                   National Coverage
                 </p>
-                <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] mt-1 mb-8">
+                <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1 mb-8">
                   {t.byEmirateHeading}
                 </h2>
 
@@ -1316,26 +1571,24 @@ export default function App() {
                         onClick={() => openEmiratePage(active ? '' : em)}
                         className={`text-left p-4 border transition-colors flex flex-col justify-between min-h-[124px] ${
                           active
-                            ? 'bg-[#111827] text-white border-[#111827]'
-                            : 'bg-[#FAF9F6] border-[#E5E2DC] hover:border-[#9A7B3C]'
+                            ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
+                            : 'bg-[#1B1B1B] text-[#F5F1E8] border-[#D4AF72]/20 hover:border-[#D4AF72]'
                         }`}
                       >
                         <div>
                           <MapPin
                             className={`w-4 h-4 mb-2 ${
-                              active ? 'text-[#E6C77A]' : 'text-[#9A7B3C]'
+                              active ? 'text-[#080808]' : 'text-[#D4AF72]'
                             }`}
                           />
-                          <h3 className="font-display text-lg font-semibold leading-tight">
-                            {em}
-                          </h3>
+                          <h3 className="font-display text-lg font-medium leading-tight">{em}</h3>
                         </div>
                         <div className="pt-3 text-[11px] font-mono-tabular">
                           <span className="block">
                             {emProjects.length} {emProjects.length === 1 ? 'Project' : 'Projects'}
                           </span>
                           {minPrice !== null && (
-                            <span className={active ? 'text-[#E6C77A]' : 'text-[#6B7280]'}>
+                            <span className={active ? 'text-[#080808]/80' : 'text-[#A5A19A]'}>
                               From {formatProjectPrice(minPrice, currency, true)}
                             </span>
                           )}
@@ -1344,86 +1597,115 @@ export default function App() {
                     );
                   })}
                 </div>
-              </div>
+              </ScrollReveal>
             </section>
 
             {/* 5. EXPLORE BY VERIFIED DEVELOPER */}
             <section id="developers" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-              <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A7B3C]">
-                    RERA, ADM, SRERD & Municipal Registries
-                  </p>
-                  <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] mt-1">
-                    {t.byDeveloperHeading}
-                  </h2>
-                </div>
-                {filters.developerId && (
-                  <button
-                    type="button"
-                    onClick={() => setFilters({ ...filters, developerId: '' })}
-                    className="text-xs font-medium text-[#9A7B3C] underline"
-                  >
-                    Clear Developer Filter
-                  </button>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                {developers.map((dev) => {
-                  const devProjCount = projects.filter((p) => p.developerId === dev.id).length;
-                  const active = filters.developerId === dev.id;
-                  return (
+              <ScrollReveal>
+                <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
+                      RERA, ADM, SRERD &amp; Municipal Registries
+                    </p>
+                    <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                      {t.byDeveloperHeading}
+                    </h2>
+                  </div>
+                  {filters.developerId && (
                     <button
-                      key={dev.id}
                       type="button"
-                      onClick={() => {
-                        setFilters({ ...DEFAULT_FILTERS, developerId: active ? '' : dev.id });
-                        setSegment('all');
-                        document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className={`text-left p-5 border transition-colors flex flex-col justify-between ${
-                        active
-                          ? 'bg-[#111827] text-white border-[#111827]'
-                          : 'bg-white border-[#E5E2DC] hover:border-[#9A7B3C]'
-                      }`}
+                      onClick={() => setFilters({ ...filters, developerId: '' })}
+                      className="text-xs font-medium text-[#D4AF72] underline"
                     >
-                      <div>
-                        <div className="flex items-center justify-between text-[11px] mb-2">
-                          <span className={active ? 'text-[#E6C77A]' : 'text-[#9A7B3C]'}>
-                            {dev.emirate}
-                          </span>
-                          {dev.verified && <ShieldCheck className="w-3.5 h-3.5 text-[#047857]" />}
-                        </div>
-                        <h3 className="font-display text-xl font-semibold leading-snug">
-                          {language === 'ar' && dev.nameAr ? dev.nameAr : dev.name}
-                        </h3>
-                        <p
-                          className={`text-[11px] font-mono-tabular mt-1 ${
-                            active ? 'text-white/75' : 'text-[#6B7280]'
-                          }`}
-                        >
-                          {dev.registrationId}
-                        </p>
-                      </div>
-                      <div className="mt-4 pt-3 border-t border-[#E5E2DC]/40 flex items-center justify-between text-xs font-mono-tabular">
-                        <span>{devProjCount} Listed</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </div>
+                      Clear Developer Filter
                     </button>
-                  );
-                })}
-              </div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                  {developers.map((dev) => {
+                    const devProjCount = projects.filter((p) => p.developerId === dev.id).length;
+                    const active = filters.developerId === dev.id;
+                    return (
+                      <div
+                        key={dev.id}
+                        className={`p-5 border transition-colors flex flex-col justify-between ${
+                          active
+                            ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
+                            : 'bg-[#121212] text-[#F5F1E8] border-[#D4AF72]/20 hover:border-[#D4AF72]'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFilters({ ...DEFAULT_FILTERS, developerId: active ? '' : dev.id });
+                            setSegment('all');
+                            document
+                              .getElementById('projects')
+                              ?.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                          className="text-left w-full"
+                        >
+                          <div className="flex items-center justify-between text-[11px] mb-2">
+                            <span className={active ? 'text-[#080808]/80 font-semibold' : 'text-[#D4AF72]'}>
+                              {dev.emirate}
+                            </span>
+                            {dev.verified && (
+                              <ShieldCheck
+                                className={`w-3.5 h-3.5 ${
+                                  active ? 'text-[#080808]' : 'text-[#6EE7B7]'
+                                }`}
+                              />
+                            )}
+                          </div>
+                          <h3 className="font-display text-xl font-medium leading-snug">
+                            {language === 'ar' && dev.nameAr ? dev.nameAr : dev.name}
+                          </h3>
+                          <p
+                            className={`text-[11px] font-mono-tabular mt-1 ${
+                              active ? 'text-[#080808]/80' : 'text-[#A5A19A]'
+                            }`}
+                          >
+                            {dev.registrationId}
+                          </p>
+                        </button>
+                        <div className="mt-4 pt-3 border-t border-current/15 flex items-center justify-between text-xs font-mono-tabular">
+                          <span>{devProjCount} Listed</span>
+                          <div className="flex items-center gap-2">
+                            {dev.website && (
+                              <a
+                                href={dev.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Official Developer Website"
+                                className={
+                                  active
+                                    ? 'text-[#080808] hover:underline'
+                                    : 'text-[#D4AF72] hover:text-[#E6C77A]'
+                                }
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            )}
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </ScrollReveal>
             </section>
 
             {/* 6. INTERACTIVE UAE PROPERTY MAP */}
-            <section id="uae-map" className="bg-white border-y border-[#E5E2DC] py-14">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="uae-map" className="bg-[#121212] border-y border-[#D4AF72]/20 py-14">
+              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A7B3C]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
                     Geospatial Discovery
                   </p>
-                  <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] mt-1">
+                  <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
                     {t.mapSectionHeading}
                   </h2>
                 </div>
@@ -1433,241 +1715,266 @@ export default function App() {
                   currency={currency}
                   onOpenProject={openProjectPage}
                 />
-              </div>
+              </ScrollReveal>
             </section>
 
             {/* 7. VIRTUAL TOUR SHOWCASE */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-              <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A7B3C]">
-                    360° & 3D Interactive Walkthroughs
+              <ScrollReveal>
+                <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
+                      360° &amp; 3D Interactive Walkthroughs
+                    </p>
+                    <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                      {t.virtualTourHeading}
+                    </h2>
+                  </div>
+                  <p className="text-xs text-[#A5A19A]">
+                    Only verified 360° panoramas, 3D twins &amp; genuine walkthrough videos are
+                    displayed.
                   </p>
-                  <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] mt-1">
-                    {t.virtualTourHeading}
-                  </h2>
                 </div>
-                <p className="text-xs text-[#6B7280]">
-                  Only verified 360° panoramas & developer Matterport models are displayed.
-                </p>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {tourShowcaseProjects.map((proj) => {
-                  const effStatus = getEffectiveTourStatus(proj);
-                  const hasLiveTour = effStatus !== 'coming_soon';
-                  return (
-                    <div
-                      key={proj.id}
-                      className="bg-white border border-[#E5E2DC] flex flex-col justify-between"
-                    >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-[#1A2232]">
-                        {proj.heroImage ? (
-                          <img
-                            src={proj.heroImage}
-                            alt={proj.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center px-4 text-center">
-                            <Building2 className="w-7 h-7 text-[#E6C77A] mb-1.5" />
-                            <span className="text-[10px] font-semibold uppercase tracking-wider text-white/80">
-                              {MISSING_PROJECT_PHOTO_LABEL}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                  {tourShowcaseProjects.map((proj) => {
+                    const effStatus = getEffectiveTourStatus(proj);
+                    const hasLiveTour = effStatus !== 'coming_soon';
+                    return (
+                      <div
+                        key={proj.id}
+                        className="bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] transition-colors flex flex-col justify-between group"
+                      >
+                        <div className="relative aspect-[4/3] overflow-hidden bg-[#121212]">
+                          {proj.heroImage ? (
+                            <img
+                              src={proj.heroImage}
+                              alt={proj.name}
+                              loading="lazy"
+                              className="w-full h-full object-cover group-hover:scale-[1.035] transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center px-4 text-center">
+                              <Building2 className="w-7 h-7 text-[#D4AF72] mb-1.5" />
+                              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A5A19A]">
+                                {MISSING_PROJECT_PHOTO_LABEL}
+                              </span>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/90 via-[#080808]/20 to-transparent" />
+                          <div className="absolute bottom-3 left-3 right-3 text-[#F5F1E8]">
+                            <p className="text-[11px] text-[#D4AF72] uppercase font-semibold">
+                              {TOUR_STATUS_LABELS[effStatus]}
+                              {hasLiveTour && proj.virtualTour.rooms?.length
+                                ? ` · ${proj.virtualTour.rooms.length} Scenes`
+                                : ''}
+                            </p>
+                            <h3 className="font-display text-xl font-medium leading-tight mt-0.5">
+                              {proj.name}
+                            </h3>
+                          </div>
+                        </div>
+                        <div className="p-4 flex flex-col gap-2.5">
+                          <div className="flex items-center justify-between gap-2 text-xs text-[#A5A19A]">
+                            <span>
+                              {proj.community}, {proj.emirate}
                             </span>
                           </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
-                        <div className="absolute bottom-3 left-3 right-3 text-white">
-                          <p className="text-[11px] text-[#E6C77A] uppercase font-semibold">
-                            {TOUR_STATUS_LABELS[effStatus]}
-                            {hasLiveTour && proj.virtualTour.rooms?.length
-                              ? ` · ${proj.virtualTour.rooms.length} Scenes`
-                              : ''}
-                          </p>
-                          <h3 className="font-display text-xl font-semibold leading-tight mt-0.5">
-                            {proj.name}
-                          </h3>
-                        </div>
-                      </div>
-                      <div className="p-4 flex flex-col gap-2.5">
-                        <div className="flex items-center justify-between gap-2 text-xs text-[#4B5563]">
-                          <span>
-                            {proj.community}, {proj.emirate}
-                          </span>
-                        </div>
-                        {hasLiveTour ? (
-                          <button
-                            type="button"
-                            onClick={() => setVirtualTourProject(proj)}
-                            className="w-full py-2 px-3 bg-[#111827] text-white text-xs font-semibold hover:bg-[#9A7B3C] flex items-center justify-center gap-1.5"
-                          >
-                            <Compass className="w-3.5 h-3.5 text-[#E6C77A]" />
-                            <span>EXPLORE 360° VIRTUAL TOUR</span>
-                          </button>
-                        ) : (
-                          <div className="grid grid-cols-1 gap-1.5">
+                          {hasLiveTour ? (
                             <button
                               type="button"
                               onClick={() => setVirtualTourProject(proj)}
-                              className="w-full py-2 px-3 border border-[#E5E2DC] text-[#111827] text-xs font-medium hover:border-[#9A7B3C] flex items-center justify-center gap-1.5"
+                              className="w-full py-2 px-3 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center justify-center gap-1.5 transition-colors"
                             >
-                              <Compass className="w-3.5 h-3.5 text-[#9A7B3C]" />
-                              <span>EXPLORE 360° VIRTUAL TOUR</span>
+                              <Compass className="w-3.5 h-3.5" />
+                              <span>EXPLORE VIRTUAL EXPERIENCE</span>
                             </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setEnquiryModalState({
-                                  open: true,
-                                  type: 'virtual_consultation',
-                                  project: proj,
-                                })
-                              }
-                              className="w-full py-1.5 px-3 bg-[#111827] text-white text-[11px] font-medium hover:bg-[#9A7B3C]"
-                            >
-                              Request Private Tour
-                            </button>
-                          </div>
-                        )}
+                          ) : (
+                            <div className="grid grid-cols-1 gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => setVirtualTourProject(proj)}
+                                className="w-full py-2 px-3 border border-[#D4AF72]/25 text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center justify-center gap-1.5"
+                              >
+                                <Compass className="w-3.5 h-3.5 text-[#D4AF72]" />
+                                <span>INSPECT TOUR STATUS</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setEnquiryModalState({
+                                    open: true,
+                                    type: 'virtual_consultation',
+                                    project: proj,
+                                  })
+                                }
+                                className="w-full py-1.5 px-3 bg-[#121212] border border-[#D4AF72]/20 text-[#F5F1E8] text-[11px] font-medium hover:border-[#D4AF72]"
+                              >
+                                Request Private Tour
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              </ScrollReveal>
             </section>
 
             {/* 8. INSTITUTIONAL INVESTMENT CALCULATOR */}
-            <section id="calculator" className="bg-white border-y border-[#E5E2DC] py-14">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="calculator" className="bg-[#080808] border-y border-[#D4AF72]/20 py-14">
+              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <InvestmentCalculator currency={currency} />
-              </div>
+              </ScrollReveal>
             </section>
 
             {/* 9. UAE MARKET INSIGHTS & LIVE INVENTORY FEED */}
             <section id="insights" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-              <div className="mb-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9A7B3C]">
-                  DLD, ADM, SRERD & Municipal Intelligence
-                </p>
-                <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#111827] mt-1">
-                  {t.insightsHeading}
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div className="lg:col-span-7 bg-white border border-[#E5E2DC] p-6">
-                  <h3 className="font-display text-2xl font-semibold text-[#111827] mb-1">
-                    Average Price per Sq.Ft (AED) Across All 7 Emirates
-                  </h3>
-                  <p className="text-xs text-[#6B7280] mb-5">
-                    Derived from verified registered developments in White Collar Realty’s live database.
+              <ScrollReveal>
+                <div className="mb-8">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
+                    DLD, ADM, SRERD &amp; Municipal Intelligence
                   </p>
-                  <div className="h-72 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={emirateInsightsData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E2DC" />
-                        <XAxis dataKey="emirate" tick={{ fontSize: 12, fill: '#4B5563' }} />
-                        <YAxis tick={{ fontSize: 12, fill: '#4B5563' }} />
-                        <Tooltip
-                          formatter={(value: unknown) => [
-                            `AED ${Number(value).toLocaleString()} / sq.ft`,
-                            'Avg Price/Sq.Ft',
-                          ]}
-                        />
-                        <Bar dataKey="avgPsf" fill="#111827" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
+                  <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                    {t.insightsHeading}
+                  </h2>
                 </div>
 
-                {/* Recent Audited Inventory Feed */}
-                <div className="lg:col-span-5 bg-white border border-[#E5E2DC] p-6 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-display text-2xl font-semibold text-[#111827] mb-1">
-                      Live Inventory Synchronization Ledger
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                  <div className="lg:col-span-7 bg-[#121212] border border-[#D4AF72]/25 p-6">
+                    <h3 className="font-display text-2xl font-medium text-[#F5F1E8] mb-1">
+                      Average Price per Sq.Ft (AED) Across All 7 Emirates
                     </h3>
-                    <p className="text-xs text-[#6B7280] mb-4">
-                      Timestamped unit-level audit updates from developer APIs, webhooks, and CRM feeds.
+                    <p className="text-xs text-[#A5A19A] mb-5">
+                      Derived from verified registered developments in White Collar Realty’s live
+                      database.
                     </p>
-                    <div className="space-y-3">
-                      {inventoryLogs.slice(0, 5).map((log) => (
-                        <div
-                          key={log.id}
-                          className="border-b border-[#E5E2DC] pb-3 text-xs space-y-1"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="font-semibold text-[#111827]">{log.projectName}</span>
-                            <span className="font-mono-tabular text-[#047857] font-semibold">
-                              {log.previousAvailable ?? 'N/A'} → {log.newAvailable ?? 'N/A'} avail
-                            </span>
+                    <div className="h-72 w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={emirateInsightsData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
+                          <XAxis dataKey="emirate" tick={{ fontSize: 12, fill: '#A5A19A' }} />
+                          <YAxis tick={{ fontSize: 12, fill: '#A5A19A' }} />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: '#121212',
+                              borderColor: 'rgba(212, 175, 114, 0.45)',
+                              color: '#F5F1E8',
+                              fontSize: '12px',
+                            }}
+                            formatter={(value: unknown) => [
+                              `AED ${Number(value).toLocaleString()} / sq.ft`,
+                              'Avg Price/Sq.Ft',
+                            ]}
+                          />
+                          <Bar dataKey="avgPsf" fill="#D4AF72" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Recent Audited Inventory Feed */}
+                  <div className="lg:col-span-5 bg-[#121212] border border-[#D4AF72]/25 p-6 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-display text-2xl font-medium text-[#F5F1E8] mb-1">
+                        Live Inventory Synchronization Ledger
+                      </h3>
+                      <p className="text-xs text-[#A5A19A] mb-4">
+                        Timestamped unit-level audit updates from developer APIs, webhooks, and CRM
+                        feeds.
+                      </p>
+                      <div className="space-y-3">
+                        {inventoryLogs.slice(0, 5).map((log) => (
+                          <div
+                            key={log.id}
+                            className="border-b border-[#D4AF72]/15 pb-3 text-xs space-y-1"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-semibold text-[#F5F1E8]">
+                                {log.projectName}
+                              </span>
+                              <span className="font-mono-tabular text-[#6EE7B7] font-semibold">
+                                {log.previousAvailable ?? 'N/A'} → {log.newAvailable ?? 'N/A'}{' '}
+                                avail
+                              </span>
+                            </div>
+                            <p className="text-[#A5A19A]">
+                              {log.syncType} · {log.source}
+                            </p>
+                            <p className="font-mono-tabular text-[11px] text-[#A5A19A]/80">
+                              {new Date(log.timestamp).toLocaleString()}
+                            </p>
                           </div>
-                          <p className="text-[#4B5563]">
-                            {log.syncType} · {log.source}
-                          </p>
-                          <p className="font-mono-tabular text-[11px] text-[#6B7280]">
-                            {new Date(log.timestamp).toLocaleString()}
-                          </p>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             </section>
 
             {/* 10. ABOUT WHITE COLLAR REALTY & DIRECT CONTACT / WHATSAPP DESK */}
-            <section id="contact" className="bg-[#111827] text-white py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <section id="contact" className="bg-[#121212] border-t border-[#D4AF72]/20 py-16">
+              <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                   <div className="lg:col-span-6 space-y-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E6C77A]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF72]">
                       {t.aboutHeading}
                     </p>
-                    <h2 className="font-display text-3xl sm:text-4xl font-semibold leading-tight">
-                      Institutional Real Estate Intelligence Across Every UAE Emirate
+                    <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight">
+                      Private Real Estate Intelligence Across Every UAE Emirate
                     </h2>
-                    <p className="text-sm text-white/80 leading-relaxed">
-                      WHITE COLLAR REALTY bridges private wealth, global investors, and UAE master developers with transparent unit-level inventory verification, DLD/ADM/SRERD registration tracking, Golden Visa advisory, and real-time yield analytics.
+                    <p className="text-sm text-[#A5A19A] leading-relaxed">
+                      WHITE COLLAR REALTY bridges private wealth, global investors, and UAE master
+                      developers with transparent unit-level inventory verification, DLD/ADM/SRERD
+                      registration tracking, Golden Visa advisory, and real-time yield analytics.
                     </p>
-                    <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/15 font-mono-tabular">
+                    <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#D4AF72]/20 font-mono-tabular">
                       <div>
-                        <span className="block text-2xl font-semibold text-[#E6C77A]">7</span>
-                        <span className="text-xs text-white/70 font-sans">UAE Emirates Covered</span>
+                        <span className="block text-2xl font-semibold text-[#D4AF72]">7</span>
+                        <span className="text-xs text-[#A5A19A] font-sans">
+                          UAE Emirates Covered
+                        </span>
                       </div>
                       <div>
-                        <span className="block text-2xl font-semibold text-[#E6C77A]">
+                        <span className="block text-2xl font-semibold text-[#D4AF72]">
                           {developers.length}+
                         </span>
-                        <span className="text-xs text-white/70 font-sans">Verified Developers</span>
+                        <span className="text-xs text-[#A5A19A] font-sans">
+                          Verified Developers
+                        </span>
                       </div>
                       <div>
-                        <span className="block text-2xl font-semibold text-[#E6C77A]">AED / 6</span>
-                        <span className="text-xs text-white/70 font-sans">Live Currencies</span>
+                        <span className="block text-2xl font-semibold text-[#D4AF72]">
+                          AED / 6
+                        </span>
+                        <span className="text-xs text-[#A5A19A] font-sans">Live Currencies</span>
                       </div>
                     </div>
 
                     {/* Official Office Card */}
-                    <div className="border border-white/15 bg-white/5 p-4 text-xs space-y-2">
-                      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#E6C77A]">
+                    <div className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-4 text-xs space-y-2">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#D4AF72]">
                         Official Corporate Office
                       </p>
-                      <p className="text-white font-medium leading-relaxed">
+                      <p className="text-[#F5F1E8] font-medium leading-relaxed">
                         {COMPANY_INFO.formattedAddress}
                       </p>
                       <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px]">
                         <a
                           href={COMPANY_INFO.phoneHref}
-                          className="text-white hover:text-[#E6C77A] flex items-center gap-1 font-semibold"
+                          className="text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-1 font-semibold"
                         >
-                          <Phone className="w-3 h-3 text-[#E6C77A]" />
+                          <Phone className="w-3 h-3 text-[#D4AF72]" />
                           <span>{COMPANY_INFO.phone}</span>
                         </a>
-                        <span className="text-white/30">·</span>
+                        <span className="text-[#D4AF72]/30">·</span>
                         <a
                           href={COMPANY_INFO.emailHref}
-                          className="text-white hover:text-[#E6C77A] flex items-center gap-1 font-semibold"
+                          className="text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-1 font-semibold"
                         >
-                          <Mail className="w-3 h-3 text-[#E6C77A]" />
+                          <Mail className="w-3 h-3 text-[#D4AF72]" />
                           <span>{COMPANY_INFO.email}</span>
                         </a>
                       </div>
@@ -1678,14 +1985,14 @@ export default function App() {
                         href={COMPANY_INFO.whatsappDeskUrl()}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2.5 bg-[#047857] text-white text-xs font-semibold flex items-center gap-2 hover:opacity-90"
+                        className="px-5 py-2.5 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-2 hover:bg-[#047857] transition-colors"
                       >
                         <MessageCircle className="w-4 h-4" />
                         <span>WhatsApp Advisory ({COMPANY_INFO.phone})</span>
                       </a>
                       <a
                         href={COMPANY_INFO.phoneHref}
-                        className="px-5 py-2.5 bg-[#9A7B3C] text-white text-xs font-semibold hover:bg-[#7D622D] flex items-center gap-2"
+                        className="px-5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-2 transition-colors"
                       >
                         <Phone className="w-4 h-4" />
                         <span>Call {COMPANY_INFO.phone}</span>
@@ -1695,7 +2002,7 @@ export default function App() {
                         onClick={() =>
                           setEnquiryModalState({ open: true, type: 'visit', project: null })
                         }
-                        className="px-4 py-2.5 border border-white/30 text-white text-xs font-medium hover:border-[#E6C77A] flex items-center gap-2"
+                        className="px-4 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/30 text-[#F5F1E8] text-xs font-medium hover:border-[#D4AF72] flex items-center gap-2 transition-colors"
                       >
                         <span>Schedule Private Viewing</span>
                       </button>
@@ -1703,17 +2010,18 @@ export default function App() {
                   </div>
 
                   {/* Embedded Direct Contact / Callback Desk */}
-                  <div className="lg:col-span-6 bg-white text-[#111827] p-6 sm:p-8">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#9A7B3C]">
+                  <div className="lg:col-span-6 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] p-6 sm:p-8">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                       {t.contactHeading}
                     </p>
-                    <h3 className="font-display text-2xl font-semibold mt-1 mb-4">
+                    <h3 className="font-display text-2xl font-medium mt-1 mb-4 text-[#F5F1E8]">
                       Request Verified Developer Availability or Private Consultation
                     </h3>
 
                     {deskSubmitted ? (
-                      <div className="border border-[#E5E2DC] bg-[#FAF9F6] p-5 text-sm text-[#047857] font-medium">
-                        Your consultation request has been registered in our advisory CRM. A specialist will contact you via {COMPANY_INFO.phone} shortly.
+                      <div className="border border-[#34D399]/35 bg-[#064E3B]/35 p-5 text-sm text-[#6EE7B7] font-medium">
+                        Your consultation request has been registered in our advisory CRM. A
+                        specialist will contact you via {COMPANY_INFO.phone} shortly.
                       </div>
                     ) : (
                       <form onSubmit={handleDeskSubmit} className="space-y-3 text-xs">
@@ -1724,7 +2032,7 @@ export default function App() {
                             placeholder="Full Name *"
                             value={deskName}
                             onChange={(e) => setDeskName(e.target.value)}
-                            className="h-10 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+                            className="h-10 px-3 bg-[#121212] border border-[#D4AF72]/25 text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                           />
                           <input
                             type="email"
@@ -1732,7 +2040,7 @@ export default function App() {
                             placeholder="Email Address *"
                             value={deskEmail}
                             onChange={(e) => setDeskEmail(e.target.value)}
-                            className="h-10 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+                            className="h-10 px-3 bg-[#121212] border border-[#D4AF72]/25 text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                           />
                         </div>
                         <input
@@ -1740,18 +2048,18 @@ export default function App() {
                           placeholder="Phone / WhatsApp (+91 / +971...)"
                           value={deskPhone}
                           onChange={(e) => setDeskPhone(e.target.value)}
-                          className="w-full h-10 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+                          className="w-full h-10 px-3 bg-[#121212] border border-[#D4AF72]/25 text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                         />
                         <textarea
                           rows={3}
                           placeholder="Emirate preference, target budget in AED, or specific development..."
                           value={deskMsg}
                           onChange={(e) => setDeskMsg(e.target.value)}
-                          className="w-full p-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+                          className="w-full p-3 bg-[#121212] border border-[#D4AF72]/25 text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                         />
                         <button
                           type="submit"
-                          className="w-full py-3 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] transition-colors cursor-pointer"
+                          className="w-full py-3 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors cursor-pointer"
                         >
                           Request Advisory Callback
                         </button>
@@ -1761,13 +2069,13 @@ export default function App() {
                 </div>
 
                 {/* Interactive Google Map of White Collar Realty Office */}
-                <div className="pt-8 border-t border-white/10">
+                <div className="pt-8 border-t border-[#D4AF72]/15">
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-[#E6C77A]">
-                        Interactive Location & Navigation
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
+                        Interactive Location &amp; Navigation
                       </p>
-                      <h3 className="font-display text-2xl font-semibold text-white mt-0.5">
+                      <h3 className="font-display text-2xl font-medium text-[#F5F1E8] mt-0.5">
                         Visit WHITE COLLAR REALTY Office
                       </h3>
                     </div>
@@ -1775,7 +2083,7 @@ export default function App() {
                       href={COMPANY_INFO.googleMapsSearchUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 bg-[#9A7B3C] text-white text-xs font-semibold hover:bg-[#7D622D] flex items-center gap-1.5 transition-colors"
+                      className="px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5 transition-colors"
                     >
                       <span>GET DIRECTIONS TO WHITE COLLAR REALTY</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -1783,45 +2091,45 @@ export default function App() {
                   </div>
                   <OfficeLocationMap apiKey={mapsApiKey} />
                 </div>
-              </div>
+              </ScrollReveal>
             </section>
           </>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#0B0F19] text-white/75 border-t border-white/10 py-12 text-xs">
+      <footer className="bg-[#080808] text-[#A5A19A] border-t border-[#D4AF72]/20 py-12 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Col 1: Brand & Charter */}
             <div className="space-y-3">
-              <p className="font-display text-xl font-semibold text-white tracking-wide">
+              <p className="font-display text-xl font-medium text-[#F5F1E8] tracking-wide">
                 WHITE COLLAR REALTY
               </p>
-              <p className="text-white/70 leading-relaxed text-xs">
-                UAE Real Estate Intelligence, Off-plan & Ready Inventory Discovery, Golden Visa Advisory, and Developer Governance Platform.
+              <p className="text-[#A5A19A] leading-relaxed text-xs">
+                UAE Real Estate Intelligence, Off-plan &amp; Ready Inventory Discovery, Golden Visa
+                Advisory, and Developer Governance Platform.
               </p>
-              <p className="text-[11px] text-[#E6C77A] font-semibold">
+              <p className="text-[11px] text-[#D4AF72] font-semibold">
                 Authenticity First · Zero Fabricated 360° Tours · Official Feeds
               </p>
             </div>
 
             {/* Col 2: Official Corporate Address */}
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-white">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#F5F1E8]">
                 Official Office Address
               </p>
-              <p className="text-white/80 leading-relaxed">
-                {COMPANY_INFO.formattedAddress}
-              </p>
-              <p className="text-[11px] text-white/50 font-mono-tabular">
-                GPS: {COMPANY_INFO.officeCoordinates.lat}° N, {COMPANY_INFO.officeCoordinates.lng}° E
+              <p className="text-[#A5A19A] leading-relaxed">{COMPANY_INFO.formattedAddress}</p>
+              <p className="text-[11px] text-[#A5A19A]/70 font-mono-tabular">
+                GPS: {COMPANY_INFO.officeCoordinates.lat}° N, {COMPANY_INFO.officeCoordinates.lng}°
+                E
               </p>
               <a
                 href={COMPANY_INFO.googleMapsSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[#E6C77A] font-semibold hover:underline pt-1"
+                className="inline-flex items-center gap-1.5 text-[#D4AF72] font-semibold hover:underline pt-1"
               >
                 <span>GET DIRECTIONS TO WHITE COLLAR REALTY</span>
                 <ExternalLink className="w-3 h-3" />
@@ -1830,34 +2138,36 @@ export default function App() {
 
             {/* Col 3: Direct Contact Channels */}
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-white">
-                Direct Contact & Helplines
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#F5F1E8]">
+                Direct Contact &amp; Helplines
               </p>
               <p>
-                <span className="text-white/50 block text-[11px]">Primary Phone & WhatsApp:</span>
+                <span className="text-[#A5A19A]/70 block text-[11px]">
+                  Primary Phone &amp; WhatsApp:
+                </span>
                 <a
                   href={COMPANY_INFO.phoneHref}
-                  className="text-white font-semibold hover:text-[#E6C77A]"
+                  className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72]"
                 >
                   {COMPANY_INFO.phone}
                 </a>
               </p>
               <p>
-                <span className="text-white/50 block text-[11px]">Official Email:</span>
+                <span className="text-[#A5A19A]/70 block text-[11px]">Official Email:</span>
                 <a
                   href={COMPANY_INFO.emailHref}
-                  className="text-white font-semibold hover:text-[#E6C77A]"
+                  className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72]"
                 >
                   {COMPANY_INFO.email}
                 </a>
               </p>
               <p>
-                <span className="text-white/50 block text-[11px]">Official Website:</span>
+                <span className="text-[#A5A19A]/70 block text-[11px]">Official Website:</span>
                 <a
                   href={COMPANY_INFO.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#E6C77A] font-semibold hover:underline"
+                  className="text-[#D4AF72] font-semibold hover:underline"
                 >
                   {COMPANY_INFO.website}
                 </a>
@@ -1867,7 +2177,7 @@ export default function App() {
                   href={COMPANY_INFO.whatsappDeskUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#047857] text-white text-[11px] font-semibold hover:opacity-90"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#065F46] text-[#ECFDF5] text-[11px] font-semibold hover:bg-[#047857]"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>Chat on WhatsApp</span>
@@ -1877,60 +2187,72 @@ export default function App() {
 
             {/* Col 4: Quick Portals & Discovery */}
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-white">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#F5F1E8]">
                 Platform Discovery
               </p>
-              <ul className="space-y-1.5 text-white/70">
+              <ul className="space-y-1.5 text-[#A5A19A]">
                 <li>
-                  <a href="#projects" className="hover:text-white">
-                    All 182 UAE Projects ({projects.length})
+                  <a href="#projects" className="hover:text-[#D4AF72] transition-colors">
+                    All {projects.length} UAE Projects
                   </a>
                 </li>
                 <li>
-                  <a href="#uae-map" className="hover:text-white">
+                  <a href="#uae-map" className="hover:text-[#D4AF72] transition-colors">
                     Interactive UAE Property Map
                   </a>
                 </li>
                 <li>
-                  <a href="#developers" className="hover:text-white">
-                    27 Verified UAE Master Developers
+                  <a href="#developers" className="hover:text-[#D4AF72] transition-colors">
+                    {developers.length} Verified UAE Master Developers
                   </a>
                 </li>
                 <li>
-                  <a href="#calculator" className="hover:text-white">
-                    Mortgage & ROI Yield Calculator
+                  <a href="#calculator" className="hover:text-[#D4AF72] transition-colors">
+                    Mortgage &amp; ROI Yield Calculator
                   </a>
                 </li>
                 <li>
-                  <a href="#insights" className="hover:text-white">
-                    Emirate Price & Yield Analytics
+                  <a href="#insights" className="hover:text-[#D4AF72] transition-colors">
+                    Emirate Price &amp; Yield Analytics
                   </a>
                 </li>
               </ul>
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={handleReplayIntro}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#121212] border border-[#D4AF72]/30 text-[#D4AF72] hover:border-[#D4AF72] text-[11px] font-medium transition-colors"
+                >
+                  <Film className="w-3.5 h-3.5" />
+                  <span>Replay Skyline Intro</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-white/50 text-[11px]">
+          <div className="pt-6 border-t border-[#D4AF72]/15 flex flex-wrap items-center justify-between gap-4 text-[#A5A19A]/70 text-[11px]">
             <p>
-              © {new Date().getFullYear()} WHITE COLLAR REALTY. All rights reserved. Registered real estate intelligence & advisory.
+              © {new Date().getFullYear()} WHITE COLLAR REALTY. All rights reserved. Registered real
+              estate intelligence &amp; advisory.
             </p>
             <p className="font-mono-tabular">
-              Gurugram · Dubai · Abu Dhabi · Sharjah · Ras Al Khaimah · Ajman · Fujairah · Umm Al Quwain
+              Gurugram · Dubai · Abu Dhabi · Sharjah · Ras Al Khaimah · Ajman · Fujairah · Umm Al
+              Quwain
             </p>
           </div>
         </div>
       </footer>
 
-      {/* Compact Floating Compare Tray (<= 15% mobile height) */}
+      {/* Compact Floating Compare Tray */}
       {compareIds.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-[#111827] text-white border border-[#9A7B3C] px-4 py-2.5 shadow-lg flex items-center gap-4 max-w-[95vw]">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/50 px-4 py-2.5 shadow-2xl flex items-center gap-4 max-w-[95vw]">
           <span className="text-xs font-medium whitespace-nowrap">
-            Comparing <strong className="text-[#E6C77A]">{compareIds.length}</strong> / 4 projects
+            Comparing <strong className="text-[#D4AF72]">{compareIds.length}</strong> / 4 projects
           </span>
           <button
             type="button"
             onClick={() => setShowCompareModal(true)}
-            className="px-3.5 py-1.5 bg-[#9A7B3C] text-white text-xs font-medium hover:bg-[#7D622D] whitespace-nowrap"
+            className="px-3.5 py-1.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] whitespace-nowrap"
           >
             Compare Side-by-Side
           </button>
@@ -1938,7 +2260,7 @@ export default function App() {
             type="button"
             onClick={() => setCompareIds([])}
             aria-label="Clear comparison selection"
-            className="text-white/70 hover:text-white"
+            className="text-[#A5A19A] hover:text-[#F5F1E8]"
           >
             <X className="w-4 h-4" />
           </button>
@@ -1947,12 +2269,16 @@ export default function App() {
 
       {/* Non-Intrusive Real-Time Toast Notification */}
       {toast && (
-        <div className="fixed bottom-16 right-4 z-50 bg-[#111827] text-white border-l-2 border-[#E6C77A] px-4 py-3 text-xs shadow-lg max-w-sm flex items-center justify-between gap-3">
+        <div className="fixed bottom-16 right-4 z-50 bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/40 px-4 py-3 text-xs shadow-2xl max-w-sm flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Bell className="w-3.5 h-3.5 text-[#E6C77A] shrink-0" />
+            <Bell className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
             <span>{toast}</span>
           </div>
-          <button type="button" onClick={() => setToast(null)} className="text-white/70 hover:text-white">
+          <button
+            type="button"
+            onClick={() => setToast(null)}
+            className="text-[#A5A19A] hover:text-[#F5F1E8]"
+          >
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -2006,6 +2332,7 @@ export default function App() {
         <CustomerPortalModal
           userProfile={userProfile}
           projects={projects}
+          recentlyViewedProjects={recentlyViewedProjects}
           favorites={favorites}
           savedSearches={savedSearches}
           enquiries={userEnquiries}
@@ -2032,6 +2359,7 @@ export default function App() {
             closeProjectPage();
             document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
           }}
+          onReplayIntro={handleReplayIntro}
           onClose={() => setShowPortalModal(false)}
         />
       )}
@@ -2048,6 +2376,7 @@ export default function App() {
           adminLogs={adminLogs}
           currency={currency}
           mapsApiKey={mapsApiKey}
+          onReplayIntro={handleReplayIntro}
           onClose={() => setShowAdminModal(false)}
         />
       )}

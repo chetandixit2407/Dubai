@@ -75,13 +75,16 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
   return (
     <section
       aria-label={t.searchTitle}
-      className="bg-white border border-[#E5E2DC] p-5 lg:p-6 shadow-sm"
+      className="bg-[#121212] border border-[#D4AF72]/25 p-5 lg:p-7 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.85)]"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div>
-          <h2 className="font-display text-2xl font-semibold text-[#111827]">{t.searchTitle}</h2>
-          <p className="text-xs text-[#6B7280] mt-0.5 tabular-nums">
-            Showing {resultCount} verified UAE {resultCount === 1 ? 'project' : 'projects'} updating live
+          <h2 className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] tracking-tight">
+            {t.searchTitle}
+          </h2>
+          <p className="text-xs text-[#A5A19A] mt-1 tabular-nums">
+            Showing <span className="text-[#D4AF72] font-semibold">{resultCount}</span> verified UAE{' '}
+            {resultCount === 1 ? 'project' : 'projects'} with live registry metadata
           </p>
         </div>
 
@@ -89,25 +92,27 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           <button
             type="button"
             onClick={() => setExpanded((p) => !p)}
-            className="h-9 px-3.5 border border-[#E5E2DC] text-xs font-medium text-[#111827] hover:border-[#9A7B3C] flex items-center gap-1.5 whitespace-nowrap"
+            className="h-9 px-3.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 whitespace-nowrap transition-colors duration-200"
           >
-            <SlidersHorizontal className="w-3.5 h-3.5 text-[#9A7B3C]" />
-            <span>{expanded ? 'Hide Advanced Filters' : 'All Budget, Landmark & Yield Filters'}</span>
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#D4AF72]" />
+            <span>
+              {expanded ? 'Hide Bespoke Filters' : 'Size, Virtual Tours, Budget & Yield Filters'}
+            </span>
           </button>
 
           <button
             type="button"
             onClick={onSaveSearch}
-            className="h-9 px-3.5 border border-[#E5E2DC] text-xs font-medium text-[#111827] hover:border-[#9A7B3C] flex items-center gap-1.5 whitespace-nowrap"
+            className="h-9 px-3.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 whitespace-nowrap transition-colors duration-200"
           >
-            <Bell className="w-3.5 h-3.5 text-[#9A7B3C]" />
+            <Bell className="w-3.5 h-3.5 text-[#D4AF72]" />
             <span>{t.saveSearch}</span>
           </button>
 
           <button
             type="button"
             onClick={onReset}
-            className="h-9 px-3 text-xs font-medium text-[#4B5563] hover:text-[#111827] flex items-center gap-1 whitespace-nowrap"
+            className="h-9 px-3 text-xs font-medium text-[#A5A19A] hover:text-[#F5F1E8] flex items-center gap-1 whitespace-nowrap transition-colors duration-200"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>{t.resetFilters}</span>
@@ -118,13 +123,13 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
       {/* Core Search Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
         <div className="sm:col-span-2 lg:col-span-2 relative">
-          <Search className="w-4 h-4 text-[#6B7280] absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#A5A19A] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={filters.query}
             onChange={(e) => update('query', e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full h-10 pl-9 pr-3 border border-[#E5E2DC] text-sm text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+            className="w-full h-10 pl-9 pr-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
           />
         </div>
 
@@ -132,7 +137,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.emirate}
           onChange={(e) => update('emirate', e.target.value)}
           aria-label="Filter by Emirate"
-          className="lg:col-span-2 h-10 px-3 border border-[#E5E2DC] bg-white text-sm text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+          className="lg:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">{t.allEmirates}</option>
           {EMIRATES.map((em) => (
@@ -146,7 +151,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.propertyType}
           onChange={(e) => update('propertyType', e.target.value)}
           aria-label="Filter by Property Type"
-          className="lg:col-span-2 h-10 px-3 border border-[#E5E2DC] bg-white text-sm text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+          className="lg:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">{t.allTypes}</option>
           {PROPERTY_TYPES.map((pt) => (
@@ -160,7 +165,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.bedroomCount}
           onChange={(e) => update('bedroomCount', e.target.value)}
           aria-label="Filter by Bedroom Count"
-          className="lg:col-span-2 h-10 px-3 border border-[#E5E2DC] bg-white text-sm text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+          className="lg:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">Any Bedrooms</option>
           <option value="Studio">Studio</option>
@@ -174,7 +179,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.category}
           onChange={(e) => update('category', e.target.value)}
           aria-label="Filter by Construction Status"
-          className="lg:col-span-2 h-10 px-3 border border-[#E5E2DC] bg-white text-sm text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+          className="lg:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">All Statuses</option>
           {CATEGORIES.map((cat) => (
@@ -188,7 +193,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.sortBy}
           onChange={(e) => update('sortBy', e.target.value as SortOption)}
           aria-label={t.sortLabel}
-          className="lg:col-span-2 h-10 px-3 border border-[#E5E2DC] bg-[#FAF9F6] text-sm font-medium text-[#111827] focus:outline-none focus:border-[#9A7B3C]"
+          className="lg:col-span-2 h-10 px-3 bg-[#080808] border border-[#D4AF72]/45 text-sm font-medium text-[#D4AF72] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="featured">Sort: Featured</option>
           <option value="lowest_price">Sort: Lowest Price</option>
@@ -202,10 +207,10 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
 
       {/* Expanded Institutional Filter Matrix */}
       {expanded && (
-        <div className="mt-4 pt-4 border-t border-[#E5E2DC] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-5 pt-5 border-t border-[#D4AF72]/20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Budget Group */}
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9A7B3C]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
               Budget & Affordability (AED)
             </p>
             <div className="grid grid-cols-2 gap-2">
@@ -216,7 +221,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 onChange={(e) =>
                   update('minBudgetAed', e.target.value === '' ? '' : Number(e.target.value))
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
               <input
                 type="number"
@@ -225,7 +230,27 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 onChange={(e) =>
                   update('maxBudgetAed', e.target.value === '' ? '' : Number(e.target.value))
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <input
+                type="number"
+                placeholder="Min Size (sq.ft)"
+                value={filters.minSizeSqFt}
+                onChange={(e) =>
+                  update('minSizeSqFt', e.target.value === '' ? '' : Number(e.target.value))
+                }
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
+              />
+              <input
+                type="number"
+                placeholder="Max Size (sq.ft)"
+                value={filters.maxSizeSqFt}
+                onChange={(e) =>
+                  update('maxSizeSqFt', e.target.value === '' ? '' : Number(e.target.value))
+                }
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -239,7 +264,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                     e.target.value === '' ? '' : Number(e.target.value)
                   )
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
               <input
                 type="number"
@@ -248,20 +273,20 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 onChange={(e) =>
                   update('maxDownPaymentPct', e.target.value === '' ? '' : Number(e.target.value))
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
           </div>
 
           {/* Location & Landmarks */}
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9A7B3C]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
               Community & Proximity
             </p>
             <select
               value={filters.community}
               onChange={(e) => update('community', e.target.value)}
-              className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white text-xs"
+              className="w-full h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             >
               <option value="">All Communities & Neighbourhoods</option>
               {communities.map((c) => (
@@ -274,7 +299,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               <select
                 value={filters.landmarkCategory}
                 onChange={(e) => update('landmarkCategory', e.target.value)}
-                className="h-9 px-2 border border-[#E5E2DC] bg-white text-xs"
+                className="h-9 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
               >
                 <option value="">Near Any Landmark</option>
                 <option value="metro">Metro Station</option>
@@ -293,20 +318,33 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                     e.target.value === '' ? '' : Number(e.target.value)
                   )
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
+            <select
+              value={filters.tourFilter}
+              onChange={(e) =>
+                update('tourFilter', e.target.value as SearchFilters['tourFilter'])
+              }
+              aria-label="Filter by Virtual Tour Availability"
+              className="w-full h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+            >
+              <option value="">Virtual Tour & Media: Any</option>
+              <option value="any_media">Verified 3D Tour or Video Available</option>
+              <option value="3d_or_360">3D / 360° Virtual Tour Available</option>
+              <option value="video_only">Verified Video Walkthrough Available</option>
+            </select>
           </div>
 
           {/* Developer & Specs */}
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9A7B3C]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
               Developer, Handover & Specs
             </p>
             <select
               value={filters.developerId}
               onChange={(e) => update('developerId', e.target.value)}
-              className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white text-xs"
+              className="w-full h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             >
               <option value="">{t.allDevelopers}</option>
               {developers.map((dev) => (
@@ -319,7 +357,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               <select
                 value={filters.handoverYear}
                 onChange={(e) => update('handoverYear', e.target.value)}
-                className="h-9 px-2 border border-[#E5E2DC] bg-white text-xs"
+                className="h-9 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
               >
                 <option value="">Any Handover Year</option>
                 <option value="2024">Ready (2024–2025)</option>
@@ -335,21 +373,21 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 onChange={(e) =>
                   update('minConstructionPct', e.target.value === '' ? '' : Number(e.target.value))
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
           </div>
 
           {/* Tenure, Yield & Live Inventory */}
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9A7B3C]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72]">
               Tenure, Yield & Inventory
             </p>
             <div className="grid grid-cols-2 gap-2">
               <select
                 value={filters.tenure}
                 onChange={(e) => update('tenure', e.target.value)}
-                className="h-9 px-2 border border-[#E5E2DC] bg-white text-xs"
+                className="h-9 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
               >
                 <option value="">Freehold / Leasehold</option>
                 <option value="Freehold">Freehold Only</option>
@@ -358,7 +396,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               <select
                 value={filters.furnished}
                 onChange={(e) => update('furnished', e.target.value)}
-                className="h-9 px-2 border border-[#E5E2DC] bg-white text-xs"
+                className="h-9 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
               >
                 <option value="">Furnishing: Any</option>
                 <option value="Furnished">Furnished</option>
@@ -375,35 +413,44 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
                 onChange={(e) =>
                   update('minYieldPct', e.target.value === '' ? '' : Number(e.target.value))
                 }
-                className="h-9 px-2.5 border border-[#E5E2DC] font-mono-tabular text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
               <input
                 type="text"
                 placeholder="Payment plan (e.g. 80/20)"
                 value={filters.paymentPlanFilter}
                 onChange={(e) => update('paymentPlanFilter', e.target.value)}
-                className="h-9 px-2.5 border border-[#E5E2DC] text-xs"
+                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] placeholder:text-[#A5A19A]/70 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
           </div>
 
           {/* Toggles Row */}
-          <div className="sm:col-span-2 lg:col-span-4 flex flex-wrap items-center gap-6 pt-1">
-            <label className="flex items-center gap-2 text-xs font-medium text-[#111827] cursor-pointer">
+          <div className="sm:col-span-2 lg:col-span-4 flex flex-wrap items-center gap-6 pt-2">
+            <label className="flex items-center gap-2 text-xs font-medium text-[#F5F1E8] cursor-pointer">
+              <input
+                type="checkbox"
+                checked={filters.investmentOnly}
+                onChange={(e) => update('investmentOnly', e.target.checked)}
+                className="accent-[#D4AF72]"
+              />
+              <span>High-Yield Investment Opportunities (&ge; 7.0% Est. Gross Yield)</span>
+            </label>
+            <label className="flex items-center gap-2 text-xs font-medium text-[#F5F1E8] cursor-pointer">
               <input
                 type="checkbox"
                 checked={filters.waterfrontOnly}
                 onChange={(e) => update('waterfrontOnly', e.target.checked)}
-                className="accent-[#9A7B3C]"
+                className="accent-[#D4AF72]"
               />
               <span>Waterfront & Coastal Properties Only</span>
             </label>
-            <label className="flex items-center gap-2 text-xs font-medium text-[#111827] cursor-pointer">
+            <label className="flex items-center gap-2 text-xs font-medium text-[#F5F1E8] cursor-pointer">
               <input
                 type="checkbox"
                 checked={filters.verifiedAvailableOnly}
                 onChange={(e) => update('verifiedAvailableOnly', e.target.checked)}
-                className="accent-[#9A7B3C]"
+                className="accent-[#D4AF72]"
               />
               <span>Verified Live Available Units Only</span>
             </label>

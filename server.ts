@@ -558,6 +558,16 @@ async function startServer() {
     const with3d = INITIAL_PROJECTS.filter(
       (p) => p.virtualTour?.tourStatus === '3d_available' || p.virtualTour?.tourStatus === '360_available'
     ).length;
+    const withVideos = INITIAL_PROJECTS.filter((p) => (p.videoItems || []).length > 0).length;
+    const withVideoOnly = INITIAL_PROJECTS.filter(
+      (p) => p.virtualTour?.tourStatus === 'video_available'
+    ).length;
+    const withIndependentVideos = INITIAL_PROJECTS.filter(
+      (p) => p.primaryVideo?.priorityLevel === 1 || p.primaryVideo?.priorityLevel === 2
+    ).length;
+    const mediaNotAvailable = INITIAL_PROJECTS.filter(
+      (p) => p.virtualTour?.tourStatus === 'coming_soon' && (p.videoItems || []).length === 0
+    ).length;
     const withPhotos = INITIAL_PROJECTS.filter((p) => Boolean(p.heroImage)).length;
     const withFloorPlans = INITIAL_PROJECTS.filter((p) => (p.floorPlans || []).length > 0).length;
     const withLandmarks = INITIAL_PROJECTS.filter((p) => (p.nearbyLandmarks || []).length > 0).length;
@@ -573,13 +583,17 @@ async function startServer() {
       fullyVerifiedProfiles: total,
       propertiesWithVerifiedPhotos: withPhotos,
       propertiesWith3dVirtualTours: with3d,
+      propertiesWithVideoWalkthroughsOnly: withVideoOnly,
+      propertiesWithVerifiedVideos: withVideos,
+      propertiesWithIndependentVideos: withIndependentVideos,
+      propertiesMediaNotAvailable: mediaNotAvailable,
       propertiesAwaiting3dTourRelease: total - with3d,
       propertiesWithFloorPlans: withFloorPlans,
       propertiesWithNearbyLandmarks: withLandmarks,
       propertiesWithSalesOfficeContacts: withSalesOffice,
       emiratesBreakdown,
       generatedAt: new Date().toISOString(),
-      standards: 'RERA Compliance · Zero Fake Tour Policy · Real Coordinates & Floor Plans',
+      standards: 'RERA Compliance · Zero Fake Tour & Zero Fake Video Policy · Real Coordinates & Floor Plans',
     });
   });
 
@@ -1470,11 +1484,23 @@ async function startServer() {
 
     for (const p of INITIAL_PROJECTS) {
       const vt = p.virtualTour || { available: false, tourStatus: 'coming_soon' };
-      const tourUrl = vt.embedUrl || vt.directUrl || vt.walkthroughVideoUrl || '';
+      const isVideoFallback = vt.tourStatus === 'video_available' && Boolean(p.walkthroughVideoUrl || vt.walkthroughVideoUrl);
+      const tourUrl = vt.embedUrl || vt.directUrl || vt.walkthroughVideoUrl || p.walkthroughVideoUrl || '';
       let status: 'verified' | 'awaiting_verification' | 'broken' | 'unavailable' =
-        vt.verificationStatus || (vt.available ? 'verified' : 'unavailable');
-      let embedAvailable = vt.embedAvailable ?? (Boolean(vt.embedUrl) && vt.embedAvailable !== false);
-      let errorStatus = vt.errorStatus || (vt.available ? 'None - Active' : 'No publicly indexed 360° tour found for this specific project');
+        isVideoFallback
+          ? 'verified'
+          : vt.verificationStatus || (vt.available ? 'verified' : 'unavailable');
+      let embedAvailable =
+        isVideoFallback
+          ? true
+          : vt.embedAvailable ??
+            ((Boolean(vt.embedUrl) || tourUrl.includes('/embed/')) && vt.embedAvailable !== false);
+      let errorStatus = isVideoFallback
+        ? `Video Walkthrough Verified (${p.primaryVideo?.channelName || 'Verified Creator'})`
+        : vt.errorStatus ||
+          (vt.available
+            ? 'None - Active'
+            : 'Media Not Available (No verified 3D tour or project video found)');
 
       // If network probe requested for projects with active URLs, verify reachability
       if (probeNetwork && tourUrl && tourUrl.startsWith('http')) {
@@ -1518,9 +1544,11 @@ async function startServer() {
         projectName: p.name,
         developerName: p.developerName,
         tourUrl,
-        tourProvider: vt.provider || (vt.available ? 'Verified Provider' : 'None'),
+        tourProvider: isVideoFallback
+          ? `${p.primaryVideo?.channelName || 'YouTube'} (Video P${p.primaryVideo?.priorityLevel || 1})`
+          : vt.provider || (vt.available ? 'Verified Provider' : 'None'),
         verificationStatus: status,
-        lastCheckedDate: vt.lastCheckedDate || new Date().toISOString().slice(0, 10),
+        lastCheckedDate: p.primaryVideo?.publishedAt || vt.lastCheckedDate || new Date().toISOString().slice(0, 10),
         embedAvailable,
         errorStatus,
         category: p.category,

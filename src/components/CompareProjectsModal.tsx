@@ -19,12 +19,12 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
   onClose,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-      <div className="bg-white border border-[#E5E2DC] w-full max-w-6xl max-h-[90vh] flex flex-col">
-        <div className="px-6 py-4 border-b border-[#E5E2DC] flex items-center justify-between">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-6xl max-h-[90vh] flex flex-col">
+        <div className="px-6 py-4 border-b border-[#D4AF72]/20 flex items-center justify-between bg-[#080808]">
           <div className="flex items-center gap-2">
-            <GitCompare className="w-5 h-5 text-[#9A7B3C]" />
-            <h2 className="font-display text-2xl font-semibold text-[#111827]">
+            <GitCompare className="w-5 h-5 text-[#D4AF72]" />
+            <h2 className="font-display text-2xl font-medium text-[#F5F1E8]">
               Side-by-Side Project Comparison ({projects.length})
             </h2>
           </div>
@@ -32,7 +32,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Close Comparison"
-            className="w-9 h-9 border border-[#E5E2DC] flex items-center justify-center hover:border-[#9A7B3C]"
+            className="w-9 h-9 border border-[#D4AF72]/25 flex items-center justify-center text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -40,14 +40,14 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
 
         <div className="flex-1 overflow-auto p-6">
           {projects.length === 0 ? (
-            <p className="text-sm text-[#4B5563] text-center py-12">
+            <p className="text-sm text-[#A5A19A] text-center py-12">
               Select up to 4 projects using the Compare button on any project card.
             </p>
           ) : (
             <table className="w-full border-collapse text-left text-sm">
               <thead>
-                <tr className="border-b border-[#E5E2DC]">
-                  <th className="py-3 pr-4 w-48 text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
+                <tr className="border-b border-[#D4AF72]/25">
+                  <th className="py-3 pr-4 w-48 text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                     Metric
                   </th>
                   {projects.map((p) => (
@@ -56,7 +56,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                         <button
                           type="button"
                           onClick={() => onOpenProject(p)}
-                          className="font-display text-lg font-semibold text-[#111827] hover:text-[#9A7B3C] text-left"
+                          className="font-display text-lg font-medium text-[#F5F1E8] hover:text-[#D4AF72] text-left transition-colors"
                         >
                           {p.name}
                         </button>
@@ -64,7 +64,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                           type="button"
                           onClick={() => onRemove(p.id)}
                           aria-label={`Remove ${p.name}`}
-                          className="text-[#6B7280] hover:text-[#B91C1C] p-1"
+                          className="text-[#A5A19A] hover:text-[#F87171] p-1 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -73,14 +73,17 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5E2DC] text-xs sm:text-sm">
+              <tbody className="divide-y divide-[#D4AF72]/15 text-xs sm:text-sm">
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Starting Price</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Starting Price</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular font-semibold text-[#111827]">
+                    <td
+                      key={p.id}
+                      className="py-3 px-4 font-mono-tabular font-semibold text-[#F5F1E8]"
+                    >
                       {formatProjectPrice(p.startingPriceAed, currency)}
                       {p.startingPriceAed > 0 && (
-                        <span className="block text-xs font-semibold text-[#9A7B3C] font-mono-tabular mt-0.5">
+                        <span className="block text-xs font-semibold text-[#D4AF72] font-mono-tabular mt-0.5">
                           ≈ {formatCurrency(p.startingPriceAed, 'INR')}
                         </span>
                       )}
@@ -88,12 +91,17 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Booking / Down Payment</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Booking / Down Payment</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#047857] font-semibold">
-                      {p.bookingAmountAed ? formatProjectPrice(p.bookingAmountAed, currency) : `${p.downPaymentPct}%`}
+                    <td
+                      key={p.id}
+                      className="py-3 px-4 font-mono-tabular text-[#6EE7B7] font-semibold"
+                    >
+                      {p.bookingAmountAed
+                        ? formatProjectPrice(p.bookingAmountAed, currency)
+                        : `${p.downPaymentPct}%`}
                       {p.bookingAmountAed && (
-                        <span className="block text-xs text-[#9A7B3C] font-mono-tabular">
+                        <span className="block text-xs text-[#D4AF72] font-mono-tabular">
                           ≈ {formatCurrency(p.bookingAmountAed, 'INR')} ({p.downPaymentPct}%)
                         </span>
                       )}
@@ -101,126 +109,145 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Price / Sq.Ft</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Price / Sq.Ft</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular">
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#F5F1E8]">
                       {formatProjectPrice(p.pricePerSqFtAed, currency)}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Configurations</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Configurations</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4">{p.propertyTypes.join(', ')}</td>
+                    <td key={p.id} className="py-3 px-4 text-[#F5F1E8]">
+                      {p.propertyTypes.join(', ')}
+                    </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Bathrooms</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Bathrooms</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-medium text-[#111827]">{p.bathrooms || '1 - 3 Bathrooms'}</td>
+                    <td key={p.id} className="py-3 px-4 font-medium text-[#F5F1E8]">
+                      {p.bathrooms || '1 - 3 Bathrooms'}
+                    </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Developer</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Developer</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-semibold">{p.developerName}</td>
+                    <td key={p.id} className="py-3 px-4 font-semibold text-[#F5F1E8]">
+                      {p.developerName}
+                    </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Location</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Location</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4">
+                    <td key={p.id} className="py-3 px-4 text-[#A5A19A]">
                       {p.community}, {p.emirate}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Verified Available Units</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Verified Available Units</td>
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4 font-mono-tabular">
-                      {p.inventory.status === 'verified_live' && p.inventory.availableUnits !== null ? (
-                        <span className="text-[#047857] font-semibold">
-                          {p.inventory.availableUnits} / {p.inventory.totalRegisteredUnits} ({p.inventory.availabilityPct}%)
+                      {p.inventory.status === 'verified_live' &&
+                      p.inventory.availableUnits !== null ? (
+                        <span className="text-[#6EE7B7] font-semibold">
+                          {p.inventory.availableUnits} / {p.inventory.totalRegisteredUnits} (
+                          {p.inventory.availabilityPct}%)
                         </span>
                       ) : (
-                        <span className="text-[#6B7280]">Unavailable — Contact Desk</span>
+                        <span className="text-[#A5A19A]">Unavailable — Contact Desk</span>
                       )}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Unit Sizes (Sq.Ft)</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Unit Sizes (Sq.Ft)</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular">
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#F5F1E8]">
                       {p.minSizeSqFt.toLocaleString()} – {p.maxSizeSqFt.toLocaleString()} sq.ft
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Payment Plan</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Payment Plan</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4">{p.paymentPlan}</td>
+                    <td key={p.id} className="py-3 px-4 text-[#F5F1E8]">
+                      {p.paymentPlan}
+                    </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Handover Date</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Handover Date</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular">{p.handoverDate}</td>
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#F5F1E8]">
+                      {p.handoverDate}
+                    </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Construction Progress</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Construction Progress</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular">{p.constructionPct}% ({p.status})</td>
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#F5F1E8]">
+                      {p.constructionPct}% ({p.status})
+                    </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Gross / Net Yield (Est.)</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Gross / Net Yield (Est.)</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular">
-                      <span className="font-semibold text-[#047857]">
-                        {p.investment.grossYieldPct ? `${p.investment.grossYieldPct}% Gross` : 'N/A'}
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#A5A19A]">
+                      <span className="font-semibold text-[#6EE7B7]">
+                        {p.investment.grossYieldPct
+                          ? `${p.investment.grossYieldPct}% Gross`
+                          : 'N/A'}
                       </span>{' '}
                       · {p.investment.netYieldPct ? `${p.investment.netYieldPct}% Net` : ''}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">5-Yr Price Trend</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">5-Yr Price Trend</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#047857]">
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#6EE7B7]">
                       {p.investment.priceTrend5YrPct ? `+${p.investment.priceTrend5YrPct}%` : 'N/A'}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Virtual 3D Tour</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Virtual 3D Tour</td>
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4 text-xs font-semibold">
-                      {p.virtualTour.tourStatus === '3d_available' || p.virtualTour.tourStatus === '360_available' ? (
-                        <span className="text-[#9A7B3C] font-semibold">3D Model / 360 Available</span>
+                      {p.virtualTour.tourStatus === '3d_available' ||
+                      p.virtualTour.tourStatus === '360_available' ? (
+                        <span className="text-[#D4AF72] font-semibold">
+                          3D Model / 360 Available
+                        </span>
                       ) : (
-                        <span className="text-[#6B7280]">Unavailable</span>
+                        <span className="text-[#A5A19A]">Unavailable</span>
                       )}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Key Amenities</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Key Amenities</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 text-xs text-[#4B5563]">
+                    <td key={p.id} className="py-3 px-4 text-xs text-[#A5A19A]">
                       {p.amenities.slice(0, 4).join(' · ')}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-medium text-[#4B5563]">Action</td>
+                  <td className="py-3 pr-4 font-medium text-[#A5A19A]">Action</td>
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4">
                       <button
                         type="button"
                         onClick={() => onOpenProject(p)}
-                        className="py-1.5 px-3 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] transition-colors"
+                        className="py-1.5 px-3 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors"
                       >
                         Open Property Profile
                       </button>

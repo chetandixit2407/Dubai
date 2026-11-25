@@ -362,7 +362,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
     if (!draftReport.hasConnectedTourIfAvailable || !draftReport.hasAccurateTourStatus) {
       onNotify(
         'err',
-        'Blocked: Tour status must match connected assets (360° equirectangular rooms, Matterport/3D URL, or Video URL). Otherwise set status to Tour Coming Soon.'
+        'Blocked: Tour status must match connected assets (360° equirectangular rooms, Matterport/3D URL, or Video URL). Otherwise set status to Media Not Available.'
       );
       return;
     }
@@ -391,45 +391,45 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
       {/* 1. MEDIA COMPLETENESS DASHBOARD */}
       <div className="space-y-4">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="bg-white border border-[#E5E2DC] p-4">
-            <p className="text-xs text-[#6B7280]">Total Listed Projects</p>
-            <p className="font-mono-tabular text-2xl font-semibold text-[#111827] mt-1">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+            <p className="text-xs text-[#A5A19A]">Total Listed Projects</p>
+            <p className="font-mono-tabular text-2xl font-semibold text-[#F5F1E8] mt-1">
               {dashboardMetrics.total}
             </p>
           </div>
-          <div className="bg-white border border-[#E5E2DC] p-4">
-            <p className="text-xs text-[#6B7280]">Media Validation Passing</p>
-            <p className="font-mono-tabular text-2xl font-semibold text-[#047857] mt-1">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+            <p className="text-xs text-[#A5A19A]">Media Validation Passing</p>
+            <p className="font-mono-tabular text-2xl font-semibold text-[#6EE7B7] mt-1">
               {dashboardMetrics.ready} / {dashboardMetrics.total}
             </p>
           </div>
-          <div className="bg-white border border-[#E5E2DC] p-4">
-            <p className="text-xs text-[#6B7280]">Verified Actual Site Photos</p>
-            <p className="font-mono-tabular text-2xl font-semibold text-[#111827] mt-1">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+            <p className="text-xs text-[#A5A19A]">Verified Actual Site Photos</p>
+            <p className="font-mono-tabular text-2xl font-semibold text-[#F5F1E8] mt-1">
               {dashboardMetrics.withActual}
             </p>
           </div>
-          <div className="bg-white border border-[#E5E2DC] p-4">
-            <p className="text-xs text-[#6B7280]">Live 360° / 3D / Video Tours</p>
-            <p className="font-mono-tabular text-2xl font-semibold text-[#9A7B3C] mt-1">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+            <p className="text-xs text-[#A5A19A]">Live 360° / 3D / Video Tours</p>
+            <p className="font-mono-tabular text-2xl font-semibold text-[#D4AF72] mt-1">
               {dashboardMetrics.liveTours}
             </p>
           </div>
-          <div className="bg-white border border-[#E5E2DC] p-4">
-            <p className="text-xs text-[#6B7280]">Tours Coming Soon</p>
-            <p className="font-mono-tabular text-2xl font-semibold text-[#B45309] mt-1">
+          <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4">
+            <p className="text-xs text-[#A5A19A]">Media Not Available</p>
+            <p className="font-mono-tabular text-2xl font-semibold text-[#FCD34D] mt-1">
               {dashboardMetrics.comingSoon}
             </p>
           </div>
         </div>
 
-        <div className="bg-white border border-[#E5E2DC] p-5">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
             <div>
-              <h3 className="font-display text-2xl font-semibold text-[#111827]">
+              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
                 Media Completeness & Anti-Fake-Tour Audit Matrix
               </h3>
-              <p className="text-xs text-[#4B5563] mt-0.5">
+              <p className="text-xs text-[#A5A19A] mt-0.5">
                 Every development requires unique project-specific photography (0 shared images allowed), explicit render vs. photograph labeling, recorded source priority, and accurate virtual tour status.
               </p>
             </div>
@@ -437,13 +437,13 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               <span
                 className={
                   catalogAudit.projectsWithDuplicateImages === 0
-                    ? 'text-[#047857] font-semibold'
-                    : 'text-[#B91C1C] font-semibold'
+                    ? 'text-[#6EE7B7] font-semibold'
+                    : 'text-[#FCA5A5] font-semibold'
                 }
               >
                 Duplicate Images: {catalogAudit.projectsWithDuplicateImages}
               </span>
-              <span className="text-[#B45309] font-semibold">
+              <span className="text-[#FCD34D] font-semibold">
                 Missing Photos: {catalogAudit.projectsWithMissingImages}
               </span>
             </div>
@@ -451,7 +451,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-[#E5E2DC] bg-[#FAF9F6] text-[#6B7280]">
+                <tr className="border-b border-[#D4AF72]/20 bg-[#121212] text-[#A5A19A]">
                   <th className="py-2.5 px-3">Project</th>
                   <th className="py-2.5 px-3">Main Visual Type</th>
                   <th className="py-2.5 px-3">Media Assets</th>
@@ -461,35 +461,35 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   <th className="py-2.5 px-3 text-right">Manage</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5E2DC]">
+              <tbody className="divide-y divide-[#D4AF72]/15">
                 {completenessRows.map(({ project, report }) => (
                   <tr
                     key={project.id}
-                    className={selectedProject?.id === project.id ? 'bg-[#FAF9F6]' : 'hover:bg-[#FAF9F6]'}
+                    className={selectedProject?.id === project.id ? 'bg-[#121212]' : 'hover:bg-[#121212]'}
                   >
                     <td className="py-2.5 px-3">
-                      <p className="font-semibold text-[#111827]">{project.name}</p>
-                      <p className="text-[#6B7280]">{project.emirate}</p>
+                      <p className="font-semibold text-[#F5F1E8]">{project.name}</p>
+                      <p className="text-[#A5A19A]">{project.emirate}</p>
                     </td>
-                    <td className="py-2.5 px-3">
+                    <td className="py-2.5 px-3 text-[#F5F1E8]">
                       {MEDIA_CLASSIFICATION_LABELS[project.heroClassification || 'illustrative_image']}
                     </td>
-                    <td className="py-2.5 px-3 font-mono-tabular">
+                    <td className="py-2.5 px-3 font-mono-tabular text-[#A5A19A]">
                       {report.totalMediaCount} files · {report.categoryCount} categories
                     </td>
-                    <td className="py-2.5 px-3 font-semibold text-[#111827]">
+                    <td className="py-2.5 px-3 font-semibold text-[#F5F1E8]">
                       {TOUR_STATUS_LABELS[report.effectiveTourStatus]}
                     </td>
                     <td className="py-2.5 px-3 font-mono-tabular">
                       <span
                         className={`font-semibold ${
-                          report.isPublishReady ? 'text-[#047857]' : 'text-[#B45309]'
+                          report.isPublishReady ? 'text-[#6EE7B7]' : 'text-[#FCD34D]'
                         }`}
                       >
                         {report.completenessPct}%
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 text-[#4B5563]">
+                    <td className="py-2.5 px-3 text-[#A5A19A]">
                       {report.isPublishReady
                         ? 'All mandatory checks passed'
                         : report.missingReasons[0]}
@@ -501,7 +501,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                           setSelectedId(project.id);
                           workspaceRef.current?.scrollIntoView({ behavior: 'smooth' });
                         }}
-                        className="px-3 py-1.5 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C]"
+                        className="px-3 py-1.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] cursor-pointer"
                       >
                         Manage
                       </button>
@@ -516,13 +516,13 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
 
       {/* 2. PROJECT-SPECIFIC MEDIA & 360 TOUR WORKSPACE */}
       {draft && draftReport && (
-        <div ref={workspaceRef} className="bg-white border border-[#E5E2DC] p-6 space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E5E2DC]">
+        <div ref={workspaceRef} className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#D4AF72]/15">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#9A7B3C]">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
                 Project-Bound Media & Tour Console (ID: {draft.id})
               </p>
-              <h3 className="font-display text-2xl font-semibold text-[#111827]">
+              <h3 className="font-display text-2xl font-semibold text-[#F5F1E8]">
                 {draft.name}
               </h3>
             </div>
@@ -532,7 +532,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                 value={draft.id}
                 onChange={(e) => setSelectedId(e.target.value)}
                 aria-label="Select project to manage media"
-                className="h-9 px-3 border border-[#E5E2DC] bg-white text-xs font-medium"
+                className="h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] text-xs font-medium"
               >
                 {projects.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -544,7 +544,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               <button
                 type="button"
                 onClick={() => setPreviewOpen(true)}
-                className="h-9 px-4 border border-[#111827] text-[#111827] text-xs font-semibold hover:bg-[#FAF9F6] flex items-center gap-1.5"
+                className="h-9 px-4 border border-[#D4AF72]/35 text-[#F5F1E8] text-xs font-semibold hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 cursor-pointer"
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>Preview Tour</span>
@@ -555,7 +555,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   type="button"
                   disabled={saving}
                   onClick={handleSaveDraft}
-                  className="h-9 px-4 bg-[#111827] text-white text-xs font-semibold hover:bg-[#9A7B3C] flex items-center gap-1.5 disabled:opacity-50"
+                  className="h-9 px-4 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>{saving ? 'Publishing...' : 'Save & Publish Media'}</span>
@@ -568,8 +568,8 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
           <div
             className={`p-4 border text-xs flex flex-wrap items-center justify-between gap-3 ${
               draftReport.isPublishReady
-                ? 'bg-[#ECFDF5] border-[#A7F3D0] text-[#065F46]'
-                : 'bg-[#FFFBEB] border-[#FDE68A] text-[#92400E]'
+                ? 'bg-[#064E3B]/45 border-[#34D399]/35 text-[#6EE7B7]'
+                : 'bg-[#78350F]/45 border-[#FBBF24]/35 text-[#FCD34D]'
             }`}
           >
             <div className="flex items-start gap-2">
@@ -596,19 +596,19 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
 
           {/* A. PHOTOGRAPHY MANAGER */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-[#111827]">
-              <Camera className="w-4 h-4 text-[#9A7B3C]" />
+            <div className="flex items-center gap-2 text-[#F5F1E8]">
+              <Camera className="w-4 h-4 text-[#D4AF72]" />
               <h4 className="font-display text-xl font-semibold">
                 Authentic Photography & Render Attribution ({(draft.mediaItems || []).length} items)
               </h4>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 bg-[#FAF9F6] border border-[#E5E2DC] p-4 text-xs">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 bg-[#121212] border border-[#D4AF72]/20 p-4 text-xs">
               <div className="lg:col-span-6 space-y-3">
-                <p className="font-semibold text-[#111827]">Upload or Attach Verified Image</p>
+                <p className="font-semibold text-[#F5F1E8]">Upload or Attach Verified Image</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <label className="h-9 px-3 border border-[#E5E2DC] bg-white hover:border-[#9A7B3C] cursor-pointer flex items-center gap-1.5 font-medium">
-                    <Upload className="w-3.5 h-3.5 text-[#9A7B3C]" />
+                  <label className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#F5F1E8] hover:border-[#D4AF72] cursor-pointer flex items-center gap-1.5 font-medium">
+                    <Upload className="w-3.5 h-3.5 text-[#D4AF72]" />
                     <span>Upload Image File</span>
                     <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
                   </label>
@@ -620,22 +620,22 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       setPhotoUrl(e.target.value);
                       setPhotoImageHash('');
                     }}
-                    className="flex-1 min-w-[200px] h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                    className="flex-1 min-w-[200px] h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                 </div>
                 {photoUrl && (
-                  <p className="text-[11px] text-[#047857] font-medium">
+                  <p className="text-[11px] text-[#6EE7B7] font-medium">
                     Image staged ({photoUrl.startsWith('data:') ? 'Compressed Data URL' : 'External URL'})
                   </p>
                 )}
 
                 <div className="grid grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-[#4B5563] mb-1">Space Category</label>
+                    <label className="block text-[#A5A19A] mb-1">Space Category</label>
                     <select
                       value={photoCategory}
                       onChange={(e) => setPhotoCategory(e.target.value as MediaCategory)}
-                      className="w-full h-9 px-2 border border-[#E5E2DC] bg-white"
+                      className="w-full h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                     >
                       {Object.entries(MEDIA_CATEGORY_LABELS).map(([k, lbl]) => (
                         <option key={k} value={k}>
@@ -645,11 +645,11 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[#4B5563] mb-1">Visual Classification</label>
+                    <label className="block text-[#A5A19A] mb-1">Visual Classification</label>
                     <select
                       value={photoClass}
                       onChange={(e) => setPhotoClass(e.target.value as MediaClassification)}
-                      className="w-full h-9 px-2 border border-[#E5E2DC] bg-white"
+                      className="w-full h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                     >
                       {Object.entries(MEDIA_CLASSIFICATION_LABELS).map(([k, lbl]) => (
                         <option key={k} value={k}>
@@ -664,23 +664,23 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               <div className="lg:col-span-6 space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-[#4B5563] mb-1">Source Attribution *</label>
+                    <label className="block text-[#A5A19A] mb-1">Source Attribution *</label>
                     <input
                       type="text"
                       placeholder="e.g. Official Emaar Gallery"
                       value={photoSource}
                       onChange={(e) => setPhotoSource(e.target.value)}
-                      className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                      className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#4B5563] mb-1">Sourcing Priority</label>
+                    <label className="block text-[#A5A19A] mb-1">Sourcing Priority</label>
                     <select
                       value={photoPriority}
                       onChange={(e) =>
                         setPhotoPriority(Number(e.target.value) as MediaSourcePriority)
                       }
-                      className="w-full h-9 px-2 border border-[#E5E2DC] bg-white"
+                      className="w-full h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                     >
                       <option value={1}>1 · Official Developer Gallery</option>
                       <option value={2}>2 · Authorized Developer API / Feed</option>
@@ -691,18 +691,18 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-[#4B5563] mb-1">Caption</label>
+                  <label className="block text-[#A5A19A] mb-1">Caption</label>
                   <input
                     type="text"
                     placeholder="e.g. Completed Podium Infinity Pool overlooking Marina"
                     value={photoCaption}
                     onChange={(e) => setPhotoCaption(e.target.value)}
-                    className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                    className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className="flex items-center gap-2 cursor-pointer text-[#F5F1E8]">
                     <input
                       type="checkbox"
                       checked={photoVerified}
@@ -714,7 +714,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     type="button"
                     disabled={!canManageProjects}
                     onClick={handleAddPhotoToDraft}
-                    className="h-9 px-4 bg-[#111827] text-white font-medium hover:bg-[#9A7B3C] flex items-center gap-1.5 disabled:opacity-50"
+                    className="h-9 px-4 bg-[#D4AF72] text-[#080808] font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Attach Image</span>
@@ -728,25 +728,25 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               {(draft.mediaItems || []).map((item) => {
                 const isHero = draft.heroImage === item.url;
                 return (
-                  <div key={item.id} className="border border-[#E5E2DC] bg-[#FAF9F6] p-3 text-xs space-y-2">
-                    <div className="relative aspect-[16/10] bg-[#EFECE6] overflow-hidden">
+                  <div key={item.id} className="border border-[#D4AF72]/20 bg-[#121212] p-3 text-xs space-y-2">
+                    <div className="relative aspect-[16/10] bg-[#080808] overflow-hidden">
                       <img src={item.url} alt={item.caption} className="w-full h-full object-cover" />
-                      <span className="absolute top-2 left-2 px-2 py-0.5 bg-[#111827]/90 text-white text-[10px]">
+                      <span className="absolute top-2 left-2 px-2 py-0.5 bg-[#080808]/90 text-[#F5F1E8] text-[10px]">
                         {MEDIA_CLASSIFICATION_LABELS[item.classification]}
                       </span>
                       {isHero && (
-                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-[#9A7B3C] text-white text-[10px] font-semibold">
+                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-[#D4AF72] text-[#080808] text-[10px] font-semibold">
                           Main Photo
                         </span>
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-[#111827] truncate">{item.caption}</p>
-                      <p className="text-[#4B5563]">
+                      <p className="font-semibold text-[#F5F1E8] truncate">{item.caption}</p>
+                      <p className="text-[#A5A19A]">
                         {MEDIA_CATEGORY_LABELS[item.category]} · Source: {item.sourceName}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#E5E2DC]">
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#D4AF72]/15">
                       <button
                         type="button"
                         onClick={() =>
@@ -759,7 +759,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                             heroSourceName: item.sourceName,
                           })
                         }
-                        className="text-[#9A7B3C] font-semibold hover:underline"
+                        className="text-[#D4AF72] font-semibold hover:underline cursor-pointer"
                       >
                         {isHero ? 'Main Photo Active' : 'Set as Main'}
                       </button>
@@ -775,7 +775,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                             ),
                           })
                         }
-                        className={item.verifiedProjectSpecific ? 'text-[#047857]' : 'text-[#B45309]'}
+                        className={item.verifiedProjectSpecific ? 'text-[#6EE7B7] cursor-pointer' : 'text-[#FCD34D] cursor-pointer'}
                       >
                         {item.verifiedProjectSpecific ? 'Verified ✓' : 'Unverified'}
                       </button>
@@ -801,7 +801,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                             galleryImages: remaining.map((m) => m.url).slice(0, 20),
                           });
                         }}
-                        className="text-[#6B7280] hover:text-[#B91C1C]"
+                        className="text-[#A5A19A] hover:text-[#FCA5A5] cursor-pointer"
                         aria-label="Remove media item"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -814,17 +814,17 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
           </div>
 
           {/* B. 360° VIRTUAL TOUR & HOTSPOT MANAGER */}
-          <div className="pt-5 border-t border-[#E5E2DC] space-y-4">
-            <div className="flex items-center gap-2 text-[#111827]">
-              <Compass className="w-4 h-4 text-[#9A7B3C]" />
+          <div className="pt-5 border-t border-[#D4AF72]/15 space-y-4">
+            <div className="flex items-center gap-2 text-[#F5F1E8]">
+              <Compass className="w-4 h-4 text-[#D4AF72]" />
               <h4 className="font-display text-xl font-semibold">
                 Project-Specific 360° / 3D / Video Virtual Tour Manager
               </h4>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs bg-[#FAF9F6] border border-[#E5E2DC] p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs bg-[#121212] border border-[#D4AF72]/20 p-4">
               <div>
-                <label className="block text-[#4B5563] font-medium mb-1">Tour Availability Status</label>
+                <label className="block text-[#A5A19A] font-medium mb-1">Tour Availability Status</label>
                 <select
                   value={draft.virtualTour.tourStatus || 'coming_soon'}
                   onChange={(e) => {
@@ -847,17 +847,17 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       },
                     });
                   }}
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                 >
-                  <option value="coming_soon">Tour Coming Soon</option>
-                  <option value="360_available">360° Tour Available</option>
-                  <option value="3d_available">3D Tour Available (Matterport/WebXR)</option>
+                  <option value="coming_soon">Media Not Available</option>
+                  <option value="360_available">3D Virtual Tour Available (360°)</option>
+                  <option value="3d_available">3D Virtual Tour Available (Matterport/WebXR)</option>
                   <option value="video_available">Video Walkthrough Available</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[#4B5563] font-medium mb-1">Tour Provider / Engine</label>
+                <label className="block text-[#A5A19A] font-medium mb-1">Tour Provider / Engine</label>
                 <select
                   value={draft.virtualTour.provider || 'WhiteCollar360'}
                   onChange={(e) =>
@@ -869,7 +869,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       },
                     })
                   }
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                 >
                   <option value="WhiteCollar360">WhiteCollar 360° Panorama Engine</option>
                   <option value="Matterport">Matterport 3D Digital Twin</option>
@@ -879,7 +879,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               </div>
 
               <div>
-                <label className="block text-[#4B5563] font-medium mb-1">
+                <label className="block text-[#A5A19A] font-medium mb-1">
                   Matterport / 3D Tour Embed URL
                 </label>
                 <input
@@ -895,12 +895,12 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       },
                     })
                   }
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                 />
               </div>
 
               <div>
-                <label className="block text-[#4B5563] font-medium mb-1">
+                <label className="block text-[#A5A19A] font-medium mb-1">
                   Walkthrough Video URL (MP4 / Stream)
                 </label>
                 <input
@@ -916,12 +916,12 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       },
                     })
                   }
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-[#4B5563] font-medium mb-1">Authorized WebXR URL (Optional)</label>
+                <label className="block text-[#A5A19A] font-medium mb-1">Authorized WebXR URL (Optional)</label>
                 <input
                   type="url"
                   placeholder="https://.../webxr-tour"
@@ -935,12 +935,12 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       },
                     })
                   }
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-[#4B5563] font-medium mb-1">Tour Source Attribution</label>
+                <label className="block text-[#A5A19A] font-medium mb-1">Tour Source Attribution</label>
                 <input
                   type="text"
                   placeholder="e.g. Official Emaar Show Apartment 360° Capture"
@@ -954,15 +954,15 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                       },
                     })
                   }
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC] bg-white"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                 />
               </div>
             </div>
 
             {/* 360° Panorama Scenes Builder */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
-              <div className="border border-[#E5E2DC] p-4 space-y-3">
-                <h5 className="font-semibold text-[#111827]">
+              <div className="border border-[#D4AF72]/20 bg-[#121212] p-4 space-y-3">
+                <h5 className="font-semibold text-[#F5F1E8]">
                   Add True 360° Equirectangular Scene (2:1 Panorama Only)
                 </h5>
                 <div className="grid grid-cols-2 gap-2.5">
@@ -971,21 +971,21 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     placeholder="Scene Name (e.g. Sky Lounge)"
                     value={roomLabel}
                     onChange={(e) => setRoomLabel(e.target.value)}
-                    className="h-9 px-2.5 border border-[#E5E2DC]"
+                    className="h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                   <input
                     type="text"
                     placeholder="Floor Level (e.g. Level 28)"
                     value={roomFloor}
                     onChange={(e) => setRoomFloor(e.target.value)}
-                    className="h-9 px-2.5 border border-[#E5E2DC]"
+                    className="h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                   <select
                     value={roomCategory}
                     onChange={(e) =>
                       setRoomCategory(e.target.value as VirtualTourRoom['viewCategory'])
                     }
-                    className="h-9 px-2 border border-[#E5E2DC] bg-white"
+                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                   >
                     <option value="interior">Interior Room</option>
                     <option value="exterior">Building Exterior</option>
@@ -995,7 +995,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   <select
                     value={roomFloorPlanId}
                     onChange={(e) => setRoomFloorPlanId(e.target.value)}
-                    className="h-9 px-2 border border-[#E5E2DC] bg-white"
+                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                   >
                     <option value="">Link Floor Plan (Optional)</option>
                     {draft.floorPlans.map((fp) => (
@@ -1007,8 +1007,8 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
-                  <label className="h-9 px-3 border border-[#E5E2DC] bg-[#FAF9F6] hover:border-[#9A7B3C] cursor-pointer flex items-center gap-1.5 font-medium">
-                    <Upload className="w-3.5 h-3.5 text-[#9A7B3C]" />
+                  <label className="h-9 px-3 border border-[#D4AF72]/25 bg-[#1B1B1B] text-[#F5F1E8] hover:border-[#D4AF72] cursor-pointer flex items-center gap-1.5 font-medium">
+                    <Upload className="w-3.5 h-3.5 text-[#D4AF72]" />
                     <span>Upload 360° Panorama</span>
                     <input type="file" accept="image/*" className="hidden" onChange={handleRoomPanoUpload} />
                   </label>
@@ -1017,15 +1017,15 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     placeholder="Or paste 2:1 equirectangular URL..."
                     value={roomImageUrl.startsWith('data:') ? '' : roomImageUrl}
                     onChange={(e) => setRoomImageUrl(e.target.value)}
-                    className="flex-1 min-w-[180px] h-9 px-2.5 border border-[#E5E2DC]"
+                    className="flex-1 min-w-[180px] h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                 </div>
 
                 {aspectHint && (
-                  <p className={roomIsTrue360 ? 'text-[#047857]' : 'text-[#B91C1C]'}>{aspectHint}</p>
+                  <p className={roomIsTrue360 ? 'text-[#6EE7B7]' : 'text-[#FCA5A5]'}>{aspectHint}</p>
                 )}
 
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer text-[#F5F1E8]">
                   <input
                     type="checkbox"
                     checked={roomIsTrue360}
@@ -1038,7 +1038,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   type="button"
                   disabled={!canManageProjects}
                   onClick={handleAddRoomToDraft}
-                  className="h-9 px-4 bg-[#111827] text-white font-medium hover:bg-[#9A7B3C] flex items-center gap-1.5 disabled:opacity-50"
+                  className="h-9 px-4 bg-[#D4AF72] text-[#080808] font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add 360° Scene</span>
@@ -1046,15 +1046,15 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
               </div>
 
               {/* Interactive Hotspots Builder */}
-              <div className="border border-[#E5E2DC] p-4 space-y-3">
-                <h5 className="font-semibold text-[#111827]">
+              <div className="border border-[#D4AF72]/20 bg-[#121212] p-4 space-y-3">
+                <h5 className="font-semibold text-[#F5F1E8]">
                   Connect Interactive Hotspots & Room Jumps
                 </h5>
                 <div className="grid grid-cols-2 gap-2.5">
                   <select
                     value={hsTargetRoomIdx}
                     onChange={(e) => setHsTargetRoomIdx(Number(e.target.value))}
-                    className="h-9 px-2 border border-[#E5E2DC] bg-white col-span-2"
+                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] col-span-2"
                   >
                     {(draft.virtualTour.rooms || []).length === 0 ? (
                       <option value={0}>No 360° rooms created yet</option>
@@ -1072,12 +1072,12 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     placeholder="Hotspot Label (e.g. Step to Terrace)"
                     value={hsLabel}
                     onChange={(e) => setHsLabel(e.target.value)}
-                    className="h-9 px-2.5 border border-[#E5E2DC]"
+                    className="h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                   />
                   <select
                     value={hsJumpRoomId}
                     onChange={(e) => setHsJumpRoomId(e.target.value)}
-                    className="h-9 px-2 border border-[#E5E2DC] bg-white"
+                    className="h-9 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8]"
                   >
                     <option value="">Info Callout Only (No Jump)</option>
                     {(draft.virtualTour.rooms || []).map((r) => (
@@ -1087,25 +1087,25 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                     ))}
                   </select>
                   <div>
-                    <label className="block text-[#6B7280] mb-0.5">Yaw (-180° to 180°)</label>
+                    <label className="block text-[#A5A19A] mb-0.5">Yaw (-180° to 180°)</label>
                     <input
                       type="number"
                       min={-180}
                       max={180}
                       value={hsYaw}
                       onChange={(e) => setHsYaw(Number(e.target.value))}
-                      className="w-full h-8 px-2 border border-[#E5E2DC] font-mono-tabular"
+                      className="w-full h-8 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] font-mono-tabular"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#6B7280] mb-0.5">Pitch (-80° to 80°)</label>
+                    <label className="block text-[#A5A19A] mb-0.5">Pitch (-80° to 80°)</label>
                     <input
                       type="number"
                       min={-80}
                       max={80}
                       value={hsPitch}
                       onChange={(e) => setHsPitch(Number(e.target.value))}
-                      className="w-full h-8 px-2 border border-[#E5E2DC] font-mono-tabular"
+                      className="w-full h-8 px-2 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] font-mono-tabular"
                     />
                   </div>
                 </div>
@@ -1114,13 +1114,13 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                   placeholder="Optional architectural finish detail..."
                   value={hsDetail}
                   onChange={(e) => setHsDetail(e.target.value)}
-                  className="w-full h-9 px-2.5 border border-[#E5E2DC]"
+                  className="w-full h-9 px-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] placeholder:text-[#A5A19A]/60"
                 />
                 <button
                   type="button"
                   disabled={!canManageProjects || (draft.virtualTour.rooms || []).length === 0}
                   onClick={handleAddHotspot}
-                  className="h-9 px-4 bg-[#111827] text-white font-medium hover:bg-[#9A7B3C] flex items-center gap-1.5 disabled:opacity-50"
+                  className="h-9 px-4 bg-[#D4AF72] text-[#080808] font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Attach Hotspot</span>
@@ -1131,20 +1131,20 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
             {/* Connected 360 Rooms List */}
             {(draft.virtualTour.rooms || []).length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-[#4B5563]">
+                <p className="text-xs font-semibold text-[#A5A19A]">
                   Connected 360° Rooms ({(draft.virtualTour.rooms || []).length})
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {(draft.virtualTour.rooms || []).map((room) => (
                     <div
                       key={room.id}
-                      className="border border-[#E5E2DC] bg-[#FAF9F6] p-3 text-xs flex items-center justify-between gap-3"
+                      className="border border-[#D4AF72]/20 bg-[#121212] p-3 text-xs flex items-center justify-between gap-3"
                     >
                       <div className="min-w-0">
-                        <p className="font-semibold text-[#111827] truncate">
+                        <p className="font-semibold text-[#F5F1E8] truncate">
                           {room.floorLevel} · {room.label}
                         </p>
-                        <p className="text-[#6B7280]">
+                        <p className="text-[#A5A19A]">
                           {(room.hotspots || []).length} hotspots · {room.sourceName}
                         </p>
                       </div>
@@ -1173,7 +1173,7 @@ export const AdminMediaTourManager: React.FC<AdminMediaTourManagerProps> = ({
                             },
                           });
                         }}
-                        className="text-[#6B7280] hover:text-[#B91C1C]"
+                        className="text-[#A5A19A] hover:text-[#FCA5A5] cursor-pointer"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

@@ -1,5 +1,7 @@
 import { CurrencyCode } from '../types/realEstate.ts';
 
+export const EXCHANGE_RATE_UPDATED_AT = 'Nov 25, 2026';
+
 export const CURRENCY_RATES_FROM_AED: Record<CurrencyCode, number> = {
   AED: 1,
   USD: 0.27229,
@@ -17,6 +19,10 @@ export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
   EUR: '€',
   SAR: 'SAR',
 };
+
+export function formatInrTimestampNote(): string {
+  return `Indicative FX (${EXCHANGE_RATE_UPDATED_AT}) · 1 AED ≈ ₹${CURRENCY_RATES_FROM_AED.INR}`;
+}
 
 export function convertFromAed(amountAed: number, currency: CurrencyCode): number {
   return amountAed * CURRENCY_RATES_FROM_AED[currency];

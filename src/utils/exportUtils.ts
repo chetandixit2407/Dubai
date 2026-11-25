@@ -1,6 +1,7 @@
 import * as XLSX from 'xlsx';
 import { Developer, Project } from '../types/realEstate.ts';
 import { convertFromAed, formatCurrency } from './currency.ts';
+import { getEffectiveTourStatus, TOUR_STATUS_LABELS } from './mediaValidation.ts';
 
 export function exportCatalogToExcel(
   projects: Project[],
@@ -13,6 +14,8 @@ export function exportCatalogToExcel(
   const projectRows = projects.map((p, idx) => {
     const inrStarting = p.startingPriceAed ? formatCurrency(p.startingPriceAed, 'INR') : 'POA';
     const inrBooking = p.bookingAmountAed ? formatCurrency(p.bookingAmountAed, 'INR') : 'POA';
+    const effStatus = getEffectiveTourStatus(p);
+    const primaryVideo = p.primaryVideo;
 
     return {
       '#': idx + 1,
@@ -40,16 +43,23 @@ export function exportCatalogToExcel(
       'Est. Net ROI (%)': p.investment.netYieldPct ? `${p.investment.netYieldPct}%` : 'N/A',
       '5-Year Capital Appreciation (%)': p.investment.priceTrend5YrPct ? `+${p.investment.priceTrend5YrPct}%` : 'N/A',
       'Service Charge / Sq.Ft (AED)': p.investment.serviceChargePerSqFtAed || 'N/A',
-      'Virtual Tour Status':
-        p.virtualTour.tourStatus === '3d_available'
+      'Media Availability Status': TOUR_STATUS_LABELS[effStatus],
+      '3D Virtual Tour Status':
+        effStatus === '3d_available'
           ? 'Verified 3D Model / Spatial Twin Available'
-          : p.virtualTour.tourStatus === '360_available'
+          : effStatus === '360_available'
           ? 'Verified 360° Panorama Available'
-          : p.virtualTour.tourStatus === 'video_available'
-          ? 'Verified Video Walkthrough Available'
-          : 'Virtual Tour Unavailable (Private Walkthrough on Request)',
+          : effStatus === 'video_available'
+          ? '3D Tour Unavailable · Video Walkthrough Available'
+          : 'Media Not Available',
       'Virtual Tour URL': p.virtualTour.embedUrl || p.virtualTour.directUrl || 'Not Available',
+      'Primary Video Title': primaryVideo?.title || 'Media Not Available',
+      'Video Channel': primaryVideo?.channelName || 'N/A',
+      'Video Creator Priority': primaryVideo ? `${primaryVideo.priorityLabel} (P${primaryVideo.priorityLevel})` : 'N/A',
+      'Video Upload Date': primaryVideo?.publishedAt || 'N/A',
+      'Original Video Source URL': primaryVideo?.sourceUrl || p.walkthroughVideoUrl || 'Not Available',
       'Official Project URL': p.projectUrl || 'Not Available',
+      'Developer Official Website': p.developerWebsite || 'https://whitecollarrealty.com',
       'Google Maps Link': p.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${p.coordinates.lat},${p.coordinates.lng}`,
       'Sales Office Address': p.salesOfficeAddress || 'Contact White Collar Realty Advisory',
       'Sales Office Phone': p.salesOfficePhone || '+91 88102 86629',
@@ -90,15 +100,18 @@ export function exportCatalogToExcel(
     { Metric: 'Total Properties Indexed', Value: projects.length },
     { Metric: 'Properties with Complete Verified Profile', Value: projects.length },
     { Metric: 'Properties with Verified Photographs & Renders', Value: projects.filter((p) => Boolean(p.heroImage)).length },
-    { Metric: 'Properties with Genuine 3D Spatial Twins / Tours', Value: projects.filter((p) => p.virtualTour.tourStatus === '3d_available' || p.virtualTour.tourStatus === '360_available').length },
-    { Metric: 'Properties with Virtual Tour Unavailable (Private Request)', Value: projects.filter((p) => p.virtualTour.tourStatus === 'coming_soon').length },
+    { Metric: 'Properties with Genuine 3D Spatial Twins / 360° Tours', Value: projects.filter((p) => { const s = getEffectiveTourStatus(p); return s === '3d_available' || s === '360_available'; }).length },
+    { Metric: 'Properties with Video Walkthrough Alternative (No 3D Tour)', Value: projects.filter((p) => getEffectiveTourStatus(p) === 'video_available').length },
+    { Metric: 'Total Properties with Verified Project Videos', Value: projects.filter((p) => (p.videoItems?.length || 0) > 0).length },
+    { Metric: 'Properties with Independent Creator Primary Video', Value: projects.filter((p) => p.primaryVideo?.priorityLevel === 1 || p.primaryVideo?.priorityLevel === 2).length },
+    { Metric: 'Properties Missing Both 3D Tour & Video (Media Not Available)', Value: projects.filter((p) => getEffectiveTourStatus(p) === 'coming_soon').length },
     { Metric: 'Dubai Projects', Value: projects.filter((p) => p.emirate === 'Dubai').length },
     { Metric: 'Abu Dhabi Projects', Value: projects.filter((p) => p.emirate === 'Abu Dhabi').length },
     { Metric: 'Ras Al Khaimah Projects', Value: projects.filter((p) => p.emirate === 'Ras Al Khaimah').length },
     { Metric: 'Sharjah Projects', Value: projects.filter((p) => p.emirate === 'Sharjah').length },
     { Metric: 'Umm Al Quwain Projects', Value: projects.filter((p) => p.emirate === 'Umm Al Quwain').length },
     { Metric: 'Audit Timestamp', Value: new Date().toISOString() },
-    { Metric: 'Compliance Standard', Value: 'Zero Fake Renders Policy · Real Coordinates · Verified Developer Feeds' },
+    { Metric: 'Compliance Standard', Value: 'Zero Fake Renders & Zero Fake Videos Policy · Real Coordinates · Verified Creator & Developer Feeds' },
   ];
 
   const wsAudit = XLSX.utils.json_to_sheet(auditSummary);
@@ -110,6 +123,8 @@ export function exportCatalogToExcel(
 
 export function exportSingleProjectToExcel(project: Project, developer?: Developer): void {
   const wb = XLSX.utils.book_new();
+  const effStatus = getEffectiveTourStatus(project);
+  const primaryVideo = project.primaryVideo;
 
   // Overview Sheet
   const overview = [
@@ -135,6 +150,10 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     { Field: 'Est. Net Rental Yield', Details: project.investment.netYieldPct ? `${project.investment.netYieldPct}%` : 'N/A' },
     { Field: '5-Year Area Growth Trajectory', Details: project.investment.priceTrend5YrPct ? `+${project.investment.priceTrend5YrPct}%` : 'N/A' },
     { Field: 'Service Charge / Sq.Ft', Details: project.investment.serviceChargePerSqFtAed ? `AED ${project.investment.serviceChargePerSqFtAed}` : 'N/A' },
+    { Field: 'Media Availability Status', Details: TOUR_STATUS_LABELS[effStatus] },
+    { Field: '3D Virtual Tour URL', Details: project.virtualTour.embedUrl || project.virtualTour.directUrl || 'Unavailable' },
+    { Field: 'Primary Video Walkthrough', Details: primaryVideo ? `${primaryVideo.title} (${primaryVideo.channelName}, ${primaryVideo.publishedAt})` : 'Media Not Available' },
+    { Field: 'Video Source Link', Details: primaryVideo?.sourceUrl || project.walkthroughVideoUrl || 'Not Available' },
     { Field: 'Coordinates', Details: `${project.coordinates.lat}° N, ${project.coordinates.lng}° E` },
     { Field: 'Google Maps Link', Details: project.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${project.coordinates.lat},${project.coordinates.lng}` },
     { Field: 'Official Project Link', Details: project.projectUrl || 'Not Available' },

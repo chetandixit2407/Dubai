@@ -36,20 +36,27 @@ function clip(val: string | undefined, max: number): string {
   return (val || '').trim().slice(0, max);
 }
 
-export const BOOTSTRAPPED_ADMIN_EMAIL = 'chetandixit9968@gmail.com';
+export const BOOTSTRAPPED_ADMIN_EMAILS = [
+  'chetandixit9968@gmail.com',
+  'chatgpt2407.open@gmail.com',
+];
+
+export function isBootstrappedAdminEmail(email?: string | null): boolean {
+  return Boolean(email && BOOTSTRAPPED_ADMIN_EMAILS.includes(email.toLowerCase().trim()));
+}
 
 export function isStaffRole(role?: UserRole | null, email?: string | null): boolean {
-  if (email === BOOTSTRAPPED_ADMIN_EMAIL) return true;
+  if (isBootstrappedAdminEmail(email)) return true;
   return role === 'super_admin' || role === 'admin' || role === 'inventory_manager' || role === 'sales_agent';
 }
 
 export function isAdminRole(role?: UserRole | null, email?: string | null): boolean {
-  if (email === BOOTSTRAPPED_ADMIN_EMAIL) return true;
+  if (isBootstrappedAdminEmail(email)) return true;
   return role === 'super_admin' || role === 'admin';
 }
 
 export function isInventoryManagerRole(role?: UserRole | null, email?: string | null): boolean {
-  if (email === BOOTSTRAPPED_ADMIN_EMAIL) return true;
+  if (isBootstrappedAdminEmail(email)) return true;
   return role === 'super_admin' || role === 'admin' || role === 'inventory_manager';
 }
 
@@ -72,7 +79,7 @@ export async function syncUserProfile(
       return data;
     }
 
-    const defaultRole: UserRole = email === BOOTSTRAPPED_ADMIN_EMAIL ? 'super_admin' : 'customer';
+    const defaultRole: UserRole = isBootstrappedAdminEmail(email) ? 'super_admin' : 'customer';
     const profile: UserProfile = {
       uid,
       email: clip(email, 160),

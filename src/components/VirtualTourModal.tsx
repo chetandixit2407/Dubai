@@ -482,16 +482,16 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-0 md:p-4">
       <div
         ref={containerRef}
-        className={`bg-[#0E1420] text-white flex flex-col border border-white/15 ${
+        className={`bg-[#080808] text-white flex flex-col border border-[#D4AF72]/20 ${
           isFullscreen ? 'w-full h-full' : 'w-full max-w-7xl h-[94vh] md:h-[88vh]'
         }`}
       >
         {/* Top Interactive Control Header */}
-        <div className="px-5 py-3.5 border-b border-white/15 flex flex-wrap items-center justify-between gap-3 bg-[#111827] shrink-0">
+        <div className="px-5 py-3.5 border-b border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-3 bg-[#121212] shrink-0">
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#E6C77A] uppercase tracking-wider font-semibold">
+            <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#D4AF72] uppercase tracking-wider font-semibold">
               <span>{TOUR_STATUS_LABELS[effectiveStatus]}</span>
-              {isPreview && <span className="px-1.5 py-0.5 bg-[#9A7B3C] text-white">ADMIN PREVIEW</span>}
+              {isPreview && <span className="px-1.5 py-0.5 bg-[#D4AF72] text-[#080808]">ADMIN PREVIEW</span>}
               {project.virtualTour.provider && <span>· {project.virtualTour.provider}</span>}
               <span>
                 · {project.community}, {project.emirate}
@@ -509,7 +509,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   type="button"
                   onClick={() => setFovDeg((p) => Math.max(35, p - 10))}
                   title="Zoom In"
-                  className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#E6C77A]"
+                  className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#D4AF72]"
                 >
                   <ZoomIn className="w-4 h-4" />
                 </button>
@@ -517,7 +517,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   type="button"
                   onClick={() => setFovDeg((p) => Math.min(105, p + 10))}
                   title="Zoom Out"
-                  className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#E6C77A]"
+                  className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#D4AF72]"
                 >
                   <ZoomOut className="w-4 h-4" />
                 </button>
@@ -529,7 +529,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     setFovDeg(75);
                   }}
                   title="Reset View"
-                  className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#E6C77A]"
+                  className="h-9 w-9 border border-white/20 flex items-center justify-center hover:border-[#D4AF72]"
                 >
                   <RotateCcw className="w-4 h-4" />
                 </button>
@@ -539,8 +539,8 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     onClick={handleEnableGyro}
                     className={`h-9 px-3 border text-xs font-medium flex items-center gap-1.5 ${
                       gyroEnabled
-                        ? 'bg-[#9A7B3C] border-[#9A7B3C] text-white'
-                        : 'border-white/20 hover:border-[#E6C77A]'
+                        ? 'bg-[#D4AF72] border-[#D4AF72] text-white'
+                        : 'border-white/20 hover:border-[#D4AF72]'
                     }`}
                   >
                     <Smartphone className="w-3.5 h-3.5" />
@@ -556,8 +556,8 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                 onClick={() => setShowFloorPlans((p) => !p)}
                 className={`h-9 px-3 border text-xs font-medium flex items-center gap-1.5 ${
                   showFloorPlans
-                    ? 'bg-[#9A7B3C] border-[#9A7B3C] text-white'
-                    : 'border-white/20 hover:border-[#E6C77A]'
+                    ? 'bg-[#D4AF72] border-[#D4AF72] text-white'
+                    : 'border-white/20 hover:border-[#D4AF72]'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -568,7 +568,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
             <button
               type="button"
               onClick={toggleFullscreen}
-              className="h-9 px-3 border border-white/20 text-xs font-medium hover:border-[#E6C77A] flex items-center gap-1.5"
+              className="h-9 px-3 border border-white/20 text-xs font-medium hover:border-[#D4AF72] flex items-center gap-1.5"
             >
               {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
               <span className="hidden sm:inline">{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
@@ -587,8 +587,8 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
         {/* Multi-Tour Gallery Bar */}
         {tourList.length > 1 && (
-          <div className="px-5 py-2.5 bg-black/90 border-b border-white/15 flex items-center gap-2 overflow-x-auto text-xs shrink-0">
-            <span className="text-[#E6C77A] font-semibold whitespace-nowrap">
+          <div className="px-5 py-2.5 bg-black/90 border-b border-[#D4AF72]/20 flex items-center gap-2 overflow-x-auto text-xs shrink-0">
+            <span className="text-[#D4AF72] font-semibold whitespace-nowrap">
               Available 360° Tours ({tourList.length}):
             </span>
             {tourList.map((t, idx) => (
@@ -598,7 +598,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                 onClick={() => setSelectedTourIdx(idx)}
                 className={`px-3 py-1 font-medium whitespace-nowrap transition-colors ${
                   selectedTourIdx === idx
-                    ? 'bg-[#9A7B3C] text-white'
+                    ? 'bg-[#D4AF72] text-[#080808]'
                     : 'bg-white/10 text-white/80 hover:bg-white/20'
                 }`}
               >
@@ -612,13 +612,13 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
         <div className="flex-1 relative overflow-hidden bg-black flex flex-col md:flex-row min-h-0">
           {/* 1. TOUR NOT AVAILABLE (STRICT NO FAKE TOURS) */}
           {effectiveStatus === 'coming_soon' && (
-            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-b from-[#111827] to-[#0B0F19]">
-              <Compass className="w-12 h-12 text-[#E6C77A] mb-4" />
-              <p className="text-xs uppercase tracking-[0.2em] text-[#E6C77A] font-semibold mb-2">
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-b from-[#121212] to-[#080808]">
+              <Compass className="w-12 h-12 text-[#D4AF72] mb-4" />
+              <p className="text-xs uppercase tracking-[0.2em] text-[#D4AF72] font-semibold mb-2">
                 Authentic Property Media Policy · Verified Tours Only
               </p>
               <h3 className="font-display text-2xl sm:text-3xl font-semibold max-w-2xl text-white">
-                360° TOUR NOT AVAILABLE
+                Media Not Available
               </h3>
               <p className="text-sm text-white/75 max-w-xl leading-relaxed mt-3">
                 A verified 360° panorama, Matterport 3D digital twin, or developer walkthrough video has not yet been indexed specifically for{' '}
@@ -630,7 +630,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   <button
                     type="button"
                     onClick={() => onRequestPrivateTour(project)}
-                    className="px-6 py-3 bg-[#9A7B3C] text-white text-xs sm:text-sm font-semibold hover:bg-[#7D622D] flex items-center gap-2"
+                    className="px-6 py-3 bg-[#D4AF72] text-[#080808] text-xs sm:text-sm font-semibold hover:bg-[#E6C77A] flex items-center gap-2"
                   >
                     <Video className="w-4 h-4" />
                     <span>Request a Private Virtual Tour</span>
@@ -640,9 +640,9 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setShowFloorPlans((p) => !p)}
-                    className="px-5 py-3 border border-white/25 text-white text-xs sm:text-sm font-medium hover:border-[#E6C77A] flex items-center gap-2"
+                    className="px-5 py-3 border border-white/25 text-white text-xs sm:text-sm font-medium hover:border-[#D4AF72] flex items-center gap-2"
                   >
-                    <Layers className="w-4 h-4 text-[#E6C77A]" />
+                    <Layers className="w-4 h-4 text-[#D4AF72]" />
                     <span>{showFloorPlans ? 'Hide Floor Plans' : 'Inspect Unit Floor Plans'}</span>
                   </button>
                 )}
@@ -653,9 +653,9 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
           {/* 2. AUTHORIZED MATTERPORT / 3D / WEBXR / SPATIAL MODEL */}
           {effectiveStatus === '3d_available' && (
             isEmbedRestricted ? (
-              <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-b from-[#111827] to-[#0B0F19]">
+              <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-b from-[#121212] to-[#080808]">
                 <div className="max-w-xl p-8 border border-white/20 bg-white/5 space-y-4">
-                  <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-wider text-[#E6C77A]">
+                  <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-wider text-[#D4AF72]">
                     <Compass className="w-4 h-4" />
                     <span>Verified Official Developer 3D Experience</span>
                   </div>
@@ -671,7 +671,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                       href={activeTourUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#9A7B3C] text-white text-xs sm:text-sm font-semibold hover:bg-[#7D622D] transition-colors"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#D4AF72] text-[#080808] text-xs sm:text-sm font-semibold hover:bg-[#E6C77A] transition-colors"
                     >
                       <span>Launch Official 360° Tour in Dedicated Window</span>
                       <ExternalLink className="w-4 h-4" />
@@ -691,7 +691,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                   allow="xr-spatial-tracking; fullscreen; gyroscope; accelerometer"
                   allowFullScreen
                 />
-                <div className="px-5 py-2.5 bg-[#111827] border-t border-white/15 flex flex-wrap items-center justify-between gap-3 text-xs text-white/80">
+                <div className="px-5 py-2.5 bg-[#121212] border-t border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-3 text-xs text-white/80">
                   <span>
                     Source: {activeTourItem?.sourceName || project.virtualTour.sourceName || project.virtualTour.provider || 'Authorized Developer 3D Twin'}
                   </span>
@@ -701,7 +701,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                         href={activeTourUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#E6C77A] hover:underline flex items-center gap-1"
+                        className="text-[#D4AF72] hover:underline flex items-center gap-1"
                       >
                         <span>Open Full Tour URL</span>
                         <ExternalLink className="w-3 h-3" />
@@ -713,23 +713,63 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
             )
           )}
 
-          {/* 3. AUTHORIZED WALKTHROUGH VIDEO */}
-          {effectiveStatus === 'video_available' && project.virtualTour.walkthroughVideoUrl && (
-            <div className="flex-1 flex flex-col min-h-0 bg-black">
-              <video
-                src={project.virtualTour.walkthroughVideoUrl}
-                controls
-                playsInline
-                className="w-full flex-1 object-contain bg-black"
-              />
-              <div className="px-5 py-2.5 bg-[#111827] border-t border-white/15 flex items-center justify-between text-xs text-white/80">
-                <span>
-                  Project Walkthrough Video · Source:{' '}
-                  {project.virtualTour.sourceName || project.developerName}
-                </span>
-              </div>
-            </div>
-          )}
+          {/* 3. PRIORITIZED PROJECT WALKTHROUGH / PROPERTY VIDEO */}
+          {effectiveStatus === 'video_available' &&
+            (project.primaryVideo?.embedUrl ||
+              project.virtualTour.walkthroughVideoUrl ||
+              project.walkthroughVideoUrl) && (() => {
+              const modalVideo = project.primaryVideo || project.videoItems?.[0];
+              const videoUrl =
+                modalVideo?.embedUrl ||
+                project.virtualTour.walkthroughVideoUrl ||
+                project.walkthroughVideoUrl ||
+                '';
+              const isDirectMediaFile = /\.(mp4|webm|ogg)(\?|$)/i.test(videoUrl);
+
+              return (
+                <div className="flex-1 flex flex-col min-h-0 bg-black">
+                  {isDirectMediaFile ? (
+                    <video
+                      src={videoUrl}
+                      controls
+                      playsInline
+                      className="w-full flex-1 object-contain bg-black"
+                    />
+                  ) : (
+                    <iframe
+                      src={videoUrl}
+                      title={modalVideo?.title || `${project.name} Video Walkthrough`}
+                      className="w-full flex-1 border-0 bg-black"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  )}
+                  <div className="px-5 py-3 bg-[#121212] border-t border-[#D4AF72]/20 flex flex-wrap items-center justify-between gap-3 text-xs text-white/85">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-white truncate">
+                        {modalVideo?.title || `${project.name} Verified Video`}
+                      </p>
+                      <p className="text-[11px] text-white/70 mt-0.5">
+                        Channel: {modalVideo?.channelName || project.developerName}
+                        {modalVideo?.publishedAt ? ` · Uploaded ${modalVideo.publishedAt}` : ''}
+                        {modalVideo?.priorityLabel ? ` · ${modalVideo.priorityLabel}` : ''}
+                      </p>
+                    </div>
+                    {modalVideo?.sourceUrl && (
+                      <a
+                        href={modalVideo.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#D4AF72] hover:underline flex items-center gap-1 shrink-0 font-semibold"
+                      >
+                        <span>Original Source</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
 
           {/* 4. TRUE INTERACTIVE 360° EQUIRECTANGULAR PANORAMA VIEWER */}
           {effectiveStatus === '360_available' && activeRoom && (
@@ -767,7 +807,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                       value={floorFilter}
                       onChange={(e) => setFloorFilter(e.target.value)}
                       aria-label="Filter by floor level"
-                      className="h-8 px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#E6C77A]"
+                      className="h-8 px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#D4AF72]"
                     >
                       <option value="all">All Floors ({floors.length})</option>
                       {floors.map((fl) => (
@@ -781,7 +821,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
                     aria-label="Filter by view type"
-                    className="h-8 px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#E6C77A]"
+                    className="h-8 px-2.5 bg-black/75 border border-white/25 text-xs text-white focus:outline-none focus:border-[#D4AF72]"
                   >
                     <option value="all">All Tour Areas</option>
                     <option value="interior">Interiors</option>
@@ -792,7 +832,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                 </div>
 
                 <div className="bg-black/75 border border-white/20 px-3 py-1.5 text-[11px] font-mono-tabular flex items-center gap-2">
-                  <Move className="w-3.5 h-3.5 text-[#E6C77A]" />
+                  <Move className="w-3.5 h-3.5 text-[#D4AF72]" />
                   <span>
                     Drag to Look · Yaw {Math.round(yawDeg)}° · FOV {fovDeg}°
                   </span>
@@ -821,7 +861,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                       setActiveHotspot((curr) => (curr?.id === hs.id ? null : hs));
                     }}
                     style={{ left: `${pos.xPct}%`, top: `${pos.yPct}%` }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1.5 bg-[#111827]/90 border border-[#E6C77A] text-white text-xs font-medium hover:bg-[#9A7B3C] shadow-lg transition-colors flex items-center gap-1.5"
+                    className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1.5 bg-[#121212]/90 border border-[#D4AF72] text-white text-xs font-medium hover:bg-[#D4AF72] shadow-lg transition-colors flex items-center gap-1.5"
                   >
                     <span className="w-2 h-2 bg-[#E6C77A] inline-block" />
                     <span>{hs.label}</span>
@@ -831,9 +871,9 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
               {/* Hotspot Info Overlay */}
               {activeHotspot && (
-                <div className="absolute top-16 left-4 bg-[#111827]/95 border border-[#E6C77A] p-4 max-w-xs text-xs shadow-xl">
+                <div className="absolute top-16 left-4 bg-[#121212]/95 border border-[#D4AF72] p-4 max-w-xs text-xs shadow-xl">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="font-semibold text-[#E6C77A]">{activeHotspot.label}</p>
+                    <p className="font-semibold text-[#D4AF72]">{activeHotspot.label}</p>
                     <button
                       type="button"
                       onClick={() => setActiveHotspot(null)}
@@ -850,8 +890,8 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
               {/* Bottom Room Details Overlay */}
               <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-end justify-between gap-3 pointer-events-none">
-                <div className="bg-black/80 border border-white/15 p-3.5 max-w-md pointer-events-auto">
-                  <p className="text-[11px] text-[#E6C77A] font-semibold uppercase tracking-wider">
+                <div className="bg-black/80 border border-[#D4AF72]/20 p-3.5 max-w-md pointer-events-auto">
+                  <p className="text-[11px] text-[#D4AF72] font-semibold uppercase tracking-wider">
                     {activeRoom.floorLevel || 'Main Level'} · {activeRoom.viewCategory.replace('_', ' / ')}
                   </p>
                   <h4 className="font-display text-lg sm:text-xl font-semibold mt-0.5">
@@ -870,7 +910,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                     href={project.virtualTour.webXrUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto px-3.5 py-2 bg-[#111827]/90 border border-[#E6C77A] text-xs font-medium text-[#E6C77A] hover:bg-[#9A7B3C] hover:text-white flex items-center gap-1.5"
+                    className="pointer-events-auto px-3.5 py-2 bg-[#121212]/90 border border-[#D4AF72] text-xs font-medium text-[#D4AF72] hover:bg-[#D4AF72] hover:text-white flex items-center gap-1.5"
                   >
                     <span>Open WebXR Experience</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -882,8 +922,8 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
           {/* Interactive Floor Plan Side Drawer */}
           {showFloorPlans && project.floorPlans.length > 0 && (
-            <aside className="w-full md:w-80 bg-[#151D2B] border-t md:border-t-0 md:border-l border-white/15 p-4 overflow-y-auto shrink-0">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-[#E6C77A] mb-1">
+            <aside className="w-full md:w-80 bg-[#1B1B1B] border-t md:border-t-0 md:border-l border-[#D4AF72]/20 p-4 overflow-y-auto shrink-0">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72] mb-1">
                 Interactive Floor Plan Explorer
               </h4>
               <p className="text-[11px] text-white/65 mb-3">
@@ -900,14 +940,14 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                       onClick={() => handleSelectFloorPlan(fp.id)}
                       className={`w-full text-left border p-3 transition-colors ${
                         isSelected
-                          ? 'border-[#E6C77A] bg-[#1F293B]'
-                          : 'border-white/15 bg-white/5 hover:border-white/35'
+                          ? 'border-[#D4AF72] bg-[#1F1B15]'
+                          : 'border-[#D4AF72]/20 bg-white/5 hover:border-white/35'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <p className="text-sm font-semibold">{fp.name}</p>
                         {linkedRoom && (
-                          <span className="text-[10px] font-semibold text-[#E6C77A]">
+                          <span className="text-[10px] font-semibold text-[#D4AF72]">
                             360° Linked
                           </span>
                         )}
@@ -917,7 +957,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                       </p>
                       <div className="flex items-center justify-between text-xs font-mono-tabular mt-2 pt-2 border-t border-white/10">
                         <span>{fp.sizeSqFt.toLocaleString()} sq.ft</span>
-                        <span className="text-[#E6C77A]">AED {fp.priceAed.toLocaleString()}</span>
+                        <span className="text-[#D4AF72]">AED {fp.priceAed.toLocaleString()}</span>
                       </div>
                     </button>
                   );
@@ -929,7 +969,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
 
         {/* Room-to-Room & Floor-to-Floor Switcher Footer */}
         {effectiveStatus === '360_available' && filteredRooms.length > 0 && (
-          <div className="px-5 py-3 border-t border-white/15 bg-[#111827] flex items-center gap-2 overflow-x-auto shrink-0">
+          <div className="px-5 py-3 border-t border-[#D4AF72]/20 bg-[#121212] flex items-center gap-2 overflow-x-auto shrink-0">
             <span className="text-[11px] uppercase tracking-wider text-white/60 mr-1 shrink-0">
               Scenes ({filteredRooms.length}):
             </span>
@@ -940,8 +980,8 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
                 onClick={() => setSelectedRoomId(room.id)}
                 className={`px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors border ${
                   activeRoom?.id === room.id
-                    ? 'bg-[#9A7B3C] border-[#9A7B3C] text-white'
-                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/15'
+                    ? 'bg-[#D4AF72] border-[#D4AF72] text-white'
+                    : 'bg-white/5 border-[#D4AF72]/20 text-white/80 hover:bg-white/15'
                 }`}
               >
                 {room.floorLevel ? `${room.floorLevel} · ` : ''}

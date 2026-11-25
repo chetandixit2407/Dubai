@@ -2,29 +2,50 @@
 
 @layer base {
   :root {
-    --bg-canvas: #FAF9F6;
-    --bg-surface: #FFFFFF;
-    --bg-subtle: #F3F1EC;
-    --border-hairline: #E5E2DC;
-    --ink-primary: #111827;
-    --ink-secondary: #4B5563;
-    --ink-muted: #6B7280;
-    --accent-bronze: #9A7B3C;
-    --accent-bronze-hover: #7D622D;
+    --bg-obsidian: #080808;
+    --bg-charcoal: #121212;
+    --bg-graphite: #1B1B1B;
+    --border-gold: rgba(212, 175, 114, 0.22);
+    --border-gold-strong: rgba(212, 175, 114, 0.45);
+    --ink-ivory: #F5F1E8;
+    --ink-grey: #A5A19A;
+    --ink-muted: #7C7871;
+    --accent-gold: #D4AF72;
+    --accent-gold-muted: #A88750;
+    color-scheme: dark;
   }
 
   html {
     scroll-behavior: smooth;
+    background-color: #080808;
+    color: #F5F1E8;
     font-family: 'Plus Jakarta Sans', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    background-color: #080808;
+    color: #F5F1E8;
   }
 
   [dir="rtl"] body {
     font-family: 'Noto Sans Arabic', 'Plus Jakarta Sans', sans-serif;
   }
+
+  select,
+  option,
+  input,
+  textarea {
+    color-scheme: dark;
+  }
+
+  select option {
+    background-color: #121212;
+    color: #F5F1E8;
+  }
 }
 
 .font-display {
-  font-family: 'Cormorant Garamond', 'Noto Sans Arabic', Georgia, serif;
+  font-family: 'Playfair Display', 'Noto Sans Arabic', Georgia, serif;
 }
 
 .font-mono-tabular {
@@ -36,11 +57,101 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 114, 0.25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 114, 0.48);
+}
+
+/* GPU-Composited Luxury Motion Keyframes */
+@keyframes heroKenBurns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.045) translate3d(-0.6%, -0.4%, 0);
+  }
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeUpReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes shimmerLuxury {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes skylineGlowDrift {
+  0%, 100% {
+    opacity: 0.22;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+.animate-hero-ken-burns {
+  animation: heroKenBurns 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-skyline-glow {
+  animation: skylineGlowDrift 9s ease-in-out infinite;
+}
+
+.luxury-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 114, 0.08), transparent);
+  animation: shimmerLuxury 1.8s infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .animate-hero-ken-burns,
+  .animate-skyline-glow {
+    animation: none !important;
+    transform: none !important;
   }
 }

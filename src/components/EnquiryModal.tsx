@@ -66,7 +66,9 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
       await notifyPublicEnquiryCreated(enquiryType, project?.name);
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unable to submit enquiry. Please try again.');
+      setError(
+        err instanceof Error ? err.message : 'Unable to submit enquiry. Please try again.'
+      );
     } finally {
       setSubmitting(false);
     }
@@ -74,41 +76,44 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
 
   const whatsappText = encodeURIComponent(
     `Hello WHITE COLLAR REALTY Advisory Desk, I am enquiring about ${
-      project ? `${project.name} (${project.community}, ${project.emirate})` : 'UAE Real Estate Opportunities'
+      project
+        ? `${project.name} (${project.community}, ${project.emirate})`
+        : 'UAE Real Estate Opportunities'
     }. Name: ${fullName || 'Investor'}`
   );
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-      <div className="bg-white border border-[#E5E2DC] w-full max-w-xl p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#121212] text-[#F5F1E8] border border-[#D4AF72]/35 w-full max-w-xl p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close Enquiry Modal"
-          className="absolute top-4 right-4 w-9 h-9 border border-[#E5E2DC] flex items-center justify-center hover:border-[#9A7B3C]"
+          className="absolute top-4 right-4 w-9 h-9 bg-[#1B1B1B] border border-[#D4AF72]/25 flex items-center justify-center hover:border-[#D4AF72] transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
 
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#9A7B3C]">
-          WHITE COLLAR REALTY Advisory Desk
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#D4AF72]">
+          WHITE COLLAR REALTY Private Advisory
         </p>
-        <h2 className="font-display text-2xl sm:text-3xl font-semibold text-[#111827] mt-1">
+        <h2 className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-1">
           {ENQUIRY_LABELS[enquiryType]}
         </h2>
         {project && (
-          <p className="text-xs text-[#4B5563] mt-1">
-            Project: <strong className="text-[#111827]">{project.name}</strong> · {project.emirate}
+          <p className="text-xs text-[#A5A19A] mt-1">
+            Project: <strong className="text-[#F5F1E8]">{project.name}</strong> ·{' '}
+            {project.emirate}
           </p>
         )}
 
         {submitted ? (
-          <div className="mt-6 border border-[#E5E2DC] bg-[#FAF9F6] p-6 space-y-4">
-            <div className="flex items-center gap-2 text-[#047857] font-semibold">
+          <div className="mt-6 border border-[#D4AF72]/25 bg-[#1B1B1B] p-6 space-y-4">
+            <div className="flex items-center gap-2 text-[#6EE7B7] font-semibold">
               <CheckCircle2 className="w-5 h-5" />
               <span>Enquiry Registered in White Collar Realty CRM</span>
             </div>
-            <p className="text-sm text-[#4B5563] leading-relaxed">
+            <p className="text-sm text-[#A5A19A] leading-relaxed">
               Your request has been logged and assigned for review by a RERA-certified specialist.
               {enquiryType === 'brochure' && project && (
                 <span> You can open or save the official project dossier below.</span>
@@ -120,7 +125,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   href={`/api/projects/${encodeURIComponent(project.slug)}/brochure`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C]"
+                  className="px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A]"
                 >
                   Open Printable Dossier
                 </a>
@@ -129,7 +134,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 href={COMPANY_INFO.whatsappDeskUrl(whatsappText)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-[#047857] text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90"
+                className="px-4 py-2 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-1.5 hover:bg-[#047857]"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span>Continue on WhatsApp ({COMPANY_INFO.phone})</span>
@@ -137,7 +142,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border border-[#E5E2DC] text-xs font-medium text-[#111827]"
+                className="px-4 py-2 border border-[#D4AF72]/30 text-xs font-medium text-[#F5F1E8]"
               >
                 Done
               </button>
@@ -146,13 +151,13 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
         ) : (
           <form onSubmit={handleSubmit} className="mt-5 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#4B5563] mb-1">
+              <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                 Enquiry Type
               </label>
               <select
                 value={enquiryType}
                 onChange={(e) => setEnquiryType(e.target.value as EnquiryType)}
-                className="w-full h-10 px-3 border border-[#E5E2DC] text-sm text-[#111827] bg-white focus:outline-none focus:border-[#9A7B3C]"
+                className="w-full h-10 px-3 border border-[#D4AF72]/25 text-sm text-[#F5F1E8] bg-[#1B1B1B] focus:outline-none focus:border-[#D4AF72]"
               >
                 {Object.entries(ENQUIRY_LABELS).map(([key, label]) => (
                   <option key={key} value={key}>
@@ -164,7 +169,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-[#4B5563] mb-1">
+                <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                   Full Name *
                 </label>
                 <input
@@ -173,11 +178,11 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Tariq Al Mansoori"
-                  className="w-full h-10 px-3 border border-[#E5E2DC] text-sm focus:outline-none focus:border-[#9A7B3C]"
+                  className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#4B5563] mb-1">
+                <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                   Email Address *
                 </label>
                 <input
@@ -186,14 +191,14 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className="w-full h-10 px-3 border border-[#E5E2DC] text-sm focus:outline-none focus:border-[#9A7B3C]"
+                  className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-[#4B5563] mb-1">
+                <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                   Phone / WhatsApp (+91 / +971...)
                 </label>
                 <input
@@ -201,11 +206,11 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="e.g. +91 88102 86629 or +971 50 000 0000"
-                  className="w-full h-10 px-3 border border-[#E5E2DC] text-sm focus:outline-none focus:border-[#9A7B3C]"
+                  className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#4B5563] mb-1">
+                <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                   {enquiryType === 'visit' || enquiryType === 'virtual_consultation'
                     ? 'Preferred Date'
                     : 'Target Budget (AED)'}
@@ -215,21 +220,21 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                     type="date"
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
-                    className="w-full h-10 px-3 border border-[#E5E2DC] text-sm focus:outline-none focus:border-[#9A7B3C]"
+                    className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
                   />
                 ) : (
                   <input
                     type="number"
                     value={budgetAed}
                     onChange={(e) => setBudgetAed(e.target.value)}
-                    className="w-full h-10 px-3 border border-[#E5E2DC] font-mono-tabular text-sm focus:outline-none focus:border-[#9A7B3C]"
+                    className="w-full h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 font-mono-tabular text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
                   />
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#4B5563] mb-1">
+              <label className="block text-xs font-medium text-[#A5A19A] mb-1">
                 Notes or Unit Requirements
               </label>
               <textarea
@@ -237,18 +242,18 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Preferred unit size, floor elevation, Golden Visa eligibility, or payment plan questions..."
-                className="w-full p-3 border border-[#E5E2DC] text-sm focus:outline-none focus:border-[#9A7B3C]"
+                className="w-full p-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] placeholder:text-[#A5A19A]/60 focus:outline-none focus:border-[#D4AF72]"
               />
             </div>
 
-            {error && <p className="text-xs text-[#B91C1C] font-medium">{error}</p>}
+            {error && <p className="text-xs text-[#F87171] font-medium">{error}</p>}
 
             <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
               <a
                 href={COMPANY_INFO.whatsappDeskUrl(whatsappText)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium text-[#047857] hover:underline flex items-center gap-1.5"
+                className="text-xs font-medium text-[#6EE7B7] hover:underline flex items-center gap-1.5"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Direct WhatsApp ({COMPANY_INFO.phone})</span>
@@ -258,14 +263,14 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2.5 border border-[#E5E2DC] text-xs font-medium text-[#4B5563]"
+                  className="px-4 py-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs font-medium text-[#A5A19A] hover:text-[#F5F1E8]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-[#111827] text-white text-xs font-medium hover:bg-[#9A7B3C] transition-colors disabled:opacity-60"
+                  className="px-6 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] transition-colors disabled:opacity-60"
                 >
                   {submitting ? 'Submitting...' : 'Submit Enquiry'}
                 </button>

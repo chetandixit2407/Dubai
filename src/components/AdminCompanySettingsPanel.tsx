@@ -24,9 +24,13 @@ import { OfficeLocationMap } from './OfficeLocationMap.tsx';
 
 interface AdminCompanySettingsPanelProps {
   mapsApiKey?: string;
+  onReplayIntro?: () => void;
 }
 
-export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps> = ({ mapsApiKey }) => {
+export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps> = ({
+  mapsApiKey,
+  onReplayIntro,
+}) => {
   const [info, setInfo] = useState<CompanyInformation>(() => getEffectiveCompanyInfo());
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -57,28 +61,38 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-[#111827] text-white p-6 border border-[#E5E2DC]">
+      <div className="bg-[#121212] text-[#F5F1E8] p-6 border border-[#D4AF72]/25">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#E6C77A]">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#D4AF72]">
               <ShieldCheck className="w-4 h-4" />
               <span>Official Corporate Registry & Contact Configuration</span>
             </div>
-            <h3 className="font-display text-2xl font-semibold mt-1">
+            <h3 className="font-display text-2xl font-semibold mt-1 text-[#F5F1E8]">
               White Collar Realty Institutional Master Profile
             </h3>
-            <p className="text-xs text-white/70 mt-1 max-w-2xl leading-relaxed">
+            <p className="text-xs text-[#A5A19A] mt-1 max-w-2xl leading-relaxed">
               Global source of truth for headquarters address, verified phone/WhatsApp numbers, institutional email, website URLs, and Google Maps integration across all public headers, footers, dossiers, and enquiry channels.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {onReplayIntro && (
+              <button
+                type="button"
+                onClick={onReplayIntro}
+                className="px-3.5 py-2 border border-[#D4AF72]/40 bg-[#1B1B1B] text-[#D4AF72] text-xs font-medium hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Replay Website Intro Animation</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={handleResetDefaults}
-              className="px-3.5 py-2 border border-white/20 text-white text-xs hover:border-[#E6C77A] flex items-center gap-1.5"
+              className="px-3.5 py-2 border border-[#D4AF72]/25 text-[#F5F1E8] text-xs hover:border-[#D4AF72] flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-3.5 h-3.5 text-[#D4AF72]" />
               <span>Reset to Verified Defaults</span>
             </button>
           </div>
@@ -86,7 +100,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
       </div>
 
       {saveSuccess && (
-        <div className="bg-[#ECFDF5] border border-[#A7F3D0] p-4 text-xs text-[#047857] flex items-center justify-between">
+        <div className="bg-[#064E3B]/45 border border-[#34D399]/35 p-4 text-xs text-[#6EE7B7] flex items-center justify-between">
           <div className="flex items-center gap-2 font-medium">
             <Check className="w-4 h-4" />
             <span>Company details successfully updated across all website components.</span>
@@ -96,41 +110,41 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
 
       {/* Quick Verified Reference Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-        <div className="bg-white border border-[#E5E2DC] p-4 flex flex-col justify-between">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
           <div>
-            <span className="text-[#6B7280] block text-[11px] uppercase tracking-wider">Primary Phone</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#111827] block mt-1">
+            <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">Primary Phone</span>
+            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1">
               {info.primaryPhone}
             </span>
           </div>
-          <div className="mt-3 pt-3 border-t border-[#E5E2DC] flex items-center justify-between">
-            <a href={info.phoneHref} className="text-[#047857] font-medium hover:underline flex items-center gap-1">
+          <div className="mt-3 pt-3 border-t border-[#D4AF72]/15 flex items-center justify-between">
+            <a href={info.phoneHref} className="text-[#6EE7B7] font-medium hover:underline flex items-center gap-1">
               <Phone className="w-3 h-3" />
               <span>Test Call (tel:)</span>
             </a>
             <button
               type="button"
               onClick={() => copyToClipboard(info.primaryPhone, 'phone')}
-              className="text-[#6B7280] hover:text-[#111827]"
+              className="text-[#A5A19A] hover:text-[#D4AF72]"
             >
-              {copiedField === 'phone' ? <Check className="w-3.5 h-3.5 text-[#047857]" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedField === 'phone' ? <Check className="w-3.5 h-3.5 text-[#6EE7B7]" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
           </div>
         </div>
 
-        <div className="bg-white border border-[#E5E2DC] p-4 flex flex-col justify-between">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
           <div>
-            <span className="text-[#6B7280] block text-[11px] uppercase tracking-wider">WhatsApp Desk</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#047857] block mt-1">
+            <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">WhatsApp Desk</span>
+            <span className="font-mono-tabular font-bold text-sm text-[#6EE7B7] block mt-1">
               {info.whatsappNumber}
             </span>
           </div>
-          <div className="mt-3 pt-3 border-t border-[#E5E2DC] flex items-center justify-between">
+          <div className="mt-3 pt-3 border-t border-[#D4AF72]/15 flex items-center justify-between">
             <a
               href={info.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#047857] font-medium hover:underline flex items-center gap-1"
+              className="text-[#6EE7B7] font-medium hover:underline flex items-center gap-1"
             >
               <Send className="w-3 h-3" />
               <span>Open Chat</span>
@@ -138,48 +152,48 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
             <button
               type="button"
               onClick={() => copyToClipboard(info.whatsappHref, 'whatsapp')}
-              className="text-[#6B7280] hover:text-[#111827]"
+              className="text-[#A5A19A] hover:text-[#D4AF72]"
             >
-              {copiedField === 'whatsapp' ? <Check className="w-3.5 h-3.5 text-[#047857]" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedField === 'whatsapp' ? <Check className="w-3.5 h-3.5 text-[#6EE7B7]" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
           </div>
         </div>
 
-        <div className="bg-white border border-[#E5E2DC] p-4 flex flex-col justify-between">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
           <div>
-            <span className="text-[#6B7280] block text-[11px] uppercase tracking-wider">Official Email</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#111827] block mt-1 truncate">
+            <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">Official Email</span>
+            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 truncate">
               {info.email}
             </span>
           </div>
-          <div className="mt-3 pt-3 border-t border-[#E5E2DC] flex items-center justify-between">
-            <a href={info.emailHref} className="text-[#9A7B3C] font-medium hover:underline flex items-center gap-1">
+          <div className="mt-3 pt-3 border-t border-[#D4AF72]/15 flex items-center justify-between">
+            <a href={info.emailHref} className="text-[#D4AF72] font-medium hover:underline flex items-center gap-1">
               <Mail className="w-3 h-3" />
               <span>Compose (mailto:)</span>
             </a>
             <button
               type="button"
               onClick={() => copyToClipboard(info.email, 'email')}
-              className="text-[#6B7280] hover:text-[#111827]"
+              className="text-[#A5A19A] hover:text-[#D4AF72]"
             >
-              {copiedField === 'email' ? <Check className="w-3.5 h-3.5 text-[#047857]" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedField === 'email' ? <Check className="w-3.5 h-3.5 text-[#6EE7B7]" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
           </div>
         </div>
 
-        <div className="bg-white border border-[#E5E2DC] p-4 flex flex-col justify-between">
+        <div className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-4 flex flex-col justify-between">
           <div>
-            <span className="text-[#6B7280] block text-[11px] uppercase tracking-wider">Official Website</span>
-            <span className="font-mono-tabular font-bold text-sm text-[#111827] block mt-1 truncate">
+            <span className="text-[#A5A19A] block text-[11px] uppercase tracking-wider">Official Website</span>
+            <span className="font-mono-tabular font-bold text-sm text-[#F5F1E8] block mt-1 truncate">
               {info.website}
             </span>
           </div>
-          <div className="mt-3 pt-3 border-t border-[#E5E2DC] flex items-center justify-between">
+          <div className="mt-3 pt-3 border-t border-[#D4AF72]/15 flex items-center justify-between">
             <a
               href={info.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#9A7B3C] font-medium hover:underline flex items-center gap-1"
+              className="text-[#D4AF72] font-medium hover:underline flex items-center gap-1"
             >
               <Globe className="w-3 h-3" />
               <span>Visit Site</span>
@@ -187,44 +201,44 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
             <button
               type="button"
               onClick={() => copyToClipboard(info.website, 'web')}
-              className="text-[#6B7280] hover:text-[#111827]"
+              className="text-[#A5A19A] hover:text-[#D4AF72]"
             >
-              {copiedField === 'web' ? <Check className="w-3.5 h-3.5 text-[#047857]" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedField === 'web' ? <Check className="w-3.5 h-3.5 text-[#6EE7B7]" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
           </div>
         </div>
       </div>
 
       {/* Address & Configuration Form */}
-      <form onSubmit={handleSave} className="bg-white border border-[#E5E2DC] p-6 space-y-5">
-        <h4 className="font-display text-xl font-semibold text-[#111827]">
+      <form onSubmit={handleSave} className="bg-[#1B1B1B] border border-[#D4AF72]/20 p-6 space-y-5">
+        <h4 className="font-display text-xl font-semibold text-[#F5F1E8]">
           Corporate Identity & Registered Office
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div>
-            <label className="block text-[#6B7280] mb-1">Company Legal Trade Name</label>
+            <label className="block text-[#A5A19A] mb-1">Company Legal Trade Name</label>
             <input
               type="text"
               required
               value={info.name}
               onChange={(e) => setInfo({ ...info, name: e.target.value })}
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C] font-semibold"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-semibold"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">Tagline / Business Category</label>
+            <label className="block text-[#A5A19A] mb-1">Tagline / Business Category</label>
             <input
               type="text"
               value={info.brandTagline}
               onChange={(e) => setInfo({ ...info, brandTagline: e.target.value })}
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-[#6B7280] mb-1">Complete Formatted Office Address</label>
+            <label className="block text-[#A5A19A] mb-1">Complete Formatted Office Address</label>
             <textarea
               rows={2}
               required
@@ -235,12 +249,12 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   address: { ...info.address, formatted: e.target.value },
                 })
               }
-              className="w-full p-2.5 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C] font-mono-tabular"
+              className="w-full p-2.5 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">Floor & Tower</label>
+            <label className="block text-[#A5A19A] mb-1">Floor & Tower</label>
             <input
               type="text"
               value={info.address.street}
@@ -250,12 +264,12 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   address: { ...info.address, street: e.target.value },
                 })
               }
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">Building / Business Park</label>
+            <label className="block text-[#A5A19A] mb-1">Building / Business Park</label>
             <input
               type="text"
               value={info.address.building}
@@ -265,12 +279,12 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   address: { ...info.address, building: e.target.value },
                 })
               }
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">Road & Sector</label>
+            <label className="block text-[#A5A19A] mb-1">Road & Sector</label>
             <input
               type="text"
               value={info.address.area}
@@ -280,12 +294,12 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   address: { ...info.address, area: e.target.value },
                 })
               }
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">City, State & Postal Code</label>
+            <label className="block text-[#A5A19A] mb-1">City, State & Postal Code</label>
             <input
               type="text"
               value={`${info.address.city}, ${info.address.state} ${info.address.postalCode}`}
@@ -299,12 +313,12 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   },
                 });
               }}
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C]"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">Primary Phone / WhatsApp String</label>
+            <label className="block text-[#A5A19A] mb-1">Primary Phone / WhatsApp String</label>
             <input
               type="text"
               required
@@ -317,12 +331,12 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   phoneHref: `tel:${e.target.value.replace(/\s+/g, '')}`,
                 })
               }
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C] font-mono-tabular"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
             />
           </div>
 
           <div>
-            <label className="block text-[#6B7280] mb-1">Email Address</label>
+            <label className="block text-[#A5A19A] mb-1">Email Address</label>
             <input
               type="email"
               required
@@ -334,26 +348,26 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
                   emailHref: `mailto:${e.target.value.trim()}`,
                 })
               }
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C] font-mono-tabular"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-[#6B7280] mb-1">Google Maps Directions URL</label>
+            <label className="block text-[#A5A19A] mb-1">Google Maps Directions URL</label>
             <input
               type="url"
               required
               value={info.mapsDirectionsUrl}
               onChange={(e) => setInfo({ ...info, mapsDirectionsUrl: e.target.value })}
-              className="w-full h-9 px-3 border border-[#E5E2DC] focus:outline-none focus:border-[#9A7B3C] font-mono-tabular"
+              className="w-full h-9 px-3 border border-[#D4AF72]/25 bg-[#080808] text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72] font-mono-tabular"
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#E5E2DC]">
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#D4AF72]/15">
           <button
             type="submit"
-            className="px-5 py-2.5 bg-[#111827] text-white text-xs font-semibold hover:bg-[#9A7B3C] flex items-center gap-2 transition-colors"
+            className="px-5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#A88750] hover:text-[#F5F1E8] flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Save className="w-3.5 h-3.5" />
             <span>Save Company Information</span>
@@ -363,7 +377,7 @@ export const AdminCompanySettingsPanel: React.FC<AdminCompanySettingsPanelProps>
 
       {/* Live Interactive Office Map Preview */}
       <div className="space-y-2">
-        <h4 className="font-display text-lg font-semibold text-[#111827]">
+        <h4 className="font-display text-lg font-semibold text-[#F5F1E8]">
           Live Google Maps Integration Preview
         </h4>
         <OfficeLocationMap apiKey={mapsApiKey} />

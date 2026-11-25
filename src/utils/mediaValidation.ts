@@ -32,10 +32,10 @@ export const MEDIA_CLASSIFICATION_LABELS: Record<MediaClassification, string> = 
 };
 
 export const TOUR_STATUS_LABELS: Record<TourAvailabilityStatus, string> = {
-  '360_available': '360° Tour Available',
-  '3d_available': '3D Tour Available',
+  '360_available': '3D Virtual Tour Available',
+  '3d_available': '3D Virtual Tour Available',
   video_available: 'Video Walkthrough Available',
-  coming_soon: '360° Tour Not Available',
+  coming_soon: 'Media Not Available',
 };
 
 export interface MediaValidationReport {
@@ -196,39 +196,58 @@ export function collectGlobalImageKeys(projects: Project[], excludeProjectId?: s
 
 export function getEffectiveTourStatus(project: Project): TourAvailabilityStatus {
   const vt = project.virtualTour;
-  if (!vt || !vt.available) return 'coming_soon';
+  const isVideoUrl = (u?: string) => {
+    const val = (u || '').toLowerCase();
+    return val.includes('youtube.com') || val.includes('youtube-nocookie.com') || val.includes('youtu.be') || val.includes('vimeo.com');
+  };
 
-  // Strict verification guard: unverified or broken tours must NEVER be shown as available publicly
-  const verification = vt.verificationStatus || vt.discovery?.verificationStatus;
-  if (
-    verification === 'broken' ||
-    verification === 'unavailable' ||
-    verification === 'awaiting_verification'
-  ) {
-    return 'coming_soon';
+  // 1. Priority 1: Official 3D Spatial Twin or Verified 360 Panorama (excluding YouTube/video walkthroughs)
+  if (vt && vt.available && vt.tourType !== 'video_walkthrough') {
+    const verification = vt.verificationStatus || vt.discovery?.verificationStatus;
+    const isUnverified =
+      verification === 'broken' ||
+      verification === 'unavailable' ||
+      verification === 'awaiting_verification';
+
+    if (!isUnverified) {
+      const hasTrue360 = Boolean(
+        vt.rooms?.some((r) => r.isTrue360Panorama && r.projectId === project.id && Boolean(r.imageUrl))
+      );
+      const hasGalleryVerified3d = Boolean(
+        vt.tours?.some(
+          (t) =>
+            t.verificationStatus === 'verified' &&
+            t.tourType !== 'video_walkthrough' &&
+            ((Boolean(t.embedUrl?.trim()) && !isVideoUrl(t.embedUrl)) ||
+              (Boolean(t.directUrl?.trim()) && !isVideoUrl(t.directUrl)))
+        )
+      );
+      const has3dUrl = Boolean(
+        (vt.embedUrl?.trim() && !isVideoUrl(vt.embedUrl)) ||
+          vt.webXrUrl?.trim() ||
+          (vt.directUrl?.trim() && !isVideoUrl(vt.directUrl))
+      );
+
+      if (vt.tourStatus === '360_available' && (hasTrue360 || hasGalleryVerified3d)) return '360_available';
+      if (vt.tourStatus === '3d_available' && (has3dUrl || hasGalleryVerified3d)) return '3d_available';
+      if (hasTrue360 || hasGalleryVerified3d) return '360_available';
+      if (has3dUrl) return '3d_available';
+    }
   }
 
-  const hasTrue360 = Boolean(
-    vt.rooms?.some((r) => r.isTrue360Panorama && r.projectId === project.id && Boolean(r.imageUrl))
+  // 2. Priority 2: Mandatory Video Alternative (Independent Walkthrough, Property Video, or Official Video)
+  const hasVideoItems = Boolean(project.videoItems && project.videoItems.length > 0);
+  const hasWalkthroughVideo = Boolean(
+    project.walkthroughVideoUrl?.trim() ||
+    project.primaryVideo?.embedUrl?.trim() ||
+    vt?.walkthroughVideoUrl?.trim()
   );
-  const hasGalleryVerified = Boolean(
-    vt.tours?.some(
-      (t) =>
-        t.verificationStatus === 'verified' &&
-        (Boolean(t.embedUrl?.trim()) || Boolean(t.directUrl?.trim()))
-    )
-  );
-  const has3dUrl = Boolean(vt.embedUrl?.trim() || vt.webXrUrl?.trim() || vt.directUrl?.trim());
-  const hasVideoUrl = Boolean(vt.walkthroughVideoUrl?.trim());
 
-  if (vt.tourStatus === '360_available' && (hasTrue360 || hasGalleryVerified)) return '360_available';
-  if (vt.tourStatus === '3d_available' && (has3dUrl || hasGalleryVerified)) return '3d_available';
-  if (vt.tourStatus === 'video_available' && hasVideoUrl) return 'video_available';
+  if (hasVideoItems || hasWalkthroughVideo) {
+    return 'video_available';
+  }
 
-  if (hasTrue360 || hasGalleryVerified) return '360_available';
-  if (has3dUrl) return '3d_available';
-  if (hasVideoUrl) return 'video_available';
-
+  // 3. Fallback: Media Not Available (strict zero-fabrication)
   return 'coming_soon';
 }
 
@@ -318,6 +337,10 @@ export function scanCatalogMediaAudit(projects: Project[]): CatalogMediaAuditRep
   let projectsWithGenuine360Tours = 0;
   let projectsWith3dOrVideoTours = 0;
   let projectsWithMissingTours = 0;
+  let projectsWithIndependentWalkthroughs = 0;
+  let projectsWithConstructionVideos = 0;
+  let projectsWithDeveloperVideos = 0;
+  let projectsWithMediaNotAvailable = 0;
   let projectsWithProjectUrls = 0;
   let projectsMissingProjectUrls = 0;
 
@@ -346,6 +369,18 @@ export function scanCatalogMediaAudit(projects: Project[]): CatalogMediaAuditRep
       projectsWith3dOrVideoTours++;
     } else {
       projectsWithMissingTours++;
+    }
+
+    if (p.primaryVideo?.priorityLevel === 1) {
+      projectsWithIndependentWalkthroughs++;
+    } else if (p.primaryVideo?.priorityLevel === 2) {
+      projectsWithConstructionVideos++;
+    } else if (p.primaryVideo?.priorityLevel === 4) {
+      projectsWithDeveloperVideos++;
+    }
+
+    if (effTour === 'coming_soon') {
+      projectsWithMediaNotAvailable++;
     }
 
     if (p.projectUrl?.trim()) {
@@ -405,6 +440,10 @@ export function scanCatalogMediaAudit(projects: Project[]): CatalogMediaAuditRep
     duplicateCollisions,
     projectsWithGenuine360Tours,
     projectsWith3dOrVideoTours,
+    projectsWithIndependentWalkthroughs,
+    projectsWithConstructionVideos,
+    projectsWithDeveloperVideos,
+    projectsWithMediaNotAvailable,
     projectsWithMissingTours,
     projectsWithProjectUrls,
     projectsMissingProjectUrls,
