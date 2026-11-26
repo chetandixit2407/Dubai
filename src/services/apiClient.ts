@@ -398,5 +398,107 @@ export async function fetchProjectInventoryStatus(projectId: string): Promise<{
   return data;
 }
 
+export interface ServerFxRatesResponse {
+  ok: boolean;
+  base: 'AED';
+  ratesFromAed: Record<string, number>;
+  lastUpdatedAt: string;
+  source: string;
+  isFallback: boolean;
+}
+
+export interface AdvisorRecommendationCard {
+  id: string;
+  slug: string;
+  name: string;
+  developerName: string;
+  heroImage: string;
+  community: string;
+  emirate: string;
+  startingPriceAed: number;
+  maxPriceAed: number;
+  startingPriceSelected: number;
+  formattedStartingPriceAed: string;
+  formattedStartingPriceSelected: string;
+  currency: 'AED' | 'USD' | 'INR' | 'GBP' | 'EUR' | 'SAR';
+  isEstimatedConversion: boolean;
+  propertyTypes: string[];
+  bedroomOptions: string;
+  paymentPlan: string;
+  handoverDate: string;
+  verifiedGrossYieldPct: number | null;
+  verifiedNetYieldPct: number | null;
+  estimatedAppreciationPct: number | null;
+  category: string;
+  status: string;
+  matchType: 'exact' | 'alternative';
+  matchReason: string;
+  availableUnits: number | null;
+  inventoryStatus: string;
+}
+
+export interface DubaiAdvisorResponse {
+  ok: boolean;
+  reply: string;
+  aiStatus: 'ok' | 'cached' | 'unavailable';
+  aiNotice?: string;
+  recommendations: AdvisorRecommendationCard[];
+  hasExactMatches: boolean;
+  fxInfo: {
+    selectedCurrency: 'AED' | 'USD' | 'INR' | 'GBP' | 'EUR' | 'SAR';
+    rateFromAed: number;
+    lastUpdatedAt: string;
+    source: string;
+    isEstimatedConversion: boolean;
+  };
+  resolvedContext: {
+    minBudget: number | null;
+    maxBudget: number | null;
+    minBudgetAed: number | null;
+    maxBudgetAed: number | null;
+    currency: 'AED' | 'USD' | 'INR' | 'GBP' | 'EUR' | 'SAR';
+    location: string;
+    propertyType: string;
+    purpose: string;
+  };
+  followUpSuggestions: string[];
+  dataSource: 'firebase_firestore_merged' | 'verified_catalog_baseline';
+}
+
+export async function fetchServerFxRates(): Promise<ServerFxRatesResponse> {
+  const res = await fetch('/api/fx-rates');
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to fetch FX rates');
+  }
+  return data as ServerFxRatesResponse;
+}
+
+export async function fetchDubaiAdvisorRecommendations(params: {
+  message: string;
+  preferences: {
+    minBudget?: number | null;
+    maxBudget?: number | null;
+    currency: 'AED' | 'USD' | 'INR' | 'GBP' | 'EUR' | 'SAR';
+    location: string;
+    propertyType: string;
+    purpose: string;
+  };
+  history: Array<{ role: 'user' | 'assistant'; content: string }>;
+  previousProjectIds: string[];
+}): Promise<DubaiAdvisorResponse> {
+  const res = await fetch('/api/ai/property-recommendations', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to get property recommendations');
+  }
+  return data as DubaiAdvisorResponse;
+}
+
+
 
 

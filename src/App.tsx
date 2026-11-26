@@ -112,6 +112,7 @@ import { AdminDashboard } from './components/AdminDashboard.tsx';
 import { OfficeLocationMap } from './components/OfficeLocationMap.tsx';
 import { CinematicIntro, INTRO_SEEN_STORAGE_KEY } from './components/CinematicIntro.tsx';
 import { AnimatedNumber, ScrollReveal } from './components/ScrollReveal.tsx';
+import { DubaiAdvisorChatbot } from './components/DubaiAdvisorChatbot.tsx';
 import { useCompanyInfo } from './data/companyInfo.ts';
 
 const RECENTLY_VIEWED_KEY = 'wcr_recently_viewed_ids';
@@ -2711,6 +2712,21 @@ export default function App() {
           onClose={() => setShowCompareModal(false)}
         />
       )}
+
+      <DubaiAdvisorChatbot
+        projects={projects}
+        defaultCurrency={currency}
+        hasCompareTray={compareIds.length > 0}
+        onOpenProject={openProjectPage}
+        onEnquireProject={(proj) =>
+          setEnquiryModalState({
+            open: true,
+            type: 'investment',
+            project: proj,
+            requestContext: null,
+          })
+        }
+      />
 
       {enquiryModalState.open && (
         <EnquiryModal

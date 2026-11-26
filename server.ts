@@ -12,6 +12,11 @@ import * as XLSX from 'xlsx';
 import firebaseConfig from './firebase-applet-config.json';
 import { INITIAL_PROJECTS } from './src/data/uaeCatalog.ts';
 import { COMPANY_INFO } from './src/data/companyInfo.ts';
+import {
+  AdvisorRequestBody,
+  getCachedFxRates,
+  runDubaiAdvisorRecommendation,
+} from './server/dubaiAdvisorEngine.ts';
 
 dotenv.config();
 
@@ -1769,6 +1774,77 @@ async function startServer() {
   // Official Company Information Endpoint
   app.get('/api/company-info', (_req, res) => {
     res.json(COMPANY_INFO);
+  });
+
+  // Server-Cached Multi-Currency FX Rates Endpoint (AED base, 12-hour cache)
+  app.get('/api/fx-rates', async (_req, res) => {
+    try {
+      const fx = await getCachedFxRates();
+      res.json({ ok: true, ...fx });
+    } catch {
+      res.status(500).json({ error: 'Unable to retrieve FX rates' });
+    }
+  });
+
+  // Sliding-Window Rate Limiter for AI Dubai Property Advisor (25 req/min per IP)
+  const advisorRateWindow = new Map<string, number[]>();
+  app.post('/api/ai/property-recommendations', async (req, res) => {
+    const clientIp = String(
+      req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown'
+    )
+      .split(',')[0]
+      .trim();
+    const now = Date.now();
+    const recentHits = (advisorRateWindow.get(clientIp) || []).filter((ts) => now - ts < 60_000);
+    if (recentHits.length >= 25) {
+      res.status(429).json({
+        error: 'Rate limit exceeded. Please wait a moment before sending another advisor request.',
+      });
+      return;
+    }
+    recentHits.push(now);
+    advisorRateWindow.set(clientIp, recentHits);
+    if (advisorRateWindow.size > 1000) {
+      for (const [ip, hits] of advisorRateWindow.entries()) {
+        if (hits.every((ts) => now - ts >= 60_000)) advisorRateWindow.delete(ip);
+      }
+    }
+
+    const body = (req.body ?? {}) as AdvisorRequestBody;
+    if (typeof body !== 'object' || body === null || Array.isArray(body)) {
+      res.status(400).json({ error: 'Invalid request payload' });
+      return;
+    }
+
+    const msg = typeof body.message === 'string' ? body.message.trim() : '';
+    const hasFilterPrefs = Boolean(
+      body.preferences &&
+        (body.preferences.maxBudget ||
+          body.preferences.minBudget ||
+          body.preferences.location ||
+          body.preferences.propertyType ||
+          body.preferences.purpose)
+    );
+    if (!msg && !hasFilterPrefs) {
+      res.status(400).json({ error: 'Please enter a message or select at least one search preference.' });
+      return;
+    }
+    if (msg.length > 600) {
+      res.status(400).json({ error: 'Message must be 600 characters or fewer.' });
+      return;
+    }
+
+    try {
+      const result = await runDubaiAdvisorRecommendation(body, liveInventoryOverlay);
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({
+        error:
+          err instanceof Error
+            ? err.message
+            : 'Unable to generate Dubai property recommendations right now.',
+      });
+    }
   });
 
   // Automated Tour Discovery Scanner across all 182 projects
