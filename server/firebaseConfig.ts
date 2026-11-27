@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { logServerEvent } from './logger.ts';
 
 export interface FirebaseRuntimeConfig {
@@ -32,6 +33,18 @@ export function getFirebaseRuntimeConfig(): FirebaseRuntimeConfig {
     path.resolve(process.cwd(), 'firebase-applet-config.json'),
     path.resolve(process.cwd(), '..', 'firebase-applet-config.json'),
   ];
+
+  try {
+    if (typeof import.meta?.url === 'string' && import.meta.url) {
+      const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+      candidates.push(
+        path.resolve(moduleDir, 'firebase-applet-config.json'),
+        path.resolve(moduleDir, '..', 'firebase-applet-config.json')
+      );
+    }
+  } catch {
+    // Ignore URL resolution issues in non-file module contexts
+  }
 
   let fileData: Partial<FirebaseRuntimeConfig> = {};
   let loadedFromFile = false;
