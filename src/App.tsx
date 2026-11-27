@@ -1614,9 +1614,6 @@ export default function App() {
                         >
                           {t.openMap}
                         </a>
-                        <span className="text-xs text-[#A5A19A] border-l border-[#D4AF72]/30 pl-3 hidden sm:inline">
-                          Principal Advisor: <strong className="text-[#F5F1E8]">Chetan Dixit</strong>
-                        </span>
                       </div>
                     </div>
 
@@ -2401,8 +2398,8 @@ export default function App() {
                     </h2>
                   </div>
                   <p className="text-xs text-[#A5A19A] max-w-md">
-                    Verified client mandates guided directly by Chetan Dixit &amp; the White Collar
-                    Realty UAE desk.
+                    Verified client mandates guided directly by the White Collar Realty UAE advisory
+                    desk.
                   </p>
                 </div>
 
@@ -2410,7 +2407,7 @@ export default function App() {
                   {[
                     {
                       quote:
-                        'Chetan Dixit and his team walked us through developer payment plans, DLD escrow steps, and realistic service-charge projections in INR and AED before we booked our Business Bay residence.',
+                        'The White Collar Realty UAE advisory desk walked us through developer payment plans, DLD escrow steps, and realistic service-charge projections in INR and AED before we booked our Business Bay residence.',
                       client: 'Rajesh & Meera Nair',
                       meta: 'Gurugram → Business Bay, Dubai · Off-Plan 2 Bedrooms',
                     },
@@ -2453,17 +2450,16 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                   <div className="lg:col-span-6 min-w-0 space-y-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF72]">
-                      {t.aboutHeading} · Led by Chetan Dixit
+                      {t.aboutHeading}
                     </p>
                     <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight">
                       Private Real Estate Intelligence Across Every UAE Emirate
                     </h2>
                     <p className="text-sm text-[#A5A19A] leading-relaxed">
-                      Founded by <strong className="text-[#F5F1E8]">Chetan Dixit</strong>, WHITE
-                      COLLAR REALTY bridges private wealth, NRI &amp; global investors, and UAE
-                      master developers with transparent inventory verification, DLD/ADM/SRERD
-                      documentation tracking, Golden Visa advisory, and real-time AED/INR yield
-                      analytics.
+                      <strong className="text-[#F5F1E8]">WHITE COLLAR REALTY</strong> bridges
+                      private wealth, NRI &amp; global investors, and UAE master developers with
+                      transparent inventory verification, DLD/ADM/SRERD documentation tracking,
+                      Golden Visa advisory, and real-time AED/INR yield analytics.
                     </p>
                     <div className="grid grid-cols-1 xs:grid-cols-3 gap-4 pt-4 border-t border-[#D4AF72]/20 font-mono-tabular">
                       <div>
@@ -2662,7 +2658,7 @@ export default function App() {
               </p>
               <p className="text-[#A5A19A] leading-relaxed text-xs">
                 UAE Real Estate Intelligence, Off-plan &amp; Ready Inventory Discovery, Golden Visa
-                Advisory, and Developer Governance Platform · Principal Advisor: Chetan Dixit.
+                Advisory, and Developer Governance Platform.
               </p>
               <p className="text-[11px] text-[#D4AF72] font-semibold">
                 Authenticity First · Zero Fabricated 360° Tours · Official Feeds
@@ -2788,8 +2784,7 @@ export default function App() {
 
           <div className="pt-6 border-t border-[#D4AF72]/15 flex flex-wrap items-center justify-between gap-4 text-[#A5A19A]/70 text-[11px]">
             <p>
-              © {new Date().getFullYear()} WHITE COLLAR REALTY · Principal Advisor Chetan Dixit. All
-              rights reserved.
+              © {new Date().getFullYear()} WHITE COLLAR REALTY. All rights reserved.
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <button
@@ -2961,8 +2956,8 @@ export default function App() {
                   availability sheet request.
                 </p>
                 <p>
-                  <strong className="text-[#F5F1E8]">Contact Data Controller:</strong> Reach
-                  Principal Advisor Chetan Dixit &amp; the White Collar Realty Compliance Desk at{' '}
+                  <strong className="text-[#F5F1E8]">Contact Data Controller:</strong> Reach the
+                  White Collar Realty Compliance Desk at{' '}
                   <span className="text-[#D4AF72]">{companyInfo.email}</span> or{' '}
                   <span className="ltr-isolate text-[#F5F1E8]">{companyInfo.phone}</span>.
                 </p>

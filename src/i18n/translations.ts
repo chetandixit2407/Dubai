@@ -11,7 +11,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     navPortal: 'Client Portal',
     navAdmin: 'Admin Console',
     primaryCta: 'Private Advisory',
-    heroKicker: 'Private UAE Real Estate Advisory · Led by Chetan Dixit',
+    heroKicker: 'Private UAE Real Estate Advisory · White Collar Realty',
     heroTitle: 'Discover Extraordinary Living.',
     heroSubtitle:
       'Acquire waterfront penthouses, signature residences, and institutional-grade developments across the UAE with verified developer dossiers, RERA/DLD registry context, interactive mapping, and multi-currency AED/INR analytics.',
