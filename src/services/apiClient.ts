@@ -81,7 +81,14 @@ export async function parseApiResponse<T>(
       return parsed;
     } catch (err) {
       if (err instanceof ApiClientError) throw err;
-      const preview = trimmed.replace(/\s+/g, ' ').slice(0, 120);
+      const preview = trimmed.replace(/\s+/g, ' ').slice(0, 140);
+      if (res.status >= 500 || /FUNCTION_INVOCATION_FAILED|A server error has occurred/i.test(trimmed)) {
+        throw new ApiClientError(
+          `${fallbackErrorMessage}: server error (HTTP ${res.status || 500}${preview ? ` — ${preview}` : ''}).`,
+          res.status || 500,
+          contentType
+        );
+      }
       throw new ApiClientError(
         `${fallbackErrorMessage}: expected JSON response but received "${contentType || 'unknown'}" (HTTP ${res.status}${preview ? ` — ${preview}` : ''}).`,
         res.status,

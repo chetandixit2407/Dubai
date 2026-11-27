@@ -5,23 +5,31 @@ import { getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { DecodedIdToken, getAuth } from 'firebase-admin/auth';
 import net from 'net';
 import * as XLSX from 'xlsx';
-import firebaseConfig from '../firebase-applet-config.json';
 import { INITIAL_PROJECTS } from '../src/data/uaeCatalog.ts';
-import { COMPANY_INFO } from '../src/data/companyInfo.ts';
+import { COMPANY_INFO } from '../src/data/companyConstants.ts';
 import {
   AdvisorRequestBody,
   getCachedFxRates,
   runDubaiAdvisorRecommendation,
 } from './dubaiAdvisorEngine.ts';
+import { getFirebaseRuntimeConfig } from './firebaseConfig.ts';
+import { logServerError, logServerEvent } from './logger.ts';
 
 // ============================================================================
 // Firebase Admin Auth (Serverless-Safe Lazy Singleton for ID Token Verification)
 // ============================================================================
 function getAdminAuth() {
-  const projectId = process.env.FIREBASE_PROJECT_ID || firebaseConfig.projectId;
-  const adminApp = getApps().length
+  const { projectId } = getFirebaseRuntimeConfig();
+  const hasDefault = getApps().some((existing) => existing.name === '[DEFAULT]');
+  if (!hasDefault) {
+    logServerEvent('info', 'firebase_init', {
+      context: 'firebase_admin_auth',
+      hasProjectId: Boolean(projectId),
+    });
+  }
+  const adminApp = hasDefault
     ? getApp()
-    : initializeApp({ projectId });
+    : initializeApp(projectId ? { projectId } : undefined);
   return getAuth(adminApp);
 }
 
@@ -328,13 +336,33 @@ const EMIRATE_COORDINATES: Record<string, { lat: number; lng: number }> = {
 // ============================================================================
 export function createApiApp(): Express {
   const app = express();
+  app.set('trust proxy', 1);
 
-  // If a serverless platform already pre-parsed req.body as a data property,
-  // inform body-parser so express.json() does not overwrite req.body from an empty stream.
+  app.use((req: Request, _res: Response, next: NextFunction) => {
+    if (req.path.startsWith('/api')) {
+      logServerEvent('info', 'api_request_received', {
+        method: req.method,
+        path: req.path,
+      });
+    }
+    next();
+  });
+
+  // If a serverless platform already pre-parsed req.body as a data property
+  // or consumed the request stream, inform body-parser so express.json() does
+  // not overwrite req.body from an empty stream.
   app.use((req: Request, _res: Response, next: NextFunction) => {
     const desc = Object.getOwnPropertyDescriptor(req, 'body');
     if (desc && 'value' in desc && desc.value !== undefined) {
       (req as Request & { _body?: boolean })._body = true;
+    } else if (req.readableEnded && desc && typeof desc.get === 'function') {
+      try {
+        if (req.body !== undefined) {
+          (req as Request & { _body?: boolean })._body = true;
+        }
+      } catch {
+        // Ignore pre-parsed getter error and let express.json handle stream
+      }
     }
     next();
   });
@@ -1782,7 +1810,7 @@ export function createApiApp(): Express {
   const advisorRateWindow = new Map<string, number[]>();
   app.post('/api/ai/property-recommendations', async (req, res) => {
     const clientIp = String(
-      req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown'
+      req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown'
     )
       .split(',')[0]
       .trim();
@@ -1790,6 +1818,7 @@ export function createApiApp(): Express {
     const recentHits = (advisorRateWindow.get(clientIp) || []).filter((ts) => now - ts < 60_000);
     if (recentHits.length >= 25) {
       res.status(429).json({
+        ok: false,
         error: 'Rate limit exceeded. Please wait a moment before sending another advisor request.',
       });
       return;
@@ -1804,7 +1833,7 @@ export function createApiApp(): Express {
 
     const body = (req.body ?? {}) as AdvisorRequestBody;
     if (typeof body !== 'object' || body === null || Array.isArray(body)) {
-      res.status(400).json({ error: 'Invalid request payload' });
+      res.status(400).json({ ok: false, error: 'Invalid request payload' });
       return;
     }
 
@@ -1818,19 +1847,38 @@ export function createApiApp(): Express {
           body.preferences.purpose)
     );
     if (!msg && !hasFilterPrefs) {
-      res.status(400).json({ error: 'Please enter a message or select at least one search preference.' });
+      res.status(400).json({
+        ok: false,
+        error: 'Please enter a message or select at least one search preference.',
+      });
       return;
     }
     if (msg.length > 600) {
-      res.status(400).json({ error: 'Message must be 600 characters or fewer.' });
+      res.status(400).json({ ok: false, error: 'Message must be 600 characters or fewer.' });
       return;
     }
+
+    logServerEvent('info', 'route_execution_started', {
+      route: '/api/ai/property-recommendations',
+      hasMessage: Boolean(msg),
+      currency: body.preferences?.currency || 'AED',
+      location: body.preferences?.location || '',
+      propertyType: body.preferences?.propertyType || '',
+      purpose: body.preferences?.purpose || '',
+      hasMinBudget: Boolean(body.preferences?.minBudget),
+      hasMaxBudget: Boolean(body.preferences?.maxBudget),
+      historyLength: Array.isArray(body.history) ? body.history.length : 0,
+    });
 
     try {
       const result = await runDubaiAdvisorRecommendation(body, liveInventoryOverlay);
       res.json(result);
     } catch (err) {
+      logServerError('advisor_route_error', err, {
+        route: '/api/ai/property-recommendations',
+      });
       res.status(500).json({
+        ok: false,
         error:
           err instanceof Error
             ? err.message
@@ -2106,11 +2154,15 @@ export function createApiApp(): Express {
 
   // Ensure unmatched /api/* endpoints return JSON 404 rather than falling through to SPA HTML
   app.use('/api', (_req, res) => {
-    res.status(404).json({ error: 'API endpoint not found' });
+    res.status(404).json({ ok: false, error: 'API endpoint not found' });
   });
 
   // Ensure API errors (such as malformed JSON payloads) always return JSON rather than HTML
   app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+    logServerError('express_error_middleware', err, {
+      method: req.method,
+      path: req.path,
+    });
     if (res.headersSent) {
       next(err);
       return;
@@ -2122,7 +2174,7 @@ export function createApiApp(): Express {
           : 500;
       const message =
         err instanceof Error ? err.message : 'Internal server error';
-      res.status(status).json({ error: message });
+      res.status(status).json({ ok: false, error: message });
       return;
     }
     next(err);

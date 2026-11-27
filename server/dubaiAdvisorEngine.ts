@@ -1,10 +1,11 @@
 import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import crypto from 'crypto';
-import firebaseConfig from '../firebase-applet-config.json';
 import { INITIAL_PROJECTS } from '../src/data/uaeCatalog.ts';
 import { CurrencyCode, Project } from '../src/types/realEstate.ts';
 import { CURRENCY_RATES_FROM_AED, EXCHANGE_RATE_UPDATED_AT } from '../src/utils/currency.ts';
 import { formatPropertyBhk } from '../src/utils/propertySpecs.ts';
+import { getFirebaseRuntimeConfig } from './firebaseConfig.ts';
+import { logServerError, logServerEvent } from './logger.ts';
 
 export type AdvisorCurrency = CurrencyCode;
 
@@ -142,14 +143,14 @@ export async function getCachedFxRates(): Promise<FxRatesSnapshot> {
   if (fxInflight) return fxInflight;
 
   fxInflight = (async () => {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 4000);
+      timeout = setTimeout(() => controller.abort(), 4000);
       const resp = await fetch('https://open.er-api.com/v6/latest/AED', {
         signal: controller.signal,
         headers: { Accept: 'application/json' },
       });
-      clearTimeout(timeout);
 
       if (resp.ok) {
         const json = (await resp.json()) as {
@@ -189,6 +190,8 @@ export async function getCachedFxRates(): Promise<FxRatesSnapshot> {
       }
     } catch {
       // Fall back cleanly to verified baseline rates below
+    } finally {
+      if (timeout) clearTimeout(timeout);
     }
 
     const fallback: FxRatesSnapshot = {
@@ -302,20 +305,27 @@ export async function getCatalogProjectsForAdvisor(
     fromFirestore = cachedProjects.fromFirestore;
   } else {
     const mergedMap = new Map<string, Project>(INITIAL_PROJECTS.map((p) => [p.id, p]));
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
-      const apiKey = process.env.FIREBASE_API_KEY || firebaseConfig.apiKey;
-      const projectId = firebaseConfig.projectId;
-      const dbId = firebaseConfig.firestoreDatabaseId || '(default)';
+      const fbConfig = getFirebaseRuntimeConfig();
+      const apiKey = fbConfig.apiKey;
+      const projectId = fbConfig.projectId;
+      const dbId = fbConfig.firestoreDatabaseId || '(default)';
+      logServerEvent('info', 'firebase_init', {
+        context: 'advisor_catalog_query',
+        hasProjectId: Boolean(projectId),
+        hasApiKey: Boolean(apiKey),
+        dbId,
+      });
       if (apiKey && projectId && !projectId.includes('remixed')) {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 3500);
+        timeout = setTimeout(() => controller.abort(), 3500);
         const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(
           projectId
         )}/databases/${encodeURIComponent(dbId)}/documents/projects?pageSize=300&key=${encodeURIComponent(
           apiKey
         )}`;
         const resp = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeout);
 
         if (resp.ok) {
           const json = (await resp.json()) as {
@@ -339,10 +349,17 @@ export async function getCatalogProjectsForAdvisor(
             }
             fromFirestore = true;
           }
+        } else {
+          logServerEvent('warn', 'firebase_catalog_rest_non_ok', {
+            status: resp.status,
+          });
         }
       }
-    } catch {
+    } catch (err) {
+      logServerError('firebase_catalog_rest_error', err);
       // Keep baseline catalog if Firestore REST endpoint is unreachable
+    } finally {
+      if (timeout) clearTimeout(timeout);
     }
 
     baseProjects = Array.from(mergedMap.values());
@@ -834,20 +851,47 @@ const AI_CACHE_MAX_ENTRIES = 200;
 const aiResponseCache = new Map<string, { reply: string; cachedAtMs: number }>();
 
 let sharedGenAi: GoogleGenAI | null = null;
-function getGeminiClient(): GoogleGenAI | null {
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
-  if (!apiKey) return null;
-  if (!sharedGenAi) {
-    sharedGenAi = new GoogleGenAI({
-      apiKey,
-      httpOptions: {
-        headers: {
-          'User-Agent': 'aistudio-build',
-        },
-      },
+let sharedGenAiKeyHash = '';
+function getGeminiClient(): { client: GoogleGenAI | null; reason?: string } {
+  const apiKey = process.env.GEMINI_API_KEY?.trim() || '';
+  if (!apiKey) {
+    logServerEvent('warn', 'gemini_init', {
+      status: 'missing_api_key',
+      hasGeminiApiKey: false,
     });
+    return {
+      client: null,
+      reason: 'GEMINI_API_KEY is not configured in server environment variables.',
+    };
   }
-  return sharedGenAi;
+  const keyHash = crypto.createHash('sha256').update(apiKey).digest('hex').slice(0, 12);
+  if (!sharedGenAi || sharedGenAiKeyHash !== keyHash) {
+    try {
+      sharedGenAi = new GoogleGenAI({
+        apiKey,
+        httpOptions: {
+          headers: {
+            'User-Agent': 'aistudio-build',
+          },
+        },
+      });
+      sharedGenAiKeyHash = keyHash;
+      logServerEvent('info', 'gemini_init', {
+        status: 'initialized',
+        hasGeminiApiKey: true,
+        model: 'gemini-4-hydrogen',
+      });
+    } catch (err) {
+      logServerError('gemini_init_error', err);
+      sharedGenAi = null;
+      sharedGenAiKeyHash = '';
+      return {
+        client: null,
+        reason: err instanceof Error ? err.message : 'Failed to initialize Gemini client.',
+      };
+    }
+  }
+  return { client: sharedGenAi };
 }
 
 const SYSTEM_INSTRUCTION = `You are the Dubai Property Advisor for White Collar Realty, an expert UAE real estate consultant.
@@ -898,7 +942,7 @@ async function generateAdvisorExplanation(params: {
     return { reply: hit.reply, aiStatus: 'cached' };
   }
 
-  const ai = getGeminiClient();
+  const { client: ai, reason: initReason } = getGeminiClient();
   if (!ai) {
     return {
       reply:
@@ -916,6 +960,7 @@ async function generateAdvisorExplanation(params: {
             )}). Try increasing your budget or selecting All Dubai.`,
       aiStatus: 'unavailable',
       aiNotice:
+        initReason ||
         'AI narrative requires GEMINI_API_KEY in server environment secrets; showing deterministic verified database matches.',
     };
   }
@@ -956,7 +1001,7 @@ async function generateAdvisorExplanation(params: {
       },
     });
 
-    const text = response.text?.trim();
+    const text = response?.text?.trim();
     if (!text) {
       throw new Error('Empty response received from Gemini model');
     }
@@ -969,7 +1014,19 @@ async function generateAdvisorExplanation(params: {
 
     return { reply: text, aiStatus: 'ok' };
   } catch (err) {
-    const errMsg = err instanceof Error ? err.message : 'Gemini service unavailable';
+    logServerError('gemini_generate_error', err, {
+      cardCount: params.cards.length,
+      currency: params.fxInfo.selectedCurrency,
+    });
+    let errMsg = err instanceof Error ? err.message : 'Gemini service unavailable';
+    try {
+      const parsedErr = JSON.parse(errMsg) as { error?: { message?: string; status?: string } };
+      if (parsedErr?.error?.message) {
+        errMsg = parsedErr.error.message;
+      }
+    } catch {
+      // Keep original errMsg if not JSON
+    }
     return {
       reply:
         params.cards.length > 0
@@ -980,7 +1037,7 @@ async function generateAdvisorExplanation(params: {
       aiStatus: 'unavailable',
       aiNotice: `AI explanation temporarily unavailable (${errMsg.slice(
         0,
-        120
+        140
       )}). Verified database matches are shown below.`,
     };
   }
@@ -993,8 +1050,10 @@ export async function runDubaiAdvisorRecommendation(
   body: AdvisorRequestBody,
   liveInventoryOverlay: Map<string, LiveInventoryOverlayLike>
 ): Promise<AdvisorResponsePayload> {
+  const startedAt = Date.now();
   const userMessage = typeof body.message === 'string' ? body.message.trim().slice(0, 600) : '';
-  const prefs = body.preferences || {};
+  const prefs =
+    body.preferences && typeof body.preferences === 'object' ? body.preferences : {};
   const history = Array.isArray(body.history)
     ? body.history
         .filter(
@@ -1295,6 +1354,22 @@ export async function runDubaiAdvisorRecommendation(
     followUpSuggestions.push('Show options in Business Bay or JVC');
   }
 
+  const dataSource = fromFirestore
+    ? 'firebase_firestore_merged'
+    : 'verified_catalog_baseline';
+
+  logServerEvent('info', 'recommendation_generated', {
+    durationMs: Date.now() - startedAt,
+    recommendationCount: cards.length,
+    hasExactMatches,
+    aiStatus: aiResult.aiStatus,
+    currency: selectedCurrency,
+    location: location || 'Any Dubai',
+    propertyType: propertyType || 'Any',
+    purpose: purpose || 'Unspecified',
+    dataSource,
+  });
+
   return {
     ok: true,
     reply: aiResult.reply,
@@ -1305,6 +1380,6 @@ export async function runDubaiAdvisorRecommendation(
     fxInfo,
     resolvedContext,
     followUpSuggestions: followUpSuggestions.slice(0, 3),
-    dataSource: fromFirestore ? 'firebase_firestore_merged' : 'verified_catalog_baseline',
+    dataSource,
   };
 }
