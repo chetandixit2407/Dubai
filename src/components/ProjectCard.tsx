@@ -13,8 +13,10 @@ import {
   TOUR_STATUS_LABELS,
 } from '../utils/mediaValidation.ts';
 import {
+  formatCleanLocation,
   formatPropertyAreaSqFt,
   formatPropertyBhk,
+  formatVerifiedLayoutsLabel,
 } from '../utils/propertySpecs.ts';
 
 interface ProjectCardProps {
@@ -148,7 +150,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           <p className="text-xs text-[#F5F1E8]/90 flex items-center gap-1.5 min-w-0 flex-1">
             <MapPin className="w-3.5 h-3.5 shrink-0 text-[#D4AF72]" />
             <span className="truncate">
-              {project.community} · {project.emirate}
+              {formatCleanLocation(project.community, project.emirate)}
             </span>
           </p>
           <div className="flex items-center gap-1.5 shrink-0 max-w-full">
@@ -181,31 +183,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <span aria-hidden="true">·</span>
             <span className="break-words">{project.developerName}</span>
             <span aria-hidden="true">·</span>
-            <span className="tabular-nums">{project.handoverDate}</span>
+            <span className="tabular-nums ltr-isolate">{project.handoverDate}</span>
           </div>
 
           <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] leading-snug mb-1.5 group-hover:text-[#D4AF72] transition-colors duration-200 break-words">
             {displayName}
           </h3>
 
-          <p className="text-xs text-[#A5A19A] mb-3.5 truncate" title={specsSummary}>
+          <p className="text-xs text-[#A5A19A] mb-3.5 truncate ltr-isolate" title={specsSummary}>
             {specsSummary}
           </p>
 
-          {/* Starting Price + Separate BHK / Area (sq ft) Details */}
+          {/* Starting Price + Separate Bedrooms / Area (sq ft) Details */}
           <div className="py-3 border-y border-[#D4AF72]/15 mb-4 space-y-3">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 min-w-0">
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">
                   Starting Price
                 </p>
-                <p className="font-mono-tabular text-sm sm:text-base font-semibold text-[#F5F1E8] break-words">
+                <p className="font-mono-tabular text-sm sm:text-base font-semibold text-[#F5F1E8] break-words ltr-isolate">
                   {formatProjectPrice(project.startingPriceAed, currency)}
                 </p>
               </div>
               {currency !== 'INR' && project.startingPriceAed > 0 && (
                 <p
-                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium truncate"
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium truncate ltr-isolate"
                   title={formatInrTimestampNote()}
                 >
                   ≈ {formatCurrency(project.startingPriceAed, 'INR')}
@@ -213,7 +215,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               )}
               {currency === 'INR' && project.startingPriceAed > 0 && (
                 <p
-                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium truncate"
+                  className="text-[11px] font-mono-tabular text-[#D4AF72] font-medium truncate ltr-isolate"
                   title={formatInrTimestampNote()}
                 >
                   ≈ AED {project.startingPriceAed.toLocaleString()}
@@ -223,15 +225,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             <div className="pt-2.5 border-t border-[#D4AF72]/10 grid grid-cols-1 xs:grid-cols-2 gap-2 xs:gap-0 xs:divide-x xs:divide-[#D4AF72]/15">
               <div className="flex items-baseline justify-between gap-2 xs:block xs:pr-3 min-w-0">
-                <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">BHK</p>
-                <p className="text-xs font-semibold text-[#F5F1E8] leading-snug break-words">
+                <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">Bedrooms</p>
+                <p className="text-xs font-semibold text-[#F5F1E8] leading-snug break-words ltr-isolate">
                   {bhkText}
                 </p>
               </div>
               <div className="flex items-baseline justify-between gap-2 xs:block xs:pl-3 min-w-0">
                 <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">Area</p>
                 <p
-                  className={`text-xs font-mono-tabular font-semibold leading-snug break-words ${
+                  className={`text-xs font-mono-tabular font-semibold leading-snug break-words ltr-isolate ${
                     areaSqFtText === 'Not Available' ? 'text-[#A5A19A] font-sans' : 'text-[#F5F1E8]'
                   }`}
                 >
@@ -254,19 +256,19 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 <div className="grid grid-cols-2 xs:grid-cols-4 gap-2 text-xs font-mono-tabular">
                   <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Total</span>
-                    <span className="font-semibold text-[#F5F1E8]">{inv.totalRegisteredUnits ?? 'Verified'}</span>
+                    <span className="font-semibold text-[#F5F1E8] ltr-isolate">{inv.totalRegisteredUnits ?? 'Verified'}</span>
                   </div>
                   <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Available</span>
-                    <span className="font-semibold text-[#6EE7B7]">{inv.availableUnits}</span>
+                    <span className="font-semibold text-[#6EE7B7] ltr-isolate">{inv.availableUnits}</span>
                   </div>
                   <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Reserved</span>
-                    <span className="font-semibold text-[#D4AF72]">{inv.reservedUnits ?? 0}</span>
+                    <span className="font-semibold text-[#D4AF72] ltr-isolate">{inv.reservedUnits ?? 0}</span>
                   </div>
                   <div className="min-w-0">
                     <span className="block text-[11px] text-[#A5A19A]">Sold</span>
-                    <span className="font-semibold text-[#A5A19A]">{inv.soldUnits ?? 0}</span>
+                    <span className="font-semibold text-[#A5A19A] ltr-isolate">{inv.soldUnits ?? 0}</span>
                   </div>
                 </div>
                 <p className="text-[11px] text-[#A5A19A] mt-2 truncate" title={inv.dataSource}>
@@ -279,14 +281,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-semibold text-[#D4AF72]">{t.inventoryUnavailable}</p>
                   {verifiedDateLabel && (
-                    <span className="text-[10px] font-mono-tabular text-[#A5A19A] shrink-0">
+                    <span className="text-[10px] font-mono-tabular text-[#A5A19A] shrink-0 ltr-isolate">
                       {verifiedDateLabel}
                     </span>
                   )}
                 </div>
                 <p className="text-[11px] text-[#A5A19A] truncate">
                   {project.floorPlans.length > 0
-                    ? `${project.floorPlans.length} Verified Layouts · ${project.propertyTypes.slice(0, 2).join(', ')}`
+                    ? `${formatVerifiedLayoutsLabel(project.floorPlans.length)} · ${project.propertyTypes.slice(0, 2).join(', ')}`
                     : `Configs: ${project.propertyTypes.slice(0, 3).join(', ')}`}
                 </p>
                 {onRequestAvailabilitySheet && (

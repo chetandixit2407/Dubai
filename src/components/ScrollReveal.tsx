@@ -10,58 +10,8 @@ interface ScrollRevealProps {
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   className = '',
-  delayMs = 0,
-  threshold = 0.08,
 }) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReduced || typeof IntersectionObserver === 'undefined') {
-      setVisible(true);
-      return;
-    }
-
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold, rootMargin: '0px 0px -32px 0px' }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  const cappedDelay = Math.min(Math.max(delayMs, 0), 280);
-
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, 16px, 0)',
-        transition: `opacity 620ms cubic-bezier(0.22, 1, 0.36, 1) ${cappedDelay}ms, transform 620ms cubic-bezier(0.22, 1, 0.36, 1) ${cappedDelay}ms`,
-        willChange: visible ? 'auto' : 'opacity, transform',
-      }}
-    >
-      {children}
-    </div>
-  );
+  return <div className={className}>{children}</div>;
 };
 
 interface AnimatedNumberProps {

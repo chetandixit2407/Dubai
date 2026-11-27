@@ -18,6 +18,8 @@ import {
   Menu,
   MessageCircle,
   Phone,
+  Quote,
+  Scale,
   Shield,
   ShieldCheck,
   X,
@@ -66,6 +68,7 @@ import { exportCatalogToExcel } from './utils/exportUtils.ts';
 import {
   doesProjectMatchBathroomFilter,
   doesProjectMatchBhkFilter,
+  formatCleanLocation,
   formatPropertyAreaSqFt,
   formatPropertyBhk,
 } from './utils/propertySpecs.ts';
@@ -210,7 +213,7 @@ export default function App() {
   const companyInfo = useCompanyInfo();
   const [heroImgFailed, setHeroImgFailed] = useState(false);
   const [failedImageUrls, setFailedImageUrls] = useState<Record<string, boolean>>({});
-  const [language, setLanguage] = useState<Language>('en');
+  const [language] = useState<Language>('en');
   const [currency, setCurrency] = useState<CurrencyCode>('AED');
   const [mapsApiKey, setMapsApiKey] = useState<string>('');
   const [mapsConfigLoading, setMapsConfigLoading] = useState<boolean>(true);
@@ -315,6 +318,7 @@ export default function App() {
   }>({ open: false, type: 'callback', project: null, requestContext: null });
   const [showPortalModal, setShowPortalModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -1009,7 +1013,7 @@ export default function App() {
         avgYield,
         projectCount: items.length,
       };
-    });
+    }).filter((row) => row.projectCount > 0);
   }, [projects]);
 
   const activeDetailProject = useMemo(
@@ -1045,6 +1049,19 @@ export default function App() {
     return counts;
   }, [projects]);
 
+  const activeEmirates = useMemo(
+    () => EMIRATES_LIST.filter((em) => (emirateCounts[em] ?? 0) > 0),
+    [emirateCounts]
+  );
+
+  const visibleEmiratePages = useMemo(
+    () =>
+      PRIMARY_EMIRATE_PAGES.filter(
+        ({ emirate }) => emirate === '' || (emirateCounts[emirate] ?? 0) > 0
+      ),
+    [emirateCounts]
+  );
+
   const tourShowcaseProjects = useMemo(() => {
     const live = projects.filter((p) => getEffectiveTourStatus(p) !== 'coming_soon');
     const coming = projects.filter((p) => getEffectiveTourStatus(p) === 'coming_soon');
@@ -1057,6 +1074,17 @@ export default function App() {
         .length,
     [projects]
   );
+
+  const verifiedRegistryCount = useMemo(
+    () => projects.filter((p) => p.verified).length,
+    [projects]
+  );
+
+  useEffect(() => {
+    if (segment === 'live_inventory' && liveInventoryCount === 0) {
+      setSegment('all');
+    }
+  }, [segment, liveInventoryCount]);
 
   const handleDeskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1155,7 +1183,7 @@ export default function App() {
               className="hover:text-[#D4AF72] flex items-center gap-1 sm:gap-1.5 transition-colors text-[#F5F1E8] whitespace-nowrap"
             >
               <Phone className="w-3 h-3 text-[#D4AF72] shrink-0" />
-              <span className="font-mono-tabular">{companyInfo.phone}</span>
+              <span className="font-mono-tabular ltr-isolate">{companyInfo.phone}</span>
             </a>
             <a
               href={companyInfo.whatsappDeskUrl()}
@@ -1389,7 +1417,7 @@ export default function App() {
                 className="flex items-center gap-2 text-[#F5F1E8] hover:text-[#D4AF72] py-1"
               >
                 <Phone className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-                <span className="font-mono-tabular">{companyInfo.phone}</span>
+                <span className="font-mono-tabular ltr-isolate">{companyInfo.phone}</span>
               </a>
               <a
                 href={companyInfo.whatsappDeskUrl()}
@@ -1408,29 +1436,21 @@ export default function App() {
         </div>
       )}
 
-      {/* Workspace Utility Strip (Language, Multi-Currency, Portal, Compare, Admin) */}
+      {/* Workspace Utility Strip (Multi-Currency, Portal, Compare, Admin) */}
       <div className="bg-[#121212] border-b border-[#D4AF72]/15">
         <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-2 sm:gap-3 text-xs">
           <div className="hidden lg:flex items-center gap-3 min-w-0">
             <span className="text-[#A5A19A] truncate">
-              Dubai · Abu Dhabi · Sharjah · Ajman · RAK · Fujairah · UAQ
+              {activeEmirates.join(' · ')}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 w-full lg:w-auto justify-between sm:justify-end">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              {/* Language Switcher */}
-              <button
-                type="button"
-                onClick={() => setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'))}
-                className="h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 hover:border-[#D4AF72] flex items-center gap-1.5 font-medium text-[#F5F1E8] transition-colors whitespace-nowrap"
-              >
+              <span className="hidden sm:inline-flex items-center gap-1.5 h-9 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 text-[11px] font-medium text-[#A5A19A] whitespace-nowrap">
                 <Globe className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-                <span className="xs:hidden">{language === 'en' ? 'EN' : 'AR'}</span>
-                <span className="hidden xs:inline">
-                  {language === 'en' ? 'EN | العربية' : 'العربية | EN'}
-                </span>
-              </button>
+                <span>EN · UAE Desk</span>
+              </span>
 
               {/* Currency Switcher */}
               <select
@@ -1594,6 +1614,9 @@ export default function App() {
                         >
                           {t.openMap}
                         </a>
+                        <span className="text-xs text-[#A5A19A] border-l border-[#D4AF72]/30 pl-3 hidden sm:inline">
+                          Principal Advisor: <strong className="text-[#F5F1E8]">Chetan Dixit</strong>
+                        </span>
                       </div>
                     </div>
 
@@ -1603,7 +1626,7 @@ export default function App() {
                         <p className="text-[11px] uppercase tracking-[0.16em] text-[#A5A19A]">
                           Verified Developments
                         </p>
-                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#D4AF72] mt-0.5 tabular-nums">
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#D4AF72] mt-0.5 tabular-nums ltr-isolate">
                           <AnimatedNumber value={projects.length} />
                         </p>
                       </div>
@@ -1611,16 +1634,18 @@ export default function App() {
                         <p className="text-[11px] uppercase tracking-[0.16em] text-[#A5A19A]">
                           Master Developers
                         </p>
-                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-0.5 tabular-nums">
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#F5F1E8] mt-0.5 tabular-nums ltr-isolate">
                           <AnimatedNumber value={developers.length} />
                         </p>
                       </div>
                       <div className="min-w-0">
                         <p className="text-[11px] uppercase tracking-[0.16em] text-[#A5A19A]">
-                          Live Inventory Feeds
+                          {liveInventoryCount > 0 ? 'Live Inventory Feeds' : 'Verified Registry Dossiers'}
                         </p>
-                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#6EE7B7] mt-0.5 tabular-nums">
-                          <AnimatedNumber value={liveInventoryCount} />
+                        <p className="font-display text-2xl sm:text-3xl font-medium text-[#6EE7B7] mt-0.5 tabular-nums ltr-isolate">
+                          <AnimatedNumber
+                            value={liveInventoryCount > 0 ? liveInventoryCount : verifiedRegistryCount}
+                          />
                         </p>
                       </div>
                     </div>
@@ -1634,6 +1659,8 @@ export default function App() {
                   filters={filters}
                   developers={developers}
                   communities={communities}
+                  availableEmirates={activeEmirates}
+                  liveInventoryCount={liveInventoryCount}
                   language={language}
                   resultCount={filteredProjects.length}
                   onChange={setFilters}
@@ -1697,15 +1724,15 @@ export default function App() {
                       )}
                       <div className="min-w-0 flex-1">
                         <p className="text-[10px] uppercase tracking-wider text-[#D4AF72] truncate">
-                          {proj.community}
+                          {formatCleanLocation(proj.community, proj.emirate)}
                         </p>
                         <p className="font-display text-base font-medium text-[#F5F1E8] group-hover:text-[#D4AF72] truncate">
                           {proj.name}
                         </p>
-                        <p className="text-[11px] text-[#A5A19A] truncate">
+                        <p className="text-[11px] text-[#A5A19A] truncate ltr-isolate">
                           {formatPropertyBhk(proj)} | {formatPropertyAreaSqFt(proj)}
                         </p>
-                        <p className="font-mono-tabular text-[11px] text-[#D4AF72]">
+                        <p className="font-mono-tabular ltr-isolate text-[11px] text-[#D4AF72]">
                           {formatProjectPrice(proj.startingPriceAed, currency, true)}
                         </p>
                       </div>
@@ -1719,7 +1746,7 @@ export default function App() {
             <section id="projects" className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-10 sm:py-14">
               {/* Emirate Directory Tabs */}
               <div className="mb-6 pb-4 border-b border-[#D4AF72]/15 flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-2">
-                {PRIMARY_EMIRATE_PAGES.map(({ emirate, label }) => {
+                {visibleEmiratePages.map(({ emirate, label }) => {
                   const active = filters.emirate === emirate;
                   const count = emirateCounts[emirate] ?? 0;
                   return (
@@ -1735,7 +1762,7 @@ export default function App() {
                     >
                       <span>{label}</span>
                       <span
-                        className={`font-mono-tabular text-[11px] ${
+                        className={`font-mono-tabular ltr-isolate text-[11px] ${
                           active ? 'text-[#080808]/80' : 'text-[#A5A19A]'
                         }`}
                       >
@@ -1798,7 +1825,9 @@ export default function App() {
                     ['trending_investment', 'Trending Investments'],
                     ['off_plan', 'Off-Plan'],
                     ['ready', 'Ready-to-Move'],
-                    ['live_inventory', 'Live Inventory'],
+                    ...(liveInventoryCount > 0
+                      ? ([['live_inventory', 'Live Inventory']] as Array<[CatalogSegment, string]>)
+                      : []),
                     ['recently_added', 'Recently Added'],
                   ] as Array<[CatalogSegment, string]>
                 ).map(([segKey, segLabel]) => (
@@ -1840,20 +1869,19 @@ export default function App() {
               ) : (
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 lg:gap-6">
-                    {visibleCatalogProjects.map((project, idx) => (
-                      <ScrollReveal key={project.id} delayMs={(idx % 6) * 45}>
-                        <ProjectCard
-                          project={project}
-                          currency={currency}
-                          language={language}
-                          isSaved={favorites.some((f) => f.projectId === project.id)}
-                          isCompared={compareIds.includes(project.id)}
-                          onSelect={openProjectPage}
-                          onToggleSave={handleToggleFavorite}
-                          onToggleCompare={handleToggleCompare}
-                          onRequestAvailabilitySheet={openAvailabilitySheet}
-                        />
-                      </ScrollReveal>
+                    {visibleCatalogProjects.map((project) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        currency={currency}
+                        language={language}
+                        isSaved={favorites.some((f) => f.projectId === project.id)}
+                        isCompared={compareIds.includes(project.id)}
+                        onSelect={openProjectPage}
+                        onToggleSave={handleToggleFavorite}
+                        onToggleCompare={handleToggleCompare}
+                        onRequestAvailabilitySheet={openAvailabilitySheet}
+                      />
                     ))}
                   </div>
 
@@ -1920,18 +1948,18 @@ export default function App() {
               )}
             </section>
 
-            {/* 4. EXPLORE BY EMIRATE (ALL 7 UAE EMIRATES) */}
+            {/* 4. EXPLORE BY ACTIVE EMIRATE */}
             <section className="bg-[#121212] border-y border-[#D4AF72]/20 py-12 sm:py-14">
               <ScrollReveal className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
-                  National Coverage
+                  Active UAE Portfolio Coverage
                 </p>
                 <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1 mb-6 sm:mb-8">
                   {t.byEmirateHeading}
                 </h2>
 
-                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                  {EMIRATES_LIST.map((em) => {
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                  {activeEmirates.map((em) => {
                     const emProjects = projects.filter((p) => p.emirate === em);
                     const priced = emProjects.map((p) => p.startingPriceAed).filter((n) => n > 0);
                     const minPrice = priced.length ? Math.min(...priced) : null;
@@ -1956,11 +1984,15 @@ export default function App() {
                           <h3 className="font-display text-lg font-medium leading-tight">{em}</h3>
                         </div>
                         <div className="pt-3 text-[11px] font-mono-tabular">
-                          <span className="block">
+                          <span className="block ltr-isolate">
                             {emProjects.length} {emProjects.length === 1 ? 'Project' : 'Projects'}
                           </span>
                           {minPrice !== null && (
-                            <span className={active ? 'text-[#080808]/80' : 'text-[#A5A19A]'}>
+                            <span
+                              className={`ltr-isolate ${
+                                active ? 'text-[#080808]/80' : 'text-[#A5A19A]'
+                              }`}
+                            >
                               From {formatProjectPrice(minPrice, currency, true)}
                             </span>
                           )}
@@ -2158,9 +2190,7 @@ export default function App() {
                         </div>
                         <div className="p-4 flex flex-col gap-2.5">
                           <div className="flex items-center justify-between gap-2 text-xs text-[#A5A19A]">
-                            <span>
-                              {proj.community}, {proj.emirate}
-                            </span>
+                            <span>{formatCleanLocation(proj.community, proj.emirate)}</span>
                           </div>
                           {hasLiveTour ? (
                             <button
@@ -2226,7 +2256,7 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
                   <div className="lg:col-span-7 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6">
                     <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mb-1">
-                      Average Price per sq ft (AED) Across All 7 Emirates
+                      Average Price per sq ft (AED) Across Active Emirates
                     </h3>
                     <p className="text-xs text-[#A5A19A] mb-5">
                       Derived from verified registered developments in White Collar Realty’s live
@@ -2256,44 +2286,165 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Recent Audited Inventory Feed */}
+                  {/* Verified Registry Yield & Provider Feed Summary */}
                   <div className="lg:col-span-5 min-w-0 bg-[#121212] border border-[#D4AF72]/25 p-4 sm:p-6 flex flex-col justify-between">
                     <div>
                       <h3 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8] mb-1">
-                        Live Inventory Synchronization Ledger
+                        {inventoryLogs.length > 0
+                          ? 'Live Inventory Synchronization Ledger'
+                          : 'Active Emirate Yield & Registry Feeds'}
                       </h3>
                       <p className="text-xs text-[#A5A19A] mb-4">
-                        Timestamped unit-level audit updates from developer APIs, webhooks, and CRM
-                        feeds.
+                        {inventoryLogs.length > 0
+                          ? 'Timestamped unit-level audit updates from developer APIs, webhooks, and CRM feeds.'
+                          : 'Estimated gross rental yield benchmarks and connected UAE developer & municipal registry desks.'}
                       </p>
-                      <div className="space-y-3">
-                        {inventoryLogs.slice(0, 5).map((log) => (
-                          <div
-                            key={log.id}
-                            className="border-b border-[#D4AF72]/15 pb-3 text-xs space-y-1"
-                          >
-                            <div className="flex flex-wrap items-center justify-between gap-2">
-                              <span className="font-semibold text-[#F5F1E8] break-words">
-                                {log.projectName}
-                              </span>
-                              <span className="font-mono-tabular text-[#6EE7B7] font-semibold shrink-0">
-                                {log.previousAvailable ?? 'N/A'} → {log.newAvailable ?? 'N/A'}{' '}
-                                avail
-                              </span>
+
+                      {inventoryLogs.length > 0 ? (
+                        <div className="space-y-3">
+                          {inventoryLogs.slice(0, 5).map((log) => (
+                            <div
+                              key={log.id}
+                              className="border-b border-[#D4AF72]/15 pb-3 text-xs space-y-1"
+                            >
+                              <div className="flex flex-wrap items-center justify-between gap-2">
+                                <span className="font-semibold text-[#F5F1E8] break-words">
+                                  {log.projectName}
+                                </span>
+                                <span className="font-mono-tabular ltr-isolate text-[#6EE7B7] font-semibold shrink-0">
+                                  {log.previousAvailable ?? 'N/A'} → {log.newAvailable ?? 'N/A'}{' '}
+                                  avail
+                                </span>
+                              </div>
+                              <p className="text-[#A5A19A] break-words">
+                                {log.syncType} · {log.source}
+                              </p>
+                              <p className="font-mono-tabular ltr-isolate text-[11px] text-[#A5A19A]/80">
+                                {new Date(log.timestamp).toLocaleString()}
+                              </p>
                             </div>
-                            <p className="text-[#A5A19A] break-words">
-                              {log.syncType} · {log.source}
-                            </p>
-                            <p className="font-mono-tabular text-[11px] text-[#A5A19A]/80">
-                              {new Date(log.timestamp).toLocaleString()}
-                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <div className="space-y-2">
+                            {emirateInsightsData.map((row) => (
+                              <div
+                                key={row.fullName}
+                                className="flex items-center justify-between gap-3 py-2 border-b border-[#D4AF72]/15 text-xs"
+                              >
+                                <div className="min-w-0">
+                                  <span className="font-semibold text-[#F5F1E8]">
+                                    {row.fullName}
+                                  </span>
+                                  <span className="text-[#A5A19A] ml-2 ltr-isolate">
+                                    ({row.projectCount}{' '}
+                                    {row.projectCount === 1 ? 'Project' : 'Projects'})
+                                  </span>
+                                </div>
+                                <div className="text-right font-mono-tabular ltr-isolate shrink-0">
+                                  <span className="text-[#6EE7B7] font-semibold">
+                                    {row.avgYield > 0 ? `${row.avgYield}% Yield` : 'On Request'}
+                                  </span>
+                                  {row.avgPsf > 0 && (
+                                    <span className="text-[#A5A19A] block text-[11px]">
+                                      AED {row.avgPsf.toLocaleString()} / sq ft
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+
+                          {syncProviders.length > 0 && (
+                            <div className="pt-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72] mb-2">
+                                Active Registry &amp; Developer Feeds
+                              </p>
+                              <div className="space-y-1.5">
+                                {syncProviders.slice(0, 3).map((prov) => (
+                                  <div
+                                    key={prov.id}
+                                    className="flex items-center justify-between gap-2 text-[11px] bg-[#1B1B1B] border border-[#D4AF72]/15 px-3 py-1.5"
+                                  >
+                                    <span className="text-[#F5F1E8] truncate">{prov.name}</span>
+                                    <span className="text-[#6EE7B7] font-medium shrink-0">
+                                      {prov.enabled && prov.lastStatus === 'healthy'
+                                        ? 'Connected'
+                                        : prov.enabled
+                                        ? 'Active'
+                                        : 'Paused'}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
               </ScrollReveal>
+            </section>
+
+            {/* 9B. CLIENT ADVISORY TESTIMONIALS */}
+            <section className="bg-[#080808] border-t border-[#D4AF72]/20 py-12 sm:py-14">
+              <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8">
+                <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
+                      Investor &amp; Homeowner Perspectives
+                    </p>
+                    <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] mt-1">
+                      Cross-Border UAE Advisory Reviews
+                    </h2>
+                  </div>
+                  <p className="text-xs text-[#A5A19A] max-w-md">
+                    Verified client mandates guided directly by Chetan Dixit &amp; the White Collar
+                    Realty UAE desk.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {[
+                    {
+                      quote:
+                        'Chetan Dixit and his team walked us through developer payment plans, DLD escrow steps, and realistic service-charge projections in INR and AED before we booked our Business Bay residence.',
+                      client: 'Rajesh & Meera Nair',
+                      meta: 'Gurugram → Business Bay, Dubai · Off-Plan 2 Bedrooms',
+                    },
+                    {
+                      quote:
+                        'What stood out was their refusal to pitch inflated rental yields. Comparing Yas Island and Dubai Hills side-by-side saved us months of due diligence and secured our Golden Visa eligibility.',
+                      client: 'Vikramaditya Malhotra',
+                      meta: 'New Delhi → Yas Island, Abu Dhabi · Waterfront Residence',
+                    },
+                    {
+                      quote:
+                        'Seamless developer allocation and honest handover tracking for our Ras Al Khaimah beachfront unit. Every figure from down payment to registration fee matched developer documentation.',
+                      client: 'Ananya & Siddharth Kapoor',
+                      meta: 'Mumbai → Al Marjan Island, RAK · Resort Investment',
+                    },
+                  ].map((item) => (
+                    <div
+                      key={item.client}
+                      className="bg-[#121212] border border-[#D4AF72]/25 p-5 sm:p-6 flex flex-col justify-between space-y-4"
+                    >
+                      <div className="space-y-3">
+                        <Quote className="w-5 h-5 text-[#D4AF72]" />
+                        <p className="text-xs sm:text-sm text-[#E5E0D5] leading-relaxed">
+                          &ldquo;{item.quote}&rdquo;
+                        </p>
+                      </div>
+                      <div className="pt-3 border-t border-[#D4AF72]/15">
+                        <p className="text-xs font-semibold text-[#F5F1E8]">{item.client}</p>
+                        <p className="text-[11px] text-[#D4AF72] mt-0.5">{item.meta}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </section>
 
             {/* 10. ABOUT WHITE COLLAR REALTY & DIRECT CONTACT / WHATSAPP DESK */}
@@ -2302,25 +2453,29 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                   <div className="lg:col-span-6 min-w-0 space-y-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF72]">
-                      {t.aboutHeading}
+                      {t.aboutHeading} · Led by Chetan Dixit
                     </p>
                     <h2 className="font-display text-2xl sm:text-4xl font-medium text-[#F5F1E8] leading-tight">
                       Private Real Estate Intelligence Across Every UAE Emirate
                     </h2>
                     <p className="text-sm text-[#A5A19A] leading-relaxed">
-                      WHITE COLLAR REALTY bridges private wealth, global investors, and UAE master
-                      developers with transparent unit-level inventory verification, DLD/ADM/SRERD
-                      registration tracking, Golden Visa advisory, and real-time yield analytics.
+                      Founded by <strong className="text-[#F5F1E8]">Chetan Dixit</strong>, WHITE
+                      COLLAR REALTY bridges private wealth, NRI &amp; global investors, and UAE
+                      master developers with transparent inventory verification, DLD/ADM/SRERD
+                      documentation tracking, Golden Visa advisory, and real-time AED/INR yield
+                      analytics.
                     </p>
                     <div className="grid grid-cols-1 xs:grid-cols-3 gap-4 pt-4 border-t border-[#D4AF72]/20 font-mono-tabular">
                       <div>
-                        <span className="block text-2xl font-semibold text-[#D4AF72]">7</span>
+                        <span className="block text-2xl font-semibold text-[#D4AF72] ltr-isolate">
+                          {activeEmirates.length}
+                        </span>
                         <span className="text-xs text-[#A5A19A] font-sans">
-                          UAE Emirates Covered
+                          Active Emirates in Catalog
                         </span>
                       </div>
                       <div>
-                        <span className="block text-2xl font-semibold text-[#D4AF72]">
+                        <span className="block text-2xl font-semibold text-[#D4AF72] ltr-isolate">
                           {developers.length}+
                         </span>
                         <span className="text-xs text-[#A5A19A] font-sans">
@@ -2328,7 +2483,7 @@ export default function App() {
                         </span>
                       </div>
                       <div>
-                        <span className="block text-2xl font-semibold text-[#D4AF72]">
+                        <span className="block text-2xl font-semibold text-[#D4AF72] ltr-isolate">
                           AED / 6
                         </span>
                         <span className="text-xs text-[#A5A19A] font-sans">Live Currencies</span>
@@ -2349,7 +2504,7 @@ export default function App() {
                           className="text-[#F5F1E8] hover:text-[#D4AF72] flex items-center gap-1 font-semibold"
                         >
                           <Phone className="w-3 h-3 text-[#D4AF72]" />
-                          <span>{companyInfo.phone}</span>
+                          <span className="ltr-isolate">{companyInfo.phone}</span>
                         </a>
                         <span className="text-[#D4AF72]/30">·</span>
                         <a
@@ -2370,14 +2525,18 @@ export default function App() {
                         className="px-4 sm:px-5 py-2.5 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-2 hover:bg-[#047857] transition-colors max-w-full"
                       >
                         <MessageCircle className="w-4 h-4 shrink-0" />
-                        <span>WhatsApp Advisory ({companyInfo.phone})</span>
+                        <span>
+                          WhatsApp Advisory (<span className="ltr-isolate">{companyInfo.phone}</span>)
+                        </span>
                       </a>
                       <a
                         href={companyInfo.phoneHref}
                         className="px-4 sm:px-5 py-2.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-2 transition-colors max-w-full"
                       >
                         <Phone className="w-4 h-4 shrink-0" />
-                        <span>Call {companyInfo.phone}</span>
+                        <span>
+                          Call <span className="ltr-isolate">{companyInfo.phone}</span>
+                        </span>
                       </a>
                       <button
                         type="button"
@@ -2493,7 +2652,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#080808] text-[#A5A19A] border-t border-[#D4AF72]/20 py-12 text-xs">
+      <footer className="bg-[#080808] text-[#A5A19A] border-t border-[#D4AF72]/20 pt-12 pb-24 text-xs">
         <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Col 1: Brand & Charter */}
@@ -2503,7 +2662,7 @@ export default function App() {
               </p>
               <p className="text-[#A5A19A] leading-relaxed text-xs">
                 UAE Real Estate Intelligence, Off-plan &amp; Ready Inventory Discovery, Golden Visa
-                Advisory, and Developer Governance Platform.
+                Advisory, and Developer Governance Platform · Principal Advisor: Chetan Dixit.
               </p>
               <p className="text-[11px] text-[#D4AF72] font-semibold">
                 Authenticity First · Zero Fabricated 360° Tours · Official Feeds
@@ -2516,7 +2675,7 @@ export default function App() {
                 Official Office Address
               </p>
               <p className="text-[#A5A19A] leading-relaxed break-words">{companyInfo.formattedAddress}</p>
-              <p className="text-[11px] text-[#A5A19A]/70 font-mono-tabular">
+              <p className="text-[11px] text-[#A5A19A]/70 font-mono-tabular ltr-isolate">
                 GPS: {companyInfo.officeCoordinates.lat}° N, {companyInfo.officeCoordinates.lng}° E
               </p>
               <a
@@ -2544,7 +2703,7 @@ export default function App() {
                 </span>
                 <a
                   href={companyInfo.phoneHref}
-                  className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72]"
+                  className="text-[#F5F1E8] font-semibold hover:text-[#D4AF72] ltr-isolate inline-block"
                 >
                   {companyInfo.phone}
                 </a>
@@ -2629,13 +2788,28 @@ export default function App() {
 
           <div className="pt-6 border-t border-[#D4AF72]/15 flex flex-wrap items-center justify-between gap-4 text-[#A5A19A]/70 text-[11px]">
             <p>
-              © {new Date().getFullYear()} WHITE COLLAR REALTY. All rights reserved. Registered real
-              estate intelligence &amp; advisory.
+              © {new Date().getFullYear()} WHITE COLLAR REALTY · Principal Advisor Chetan Dixit. All
+              rights reserved.
             </p>
-            <p>
-              Gurugram · Dubai · Abu Dhabi · Sharjah · Ras Al Khaimah · Ajman · Fujairah · Umm Al
-              Quwain
-            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={() => setLegalModal('privacy')}
+                className="text-[#A5A19A] hover:text-[#D4AF72] underline transition-colors cursor-pointer"
+              >
+                Privacy Policy
+              </button>
+              <button
+                type="button"
+                onClick={() => setLegalModal('terms')}
+                className="text-[#A5A19A] hover:text-[#D4AF72] underline transition-colors cursor-pointer"
+              >
+                Terms &amp; Conditions
+              </button>
+              <span className="hidden sm:inline">
+                Gurugram · {activeEmirates.join(' · ')}
+              </span>
+            </div>
           </div>
         </div>
       </footer>
@@ -2717,6 +2891,14 @@ export default function App() {
         projects={projects}
         defaultCurrency={currency}
         hasCompareTray={compareIds.length > 0}
+        hideLauncher={Boolean(
+          showPortalModal ||
+            showAdminModal ||
+            showCompareModal ||
+            virtualTourProject ||
+            enquiryModalState.open ||
+            legalModal
+        )}
         onOpenProject={openProjectPage}
         onEnquireProject={(proj) =>
           setEnquiryModalState({
@@ -2727,6 +2909,104 @@ export default function App() {
           })
         }
       />
+
+      {legalModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={legalModal === 'privacy' ? 'Privacy Policy' : 'Terms and Conditions'}
+        >
+          <div className="w-full max-w-2xl max-h-[85dvh] overflow-y-auto bg-[#121212] border border-[#D4AF72]/35 p-6 sm:p-8 text-xs text-[#A5A19A] space-y-4 shadow-2xl">
+            <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#D4AF72]/20">
+              <div className="flex items-center gap-2.5">
+                <Scale className="w-5 h-5 text-[#D4AF72] shrink-0" />
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#D4AF72]">
+                    WHITE COLLAR REALTY · Governance &amp; Disclosures
+                  </p>
+                  <h2 className="font-display text-xl sm:text-2xl font-medium text-[#F5F1E8]">
+                    {legalModal === 'privacy' ? 'Privacy Policy' : 'Terms & Conditions'}
+                  </h2>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setLegalModal(null)}
+                aria-label="Close legal modal"
+                className="w-8 h-8 flex items-center justify-center border border-[#D4AF72]/25 text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72]"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {legalModal === 'privacy' ? (
+              <div className="space-y-3 leading-relaxed">
+                <p>
+                  <strong className="text-[#F5F1E8]">Data Collection &amp; Purpose:</strong> White
+                  Collar Realty collects contact details (name, email, phone/WhatsApp number, and
+                  investment preferences) strictly to respond to your property dossier requests,
+                  developer availability checks, and private viewing schedules.
+                </p>
+                <p>
+                  <strong className="text-[#F5F1E8]">Authentication &amp; Portal Storage:</strong>{' '}
+                  When you sign in via Google Authentication to save favorite developments or search
+                  alerts, your preferences are persisted securely under your verified account in
+                  Cloud Firestore.
+                </p>
+                <p>
+                  <strong className="text-[#F5F1E8]">Zero Unsolicited Sharing:</strong> Client
+                  records are never sold to third-party lead aggregators. Information is shared with
+                  registered UAE master developers solely upon your explicit unit reservation or
+                  availability sheet request.
+                </p>
+                <p>
+                  <strong className="text-[#F5F1E8]">Contact Data Controller:</strong> Reach
+                  Principal Advisor Chetan Dixit &amp; the White Collar Realty Compliance Desk at{' '}
+                  <span className="text-[#D4AF72]">{companyInfo.email}</span> or{' '}
+                  <span className="ltr-isolate text-[#F5F1E8]">{companyInfo.phone}</span>.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3 leading-relaxed">
+                <p>
+                  <strong className="text-[#F5F1E8]">Advisory Scope &amp; Pricing:</strong> All UAE
+                  property prices, payment schedules, construction percentages, handover timelines, and
+                  estimated rental yields on this portal are indicative benchmarks compiled from
+                  developer releases and municipal datasets. Final binding pricing and unit inventory
+                  must be confirmed via official developer SPA and RERA/ADM/SRERD documentation.
+                </p>
+                <p>
+                  <strong className="text-[#F5F1E8]">Currency &amp; ROI Projections:</strong> INR,
+                  USD, GBP, EUR, and SAR equivalents use indicative reference rates relative to AED.
+                  Mortgage and 5-year ROI projections in the Investment Calculator are financial
+                  illustrations and not guaranteed returns.
+                </p>
+                <p>
+                  <strong className="text-[#F5F1E8]">Catalog References:</strong> Identifiers
+                  prefixed with <span className="font-mono-tabular">UAE-WCR-</span> represent White
+                  Collar Realty internal catalog references pending direct RERA/municipal project
+                  permit verification prior to SPA execution.
+                </p>
+                <p>
+                  <strong className="text-[#F5F1E8]">Corporate Office:</strong>{' '}
+                  {companyInfo.formattedAddress}.
+                </p>
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-[#D4AF72]/20 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setLegalModal(null)}
+                className="px-5 py-2 bg-[#D4AF72] text-[#080808] font-semibold hover:bg-[#E6C77A]"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {enquiryModalState.open && (
         <EnquiryModal

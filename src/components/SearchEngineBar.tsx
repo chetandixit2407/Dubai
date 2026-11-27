@@ -14,6 +14,8 @@ interface SearchEngineBarProps {
   filters: SearchFilters;
   developers: Developer[];
   communities: string[];
+  availableEmirates?: string[];
+  liveInventoryCount?: number;
   language: Language;
   resultCount: number;
   onChange: (next: SearchFilters) => void;
@@ -59,6 +61,8 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
   filters,
   developers,
   communities,
+  availableEmirates,
+  liveInventoryCount = 0,
   language,
   resultCount,
   onChange,
@@ -67,6 +71,8 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const t = TRANSLATIONS[language];
+  const emirateOptions =
+    availableEmirates && availableEmirates.length > 0 ? availableEmirates : EMIRATES;
 
   const update = <K extends keyof SearchFilters>(key: K, value: SearchFilters[K]) => {
     onChange({ ...filters, [key]: value });
@@ -122,8 +128,8 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
       </div>
 
       {/* Core Search Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-12 gap-3">
-        <div className="sm:col-span-2 md:col-span-1 xl:col-span-2 relative min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[minmax(260px,2.1fr)_repeat(5,minmax(0,1fr))] gap-3">
+        <div className="sm:col-span-2 md:col-span-2 xl:col-span-1 relative min-w-0">
           <Search className="w-4 h-4 text-[#A5A19A] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
@@ -138,10 +144,10 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.emirate}
           onChange={(e) => update('emirate', e.target.value)}
           aria-label="Filter by Emirate"
-          className="w-full min-w-0 xl:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
-          <option value="">{t.allEmirates}</option>
-          {EMIRATES.map((em) => (
+          <option value="">All Active Emirates</option>
+          {emirateOptions.map((em) => (
             <option key={em} value={em}>
               {em}
             </option>
@@ -152,7 +158,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.propertyType}
           onChange={(e) => update('propertyType', e.target.value)}
           aria-label="Filter by Property Type"
-          className="w-full min-w-0 xl:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">{t.allTypes}</option>
           {PROPERTY_TYPES.map((pt) => (
@@ -165,23 +171,23 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
         <select
           value={filters.bedroomCount}
           onChange={(e) => update('bedroomCount', e.target.value)}
-          aria-label="Filter by BHK Configuration"
-          className="w-full min-w-0 xl:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          aria-label="Filter by Bedroom Configuration"
+          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
-          <option value="">Any BHK</option>
+          <option value="">Any Bedrooms</option>
           <option value="Studio">Studio</option>
-          <option value="1 BHK">1 BHK</option>
-          <option value="2 BHK">2 BHK</option>
-          <option value="3 BHK">3 BHK</option>
-          <option value="4+ BHK">4+ BHK</option>
-          <option value="5+ BHK">5+ BHK</option>
+          <option value="1 BR">1 BR</option>
+          <option value="2 BR">2 BR</option>
+          <option value="3 BR">3 BR</option>
+          <option value="4+ BR">4+ BR</option>
+          <option value="5+ BR">5+ BR</option>
         </select>
 
         <select
           value={filters.category}
           onChange={(e) => update('category', e.target.value)}
           aria-label="Filter by Construction Status"
-          className="w-full min-w-0 xl:col-span-2 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">All Statuses</option>
           {CATEGORIES.map((cat) => (
@@ -195,7 +201,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.sortBy}
           onChange={(e) => update('sortBy', e.target.value as SortOption)}
           aria-label={t.sortLabel}
-          className="w-full min-w-0 xl:col-span-2 h-10 px-3 bg-[#080808] border border-[#D4AF72]/45 text-sm font-medium text-[#D4AF72] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-3 bg-[#080808] border border-[#D4AF72]/45 text-sm font-medium text-[#D4AF72] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="featured">Sort: Featured</option>
           <option value="lowest_price">Sort: Lowest Price</option>
@@ -462,15 +468,17 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
               />
               <span>Waterfront & Coastal Properties Only</span>
             </label>
-            <label className="flex items-center gap-2 text-xs font-medium text-[#F5F1E8] cursor-pointer">
-              <input
-                type="checkbox"
-                checked={filters.verifiedAvailableOnly}
-                onChange={(e) => update('verifiedAvailableOnly', e.target.checked)}
-                className="accent-[#D4AF72]"
-              />
-              <span>Verified Live Available Units Only</span>
-            </label>
+            {liveInventoryCount > 0 && (
+              <label className="flex items-center gap-2 text-xs font-medium text-[#F5F1E8] cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.verifiedAvailableOnly}
+                  onChange={(e) => update('verifiedAvailableOnly', e.target.checked)}
+                  className="accent-[#D4AF72]"
+                />
+                <span>Verified Live Available Units Only</span>
+              </label>
+            )}
           </div>
         </div>
       )}

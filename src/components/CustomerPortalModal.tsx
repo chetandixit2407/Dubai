@@ -20,7 +20,7 @@ import {
   UserProfile,
 } from '../types/realEstate.ts';
 import { formatProjectPrice } from '../utils/currency.ts';
-import { formatPropertySpecsSummary } from '../utils/propertySpecs.ts';
+import { formatCleanLocation, formatPropertySpecsSummary } from '../utils/propertySpecs.ts';
 
 interface CustomerPortalModalProps {
   userProfile: UserProfile | null;
@@ -157,13 +157,13 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                       <span className="min-w-0 flex-1">
                         <strong className="text-[#F5F1E8] block truncate">{proj.name}</strong>
                         <span className="text-[#A5A19A] block truncate">
-                          {proj.community}, {proj.emirate}
+                          {formatCleanLocation(proj.community, proj.emirate)}
                         </span>
-                        <span className="text-[11px] text-[#D4AF72]/90 block mt-0.5 truncate">
+                        <span className="text-[11px] text-[#D4AF72]/90 block mt-0.5 truncate ltr-isolate">
                           {formatPropertySpecsSummary(proj)}
                         </span>
                       </span>
-                      <span className="font-mono-tabular text-[#D4AF72] font-semibold shrink-0">
+                      <span className="font-mono-tabular text-[#D4AF72] font-semibold shrink-0 ltr-isolate">
                         {formatProjectPrice(proj.startingPriceAed, currency, true)}
                       </span>
                     </button>
@@ -241,15 +241,15 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                       >
                         <div className="min-w-0 flex-1">
                           <p className="text-xs text-[#D4AF72] font-medium">
-                            {proj.emirate} · {proj.community}
+                            {formatCleanLocation(proj.community, proj.emirate)}
                           </p>
                           <h4 className="font-display text-lg font-medium text-[#F5F1E8]">
                             {proj.name}
                           </h4>
-                          <p className="text-[11px] text-[#D4AF72]/90 mt-0.5">
+                          <p className="text-[11px] text-[#D4AF72]/90 mt-0.5 ltr-isolate">
                             {formatPropertySpecsSummary(proj)}
                           </p>
-                          <p className="text-xs font-mono-tabular text-[#A5A19A] mt-0.5">
+                          <p className="text-xs font-mono-tabular text-[#A5A19A] mt-0.5 ltr-isolate">
                             {proj.startingPriceAed > 0
                               ? `From ${formatProjectPrice(proj.startingPriceAed, currency)}`
                               : 'Price on Request'}{' '}
@@ -300,15 +300,15 @@ export const CustomerPortalModal: React.FC<CustomerPortalModalProps> = ({
                       >
                         <div className="min-w-0 flex-1">
                           <p className="text-xs text-[#D4AF72] font-medium">
-                            {proj.emirate} · {proj.community}
+                            {formatCleanLocation(proj.community, proj.emirate)}
                           </p>
                           <h4 className="font-display text-lg font-medium text-[#F5F1E8]">
                             {proj.name}
                           </h4>
-                          <p className="text-[11px] text-[#D4AF72]/90 mt-0.5">
+                          <p className="text-[11px] text-[#D4AF72]/90 mt-0.5 ltr-isolate">
                             {formatPropertySpecsSummary(proj)}
                           </p>
-                          <p className="text-xs font-mono-tabular text-[#A5A19A] mt-0.5">
+                          <p className="text-xs font-mono-tabular text-[#A5A19A] mt-0.5 ltr-isolate">
                             {proj.startingPriceAed > 0
                               ? `From ${formatProjectPrice(proj.startingPriceAed, currency)}`
                               : 'Price on Request'}

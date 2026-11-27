@@ -30,6 +30,7 @@ import {
 import { CurrencyCode, EmiratesName, Project } from '../types/realEstate.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 import {
+  formatCleanLocation,
   formatPropertyAreaSqFt,
   formatPropertyBhk,
 } from '../utils/propertySpecs.ts';
@@ -151,7 +152,7 @@ const MapViewportController: React.FC<{
         className="h-8 sm:h-9 px-2.5 sm:px-3 bg-[#080808]/95 border border-[#D4AF72]/45 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72] hover:text-[#D4AF72] flex items-center gap-1.5 shadow-lg cursor-pointer whitespace-nowrap"
       >
         <MapIcon className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-        <span>All 7 Emirates</span>
+        <span>All Active Emirates</span>
       </button>
 
       <button
@@ -194,7 +195,7 @@ const ProjectAdvancedMarker: React.FC<MarkerItemProps> = ({
     <AdvancedMarker
       ref={markerRef}
       position={project.coordinates}
-      title={`${project.name} · ${project.community}, ${project.emirate}`}
+      title={`${project.name} · ${formatCleanLocation(project.community, project.emirate)}`}
       zIndex={isSelected ? 1200 : 25}
       collisionBehavior={
         isSelected
@@ -208,7 +209,7 @@ const ProjectAdvancedMarker: React.FC<MarkerItemProps> = ({
       }}
     >
       <div
-        className={`px-2.5 py-1 text-[11px] font-mono-tabular font-semibold border transition-transform duration-150 shadow-lg cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+        className={`px-2.5 py-1 text-[11px] font-mono-tabular font-semibold border transition-transform duration-150 shadow-lg cursor-pointer whitespace-nowrap flex items-center gap-1.5 ltr-isolate ${
           isSelected
             ? 'bg-[#D4AF72] text-[#080808] border-[#F5F1E8] scale-110'
             : 'bg-[#080808]/95 text-[#F5F1E8] border-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808]'
@@ -404,6 +405,11 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
     }
     return counts;
   }, [projects]);
+
+  const activeEmirates = useMemo(
+    () => UAE_ALL_EMIRATES.filter((em) => (emirateCounts[em] ?? 0) > 0),
+    [emirateCounts]
+  );
 
   const availableCommunities = useMemo(() => {
     const base =
@@ -682,7 +688,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
     >
       {/* Map Control & Filter Header */}
       <div className="p-3.5 sm:p-4 border-b border-[#D4AF72]/20 bg-[#1B1B1B] space-y-3">
-        {/* All 7 Emirates Geographic Quick-Select Strip */}
+        {/* Active Emirates Geographic Quick-Select Strip */}
         <div
           aria-label="Filter and focus by UAE Emirate"
           className="flex flex-nowrap overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-1.5 pb-2 border-b border-[#D4AF72]/15"
@@ -696,9 +702,9 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                 : 'bg-[#121212] text-[#F5F1E8] border-[#D4AF72]/25 hover:border-[#D4AF72]'
             }`}
           >
-            All 7 Emirates ({projects.length})
+            All Active Emirates (<span className="ltr-isolate">{projects.length}</span>)
           </button>
-          {UAE_ALL_EMIRATES.map((em) => {
+          {activeEmirates.map((em) => {
             const active = selectedEmirate === em;
             const count = emirateCounts[em] ?? 0;
             return (
@@ -712,7 +718,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                     : 'bg-[#121212] text-[#A5A19A] border-[#D4AF72]/20 hover:border-[#D4AF72] hover:text-[#F5F1E8]'
                 }`}
               >
-                {em} ({count})
+                {em} (<span className="ltr-isolate">{count}</span>)
               </button>
             );
           })}
@@ -893,7 +899,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
               >
                 <div>
                   <p className="text-xs text-[#D4AF72] font-medium">
-                    {project.emirate} · {project.community}
+                    {formatCleanLocation(project.community, project.emirate)}
                   </p>
                   <h4 className="font-display text-xl font-medium text-[#F5F1E8] mt-1">
                     {project.name}
@@ -904,7 +910,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                 <div className="flex items-center justify-between gap-2 pt-3 border-t border-[#D4AF72]/15">
                   <div>
                     <span className="block text-[11px] text-[#A5A19A]">From</span>
-                    <span className="font-mono-tabular text-sm font-semibold text-[#F5F1E8]">
+                    <span className="font-mono-tabular text-sm font-semibold text-[#F5F1E8] ltr-isolate">
                       {formatProjectPrice(project.startingPriceAed, currency)}
                     </span>
                   </div>
@@ -982,10 +988,10 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                         onResetAllUae={() => handleEmirateChange('All UAE')}
                       />
 
-                      {/* Regional labels across all 7 Emirates when viewing full UAE */}
+                      {/* Regional labels across active Emirates when viewing full UAE */}
                       {selectedEmirate === 'All UAE' &&
                         currentZoom <= 10 &&
-                        UAE_ALL_EMIRATES.map((em) => {
+                        activeEmirates.map((em) => {
                           const center = EMIRATE_MAP_CENTERS[em];
                           const count = emirateCounts[em] ?? 0;
                           return (
@@ -997,7 +1003,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                               collisionBehavior={CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY}
                               onClick={() => handleEmirateChange(em)}
                             >
-                              <div className="px-2 py-0.5 bg-[#1B1B1B]/85 border border-[#D4AF72]/45 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] shadow cursor-pointer whitespace-nowrap">
+                              <div className="px-2 py-0.5 bg-[#1B1B1B]/85 border border-[#D4AF72]/45 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] shadow cursor-pointer whitespace-nowrap ltr-isolate">
                                 {em} · {count}
                               </div>
                             </AdvancedMarker>
@@ -1055,7 +1061,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                                   />
                                 )}
                               <p className="text-[11px] font-semibold text-[#D4AF72] uppercase">
-                                {activeProject.emirate} · {activeProject.community}
+                                {formatCleanLocation(activeProject.community, activeProject.emirate)}
                               </p>
                               <h4 className="font-display font-medium text-base text-[#F5F1E8] mt-0.5">
                                 {activeProject.name}
@@ -1063,12 +1069,12 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                               <p className="text-xs text-[#A5A19A] mt-0.5">
                                 {activeProject.developerName}
                               </p>
-                              <p className="font-mono-tabular text-xs font-semibold text-[#F5F1E8] mt-2">
+                              <p className="font-mono-tabular text-xs font-semibold text-[#F5F1E8] mt-2 ltr-isolate">
                                 {activeProject.startingPriceAed > 0
                                   ? `From ${formatProjectPrice(activeProject.startingPriceAed, currency)}`
                                   : 'Price on Request'}
                               </p>
-                              <p className="text-[11px] text-[#D4AF72]/90 mt-1 break-words">
+                              <p className="text-[11px] text-[#D4AF72]/90 mt-1 break-words ltr-isolate">
                                 {formatPropertyBhk(activeProject)} |{' '}
                                 {formatPropertyAreaSqFt(activeProject)}
                               </p>
@@ -1176,32 +1182,38 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                 </GoogleMapsGuard>
               </APIProvider>
             ) : (
-              /* Interactive Geographic UAE Coastline & 7-Emirate Vector Map Fallback */
+              /* Interactive Geographic UAE Coastline & Emirate Vector Map */
               <div className="w-full h-full flex flex-col justify-between p-3 sm:p-4 bg-[#0B1217]">
                 <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#D4AF72]/20">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold text-[#D4AF72] uppercase tracking-[0.14em] flex items-center gap-1.5">
-                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                      {mapErrorReason ? (
+                        <AlertTriangle className="w-3.5 h-3.5 text-[#FCD34D] shrink-0" />
+                      ) : (
+                        <MapIcon className="w-3.5 h-3.5 shrink-0" />
+                      )}
                       <span>
                         {mapErrorReason
                           ? MAP_ERROR_COPY[mapErrorReason].title
-                          : 'UAE Geospatial Coastline Map (API Key Not Active)'}
+                          : 'UAE Geospatial Property Explorer'}
                       </span>
                     </p>
                     <p className="text-[11px] text-[#A5A19A] mt-0.5">
                       {mapErrorReason
                         ? MAP_ERROR_COPY[mapErrorReason].detail
-                        : 'All 7 Emirates, coastline geometry, clustered pins, and verified Google Maps routes remain active.'}
+                        : `Coastline geometry, clustered price pins across ${activeEmirates.length} active Emirates, and verified Google Maps routes.`}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleRetryLiveMap}
-                    className="h-8 px-3 bg-[#1B1B1B] border border-[#D4AF72]/50 text-[11px] font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 shrink-0 transition-colors cursor-pointer"
-                  >
-                    <RefreshCw className="w-3 h-3" />
-                    <span>Retry Live Map</span>
-                  </button>
+                  {mapErrorReason && (
+                    <button
+                      type="button"
+                      onClick={handleRetryLiveMap}
+                      className="h-8 px-3 bg-[#1B1B1B] border border-[#D4AF72]/50 text-[11px] font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 shrink-0 transition-colors cursor-pointer"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Retry Live Map</span>
+                    </button>
+                  )}
                 </div>
 
                 <div className="relative flex-1 mt-2 border border-[#D4AF72]/25 bg-[#091319] overflow-hidden min-h-[240px]">
@@ -1210,7 +1222,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                     preserveAspectRatio="xMidYMid meet"
                     className="w-full h-full block select-none"
                     role="img"
-                    aria-label="United Arab Emirates interactive property map across all 7 Emirates"
+                    aria-label="United Arab Emirates interactive property map across active Emirates"
                   >
                     <defs>
                       <linearGradient id="uaeSeaBg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1284,45 +1296,69 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
 
                     {/* Sea Labels */}
                     <text
-                      x={410}
-                      y={165}
-                      fill="rgba(165, 161, 154, 0.4)"
-                      fontSize={13 / fallbackZoomLevel}
+                      x={365}
+                      y={155}
+                      fill="rgba(165, 161, 154, 0.35)"
+                      fontSize={12 / fallbackZoomLevel}
                       letterSpacing="2"
                     >
                       ARABIAN GULF
                     </text>
                     <text
-                      x={915}
-                      y={215}
-                      fill="rgba(165, 161, 154, 0.4)"
-                      fontSize={11 / fallbackZoomLevel}
+                      x={910}
+                      y={220}
+                      fill="rgba(165, 161, 154, 0.35)"
+                      fontSize={10.5 / fallbackZoomLevel}
                     >
                       GULF OF OMAN
                     </text>
 
-                    {/* All 7 Emirate Reference Labels */}
-                    {UAE_ALL_EMIRATES.map((em) => {
+                    {/* Active Emirate Reference Labels with Staggered Callouts (Zero Overlap) */}
+                    {activeEmirates.map((em) => {
                       const pt = projectLatLngToGeoSvg(EMIRATE_MAP_CENTERS[em]);
+                      const offsetMap: Record<
+                        EmiratesName,
+                        { dx: number; dy: number; anchor: 'start' | 'middle' | 'end' }
+                      > = {
+                        'Abu Dhabi': { dx: -8, dy: 20, anchor: 'middle' },
+                        Dubai: { dx: -52, dy: -28, anchor: 'end' },
+                        Sharjah: { dx: 42, dy: 16, anchor: 'start' },
+                        Ajman: { dx: 44, dy: -6, anchor: 'start' },
+                        'Umm Al Quwain': { dx: -16, dy: -32, anchor: 'end' },
+                        'Ras Al Khaimah': { dx: 14, dy: -16, anchor: 'start' },
+                        Fujairah: { dx: 12, dy: 12, anchor: 'start' },
+                      };
+                      const cfg = offsetMap[em] ?? { dx: 8, dy: -6, anchor: 'start' as const };
+                      const lx = pt.x + cfg.dx / fallbackZoomLevel;
+                      const ly = pt.y + cfg.dy / fallbackZoomLevel;
                       return (
                         <g
                           key={`svg-em-${em}`}
                           onClick={() => handleEmirateChange(em)}
                           className="cursor-pointer"
                         >
+                          <line
+                            x1={pt.x}
+                            y1={pt.y}
+                            x2={lx}
+                            y2={ly - 2 / fallbackZoomLevel}
+                            stroke="rgba(212, 175, 114, 0.45)"
+                            strokeWidth={0.9 / fallbackZoomLevel}
+                          />
                           <circle
                             cx={pt.x}
                             cy={pt.y}
                             r={2.5 / fallbackZoomLevel}
                             fill="#D4AF72"
-                            fillOpacity={0.75}
+                            fillOpacity={0.85}
                           />
                           <text
-                            x={pt.x + 5 / fallbackZoomLevel}
-                            y={pt.y - 4 / fallbackZoomLevel}
+                            x={lx}
+                            y={ly}
+                            textAnchor={cfg.anchor}
                             fill="#D4AF72"
-                            fillOpacity={0.85}
-                            fontSize={10 / fallbackZoomLevel}
+                            fillOpacity={0.92}
+                            fontSize={9.5 / fallbackZoomLevel}
                             fontWeight="600"
                           >
                             {em}
@@ -1331,65 +1367,111 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                       );
                     })}
 
-                    {/* Clustered Project Markers (Zero Overlap) */}
-                    {fallbackClusters.map((cluster) => {
-                      const pt = projectLatLngToGeoSvg(cluster.center);
-                      const isSingle = cluster.projects.length === 1;
-                      const singleProj = cluster.projects[0];
-                      const isSelected =
-                        (isSingle && activeProject?.id === singleProj.id) ||
-                        (!isSingle && activeFallbackCluster?.id === cluster.id);
-                      const label = isSingle
-                        ? formatProjectPrice(singleProj.startingPriceAed, currency, true)
-                        : `${cluster.projects.length} · ${formatProjectPrice(
-                            cluster.minPriceAed,
-                            currency,
-                            true
-                          )}`;
-                      const r = isSingle
-                        ? 5.5 / fallbackZoomLevel
-                        : Math.min(13, 7 + Math.log2(cluster.projects.length) * 2) /
-                          fallbackZoomLevel;
+                    {/* Clustered Project Markers with Label Collision Avoidance */}
+                    {(() => {
+                      const placedBoxes: Array<{
+                        x1: number;
+                        y1: number;
+                        x2: number;
+                        y2: number;
+                      }> = [];
+                      const invZoom = 1 / fallbackZoomLevel;
+                      const charW = 5.4 * invZoom;
+                      const boxH = 12 * invZoom;
 
-                      return (
-                        <g
-                          key={cluster.id}
-                          onClick={() => {
-                            if (isSingle) {
-                              setActiveFallbackCluster(null);
-                              setActiveProject(singleProj);
-                            } else {
-                              setFallbackFocus(pt);
-                              if (fallbackZoomLevel < 3.4) {
-                                setFallbackZoomLevel((z) => Math.min(4.2, +(z + 1.1).toFixed(1)));
+                      return fallbackClusters.map((cluster) => {
+                        const pt = projectLatLngToGeoSvg(cluster.center);
+                        const isSingle = cluster.projects.length === 1;
+                        const singleProj = cluster.projects[0];
+                        const isSelected =
+                          (isSingle && activeProject?.id === singleProj.id) ||
+                          (!isSingle && activeFallbackCluster?.id === cluster.id);
+                        const label = isSingle
+                          ? formatProjectPrice(singleProj.startingPriceAed, currency, true)
+                          : `${cluster.projects.length} · ${formatProjectPrice(
+                              cluster.minPriceAed,
+                              currency,
+                              true
+                            )}`;
+                        const r = isSingle
+                          ? 5 / fallbackZoomLevel
+                          : Math.min(11, 6.5 + Math.log2(cluster.projects.length) * 1.6) /
+                            fallbackZoomLevel;
+
+                        const estW = Math.max(38 * invZoom, label.length * charW);
+                        const candidateOffsets: Array<{
+                          dx: number;
+                          dy: number;
+                          anchor: 'start' | 'end';
+                        }> = [
+                          { dx: r + 4 * invZoom, dy: 3 * invZoom, anchor: 'start' },
+                          { dx: -(r + 4 * invZoom), dy: 3 * invZoom, anchor: 'end' },
+                          { dx: r + 4 * invZoom, dy: 15 * invZoom, anchor: 'start' },
+                          { dx: r + 4 * invZoom, dy: -11 * invZoom, anchor: 'start' },
+                          { dx: -(r + 4 * invZoom), dy: 15 * invZoom, anchor: 'end' },
+                        ];
+
+                        let chosenOffset: (typeof candidateOffsets)[number] | null = null;
+                        for (const cand of candidateOffsets) {
+                          const tx = pt.x + cand.dx;
+                          const ty = pt.y + cand.dy;
+                          const x1 = cand.anchor === 'start' ? tx : tx - estW;
+                          const x2 = cand.anchor === 'start' ? tx + estW : tx;
+                          const y1 = ty - boxH;
+                          const y2 = ty + 2 * invZoom;
+                          const collides = placedBoxes.some(
+                            (b) => !(x2 < b.x1 || x1 > b.x2 || y2 < b.y1 || y1 > b.y2)
+                          );
+                          if (!collides) {
+                            chosenOffset = cand;
+                            placedBoxes.push({ x1, y1, x2, y2 });
+                            break;
+                          }
+                        }
+
+                        return (
+                          <g
+                            key={cluster.id}
+                            onClick={() => {
+                              if (isSingle) {
                                 setActiveFallbackCluster(null);
+                                setActiveProject(singleProj);
                               } else {
-                                setActiveFallbackCluster(cluster);
+                                setFallbackFocus(pt);
+                                if (fallbackZoomLevel < 3.4) {
+                                  setFallbackZoomLevel((z) => Math.min(4.2, +(z + 1.1).toFixed(1)));
+                                  setActiveFallbackCluster(null);
+                                } else {
+                                  setActiveFallbackCluster(cluster);
+                                }
                               }
-                            }
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <circle
-                            cx={pt.x}
-                            cy={pt.y}
-                            r={r}
-                            fill={isSelected ? '#F5F1E8' : '#D4AF72'}
-                            stroke="#080808"
-                            strokeWidth={1.5 / fallbackZoomLevel}
-                          />
-                          <text
-                            x={pt.x + r + 3 / fallbackZoomLevel}
-                            y={pt.y + 3 / fallbackZoomLevel}
-                            fill={isSelected ? '#F5F1E8' : '#E6C77A'}
-                            fontSize={10 / fallbackZoomLevel}
-                            fontWeight="600"
+                            }}
+                            className="cursor-pointer"
                           >
-                            {label}
-                          </text>
-                        </g>
-                      );
-                    })}
+                            <circle
+                              cx={pt.x}
+                              cy={pt.y}
+                              r={r}
+                              fill={isSelected ? '#F5F1E8' : '#D4AF72'}
+                              stroke="#080808"
+                              strokeWidth={1.5 / fallbackZoomLevel}
+                            />
+                            {(chosenOffset || isSelected) && (
+                              <text
+                                x={pt.x + (chosenOffset?.dx ?? r + 4 * invZoom)}
+                                y={pt.y + (chosenOffset?.dy ?? 3 * invZoom)}
+                                textAnchor={chosenOffset?.anchor ?? 'start'}
+                                fill={isSelected ? '#F5F1E8' : '#E6C77A'}
+                                fontSize={9.5 / fallbackZoomLevel}
+                                fontWeight="600"
+                              >
+                                {label}
+                              </text>
+                            )}
+                          </g>
+                        );
+                      });
+                    })()}
                   </svg>
 
                   {/* Vector Fallback Zoom Controls */}
@@ -1417,7 +1499,7 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                       onClick={() => handleEmirateChange('All UAE')}
                       className="h-8 px-2.5 bg-[#080808]/90 border border-[#D4AF72]/40 text-[11px] font-semibold text-[#F5F1E8] hover:border-[#D4AF72]"
                     >
-                      All 7 Emirates
+                      All Active Emirates
                     </button>
                   </div>
 
@@ -1491,25 +1573,25 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                   {activeProject.name}
                 </h4>
                 <p className="text-xs text-[#A5A19A]">
-                  {activeProject.community}, {activeProject.emirate}
+                  {formatCleanLocation(activeProject.community, activeProject.emirate)}
                 </p>
                 {isValidCoordinate(activeProject.coordinates) ? (
-                  <p className="text-[10px] font-mono-tabular text-[#A5A19A]">
+                  <p className="text-[10px] font-mono-tabular text-[#A5A19A] ltr-isolate">
                     GPS: {activeProject.coordinates.lat.toFixed(4)}° N,{' '}
                     {activeProject.coordinates.lng.toFixed(4)}° E
                   </p>
                 ) : (
                   <p className="text-[11px] text-[#FCA5A5]">GPS coordinates missing</p>
                 )}
-                <p className="font-mono-tabular text-sm font-semibold text-[#F5F1E8] pt-1">
+                <p className="font-mono-tabular text-sm font-semibold text-[#F5F1E8] pt-1 ltr-isolate">
                   {formatProjectPrice(activeProject.startingPriceAed, currency)}
                 </p>
                 {currency !== 'INR' && activeProject.startingPriceAed > 0 && (
-                  <p className="font-mono-tabular text-[11px] text-[#D4AF72]">
+                  <p className="font-mono-tabular text-[11px] text-[#D4AF72] ltr-isolate">
                     ≈ {formatCurrency(activeProject.startingPriceAed, 'INR')}
                   </p>
                 )}
-                <p className="text-[11px] text-[#A5A19A]">
+                <p className="text-[11px] text-[#A5A19A] ltr-isolate">
                   {formatPropertyBhk(activeProject)} | {formatPropertyAreaSqFt(activeProject)}
                 </p>
                 <p className="text-xs pt-0.5">{renderAvailabilitySummary(activeProject)}</p>
@@ -1576,21 +1658,21 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                       <span className="text-xs font-semibold text-[#F5F1E8] truncate">
                         {project.name}
                       </span>
-                      <span className="font-mono-tabular text-xs font-medium text-[#D4AF72] shrink-0">
+                      <span className="font-mono-tabular text-xs font-medium text-[#D4AF72] shrink-0 ltr-isolate">
                         {formatProjectPrice(project.startingPriceAed, currency, true)}
                       </span>
                     </div>
                     <div className="flex items-center justify-between gap-2 mt-0.5 text-[11px] text-[#A5A19A]">
                       <span className="truncate">
-                        {project.emirate} · {project.community}
+                        {formatCleanLocation(project.community, project.emirate)}
                       </span>
                       {distKm !== null && (
-                        <span className="font-mono-tabular text-[#6EE7B7] shrink-0">
+                        <span className="font-mono-tabular text-[#6EE7B7] shrink-0 ltr-isolate">
                           {distKm.toFixed(1)} km
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#D4AF72]/80 mt-1 truncate">
+                    <p className="text-[10px] text-[#D4AF72]/80 mt-1 truncate ltr-isolate">
                       {formatPropertyBhk(project)} · {formatPropertyAreaSqFt(project)}
                     </p>
                   </button>

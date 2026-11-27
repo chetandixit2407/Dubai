@@ -89,7 +89,7 @@ const OfficeMarkerWithPopup: React.FC<{
             </p>
             <p className="font-display text-sm font-medium text-[#F5F1E8]">{company.name}</p>
             <p className="text-[11px] text-[#A5A19A] leading-snug">{company.address.formatted}</p>
-            <p className="font-mono-tabular text-[11px] text-[#D4AF72]">
+            <p className="font-mono-tabular text-[11px] text-[#D4AF72] ltr-isolate">
               {position.lat.toFixed(5)}° N, {position.lng.toFixed(5)}° E
             </p>
             <a
@@ -176,7 +176,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
                 className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] text-[#F5F1E8] font-medium transition-colors min-w-0"
               >
                 <Phone className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-                <span className="font-mono-tabular truncate">{company.primaryPhone}</span>
+                <span className="font-mono-tabular truncate ltr-isolate">{company.primaryPhone}</span>
                 <span className="ml-auto text-[11px] text-[#A5A19A] shrink-0 hidden xs:inline">
                   Direct Line
                 </span>
@@ -189,7 +189,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
                 className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#34D399] text-[#F5F1E8] font-medium transition-colors min-w-0"
               >
                 <Send className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
-                <span className="font-mono-tabular truncate">{company.whatsappNumber}</span>
+                <span className="font-mono-tabular truncate ltr-isolate">{company.whatsappNumber}</span>
                 <span className="ml-auto text-[11px] text-[#6EE7B7] font-semibold shrink-0 hidden xs:inline">
                   WhatsApp Desk
                 </span>
@@ -200,7 +200,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
                 className="flex items-center gap-2.5 p-2.5 bg-[#1B1B1B] border border-[#D4AF72]/20 hover:border-[#D4AF72] text-[#F5F1E8] font-medium transition-colors min-w-0"
               >
                 <Mail className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
-                <span className="font-mono-tabular truncate min-w-0 flex-1">{company.email}</span>
+                <span className="font-mono-tabular truncate min-w-0 flex-1 ltr-isolate">{company.email}</span>
                 <span className="ml-auto text-[11px] text-[#A5A19A] shrink-0 hidden sm:inline">
                   Official Email
                 </span>
@@ -270,54 +270,133 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({
               </GoogleMapsGuard>
             </APIProvider>
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#121212]">
-              {mapErrorReason ? (
-                <AlertTriangle className="w-8 h-8 text-[#FCD34D] mb-2" />
-              ) : (
-                <MapPin className="w-8 h-8 text-[#D4AF72] mb-2" />
-              )}
-              <p className="font-semibold text-sm text-[#F5F1E8]">{company.name}</p>
-              <p className="text-xs text-[#A5A19A] mt-1 max-w-sm">{company.address.formatted}</p>
-              {mapErrorReason && (
-                <p className="text-[11px] text-[#FCA5A5] mt-2 max-w-sm">
-                  {mapErrorReason === 'quota_exceeded'
-                    ? 'Google Maps preview quota reached. Use exact GPS directions below.'
-                    : 'Unable to load interactive Google Maps tiles right now.'}
-                </p>
-              )}
-              {hasValidCoords ? (
-                <p className="text-xs font-mono-tabular text-[#D4AF72] mt-2">
-                  Coordinates: {coords.lat.toFixed(4)}° N, {coords.lng.toFixed(4)}° E
-                </p>
-              ) : (
-                <p className="text-xs text-[#FCA5A5] mt-2">
-                  Office GPS coordinates pending update in Company Settings.
-                </p>
-              )}
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-                {mapErrorReason && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMapErrorReason(null);
-                      setRetryToken((n) => n + 1);
-                      onRetryMapsConfig?.();
-                    }}
-                    className="px-3.5 py-2 border border-[#D4AF72]/40 text-xs font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                    <span>Retry Live Map</span>
-                  </button>
+            <div className="w-full h-full relative bg-[#0B1217] overflow-hidden flex flex-col justify-between">
+              {/* Architectural Dark-Gold Street Map Graphic of Sector 67 / Golf Course Ext Rd */}
+              <svg
+                viewBox="0 0 760 440"
+                preserveAspectRatio="xMidYMid slice"
+                className="absolute inset-0 w-full h-full pointer-events-none select-none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <pattern id="officeGrid" width="38" height="38" patternUnits="userSpaceOnUse">
+                    <path
+                      d="M 38 0 L 0 0 0 38"
+                      fill="none"
+                      stroke="rgba(212, 175, 114, 0.08)"
+                      strokeWidth="1"
+                    />
+                  </pattern>
+                  <radialGradient id="officeGlow" cx="52%" cy="48%" r="42%">
+                    <stop offset="0%" stopColor="rgba(212, 175, 114, 0.22)" />
+                    <stop offset="100%" stopColor="rgba(11, 18, 23, 0)" />
+                  </radialGradient>
+                </defs>
+                <rect width="760" height="440" fill="#0B1217" />
+                <rect width="760" height="440" fill="url(#officeGrid)" />
+                <rect width="760" height="440" fill="url(#officeGlow)" />
+
+                {/* Sector Blocks */}
+                <rect x="110" y="70" width="145" height="92" fill="#111A21" stroke="rgba(212,175,114,0.14)" />
+                <rect x="285" y="70" width="185" height="92" fill="#111A21" stroke="rgba(212,175,114,0.14)" />
+                <rect x="500" y="70" width="155" height="92" fill="#111A21" stroke="rgba(212,175,114,0.14)" />
+                <rect x="285" y="196" width="185" height="106" fill="#13221D" stroke="rgba(212,175,114,0.38)" strokeWidth="1.5" />
+                <rect x="110" y="196" width="145" height="106" fill="#111A21" stroke="rgba(212,175,114,0.14)" />
+                <rect x="500" y="196" width="155" height="106" fill="#111A21" stroke="rgba(212,175,114,0.14)" />
+
+                {/* Main Arterials */}
+                <path d="M -20 180 L 780 174" stroke="#D4AF72" strokeOpacity="0.65" strokeWidth="6" fill="none" />
+                <path d="M -20 180 L 780 174" stroke="#0B1217" strokeOpacity="0.45" strokeWidth="1" strokeDasharray="8 6" fill="none" />
+                <path d="M 268 -10 L 254 450" stroke="#D4AF72" strokeOpacity="0.45" strokeWidth="5" fill="none" />
+                <path d="M 486 -10 L 498 450" stroke="#A5A19A" strokeOpacity="0.28" strokeWidth="3.5" fill="none" />
+                <path d="M -20 322 L 780 318" stroke="#A5A19A" strokeOpacity="0.22" strokeWidth="3" fill="none" />
+
+                {/* Roundabouts */}
+                <circle cx="262" cy="177" r="10" fill="#0B1217" stroke="#D4AF72" strokeWidth="2.5" />
+                <circle cx="491" cy="175" r="8" fill="#0B1217" stroke="#D4AF72" strokeOpacity="0.6" strokeWidth="2" />
+
+                {/* Road & District Labels */}
+                <text x="530" y="167" fill="#D4AF72" fontSize="10" fontWeight="600" letterSpacing="1.5">
+                  GOLF COURSE EXT. ROAD
+                </text>
+                <text x="208" y="395" fill="#A5A19A" fontSize="9.5" letterSpacing="1.2" transform="rotate(-88 208 395)">
+                  SOHNA ROAD CORRIDOR
+                </text>
+                <text x="518" y="254" fill="#7C8B94" fontSize="10" letterSpacing="1.2">
+                  SECTOR 67 · GURUGRAM
+                </text>
+
+                {/* Office Pin */}
+                <circle cx="378" cy="244" r="24" fill="#D4AF72" fillOpacity="0.16" />
+                <circle cx="378" cy="244" r="11" fill="#080808" stroke="#D4AF72" strokeWidth="2.5" />
+                <circle cx="378" cy="244" r="4.5" fill="#D4AF72" />
+              </svg>
+
+              {/* Top Overlay Header */}
+              <div className="relative z-10 p-4 flex items-start justify-between gap-3">
+                <div className="bg-[#080808]/92 border border-[#D4AF72]/35 px-3 py-2 max-w-xs">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF72] flex items-center gap-1.5">
+                    {mapErrorReason ? (
+                      <AlertTriangle className="w-3.5 h-3.5 text-[#FCD34D] shrink-0" />
+                    ) : (
+                      <MapPin className="w-3.5 h-3.5 shrink-0" />
+                    )}
+                    <span>{company.address.building}</span>
+                  </p>
+                  <p className="text-xs font-medium text-[#F5F1E8] mt-0.5">{company.address.area}</p>
+                  {mapErrorReason && (
+                    <p className="text-[11px] text-[#FCA5A5] mt-1">
+                      {mapErrorReason === 'quota_exceeded'
+                        ? 'Google Maps preview quota reached. GPS directions remain active.'
+                        : 'Unable to load interactive Google Maps tiles right now.'}
+                    </p>
+                  )}
+                </div>
+
+                {/* Compass Rose */}
+                <div className="w-10 h-10 bg-[#080808]/92 border border-[#D4AF72]/35 flex flex-col items-center justify-center text-[9px] font-mono-tabular text-[#D4AF72] shrink-0">
+                  <span>N</span>
+                  <span className="w-px h-2.5 bg-[#D4AF72]" />
+                </div>
+              </div>
+
+              {/* Bottom Coordinates & Action Strip */}
+              <div className="relative z-10 p-4 bg-gradient-to-t from-[#080808] via-[#080808]/90 to-transparent flex flex-wrap items-center justify-between gap-2.5">
+                {hasValidCoords ? (
+                  <p className="text-xs font-mono-tabular text-[#D4AF72] ltr-isolate bg-[#080808]/95 border border-[#D4AF72]/30 px-2.5 py-1.5">
+                    GPS: {coords.lat.toFixed(4)}° N, {coords.lng.toFixed(4)}° E
+                  </p>
+                ) : (
+                  <p className="text-xs text-[#FCA5A5]">
+                    Office GPS coordinates pending update in Company Settings.
+                  </p>
                 )}
-                <a
-                  href={exactDirectionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5"
-                >
-                  <Navigation className="w-3.5 h-3.5" />
-                  <span>Open in Google Maps</span>
-                </a>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {mapErrorReason && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMapErrorReason(null);
+                        setRetryToken((n) => n + 1);
+                        onRetryMapsConfig?.();
+                      }}
+                      className="px-3 py-1.5 bg-[#121212] border border-[#D4AF72]/45 text-xs font-semibold text-[#D4AF72] hover:bg-[#D4AF72] hover:text-[#080808] flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>Retry Live Map</span>
+                    </button>
+                  )}
+                  <a
+                    href={exactDirectionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 bg-[#D4AF72] text-[#080808] text-xs font-semibold hover:bg-[#E6C77A] flex items-center gap-1.5"
+                  >
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Open in Google Maps</span>
+                  </a>
+                </div>
               </div>
             </div>
           )}

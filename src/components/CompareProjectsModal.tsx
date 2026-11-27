@@ -3,6 +3,7 @@ import { GitCompare, Trash2, X } from 'lucide-react';
 import { CurrencyCode, Project } from '../types/realEstate.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
 import {
+  formatCleanLocation,
   formatPropertyAreaSqFt,
   formatPropertyBathrooms,
   formatPropertyBhk,
@@ -87,11 +88,11 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   {projects.map((p) => (
                     <td
                       key={p.id}
-                      className="py-3 px-4 font-mono-tabular font-semibold text-[#F5F1E8]"
+                      className="py-3 px-4 font-mono-tabular font-semibold text-[#F5F1E8] ltr-isolate"
                     >
                       {formatProjectPrice(p.startingPriceAed, currency)}
                       {p.startingPriceAed > 0 && (
-                        <span className="block text-xs font-semibold text-[#D4AF72] font-mono-tabular mt-0.5">
+                        <span className="block text-xs font-semibold text-[#D4AF72] font-mono-tabular mt-0.5 ltr-isolate">
                           ≈ {formatCurrency(p.startingPriceAed, 'INR')}
                         </span>
                       )}
@@ -103,13 +104,13 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   {projects.map((p) => (
                     <td
                       key={p.id}
-                      className="py-3 px-4 font-mono-tabular text-[#6EE7B7] font-semibold"
+                      className="py-3 px-4 font-mono-tabular text-[#6EE7B7] font-semibold ltr-isolate"
                     >
                       {p.bookingAmountAed
                         ? formatProjectPrice(p.bookingAmountAed, currency)
                         : `${p.downPaymentPct}%`}
                       {Boolean(p.bookingAmountAed) && (
-                        <span className="block text-xs text-[#D4AF72] font-mono-tabular">
+                        <span className="block text-xs text-[#D4AF72] font-mono-tabular ltr-isolate">
                           ≈ {formatCurrency(p.bookingAmountAed, 'INR')} ({p.downPaymentPct}%)
                         </span>
                       )}
@@ -119,15 +120,15 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                 <tr>
                   <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Price / sq ft</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#F5F1E8]">
+                    <td key={p.id} className="py-3 px-4 font-mono-tabular text-[#F5F1E8] ltr-isolate">
                       {formatProjectPrice(p.pricePerSqFtAed, currency)}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">BHK</td>
+                  <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Bedrooms</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-medium text-[#F5F1E8]">
+                    <td key={p.id} className="py-3 px-4 font-medium text-[#F5F1E8] ltr-isolate">
                       {formatPropertyBhk(p)}
                     </td>
                   ))}
@@ -135,7 +136,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                 <tr>
                   <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Bathrooms</td>
                   {projects.map((p) => (
-                    <td key={p.id} className="py-3 px-4 font-medium text-[#F5F1E8]">
+                    <td key={p.id} className="py-3 px-4 font-medium text-[#F5F1E8] ltr-isolate">
                       {formatPropertyBathrooms(p)}
                     </td>
                   ))}
@@ -152,7 +153,7 @@ export const CompareProjectsModal: React.FC<CompareProjectsModalProps> = ({
                   <td className="py-3 pr-3 sm:pr-4 font-medium text-[#A5A19A] sticky left-0 bg-[#121212] z-10">Location</td>
                   {projects.map((p) => (
                     <td key={p.id} className="py-3 px-4 text-[#A5A19A]">
-                      {p.community}, {p.emirate}
+                      {formatCleanLocation(p.community, p.emirate)}
                     </td>
                   ))}
                 </tr>

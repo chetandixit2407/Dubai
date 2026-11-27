@@ -4,12 +4,14 @@ import { formatCurrency } from './currency.ts';
 import { getEffectiveCompanyInfo } from '../data/companyInfo.ts';
 import { getEffectiveTourStatus, TOUR_STATUS_LABELS } from './mediaValidation.ts';
 import {
+  formatCleanFullAddress,
   formatFloorPlanAreaSqFt,
   formatFloorPlanBathrooms,
   formatFloorPlanBhk,
   formatPropertyAreaSqFt,
   formatPropertyBathrooms,
   formatPropertyBhk,
+  formatRegistrationBadge,
 } from './propertySpecs.ts';
 
 export function exportCatalogToExcel(
@@ -34,14 +36,14 @@ export function exportCatalogToExcel(
       'Developer': p.developerName,
       'Emirate': p.emirate,
       'Community / Area': p.community,
-      'Full Address': p.fullAddress || `${p.buildingName}, ${p.community}, ${p.emirate}`,
+      'Full Address': formatCleanFullAddress(p),
       'Category': p.category,
       'Construction Status': `${p.constructionPct}% (${p.status})`,
       'Starting Price (AED)': p.startingPriceAed || 'POA',
       'Starting Price (INR Approx)': inrStarting,
       'Max Price (AED)': p.maxPriceAed || 'POA',
       'Price per sq ft (AED)': p.pricePerSqFtAed || 'Not Available',
-      'BHK': formatPropertyBhk(p),
+      'Bedrooms': formatPropertyBhk(p),
       'Bathrooms': formatPropertyBathrooms(p),
       'Area (sq ft)': formatPropertyAreaSqFt(p),
       'Booking Amount (AED)': p.bookingAmountAed || 'POA',
@@ -74,7 +76,7 @@ export function exportCatalogToExcel(
       'Sales Office Phone': p.salesOfficePhone || company.primaryPhone,
       'Sales Office WhatsApp': p.salesOfficeWhatsapp || company.whatsappNumber,
       'Sales Office Email': p.salesOfficeEmail || company.email,
-      'Registration Number': p.registrationNumber,
+      'Catalog Reference': formatRegistrationBadge(p.registrationNumber).value,
       'Last Verified Date': p.lastVerifiedAt || p.updatedAt,
       'Verification Source': p.verificationSource || 'UAE Land Registry & Developer Official Portal',
     };
@@ -142,13 +144,13 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     { Field: 'Developer', Details: project.developerName },
     { Field: 'Emirate', Details: project.emirate },
     { Field: 'Community / Area', Details: project.community },
-    { Field: 'Full Address', Details: project.fullAddress || `${project.buildingName}, ${project.community}, ${project.emirate}` },
+    { Field: 'Full Address', Details: formatCleanFullAddress(project) },
     { Field: 'Category', Details: project.category },
     { Field: 'Construction Progress', Details: `${project.constructionPct}% (${project.status})` },
     { Field: 'Starting Price (AED)', Details: project.startingPriceAed ? `AED ${project.startingPriceAed.toLocaleString()}` : 'POA' },
     { Field: 'Starting Price (INR Approx)', Details: formatCurrency(project.startingPriceAed, 'INR') },
     { Field: 'Price per sq ft', Details: `AED ${project.pricePerSqFtAed.toLocaleString()}` },
-    { Field: 'BHK', Details: formatPropertyBhk(project) },
+    { Field: 'Bedrooms', Details: formatPropertyBhk(project) },
     { Field: 'Bathrooms', Details: formatPropertyBathrooms(project) },
     { Field: 'Area', Details: formatPropertyAreaSqFt(project) },
     { Field: 'Booking Amount (AED)', Details: project.bookingAmountAed ? `AED ${project.bookingAmountAed.toLocaleString()}` : 'POA' },
@@ -172,7 +174,7 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     { Field: 'Sales Office Phone', Details: project.salesOfficePhone || developer?.salesOfficePhone || company.primaryPhone },
     { Field: 'Sales Office WhatsApp', Details: project.salesOfficeWhatsapp || developer?.salesOfficeWhatsapp || company.whatsappNumber },
     { Field: 'Sales Office Email', Details: project.salesOfficeEmail || developer?.salesOfficeEmail || company.email },
-    { Field: 'RERA / Registration No.', Details: project.registrationNumber },
+    { Field: formatRegistrationBadge(project.registrationNumber).label, Details: project.registrationNumber },
     { Field: 'Last Verified Date', Details: project.lastVerifiedAt || project.updatedAt },
     { Field: 'Verification Citation', Details: project.verificationSource || project.investment.dataCitation },
   ];
@@ -184,7 +186,7 @@ export function exportSingleProjectToExcel(project: Project, developer?: Develop
     const fpRows = project.floorPlans.map((fp, i) => ({
       '#': i + 1,
       'Layout Name': fp.name,
-      'BHK': formatFloorPlanBhk(fp.bedrooms),
+      'Bedrooms': formatFloorPlanBhk(fp.bedrooms),
       'Bathrooms': formatFloorPlanBathrooms(fp.bathrooms),
       'Area (sq ft)': formatFloorPlanAreaSqFt(fp.sizeSqFt),
       'Starting Price (AED)': fp.priceAed,

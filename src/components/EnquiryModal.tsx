@@ -5,7 +5,7 @@ import { submitEnquiry } from '../services/firestoreService.ts';
 import { notifyPublicEnquiryCreated } from '../services/apiClient.ts';
 import { useCompanyInfo } from '../data/companyInfo.ts';
 import { formatCurrency, formatProjectPrice } from '../utils/currency.ts';
-import { formatFloorPlanAreaSqFt, formatFloorPlanBhk } from '../utils/propertySpecs.ts';
+import { formatCleanLocation, formatFloorPlanAreaSqFt, formatFloorPlanBhk } from '../utils/propertySpecs.ts';
 
 interface EnquiryModalProps {
   initialType?: EnquiryType;
@@ -159,7 +159,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
         {project && (
           <p className="text-xs text-[#A5A19A] mt-1 pr-11 break-words">
             Project: <strong className="text-[#F5F1E8]">{project.name}</strong> ·{' '}
-            {project.community}, {project.emirate}
+            {formatCleanLocation(project.community, project.emirate)}
           </p>
         )}
 
@@ -170,7 +170,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 <Building2 className="w-3.5 h-3.5 text-[#D4AF72]" />
                 <span>Developer: {project.developerName}</span>
               </span>
-              <span className="font-mono-tabular text-[#D4AF72] font-semibold">
+              <span className="font-mono-tabular text-[#D4AF72] font-semibold ltr-isolate">
                 {project.startingPriceAed > 0
                   ? `From ${formatProjectPrice(project.startingPriceAed, 'AED')}`
                   : 'Price on Request'}
@@ -181,7 +181,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
             </p>
             <div className="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-[#D4AF72]/15 text-[11px] text-[#A5A19A]">
               {lastCheckedDate && (
-                <span className="flex items-center gap-1 font-mono-tabular">
+                <span className="flex items-center gap-1 font-mono-tabular ltr-isolate">
                   <Clock className="w-3 h-3 text-[#D4AF72]" />
                   <span>Registry Checked: {new Date(lastCheckedDate).toLocaleDateString()}</span>
                 </span>
@@ -189,7 +189,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
               {project.salesOfficePhone && (
                 <a
                   href={`tel:${project.salesOfficePhone.replace(/\s+/g, '')}`}
-                  className="text-[#6EE7B7] font-mono-tabular hover:underline flex items-center gap-1"
+                  className="text-[#6EE7B7] font-mono-tabular hover:underline flex items-center gap-1 ltr-isolate"
                 >
                   <Phone className="w-3 h-3" />
                   <span>Developer Desk: {project.salesOfficePhone}</span>
@@ -228,7 +228,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
               )}
             </p>
             {project && project.startingPriceAed > 0 && (
-              <p className="text-xs font-mono-tabular text-[#D4AF72]">
+              <p className="text-xs font-mono-tabular text-[#D4AF72] ltr-isolate">
                 Reference Starting Price: AED {project.startingPriceAed.toLocaleString()} (≈{' '}
                 {formatCurrency(project.startingPriceAed, 'INR')})
               </p>
@@ -251,7 +251,9 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 className="px-4 py-2 bg-[#065F46] text-[#ECFDF5] text-xs font-semibold flex items-center gap-1.5 hover:bg-[#047857]"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                <span>Continue on WhatsApp ({companyInfo.phone})</span>
+                <span>
+                  Continue on WhatsApp (<span className="ltr-isolate">{companyInfo.phone}</span>)
+                </span>
               </a>
               <button
                 type="button"
@@ -390,7 +392,9 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
                 className="text-xs font-medium text-[#6EE7B7] hover:underline flex items-center gap-1.5"
               >
                 <MessageCircle className="w-4 h-4 shrink-0" />
-                <span>Direct WhatsApp ({companyInfo.phone})</span>
+                <span>
+                  Direct WhatsApp (<span className="ltr-isolate">{companyInfo.phone}</span>)
+                </span>
               </a>
 
               <div className="flex items-center justify-end gap-2">

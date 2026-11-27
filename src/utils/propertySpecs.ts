@@ -57,7 +57,7 @@ export function formatPropertyBhk(project: Project): string {
   if (numericParts.length === 0) {
     return 'Studio';
   }
-  const numericFormatted = `${numericParts.join(', ')} BHK`;
+  const numericFormatted = `${numericParts.join(', ')} BR`;
   return hasStudio ? `Studio, ${numericFormatted}` : numericFormatted;
 }
 
@@ -68,8 +68,78 @@ export function formatFloorPlanBhk(bedrooms?: string | null): string {
   const hasStudio = tokens.some((t) => t.label === 'Studio');
   const numericParts = tokens.filter((t) => t.label !== 'Studio').map((t) => t.label);
   if (numericParts.length === 0) return 'Studio';
-  const numericFormatted = `${numericParts.join(', ')} BHK`;
+  const numericFormatted = `${numericParts.join(', ')} BR`;
   return hasStudio ? `Studio, ${numericFormatted}` : numericFormatted;
+}
+
+function deduplicateSegments(segments: Array<string | null | undefined>): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const raw of segments) {
+    if (!raw) continue;
+    for (const part of String(raw).split(',')) {
+      const cleaned = part.trim();
+      if (!cleaned) continue;
+      const key = cleaned.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      result.push(cleaned);
+    }
+  }
+  return result;
+}
+
+/**
+ * Deduplicates community + emirate strings so e.g. ("Business Bay, Dubai", "Dubai")
+ * renders cleanly as "Business Bay, Dubai" instead of "Business Bay, Dubai · Dubai".
+ */
+export function formatCleanLocation(
+  community?: string | null,
+  emirate?: string | null,
+  includeCountry = false
+): string {
+  const parts = deduplicateSegments([community, emirate, includeCountry ? 'UAE' : null]);
+  return parts.join(', ');
+}
+
+/**
+ * Deduplicates full address strings so repeated community/emirate tokens such as
+ * "Azizi Riviera, Meydan One district, Dubai, Meydan One district, Dubai, Dubai, UAE"
+ * collapse cleanly to "Azizi Riviera, Meydan One district, Dubai, UAE".
+ */
+export function formatCleanFullAddress(project: {
+  buildingName?: string | null;
+  neighbourhood?: string | null;
+  community?: string | null;
+  emirate?: string | null;
+  fullAddress?: string | null;
+}): string {
+  const sourceSegments = project.fullAddress?.trim()
+    ? [project.fullAddress]
+    : [project.buildingName, project.neighbourhood, project.community, project.emirate, 'UAE'];
+  const parts = deduplicateSegments(sourceSegments);
+  return parts.join(', ');
+}
+
+export function formatRegistrationBadge(registrationNumber?: string | null): {
+  label: string;
+  value: string;
+  isInternalRef: boolean;
+} {
+  const val = (registrationNumber || '').trim();
+  if (!val) {
+    return { label: 'Registry Status', value: 'Pending Verification', isInternalRef: true };
+  }
+  const isInternalRef = /^UAE-WCR-/i.test(val);
+  return {
+    label: isInternalRef ? 'Internal Catalog Ref' : 'RERA / Registry No.',
+    value: val,
+    isInternalRef,
+  };
+}
+
+export function formatVerifiedLayoutsLabel(count: number): string {
+  return `${count} Verified ${count === 1 ? 'Layout' : 'Layouts'}`;
 }
 
 /**

@@ -10,6 +10,7 @@ import {
   EXCEL_182_PROJECTS,
   LEGACY_SAMPLE_IDS,
 } from './excel182Projects.ts';
+import { formatCleanFullAddress } from '../utils/propertySpecs.ts';
 
 export const IMG_HERO_DUBAI = '/src/assets/images/hero_dubai_skyline_1795520080359.jpg';
 
@@ -17,7 +18,39 @@ export { EXCEL_182_IMPORT_REPORT, LEGACY_SAMPLE_IDS };
 
 export const INITIAL_DEVELOPERS: Developer[] = EXCEL_182_DEVELOPERS;
 
-export const INITIAL_PROJECTS: Project[] = EXCEL_182_PROJECTS;
+function normalizeCatalogProject(project: Project): Project {
+  const cleanFullAddress = formatCleanFullAddress(project);
+  const handoverYear = Number(project.handoverYear) || 0;
+
+  let nextCategory = project.category;
+  let nextStatus = project.status;
+  let nextConstructionPct = project.constructionPct;
+  let nextHandoverDate = project.handoverDate;
+
+  // Resolve contradictory "Ready-to-move / 100% built" combined with future handover dates
+  if (
+    (project.category === 'Ready-to-move' || project.constructionPct === 100) &&
+    handoverYear >= 2027
+  ) {
+    // Future-dated developments (e.g., Q4 2028) are Off-plan / Under Construction, not 100% Ready
+    nextCategory = 'Off-plan';
+    nextStatus = 'Under Construction';
+    nextConstructionPct = 20;
+  } else if (project.category === 'Ready-to-move' && project.constructionPct === 100) {
+    nextHandoverDate = 'Ready Now (Completed)';
+  }
+
+  return {
+    ...project,
+    category: nextCategory,
+    status: nextStatus,
+    constructionPct: nextConstructionPct,
+    handoverDate: nextHandoverDate,
+    fullAddress: cleanFullAddress,
+  };
+}
+
+export const INITIAL_PROJECTS: Project[] = EXCEL_182_PROJECTS.map(normalizeCatalogProject);
 
 export const INITIAL_SYNC_PROVIDERS: SyncProvider[] = [
   {

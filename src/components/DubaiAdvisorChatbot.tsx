@@ -34,11 +34,13 @@ import {
 } from '../services/apiClient.ts';
 import { ADVISOR_CHAT_TRANSLATIONS } from '../i18n/translations.ts';
 import { CURRENCY_RATES_FROM_AED, EXCHANGE_RATE_UPDATED_AT } from '../utils/currency.ts';
+import { formatCleanLocation } from '../utils/propertySpecs.ts';
 
 interface DubaiAdvisorChatbotProps {
   projects: Project[];
   defaultCurrency: CurrencyCode;
   hasCompareTray?: boolean;
+  hideLauncher?: boolean;
   onOpenProject: (project: Project) => void;
   onEnquireProject: (project: Project) => void;
 }
@@ -119,6 +121,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
   projects,
   defaultCurrency,
   hasCompareTray = false,
+  hideLauncher = false,
   onOpenProject,
   onEnquireProject,
 }) => {
@@ -396,7 +399,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
   return (
     <>
       {/* Floating Luxury Chatbot Launcher Button */}
-      {!isOpen && (
+      {!isOpen && !hideLauncher && (
         <button
           type="button"
           onClick={() => {
@@ -404,20 +407,20 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
             setTimeout(() => inputRef.current?.focus(), 200);
           }}
           aria-label="Open Dubai Property Advisor AI Chatbot"
-          className={`fixed right-3 sm:right-6 z-40 group flex items-center gap-2.5 bg-[#121212] hover:bg-[#1B1B1B] text-[#F5F1E8] border border-[#D4AF72]/60 hover:border-[#D4AF72] px-3.5 sm:px-4 h-12 shadow-[0_14px_40px_rgba(0,0,0,0.75)] transition-all duration-200 cursor-pointer ${
+          className={`fixed right-3 sm:right-6 z-40 group flex items-center gap-2 bg-[#0F231C] hover:bg-[#132921] text-[#F5F1E8] border border-[#D4AF72]/70 hover:border-[#D4AF72] px-3 sm:px-3.5 h-11 max-w-[205px] shadow-[0_14px_40px_rgba(0,0,0,0.85)] transition-all duration-200 cursor-pointer ${
             hasCompareTray
               ? 'bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:bottom-6'
               : 'bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:bottom-6'
           }`}
         >
-          <span className="w-7 h-7 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-            <Sparkles className="w-4 h-4" />
+          <span className="w-6 h-6 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <Sparkles className="w-3.5 h-3.5" />
           </span>
-          <span className="text-left leading-tight">
-            <span className="block text-xs font-semibold text-[#F5F1E8] tracking-wide">
+          <span className="text-left leading-tight min-w-0">
+            <span className="block text-[11px] font-semibold text-[#F5F1E8] tracking-wide truncate">
               {ui.advisorTitle}
             </span>
-            <span className="hidden sm:block text-[10px] text-[#D4AF72]">
+            <span className="hidden sm:block text-[9px] text-[#D4AF72] truncate">
               {ui.launcherSubtitle}
             </span>
           </span>
@@ -427,96 +430,109 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
       {/* Animated Expandable Chat Workspace */}
       <AnimatePresence>
         {isOpen && (
-          <motion.aside
-            role="dialog"
-            lang={activeLanguage === 'hi' ? 'hi' : 'en'}
-            aria-label={ui.advisorTitle}
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.97 }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
-            className="fixed inset-x-2 bottom-2 top-14 sm:inset-auto sm:right-6 sm:bottom-6 z-50 sm:w-[460px] md:w-[500px] sm:h-[min(82vh,760px)] bg-[#080808] border border-[#D4AF72]/45 shadow-[0_24px_80px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden"
-          >
-            {/* Header */}
-            <header className="px-3 sm:px-4 py-3 bg-[#121212] border-b border-[#D4AF72]/25 flex items-center justify-between gap-2 shrink-0">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-9 h-9 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0">
-                  <Building2 className="w-4 h-4" />
+          <>
+            <motion.div
+              key="advisor-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm"
+              aria-hidden="true"
+            />
+            <motion.aside
+              key="advisor-drawer"
+              role="dialog"
+              aria-modal="true"
+              lang={activeLanguage === 'hi' ? 'hi' : 'en'}
+              aria-label={ui.advisorTitle}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              className="fixed inset-x-2 bottom-2 top-14 sm:inset-auto sm:right-6 sm:bottom-6 z-50 sm:w-[460px] md:w-[500px] sm:h-[min(82vh,760px)] bg-[#0B1914] border border-[#D4AF72]/55 shadow-[0_24px_80px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden"
+            >
+              {/* Header */}
+              <header className="px-3 sm:px-4 py-3 bg-[#0F231C] border-b border-[#D4AF72]/25 flex items-center justify-between gap-2 shrink-0">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-9 h-9 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="font-display text-base sm:text-xl font-medium text-[#F5F1E8] leading-tight truncate">
+                      {ui.advisorTitle}
+                    </h2>
+                    <p className="text-[10px] sm:text-[11px] text-[#D4AF72] truncate">
+                      {ui.headerSubtitle}
+                    </p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <h2 className="font-display text-base sm:text-xl font-medium text-[#F5F1E8] leading-tight truncate">
-                    {ui.advisorTitle}
-                  </h2>
-                  <p className="text-[10px] sm:text-[11px] text-[#D4AF72] truncate">
-                    {ui.headerSubtitle}
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-1 shrink-0">
-                <div className="relative flex items-center h-8 bg-[#1B1B1B] border border-[#D4AF72]/30 hover:border-[#D4AF72]/60 transition-colors">
-                  <Languages className="w-3.5 h-3.5 text-[#D4AF72] ml-2 pointer-events-none shrink-0" />
-                  <select
-                    aria-label={ui.languageAriaLabel}
-                    title={ui.languageAriaLabel}
-                    value={languagePreference}
-                    onChange={(e) =>
-                      handleLanguageChange(e.target.value as AdvisorLanguagePreference)
-                    }
-                    className="h-full pl-1 pr-1.5 bg-transparent text-[11px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer"
+                <div className="flex items-center gap-1 shrink-0">
+                  <div className="relative flex items-center h-8 bg-[#132921] border border-[#D4AF72]/30 hover:border-[#D4AF72]/60 transition-colors">
+                    <Languages className="w-3.5 h-3.5 text-[#D4AF72] ml-2 pointer-events-none shrink-0" />
+                    <select
+                      aria-label={ui.languageAriaLabel}
+                      title={ui.languageAriaLabel}
+                      value={languagePreference}
+                      onChange={(e) =>
+                        handleLanguageChange(e.target.value as AdvisorLanguagePreference)
+                      }
+                      className="h-full pl-1 pr-1.5 bg-transparent text-[11px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer"
+                    >
+                      <option value="auto" className="bg-[#0B1914] text-[#F5F1E8]">
+                        {ui.autoLabel}
+                      </option>
+                      <option value="en" className="bg-[#0B1914] text-[#F5F1E8]">
+                        English
+                      </option>
+                      <option value="hi" className="bg-[#0B1914] text-[#F5F1E8]">
+                        हिंदी
+                      </option>
+                      <option value="hinglish" className="bg-[#0B1914] text-[#F5F1E8]">
+                        Hinglish
+                      </option>
+                    </select>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowFilters((v) => !v)}
+                    title={showFilters ? ui.hideCriteriaTitle : ui.showCriteriaTitle}
+                    aria-label="Toggle search preferences"
+                    className={`h-8 px-2 text-[11px] font-medium border flex items-center gap-1 transition-colors cursor-pointer ${
+                      showFilters
+                        ? 'bg-[#D4AF72]/20 text-[#D4AF72] border-[#D4AF72]/50'
+                        : 'bg-[#132921] text-[#A5A19A] border-[#D4AF72]/20 hover:text-[#F5F1E8]'
+                    }`}
                   >
-                    <option value="auto" className="bg-[#121212] text-[#F5F1E8]">
-                      {ui.autoLabel}
-                    </option>
-                    <option value="en" className="bg-[#121212] text-[#F5F1E8]">
-                      English
-                    </option>
-                    <option value="hi" className="bg-[#121212] text-[#F5F1E8]">
-                      हिंदी
-                    </option>
-                    <option value="hinglish" className="bg-[#121212] text-[#F5F1E8]">
-                      Hinglish
-                    </option>
-                  </select>
+                    <SlidersHorizontal className="w-3.5 h-3.5" />
+                    <span className="hidden xs:inline">{ui.criteriaBtn}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleClearChat}
+                    title={ui.clearBtn}
+                    aria-label="Clear chat"
+                    className="h-8 px-2 bg-[#132921] border border-[#D4AF72]/20 text-[11px] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72]/50 flex items-center gap-1 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">{ui.clearBtn}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    aria-label="Close Dubai Property Advisor"
+                    className="w-8 h-8 bg-[#132921] border border-[#D4AF72]/20 text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] flex items-center justify-center transition-colors cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setShowFilters((v) => !v)}
-                  title={showFilters ? ui.hideCriteriaTitle : ui.showCriteriaTitle}
-                  aria-label="Toggle search preferences"
-                  className={`h-8 px-2 text-[11px] font-medium border flex items-center gap-1 transition-colors cursor-pointer ${
-                    showFilters
-                      ? 'bg-[#D4AF72]/15 text-[#D4AF72] border-[#D4AF72]/50'
-                      : 'bg-[#1B1B1B] text-[#A5A19A] border-[#D4AF72]/20 hover:text-[#F5F1E8]'
-                  }`}
-                >
-                  <SlidersHorizontal className="w-3.5 h-3.5" />
-                  <span className="hidden xs:inline">{ui.criteriaBtn}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClearChat}
-                  title={ui.clearBtn}
-                  aria-label="Clear chat"
-                  className="h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/20 text-[11px] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72]/50 flex items-center gap-1 transition-colors cursor-pointer"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">{ui.clearBtn}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close Dubai Property Advisor"
-                  className="w-8 h-8 bg-[#1B1B1B] border border-[#D4AF72]/20 text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] flex items-center justify-center transition-colors cursor-pointer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </header>
+              </header>
 
-            {/* Structured Preferences Controls */}
-            {showFilters && (
-              <div className="px-3.5 py-2.5 bg-[#121212]/95 border-b border-[#D4AF72]/20 space-y-2 shrink-0 text-[11px]">
+              {/* Structured Preferences Controls */}
+              {showFilters && (
+                <div className="px-3.5 py-2.5 bg-[#0F231C] border-b border-[#D4AF72]/20 space-y-2 shrink-0 text-[11px]">
                 <div className="grid grid-cols-3 gap-2">
                   <div>
                     <label className="block text-[10px] uppercase tracking-wider text-[#A5A19A] mb-1">
@@ -621,7 +637,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 </div>
 
                 <div className="flex items-center justify-between gap-2 pt-0.5">
-                  <span className="text-[10px] text-[#A5A19A] truncate">
+                  <span className="text-[10px] text-[#A5A19A] truncate ltr-isolate">
                     {currency === 'AED'
                       ? `Base AED · FX updated ${activeFxDate}`
                       : `Est. 1 AED ≈ ${activeFxRate} ${currency} · Updated ${activeFxDate}`}
@@ -639,7 +655,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
             )}
 
             {/* Chat Conversation Feed */}
-            <div className="flex-1 overflow-y-auto px-3.5 py-4 space-y-4 bg-[#080808]">
+            <div className="flex-1 overflow-y-auto px-3.5 py-4 space-y-4 bg-[#0B1914]">
               {messages.map((msg) => (
                 <div key={msg.id} className="space-y-3">
                   <div
@@ -651,7 +667,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     <div
                       className={`w-7 h-7 flex items-center justify-center shrink-0 border mt-0.5 ${
                         msg.role === 'assistant'
-                          ? 'bg-[#121212] border-[#D4AF72]/60 text-[#D4AF72]'
+                          ? 'bg-[#0F231C] border-[#D4AF72]/60 text-[#D4AF72]'
                           : 'bg-[#D4AF72] border-[#D4AF72] text-[#080808]'
                       }`}
                     >
@@ -666,26 +682,26 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     <div
                       className={`max-w-[85%] px-3.5 py-2.5 text-xs leading-relaxed border ${
                         msg.role === 'assistant'
-                          ? 'bg-[#121212] border-[#D4AF72]/25 text-[#F5F1E8]'
-                          : 'bg-[#1B1B1B] border-[#D4AF72]/45 text-[#F5F1E8]'
+                          ? 'bg-[#0F231C] border-[#D4AF72]/25 text-[#F5F1E8]'
+                          : 'bg-[#132921] border-[#D4AF72]/45 text-[#F5F1E8]'
                       }`}
                     >
                       <p className="whitespace-pre-line">{msg.content}</p>
 
                       {msg.aiNotice && (
-                        <div className="mt-2 p-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[11px] text-[#FCD34D] flex items-start gap-1.5">
+                        <div className="mt-2 p-2 bg-[#132921] border border-[#D4AF72]/25 text-[11px] text-[#FCD34D] flex items-start gap-1.5">
                           <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                           <span>{msg.aiNotice}</span>
                         </div>
                       )}
 
                       {msg.fxSnapshotNote && (
-                        <p className="mt-2 pt-1.5 border-t border-[#D4AF72]/15 text-[10px] text-[#A5A19A]">
+                        <p className="mt-2 pt-1.5 border-t border-[#D4AF72]/15 text-[10px] text-[#A5A19A] ltr-isolate">
                           {msg.fxSnapshotNote}
                         </p>
                       )}
 
-                      <span className="block text-[10px] text-[#7C7871] mt-1">
+                      <span className="block text-[10px] text-[#7C7871] mt-1 ltr-isolate">
                         {msg.timestamp}
                       </span>
                     </div>
@@ -710,10 +726,10 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                         return (
                           <div
                             key={`${msg.id}-${card.id}`}
-                            className="bg-[#121212] border border-[#D4AF72]/30 hover:border-[#D4AF72] transition-colors overflow-hidden"
+                            className="bg-[#0F231C] border border-[#D4AF72]/30 hover:border-[#D4AF72] transition-colors overflow-hidden"
                           >
                             {/* Card Image + Top Badges */}
-                            <div className="relative h-32 w-full bg-[#1B1B1B] overflow-hidden">
+                            <div className="relative h-32 w-full bg-[#132921] overflow-hidden">
                               {!imgBroken ? (
                                 <img
                                   src={card.heroImage}
@@ -743,12 +759,12 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                   className={`px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider border ${
                                     card.matchType === 'exact'
                                       ? 'bg-[#D4AF72] text-[#080808] border-[#D4AF72]'
-                                      : 'bg-[#1B1B1B]/95 text-[#FCD34D] border-[#FCD34D]/40'
+                                      : 'bg-[#132921] text-[#FCD34D] border-[#FCD34D]/40'
                                   }`}
                                 >
                                   {card.matchType === 'exact' ? ui.bestMatchBadge : ui.alternativeBadge}
                                 </span>
-                                <span className="px-2 py-0.5 bg-[#080808]/85 border border-[#D4AF72]/30 text-[10px] text-[#F5F1E8]">
+                                <span className="px-2 py-0.5 bg-[#080808]/90 border border-[#D4AF72]/30 text-[10px] text-[#F5F1E8]">
                                   {card.category}
                                 </span>
                               </div>
@@ -769,7 +785,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                 <span className="flex items-center gap-1 min-w-0 truncate">
                                   <MapPin className="w-3 h-3 text-[#D4AF72] shrink-0" />
                                   <span className="truncate">
-                                    {card.community}, {card.emirate}
+                                    {formatCleanLocation(card.community, card.emirate)}
                                   </span>
                                 </span>
                                 <span className="text-[10px] text-[#D4AF72] shrink-0">
@@ -778,12 +794,12 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                               </div>
 
                               {/* Starting Price + Estimated Selected Currency */}
-                              <div className="p-2 bg-[#1B1B1B] border border-[#D4AF72]/15 flex flex-wrap items-baseline justify-between gap-2">
+                              <div className="p-2 bg-[#132921] border border-[#D4AF72]/15 flex flex-wrap items-baseline justify-between gap-2">
                                 <div>
                                   <span className="block text-[10px] uppercase tracking-wider text-[#A5A19A]">
                                     {ui.startingPriceLabel}
                                   </span>
-                                  <span className="font-mono-tabular text-sm font-semibold text-[#F5F1E8]">
+                                  <span className="font-mono-tabular text-sm font-semibold text-[#F5F1E8] ltr-isolate">
                                     {card.formattedStartingPriceAed}
                                   </span>
                                 </div>
@@ -792,7 +808,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                     <span className="block text-[10px] text-[#D4AF72]">
                                       {ui.estLabel} ({card.currency})
                                     </span>
-                                    <span className="font-mono-tabular text-xs font-semibold text-[#D4AF72]">
+                                    <span className="font-mono-tabular text-xs font-semibold text-[#D4AF72] ltr-isolate">
                                       {card.formattedStartingPriceSelected}
                                     </span>
                                   </div>
@@ -847,7 +863,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                   <TrendingUp className="w-3.5 h-3.5 text-[#6EE7B7]" />
                                   <span>{ui.estYieldLabel}</span>
                                 </span>
-                                <span className="font-mono-tabular font-semibold text-[#6EE7B7]">
+                                <span className="font-mono-tabular font-semibold text-[#6EE7B7] ltr-isolate">
                                   {hasVerifiedYield
                                     ? `${
                                         card.verifiedNetYieldPct !== null
@@ -984,7 +1000,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 e.preventDefault();
                 submitQuery();
               }}
-              className="p-3 bg-[#121212] border-t border-[#D4AF72]/25 flex items-center gap-2 shrink-0 pb-safe"
+              className="p-3 bg-[#0F231C] border-t border-[#D4AF72]/25 flex items-center gap-2 shrink-0 pb-safe"
             >
               <input
                 ref={inputRef}
@@ -994,7 +1010,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={ui.inputPlaceholder}
                 aria-label={ui.advisorTitle}
-                className="flex-1 min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] placeholder:text-[#7C7871] focus:outline-none focus:border-[#D4AF72]"
+                className="flex-1 min-w-0 h-10 px-3 bg-[#132921] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] placeholder:text-[#7C7871] focus:outline-none focus:border-[#D4AF72]"
               />
               <button
                 type="submit"
@@ -1006,7 +1022,8 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 <span className="hidden xs:inline">{ui.askBtn}</span>
               </button>
             </form>
-          </motion.aside>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
     </>

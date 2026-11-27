@@ -80,7 +80,10 @@ import { geocodeAddressOnServer, GeocodeResultItem } from '../services/apiClient
 import { useCompanyInfo } from '../data/companyInfo.ts';
 import { GoogleMapsGuard, MapsErrorReason } from './GoogleMapsGuard.tsx';
 import { InvestmentCalculator } from './InvestmentCalculator.tsx';
+import { LuxurySkeleton } from './ScrollReveal.tsx';
 import {
+  formatCleanFullAddress,
+  formatCleanLocation,
   formatFloorPlanAreaSqFt,
   formatFloorPlanBathrooms,
   formatFloorPlanBhk,
@@ -88,6 +91,7 @@ import {
   formatPropertyBathrooms,
   formatPropertyBhk,
   formatPropertySpecsSummary,
+  formatRegistrationBadge,
 } from '../utils/propertySpecs.ts';
 
 interface ProjectDetailsPageProps {
@@ -218,6 +222,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
   const companyInfo = useCompanyInfo();
   const [activePhoto, setActivePhoto] = useState(project.heroImage);
   const [failedUrls, setFailedUrls] = useState<Set<string>>(() => new Set());
+  const [loadedUrls, setLoadedUrls] = useState<Set<string>>(() => new Set());
   const [mediaCategoryFilter, setMediaCategoryFilter] = useState<MediaCategory | 'all'>('all');
   const [refreshing, setRefreshing] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -243,9 +248,20 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     });
   }, []);
 
+  const markUrlLoaded = React.useCallback((url: string) => {
+    if (!url) return;
+    setLoadedUrls((prev) => {
+      if (prev.has(url)) return prev;
+      const next = new Set(prev);
+      next.add(url);
+      return next;
+    });
+  }, []);
+
   React.useEffect(() => {
     setActivePhoto(project.heroImage);
     setFailedUrls(new Set());
+    setLoadedUrls(new Set());
     setMediaCategoryFilter('all');
     setSelectedVideoId(project.primaryVideo?.id || project.videoItems?.[0]?.id || '');
     setAreaResult(null);
@@ -332,6 +348,23 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     [projectMediaList]
   );
 
+  const mediaDisplayLabels = React.useMemo(() => {
+    const totalPerCategory = new Map<MediaCategory, number>();
+    for (const item of projectMediaList) {
+      totalPerCategory.set(item.category, (totalPerCategory.get(item.category) ?? 0) + 1);
+    }
+    const seenPerCategory = new Map<MediaCategory, number>();
+    const map = new Map<string, string>();
+    for (const item of projectMediaList) {
+      const count = totalPerCategory.get(item.category) ?? 1;
+      const idx = (seenPerCategory.get(item.category) ?? 0) + 1;
+      seenPerCategory.set(item.category, idx);
+      const base = MEDIA_CATEGORY_LABELS[item.category];
+      map.set(item.id, count > 1 ? `${base} · View ${idx}` : base);
+    }
+    return map;
+  }, [projectMediaList]);
+
   const filteredMedia = React.useMemo(
     () =>
       mediaCategoryFilter === 'all'
@@ -340,6 +373,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
     [projectMediaList, mediaCategoryFilter]
   );
 
+  const regBadge = formatRegistrationBadge(project.registrationNumber);
   const inv = project.inventory;
   const projectLogs = inventoryLogs.filter((l) => l.projectId === project.id);
 
@@ -486,13 +520,21 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
           <div className="lg:col-span-7 min-w-0 flex flex-col gap-3">
             <div className="relative aspect-[16/10] w-full bg-[#121212] border border-[#D4AF72]/25 overflow-hidden">
               {activePhoto && !failedUrls.has(activePhoto) ? (
-                <img
-                  src={activePhoto}
-                  alt={activeMedia?.caption || project.name}
-                  referrerPolicy="no-referrer"
-                  onError={() => markUrlFailed(activePhoto)}
-                  className="w-full h-full object-cover"
-                />
+                <>
+                  {!loadedUrls.has(activePhoto) && (
+                    <LuxurySkeleton className="absolute inset-0 w-full h-full" />
+                  )}
+                  <img
+                    src={activePhoto}
+                    alt={activeMedia?.caption || project.name}
+                    referrerPolicy="no-referrer"
+                    onLoad={() => markUrlLoaded(activePhoto)}
+                    onError={() => markUrlFailed(activePhoto)}
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${
+                      loadedUrls.has(activePhoto) ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                </>
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-[#121212] text-[#F5F1E8] p-6 sm:p-8 text-center">
                   <Camera className="w-9 h-9 sm:w-10 sm:h-10 text-[#D4AF72] mb-2.5 sm:mb-3" />
@@ -511,7 +553,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               {activeMedia && (
                 <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 max-w-[calc(100%-1.25rem)] truncate px-2 sm:px-2.5 py-1 bg-[#080808]/90 border border-[#D4AF72]/30 text-[#F5F1E8] text-[10px] sm:text-[11px] font-semibold">
                   {MEDIA_CLASSIFICATION_LABELS[activeMedia.classification]} ·{' '}
-                  {MEDIA_CATEGORY_LABELS[activeMedia.category]}
+                  {mediaDisplayLabels.get(activeMedia.id) || MEDIA_CATEGORY_LABELS[activeMedia.category]}
                 </div>
               )}
               <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-4 sm:left-4 sm:right-4 flex items-center justify-end gap-2">
@@ -597,28 +639,39 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => setActivePhoto(item.url)}
-                    className={`relative aspect-[16/10] overflow-hidden border transition-colors ${
+                    className={`relative aspect-[16/10] overflow-hidden border transition-colors bg-[#121212] ${
                       activePhoto === item.url
                         ? 'border-[#D4AF72] ring-1 ring-[#D4AF72]'
                         : 'border-[#D4AF72]/20 hover:border-[#D4AF72]/60'
                     }`}
                   >
                     {failedUrls.has(item.url) ? (
-                      <div className="w-full h-full bg-[#121212] flex items-center justify-center">
-                        <Camera className="w-5 h-5 text-[#D4AF72]/70" />
+                      <div className="w-full h-full bg-[#121212] flex flex-col items-center justify-center gap-1">
+                        <Camera className="w-4 h-4 text-[#D4AF72]/70" />
+                        <span className="text-[9px] uppercase tracking-wider text-[#A5A19A]">
+                          Unavailable
+                        </span>
                       </div>
                     ) : (
-                      <img
-                        src={item.url}
-                        alt={item.caption}
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                        onError={() => markUrlFailed(item.url)}
-                        className="w-full h-full object-cover"
-                      />
+                      <>
+                        {!loadedUrls.has(item.url) && (
+                          <LuxurySkeleton className="absolute inset-0 w-full h-full" />
+                        )}
+                        <img
+                          src={item.url}
+                          alt={item.caption}
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                          onLoad={() => markUrlLoaded(item.url)}
+                          onError={() => markUrlFailed(item.url)}
+                          className={`w-full h-full object-cover transition-opacity duration-300 ${
+                            loadedUrls.has(item.url) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                        />
+                      </>
                     )}
                     <span className="absolute bottom-0 inset-x-0 bg-[#080808]/85 text-[#F5F1E8] text-[10px] px-1.5 py-0.5 truncate text-left">
-                      {MEDIA_CATEGORY_LABELS[item.category]}
+                      {mediaDisplayLabels.get(item.id) || MEDIA_CATEGORY_LABELS[item.category]}
                     </span>
                   </button>
                 ))}
@@ -641,7 +694,9 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 <span aria-hidden="true">·</span>
                 <span className="text-[11px] text-[#A5A19A]">
                   Verified{' '}
-                  {new Date(project.lastVerifiedAt || project.updatedAt).toLocaleDateString()}
+                  <span className="ltr-isolate">
+                    {new Date(project.lastVerifiedAt || project.updatedAt).toLocaleDateString()}
+                  </span>
                 </span>
               </div>
 
@@ -651,10 +706,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                 <p className="text-xs sm:text-sm text-[#A5A19A] flex items-start gap-1.5 min-w-0">
                   <MapPin className="w-4 h-4 text-[#D4AF72] shrink-0 mt-0.5" />
-                  <span className="break-words">
-                    {project.fullAddress ||
-                      `${project.buildingName}, ${project.neighbourhood}, ${project.community}, ${project.emirate}`}
-                  </span>
+                  <span className="break-words">{formatCleanFullAddress(project)}</span>
                 </p>
                 <a
                   href={
@@ -673,12 +725,12 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 my-6 py-5 border-y border-[#D4AF72]/20">
                 <div className="min-w-0">
                   <p className="text-xs text-[#A5A19A]">Starting Price</p>
-                  <p className="font-mono-tabular text-lg sm:text-xl font-semibold text-[#F5F1E8] mt-0.5 break-words">
+                  <p className="font-mono-tabular ltr-isolate text-lg sm:text-xl font-semibold text-[#F5F1E8] mt-0.5 break-words">
                     {formatProjectPrice(project.startingPriceAed, currency)}
                   </p>
                   {currency !== 'INR' && project.startingPriceAed > 0 && (
                     <p
-                      className="text-xs font-mono-tabular text-[#D4AF72] font-semibold mt-0.5"
+                      className="text-xs font-mono-tabular ltr-isolate text-[#D4AF72] font-semibold mt-0.5"
                       title={formatInrTimestampNote()}
                     >
                       ≈ {formatCurrency(project.startingPriceAed, 'INR')}
@@ -686,14 +738,14 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   )}
                   {currency === 'INR' && project.startingPriceAed > 0 && (
                     <p
-                      className="text-xs font-mono-tabular text-[#D4AF72] font-semibold mt-0.5"
+                      className="text-xs font-mono-tabular ltr-isolate text-[#D4AF72] font-semibold mt-0.5"
                       title={formatInrTimestampNote()}
                     >
                       ≈ AED {project.startingPriceAed.toLocaleString()}
                     </p>
                   )}
                   <p className="text-[10px] text-[#A5A19A] mt-0.5">{formatInrTimestampNote()}</p>
-                  <p className="text-[11px] font-mono-tabular text-[#A5A19A] mt-1">
+                  <p className="text-[11px] font-mono-tabular ltr-isolate text-[#A5A19A] mt-1">
                     {project.maxPriceAed > 0
                       ? `Up to ${formatProjectPrice(project.maxPriceAed, currency)}`
                       : 'Official developer pricing sheet on request'}
@@ -701,7 +753,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs text-[#A5A19A]">Booking Amount / Down Payment</p>
-                  <p className="font-mono-tabular text-lg sm:text-xl font-semibold text-[#6EE7B7] mt-0.5 break-words">
+                  <p className="font-mono-tabular ltr-isolate text-lg sm:text-xl font-semibold text-[#6EE7B7] mt-0.5 break-words">
                     {project.bookingAmountAed
                       ? formatProjectPrice(project.bookingAmountAed, currency)
                       : `${project.downPaymentPct || 10}%`}
@@ -709,21 +761,21 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   {currency !== 'INR' &&
                     Boolean(project.bookingAmountAed) &&
                     (project.bookingAmountAed ?? 0) > 0 && (
-                      <p className="text-xs font-mono-tabular text-[#D4AF72] font-semibold mt-0.5">
+                      <p className="text-xs font-mono-tabular ltr-isolate text-[#D4AF72] font-semibold mt-0.5">
                         ≈ {formatCurrency(project.bookingAmountAed, 'INR')}
                       </p>
                     )}
                   <p className="text-[11px] text-[#A5A19A] mt-1">
-                    {project.downPaymentPct || 10}% initial booking allocation
+                    <span className="ltr-isolate">{project.downPaymentPct || 10}%</span> initial booking allocation
                   </p>
                 </div>
               </div>
 
-              {/* Separate Property Details Strip: BHK | Bathrooms | Area (sq ft) */}
+              {/* Separate Property Details Strip: Bedrooms | Bathrooms | Area (sq ft) */}
               <div className="mb-5 pb-5 border-b border-[#D4AF72]/20 grid grid-cols-1 xs:grid-cols-3 gap-3 xs:gap-0 xs:divide-x xs:divide-[#D4AF72]/20">
                 <div className="flex items-baseline justify-between gap-2 xs:block xs:pr-3 min-w-0">
-                  <p className="text-[11px] uppercase tracking-wider text-[#A5A19A]">BHK</p>
-                  <p className="text-sm font-semibold text-[#F5F1E8] mt-0.5 break-words">
+                  <p className="text-[11px] uppercase tracking-wider text-[#A5A19A]">Bedrooms</p>
+                  <p className="text-sm font-semibold text-[#F5F1E8] mt-0.5 break-words ltr-isolate">
                     {formatPropertyBhk(project)}
                   </p>
                 </div>
@@ -742,7 +794,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 <div className="flex items-baseline justify-between gap-2 xs:block xs:pl-3 min-w-0">
                   <p className="text-[11px] uppercase tracking-wider text-[#A5A19A]">Area</p>
                   <p
-                    className={`text-sm font-mono-tabular font-semibold mt-0.5 break-words ${
+                    className={`text-sm font-mono-tabular ltr-isolate font-semibold mt-0.5 break-words ${
                       formatPropertyAreaSqFt(project) === 'Not Available'
                         ? 'text-[#A5A19A] font-sans'
                         : 'text-[#F5F1E8]'
@@ -773,20 +825,20 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   </dd>
                 </div>
                 <div className="min-w-0">
-                  <dt className="text-[#A5A19A]">RERA Registration No.</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5 break-all">
-                    {project.registrationNumber}
+                  <dt className="text-[#A5A19A]">{regBadge.label}</dt>
+                  <dd className="font-mono-tabular ltr-isolate font-semibold text-[#F5F1E8] mt-0.5 break-all">
+                    {regBadge.value}
                   </dd>
                 </div>
                 <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Construction Progress</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5">
+                  <dd className="font-mono-tabular ltr-isolate font-semibold text-[#F5F1E8] mt-0.5">
                     {project.constructionPct}% ({project.status})
                   </dd>
                 </div>
                 <div className="min-w-0">
                   <dt className="text-[#A5A19A]">Expected Handover</dt>
-                  <dd className="font-mono-tabular font-semibold text-[#F5F1E8] mt-0.5">
+                  <dd className="font-mono-tabular ltr-isolate font-semibold text-[#F5F1E8] mt-0.5">
                     {project.handoverDate}
                   </dd>
                 </div>
@@ -813,7 +865,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                       return (
                         <a
                           href={`tel:${hotline.replace(/\s+/g, '')}`}
-                          className="hover:text-[#D4AF72] transition-colors font-mono-tabular"
+                          className="hover:text-[#D4AF72] transition-colors font-mono-tabular ltr-isolate"
                         >
                           {hotline}
                         </a>
@@ -1381,14 +1433,22 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                         </span>
                       </div>
                     ) : (
-                      <img
-                        src={item.url}
-                        alt={item.caption}
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                        onError={() => markUrlFailed(item.url)}
-                        className="w-full h-full object-cover"
-                      />
+                      <>
+                        {!loadedUrls.has(item.url) && (
+                          <LuxurySkeleton className="absolute inset-0 w-full h-full" />
+                        )}
+                        <img
+                          src={item.url}
+                          alt={item.caption}
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                          onLoad={() => markUrlLoaded(item.url)}
+                          onError={() => markUrlFailed(item.url)}
+                          className={`w-full h-full object-cover transition-opacity duration-300 ${
+                            loadedUrls.has(item.url) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                        />
+                      </>
                     )}
                     <span className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-[#080808]/90 border border-[#D4AF72]/25 text-[#F5F1E8] text-[10px] font-semibold">
                       {MEDIA_CLASSIFICATION_LABELS[item.classification]}
@@ -1396,7 +1456,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   </div>
                   <div className="p-3.5 space-y-1">
                     <div className="flex items-center justify-between text-[11px] font-semibold text-[#D4AF72]">
-                      <span>{MEDIA_CATEGORY_LABELS[item.category]}</span>
+                      <span>{mediaDisplayLabels.get(item.id) || MEDIA_CATEGORY_LABELS[item.category]}</span>
                       {item.verifiedProjectSpecific && (
                         <span className="text-[#6EE7B7]">Verified Project Photo</span>
                       )}
@@ -1593,18 +1653,18 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
               <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-5 gap-3 text-xs border-y border-[#D4AF72]/15 py-4">
                 <div>
                   <span className="text-[#A5A19A] block text-[11px]">Starting Price</span>
-                  <span className="font-mono-tabular font-semibold text-[#F5F1E8] text-sm">
+                  <span className="font-mono-tabular ltr-isolate font-semibold text-[#F5F1E8] text-sm">
                     {formatProjectPrice(project.startingPriceAed, currency)}
                   </span>
                   {currency !== 'INR' && project.startingPriceAed > 0 && (
-                    <span className="block font-mono-tabular text-[11px] text-[#D4AF72]">
+                    <span className="block font-mono-tabular ltr-isolate text-[11px] text-[#D4AF72]">
                       ≈ {formatCurrency(project.startingPriceAed, 'INR')}
                     </span>
                   )}
                 </div>
                 <div>
-                  <span className="text-[#A5A19A] block text-[11px]">BHK</span>
-                  <span className="font-semibold text-[#F5F1E8]">
+                  <span className="text-[#A5A19A] block text-[11px]">Bedrooms</span>
+                  <span className="font-semibold text-[#F5F1E8] ltr-isolate">
                     {formatPropertyBhk(project)}
                   </span>
                 </div>
@@ -1616,13 +1676,13 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                 </div>
                 <div>
                   <span className="text-[#A5A19A] block text-[11px]">Area</span>
-                  <span className="font-mono-tabular text-[#F5F1E8]">
+                  <span className="font-mono-tabular ltr-isolate text-[#F5F1E8]">
                     {formatPropertyAreaSqFt(project)}
                   </span>
                 </div>
                 <div>
                   <span className="text-[#A5A19A] block text-[11px]">Developer Sales Hotline</span>
-                  <span className="font-mono-tabular text-[#6EE7B7]">
+                  <span className="font-mono-tabular ltr-isolate text-[#6EE7B7]">
                     {project.salesOfficePhone || developer?.contactPhone || companyInfo.primaryPhone}
                   </span>
                 </div>
@@ -1701,8 +1761,8 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   >
                     <div>
                       <div className="flex flex-wrap items-center justify-between gap-1.5">
-                        <p className="text-xs font-semibold text-[#D4AF72]">
-                          BHK: {fpBhk}
+                        <p className="text-xs font-semibold text-[#D4AF72] ltr-isolate">
+                          Bedrooms: {fpBhk}
                         </p>
                         <span className="text-[11px] text-[#F5F1E8] font-medium bg-[#121212] px-2 py-0.5 border border-[#D4AF72]/20">
                           {fpBathrooms}
@@ -1718,18 +1778,18 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                     <div className="mt-4 pt-3 border-t border-[#D4AF72]/15 space-y-1.5 text-xs font-mono-tabular">
                       <div className="flex justify-between">
                         <span className="text-[#A5A19A]">Area</span>
-                        <span className="font-semibold text-[#F5F1E8]">{fpArea}</span>
+                        <span className="font-semibold text-[#F5F1E8] ltr-isolate">{fpArea}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[#A5A19A]">Starting Price</span>
-                        <span className="font-semibold text-[#F5F1E8]">
+                        <span className="font-semibold text-[#F5F1E8] ltr-isolate">
                           {formatProjectPrice(fp.priceAed, currency)}
                         </span>
                       </div>
                       {currency !== 'INR' && fp.priceAed > 0 && (
                         <div className="flex justify-between text-[#D4AF72] font-semibold text-[11px]">
                           <span>Approx. INR</span>
-                          <span>≈ {formatCurrency(fp.priceAed, 'INR')}</span>
+                          <span className="ltr-isolate">≈ {formatCurrency(fp.priceAed, 'INR')}</span>
                         </div>
                       )}
                       <div className="flex justify-between">
@@ -1896,12 +1956,12 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                   {isValidCoordinate(project.coordinates) ? (
                     <>
                       <MapPin className="w-6 h-6 text-[#D4AF72] mb-2" />
-                      <p className="font-semibold text-[#F5F1E8]">
+                      <p className="font-semibold text-[#F5F1E8] ltr-isolate">
                         Verified GPS: {project.coordinates.lat.toFixed(5)}° N,{' '}
                         {project.coordinates.lng.toFixed(5)}° E
                       </p>
                       <p className="mt-1">
-                        {project.fullAddress || `${project.community}, ${project.emirate}, UAE`}
+                        {formatCleanFullAddress(project)}
                       </p>
                       {mapErrorReason && (
                         <p className="text-[11px] text-[#FCA5A5] mt-2 max-w-sm">
@@ -1946,7 +2006,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                         Exact GPS coordinates are pending verification for this record
                       </p>
                       <p className="mt-1">
-                        Community: {project.fullAddress || `${project.community}, ${project.emirate}`}
+                        Community: {formatCleanFullAddress(project)}
                       </p>
                       {areaResult ? (
                         <p className="text-[#6EE7B7] font-mono-tabular mt-2">
@@ -2063,7 +2123,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                               Official Hotline:{' '}
                               <a
                                 href={`tel:${hotline.replace(/\s+/g, '')}`}
-                                className="text-[#F5F1E8] font-semibold font-mono-tabular hover:text-[#D4AF72]"
+                                className="text-[#F5F1E8] font-semibold font-mono-tabular ltr-isolate hover:text-[#D4AF72]"
                               >
                                 {hotline}
                               </a>
@@ -2074,7 +2134,7 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                                 href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#6EE7B7] font-semibold font-mono-tabular hover:underline"
+                                className="text-[#6EE7B7] font-semibold font-mono-tabular ltr-isolate hover:underline"
                               >
                                 {whatsapp}
                               </a>
@@ -2242,13 +2302,13 @@ export const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({
                             {comp.name}
                           </span>
                           <span className="text-[#A5A19A] block truncate">
-                            {comp.community}, {comp.emirate}
+                            {formatCleanLocation(comp.community, comp.emirate)}
                           </span>
-                          <span className="text-[11px] text-[#D4AF72]/90 block truncate mt-0.5">
+                          <span className="text-[11px] text-[#D4AF72]/90 block truncate mt-0.5 ltr-isolate">
                             {formatPropertySpecsSummary(comp)}
                           </span>
                         </div>
-                        <span className="font-mono-tabular font-semibold text-[#D4AF72] shrink-0">
+                        <span className="font-mono-tabular ltr-isolate font-semibold text-[#D4AF72] shrink-0">
                           {formatProjectPrice(comp.startingPriceAed, currency, true)}
                         </span>
                       </button>

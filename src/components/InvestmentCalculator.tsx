@@ -390,51 +390,66 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
               <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div className="min-w-0 bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5 sm:p-4">
                   <p className="text-xs text-[#A5A19A]">Down Payment</p>
-                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 break-words">
+                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 break-words ltr-isolate">
                     {formatCurrency(out.downPaymentAed, currency)}
                   </p>
                 </div>
                 <div className="min-w-0 bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5 sm:p-4">
                   <p className="text-xs text-[#A5A19A]">Monthly Installment</p>
-                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 break-words">
+                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 break-words ltr-isolate">
                     {formatCurrency(out.monthlyInstallmentAed, currency)}
                   </p>
                 </div>
                 <div className="min-w-0 bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5 sm:p-4">
                   <p className="text-xs text-[#A5A19A]">Total Purchase Cost</p>
-                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 break-words">
+                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 break-words ltr-isolate">
                     {formatCurrency(out.totalAcquisitionCostAed, currency)}
                   </p>
                 </div>
                 <div className="min-w-0 bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5 sm:p-4">
                   <p className="text-xs text-[#A5A19A]">Est. Gross Rental Yield</p>
-                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#6EE7B7] mt-1">
+                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#6EE7B7] mt-1 ltr-isolate">
                     {out.grossYieldPct.toFixed(2)}%
                   </p>
                 </div>
                 <div className="min-w-0 bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5 sm:p-4">
                   <p className="text-xs text-[#A5A19A]">Est. Net Rental Yield</p>
-                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#D4AF72] mt-1">
+                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#D4AF72] mt-1 ltr-isolate">
                     {out.netYieldPct.toFixed(2)}%
                   </p>
                 </div>
                 <div className="min-w-0 bg-[#1B1B1B] border border-[#D4AF72]/20 p-3.5 sm:p-4">
-                  <p className="text-xs text-[#A5A19A]">5-Year Est. Total ROI</p>
-                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1">
+                  <p className="text-xs text-[#A5A19A]">
+                    5-Year Est. Levered ROI (on equity invested)
+                  </p>
+                  <p className="font-mono-tabular text-[clamp(1rem,2.4vw,1.125rem)] font-semibold text-[#F5F1E8] mt-1 ltr-isolate">
                     {out.estimated5YrTotalRoiPct.toFixed(1)}%
+                  </p>
+                  <p className="text-[10px] text-[#A5A19A]/85 mt-0.5 leading-snug">
+                    Gain + cumulative rent vs. Year-1 cash equity
                   </p>
                 </div>
               </div>
 
               {/* 5-Year Chart */}
               <div className="border border-[#D4AF72]/20 bg-[#1B1B1B] p-3.5 sm:p-4 min-w-0">
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <p className="text-xs font-semibold text-[#F5F1E8] uppercase tracking-wider">
                     5-Year Modeled Asset Value &amp; Cumulative Net Rent (AED)
                   </p>
                   {loading && <span className="text-xs text-[#D4AF72]">Recalculating...</span>}
                 </div>
-                <div className="h-52 w-full min-w-0">
+                <div className="flex flex-wrap items-center gap-4 text-[11px] text-[#A5A19A] mb-3">
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-[#F5F1E8] border border-[#D4AF72]/40 shrink-0" />
+                    <span className="text-[#F5F1E8]">Projected Asset Value (AED)</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-[#D4AF72] shrink-0" />
+                    <span className="text-[#D4AF72]">Cumulative Net Rent (AED)</span>
+                  </span>
+                </div>
+                <div className="h-52 w-full min-w-0 ltr-isolate">
                   <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                     <BarChart data={analysis.fiveYearProjection}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 114, 0.14)" />
@@ -474,10 +489,10 @@ export const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({
                 <p className="font-semibold text-[#F5F1E8] flex items-center gap-1.5 mb-1">
                   <Info className="w-3.5 h-3.5 text-[#D4AF72] shrink-0" />
                   <span>
-                    Estimated ROI Projections &amp; Modeling Assumptions ({formatInrTimestampNote()})
+                    Estimated ROI Projections &amp; Modeling Assumptions (<span className="ltr-isolate">{formatInrTimestampNote()}</span>)
                   </span>
                 </p>
-                <p className="font-mono-tabular text-[#D4AF72] break-words">
+                <p className="font-mono-tabular text-[#D4AF72] break-words ltr-isolate">
                   Fee Breakdown: DLD/Reg {formatCurrency(out.dldFeeAed, currency)} · Agency{' '}
                   {formatCurrency(out.agencyFeeAed, currency)} · Trustee{' '}
                   {formatCurrency(out.trusteeAndAdminAed, currency)} · Net Annual Rent{' '}

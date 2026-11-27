@@ -16,6 +16,7 @@ import {
 import { Project, VirtualTourHotspot, VirtualTourRoom } from '../types/realEstate.ts';
 import { getEffectiveTourStatus, TOUR_STATUS_LABELS } from '../utils/mediaValidation.ts';
 import {
+  formatCleanLocation,
   formatFloorPlanAreaSqFt,
   formatFloorPlanBathrooms,
   formatFloorPlanBhk,
@@ -516,7 +517,7 @@ export const VirtualTourModal: React.FC<VirtualTourModalProps> = ({
               {isPreview && <span className="px-1.5 py-0.5 bg-[#D4AF72] text-[#080808]">ADMIN PREVIEW</span>}
               {project.virtualTour.provider && <span className="hidden xs:inline">· {project.virtualTour.provider}</span>}
               <span className="hidden sm:inline">
-                · {project.community}, {project.emirate}
+                · {formatCleanLocation(project.community, project.emirate)}
               </span>
             </div>
             <h2 className="font-display text-lg sm:text-2xl font-semibold truncate mt-0.5">
