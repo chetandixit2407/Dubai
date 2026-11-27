@@ -26,6 +26,7 @@ function normalizeCatalogProject(project: Project): Project {
   let nextStatus = project.status;
   let nextConstructionPct = project.constructionPct;
   let nextHandoverDate = project.handoverDate;
+  let nextPaymentPlan = project.paymentPlan;
 
   // Resolve contradictory "Ready-to-move / 100% built" combined with future handover dates
   if (
@@ -40,12 +41,22 @@ function normalizeCatalogProject(project: Project): Project {
     nextHandoverDate = 'Ready Now (Completed)';
   }
 
+  if (
+    (nextCategory !== 'Ready-to-move' || nextConstructionPct < 100 || handoverYear >= 2027) &&
+    /100%\s*ready|mortgage eligible/i.test(project.paymentPlan)
+  ) {
+    nextPaymentPlan = /samana/i.test(project.developerName)
+      ? '1% Monthly Construction-Linked Off-Plan Plan'
+      : 'Construction-Linked Off-Plan Payment Plan';
+  }
+
   return {
     ...project,
     category: nextCategory,
     status: nextStatus,
     constructionPct: nextConstructionPct,
     handoverDate: nextHandoverDate,
+    paymentPlan: nextPaymentPlan,
     fullAddress: cleanFullAddress,
   };
 }

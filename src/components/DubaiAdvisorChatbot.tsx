@@ -398,7 +398,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
 
   return (
     <>
-      {/* Floating Luxury Chatbot Launcher Button */}
+      {/* Floating Luxury Chatbot Launcher Pill */}
       {!isOpen && !hideLauncher && (
         <button
           type="button"
@@ -406,23 +406,19 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
             setIsOpen(true);
             setTimeout(() => inputRef.current?.focus(), 200);
           }}
+          title={ui.advisorTitle}
           aria-label="Open Dubai Property Advisor AI Chatbot"
-          className={`fixed right-3 sm:right-6 z-40 group flex items-center gap-2 bg-[#0F231C] hover:bg-[#132921] text-[#F5F1E8] border border-[#D4AF72]/70 hover:border-[#D4AF72] px-3 sm:px-3.5 h-11 max-w-[205px] shadow-[0_14px_40px_rgba(0,0,0,0.85)] transition-all duration-200 cursor-pointer ${
+          className={`fixed right-3 sm:right-4 z-40 group flex items-center gap-1.5 rounded-full bg-[#0F231C]/95 hover:bg-[#132921] text-[#F5F1E8] border border-[#D4AF72]/75 hover:border-[#D4AF72] pl-2 pr-3 h-9 sm:h-10 shadow-[0_10px_28px_rgba(0,0,0,0.85)] backdrop-blur-sm transition-all duration-200 cursor-pointer ${
             hasCompareTray
-              ? 'bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:bottom-6'
-              : 'bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:bottom-6'
+              ? 'bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:bottom-4'
+              : 'bottom-[calc(0.75rem+env(safe-area-inset-bottom))] sm:bottom-4'
           }`}
         >
-          <span className="w-6 h-6 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+          <span className="w-6 h-6 rounded-full bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
             <Sparkles className="w-3.5 h-3.5" />
           </span>
-          <span className="text-left leading-tight min-w-0">
-            <span className="block text-[11px] font-semibold text-[#F5F1E8] tracking-wide truncate">
-              {ui.advisorTitle}
-            </span>
-            <span className="hidden sm:block text-[9px] text-[#D4AF72] truncate">
-              {ui.launcherSubtitle}
-            </span>
+          <span className="text-[11px] font-semibold text-[#F5F1E8] tracking-wide whitespace-nowrap">
+            AI Advisor
           </span>
         </button>
       )}
@@ -451,16 +447,16 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.97 }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
-              className="fixed inset-x-2 bottom-2 top-14 sm:inset-auto sm:right-6 sm:bottom-6 z-50 sm:w-[460px] md:w-[500px] sm:h-[min(82vh,760px)] bg-[#0B1914] border border-[#D4AF72]/55 shadow-[0_24px_80px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden"
+              className="fixed inset-x-2 bottom-2 top-14 sm:inset-auto sm:right-6 sm:bottom-6 z-50 sm:w-[490px] md:w-[530px] sm:h-[min(82vh,760px)] bg-[#0B1914] border border-[#D4AF72]/55 shadow-[0_24px_80px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden"
             >
               {/* Header */}
               <header className="px-3 sm:px-4 py-3 bg-[#0F231C] border-b border-[#D4AF72]/25 flex items-center justify-between gap-2 shrink-0">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-9 h-9 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-8 h-8 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0">
                     <Building2 className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">
-                    <h2 className="font-display text-base sm:text-xl font-medium text-[#F5F1E8] leading-tight truncate">
+                    <h2 className="font-display text-[15px] sm:text-lg font-medium text-[#F5F1E8] leading-tight whitespace-nowrap">
                       {ui.advisorTitle}
                     </h2>
                     <p className="text-[10px] sm:text-[11px] text-[#D4AF72] truncate">
@@ -470,8 +466,8 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 </div>
 
                 <div className="flex items-center gap-1 shrink-0">
-                  <div className="relative flex items-center h-8 bg-[#132921] border border-[#D4AF72]/30 hover:border-[#D4AF72]/60 transition-colors">
-                    <Languages className="w-3.5 h-3.5 text-[#D4AF72] ml-2 pointer-events-none shrink-0" />
+                  <div className="relative flex items-center h-7 sm:h-8 bg-[#132921] border border-[#D4AF72]/30 hover:border-[#D4AF72]/60 transition-colors">
+                    <Languages className="w-3 h-3 text-[#D4AF72] ml-1.5 pointer-events-none shrink-0" />
                     <select
                       aria-label={ui.languageAriaLabel}
                       title={ui.languageAriaLabel}
@@ -479,7 +475,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                       onChange={(e) =>
                         handleLanguageChange(e.target.value as AdvisorLanguagePreference)
                       }
-                      className="h-full pl-1 pr-1.5 bg-transparent text-[11px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer"
+                      className="h-full pl-1 pr-1 bg-transparent text-[11px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer"
                     >
                       <option value="auto" className="bg-[#0B1914] text-[#F5F1E8]">
                         {ui.autoLabel}
@@ -500,30 +496,28 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     onClick={() => setShowFilters((v) => !v)}
                     title={showFilters ? ui.hideCriteriaTitle : ui.showCriteriaTitle}
                     aria-label="Toggle search preferences"
-                    className={`h-8 px-2 text-[11px] font-medium border flex items-center gap-1 transition-colors cursor-pointer ${
+                    className={`w-7 h-7 sm:w-8 sm:h-8 text-[11px] font-medium border flex items-center justify-center transition-colors cursor-pointer ${
                       showFilters
                         ? 'bg-[#D4AF72]/20 text-[#D4AF72] border-[#D4AF72]/50'
                         : 'bg-[#132921] text-[#A5A19A] border-[#D4AF72]/20 hover:text-[#F5F1E8]'
                     }`}
                   >
                     <SlidersHorizontal className="w-3.5 h-3.5" />
-                    <span className="hidden xs:inline">{ui.criteriaBtn}</span>
                   </button>
                   <button
                     type="button"
                     onClick={handleClearChat}
                     title={ui.clearBtn}
                     aria-label="Clear chat"
-                    className="h-8 px-2 bg-[#132921] border border-[#D4AF72]/20 text-[11px] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72]/50 flex items-center gap-1 transition-colors cursor-pointer"
+                    className="w-7 h-7 sm:w-8 sm:h-8 bg-[#132921] border border-[#D4AF72]/20 text-[11px] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72]/50 flex items-center justify-center transition-colors cursor-pointer"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">{ui.clearBtn}</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
                     aria-label="Close Dubai Property Advisor"
-                    className="w-8 h-8 bg-[#132921] border border-[#D4AF72]/20 text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] flex items-center justify-center transition-colors cursor-pointer"
+                    className="w-7 h-7 sm:w-8 sm:h-8 bg-[#132921] border border-[#D4AF72]/20 text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72] flex items-center justify-center transition-colors cursor-pointer"
                   >
                     <X className="w-4 h-4" />
                   </button>

@@ -306,11 +306,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
 
         {/* Footer Construction & Action */}
-        <div className="flex items-center justify-between pt-2 border-t border-[#D4AF72]/10 text-xs font-medium">
-          <span className="text-[#A5A19A] tabular-nums truncate pr-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 pt-2 border-t border-[#D4AF72]/10 text-[11px] font-medium">
+          <span className="text-[#A5A19A] tabular-nums leading-snug">
             Construction {project.constructionPct}% · {project.status}
           </span>
-          <span className="text-[#D4AF72] group-hover:underline whitespace-nowrap shrink-0">
+          <span className="text-[#D4AF72] group-hover:underline whitespace-nowrap shrink-0 ml-auto">
             {t.viewDetails} →
           </span>
         </div>

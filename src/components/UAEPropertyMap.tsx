@@ -1313,73 +1313,63 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                       GULF OF OMAN
                     </text>
 
-                    {/* Active Emirate Reference Labels with Staggered Callouts (Zero Overlap) */}
-                    {activeEmirates.map((em) => {
-                      const pt = projectLatLngToGeoSvg(EMIRATE_MAP_CENTERS[em]);
-                      const offsetMap: Record<
-                        EmiratesName,
-                        { dx: number; dy: number; anchor: 'start' | 'middle' | 'end' }
-                      > = {
-                        'Abu Dhabi': { dx: -8, dy: 20, anchor: 'middle' },
-                        Dubai: { dx: -52, dy: -28, anchor: 'end' },
-                        Sharjah: { dx: 42, dy: 16, anchor: 'start' },
-                        Ajman: { dx: 44, dy: -6, anchor: 'start' },
-                        'Umm Al Quwain': { dx: -16, dy: -32, anchor: 'end' },
-                        'Ras Al Khaimah': { dx: 14, dy: -16, anchor: 'start' },
-                        Fujairah: { dx: 12, dy: 12, anchor: 'start' },
-                      };
-                      const cfg = offsetMap[em] ?? { dx: 8, dy: -6, anchor: 'start' as const };
-                      const lx = pt.x + cfg.dx / fallbackZoomLevel;
-                      const ly = pt.y + cfg.dy / fallbackZoomLevel;
-                      return (
-                        <g
-                          key={`svg-em-${em}`}
-                          onClick={() => handleEmirateChange(em)}
-                          className="cursor-pointer"
-                        >
-                          <line
-                            x1={pt.x}
-                            y1={pt.y}
-                            x2={lx}
-                            y2={ly - 2 / fallbackZoomLevel}
-                            stroke="rgba(212, 175, 114, 0.45)"
-                            strokeWidth={0.9 / fallbackZoomLevel}
-                          />
-                          <circle
-                            cx={pt.x}
-                            cy={pt.y}
-                            r={2.5 / fallbackZoomLevel}
-                            fill="#D4AF72"
-                            fillOpacity={0.85}
-                          />
-                          <text
-                            x={lx}
-                            y={ly}
-                            textAnchor={cfg.anchor}
-                            fill="#D4AF72"
-                            fillOpacity={0.92}
-                            fontSize={9.5 / fallbackZoomLevel}
-                            fontWeight="600"
-                          >
-                            {em}
-                          </text>
-                        </g>
-                      );
-                    })}
-
-                    {/* Clustered Project Markers with Label Collision Avoidance */}
+                    {/* Active Emirate Reference Labels & Clustered Project Markers (Unified Collision Avoidance) */}
                     {(() => {
+                      const invZoom = 1 / fallbackZoomLevel;
+                      const charW = 5.6 * invZoom;
+                      const boxH = 12.5 * invZoom;
                       const placedBoxes: Array<{
                         x1: number;
                         y1: number;
                         x2: number;
                         y2: number;
                       }> = [];
-                      const invZoom = 1 / fallbackZoomLevel;
-                      const charW = 5.4 * invZoom;
-                      const boxH = 12 * invZoom;
 
-                      return fallbackClusters.map((cluster) => {
+                      const offsetMap: Record<
+                        EmiratesName,
+                        { dx: number; dy: number; anchor: 'start' | 'middle' | 'end' }
+                      > = {
+                        'Abu Dhabi': { dx: -18, dy: 28, anchor: 'end' },
+                        Dubai: { dx: -56, dy: -28, anchor: 'end' },
+                        Sharjah: { dx: 54, dy: -10, anchor: 'start' },
+                        Ajman: { dx: 48, dy: -24, anchor: 'start' },
+                        'Umm Al Quwain': { dx: -22, dy: -32, anchor: 'end' },
+                        'Ras Al Khaimah': { dx: 16, dy: -18, anchor: 'start' },
+                        Fujairah: { dx: 14, dy: 14, anchor: 'start' },
+                      };
+
+                      const emirateEntries = activeEmirates.map((em) => {
+                        const pt = projectLatLngToGeoSvg(EMIRATE_MAP_CENTERS[em]);
+                        const cfg = offsetMap[em] ?? { dx: 8, dy: -6, anchor: 'start' as const };
+                        const lx = pt.x + cfg.dx * invZoom;
+                        const ly = pt.y + cfg.dy * invZoom;
+                        const emW = Math.max(36 * invZoom, em.length * charW);
+                        const tx1 =
+                          cfg.anchor === 'start'
+                            ? lx
+                            : cfg.anchor === 'end'
+                            ? lx - emW
+                            : lx - emW / 2;
+                        const tx2 = tx1 + emW;
+
+                        // Reserve both Emirate dot and Emirate text label boxes
+                        placedBoxes.push({
+                          x1: pt.x - 5 * invZoom,
+                          y1: pt.y - 5 * invZoom,
+                          x2: pt.x + 5 * invZoom,
+                          y2: pt.y + 5 * invZoom,
+                        });
+                        placedBoxes.push({
+                          x1: tx1 - 2 * invZoom,
+                          y1: ly - boxH,
+                          x2: tx2 + 2 * invZoom,
+                          y2: ly + 3 * invZoom,
+                        });
+
+                        return { em, pt, cfg, lx, ly };
+                      });
+
+                      const clusterEntries = fallbackClusters.map((cluster) => {
                         const pt = projectLatLngToGeoSvg(cluster.center);
                         const isSingle = cluster.projects.length === 1;
                         const singleProj = cluster.projects[0];
@@ -1394,83 +1384,141 @@ export const UAEPropertyMap: React.FC<UAEPropertyMapProps> = ({
                               true
                             )}`;
                         const r = isSingle
-                          ? 5 / fallbackZoomLevel
-                          : Math.min(11, 6.5 + Math.log2(cluster.projects.length) * 1.6) /
-                            fallbackZoomLevel;
+                          ? 5 * invZoom
+                          : Math.min(11, 6.5 + Math.log2(cluster.projects.length) * 1.6) * invZoom;
 
-                        const estW = Math.max(38 * invZoom, label.length * charW);
-                        const candidateOffsets: Array<{
-                          dx: number;
-                          dy: number;
-                          anchor: 'start' | 'end';
-                        }> = [
-                          { dx: r + 4 * invZoom, dy: 3 * invZoom, anchor: 'start' },
-                          { dx: -(r + 4 * invZoom), dy: 3 * invZoom, anchor: 'end' },
-                          { dx: r + 4 * invZoom, dy: 15 * invZoom, anchor: 'start' },
-                          { dx: r + 4 * invZoom, dy: -11 * invZoom, anchor: 'start' },
-                          { dx: -(r + 4 * invZoom), dy: 15 * invZoom, anchor: 'end' },
-                        ];
+                        // Reserve pin circle bounding box before placing any cluster text label
+                        placedBoxes.push({
+                          x1: pt.x - (r + 3 * invZoom),
+                          y1: pt.y - (r + 3 * invZoom),
+                          x2: pt.x + (r + 3 * invZoom),
+                          y2: pt.y + (r + 3 * invZoom),
+                        });
 
-                        let chosenOffset: (typeof candidateOffsets)[number] | null = null;
-                        for (const cand of candidateOffsets) {
-                          const tx = pt.x + cand.dx;
-                          const ty = pt.y + cand.dy;
-                          const x1 = cand.anchor === 'start' ? tx : tx - estW;
-                          const x2 = cand.anchor === 'start' ? tx + estW : tx;
-                          const y1 = ty - boxH;
-                          const y2 = ty + 2 * invZoom;
-                          const collides = placedBoxes.some(
-                            (b) => !(x2 < b.x1 || x1 > b.x2 || y2 < b.y1 || y1 > b.y2)
-                          );
-                          if (!collides) {
-                            chosenOffset = cand;
-                            placedBoxes.push({ x1, y1, x2, y2 });
-                            break;
-                          }
-                        }
+                        return { cluster, pt, isSingle, singleProj, isSelected, label, r };
+                      });
 
-                        return (
-                          <g
-                            key={cluster.id}
-                            onClick={() => {
-                              if (isSingle) {
-                                setActiveFallbackCluster(null);
-                                setActiveProject(singleProj);
-                              } else {
-                                setFallbackFocus(pt);
-                                if (fallbackZoomLevel < 3.4) {
-                                  setFallbackZoomLevel((z) => Math.min(4.2, +(z + 1.1).toFixed(1)));
-                                  setActiveFallbackCluster(null);
-                                } else {
-                                  setActiveFallbackCluster(cluster);
-                                }
-                              }
-                            }}
-                            className="cursor-pointer"
-                          >
-                            <circle
-                              cx={pt.x}
-                              cy={pt.y}
-                              r={r}
-                              fill={isSelected ? '#F5F1E8' : '#D4AF72'}
-                              stroke="#080808"
-                              strokeWidth={1.5 / fallbackZoomLevel}
-                            />
-                            {(chosenOffset || isSelected) && (
+                      return (
+                        <>
+                          {emirateEntries.map(({ em, pt, cfg, lx, ly }) => (
+                            <g
+                              key={`svg-em-${em}`}
+                              onClick={() => handleEmirateChange(em)}
+                              className="cursor-pointer"
+                            >
+                              <line
+                                x1={pt.x}
+                                y1={pt.y}
+                                x2={lx}
+                                y2={ly - 2 * invZoom}
+                                stroke="rgba(212, 175, 114, 0.45)"
+                                strokeWidth={0.9 * invZoom}
+                              />
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r={2.5 * invZoom}
+                                fill="#D4AF72"
+                                fillOpacity={0.85}
+                              />
                               <text
-                                x={pt.x + (chosenOffset?.dx ?? r + 4 * invZoom)}
-                                y={pt.y + (chosenOffset?.dy ?? 3 * invZoom)}
-                                textAnchor={chosenOffset?.anchor ?? 'start'}
-                                fill={isSelected ? '#F5F1E8' : '#E6C77A'}
-                                fontSize={9.5 / fallbackZoomLevel}
+                                x={lx}
+                                y={ly}
+                                textAnchor={cfg.anchor}
+                                fill="#D4AF72"
+                                fillOpacity={0.92}
+                                fontSize={9.5 * invZoom}
                                 fontWeight="600"
                               >
-                                {label}
+                                {em}
                               </text>
-                            )}
-                          </g>
-                        );
-                      });
+                            </g>
+                          ))}
+
+                          {clusterEntries.map(
+                            ({ cluster, pt, isSingle, singleProj, isSelected, label, r }) => {
+                              const estW = Math.max(40 * invZoom, label.length * charW);
+                              const candidateOffsets: Array<{
+                                dx: number;
+                                dy: number;
+                                anchor: 'start' | 'end';
+                              }> = [
+                                { dx: r + 5 * invZoom, dy: 3 * invZoom, anchor: 'start' },
+                                { dx: -(r + 5 * invZoom), dy: 3 * invZoom, anchor: 'end' },
+                                { dx: -(r + 5 * invZoom), dy: -10 * invZoom, anchor: 'end' },
+                                { dx: r + 5 * invZoom, dy: -10 * invZoom, anchor: 'start' },
+                                { dx: r + 5 * invZoom, dy: 15 * invZoom, anchor: 'start' },
+                                { dx: -(r + 5 * invZoom), dy: 15 * invZoom, anchor: 'end' },
+                                { dx: -(r + 12 * invZoom), dy: -18 * invZoom, anchor: 'end' },
+                                { dx: r + 12 * invZoom, dy: 24 * invZoom, anchor: 'start' },
+                                { dx: -(r + 12 * invZoom), dy: 24 * invZoom, anchor: 'end' },
+                              ];
+
+                              let chosenOffset: (typeof candidateOffsets)[number] | null = null;
+                              for (const cand of candidateOffsets) {
+                                const tx = pt.x + cand.dx;
+                                const ty = pt.y + cand.dy;
+                                const x1 = cand.anchor === 'start' ? tx : tx - estW;
+                                const x2 = cand.anchor === 'start' ? tx + estW : tx;
+                                const y1 = ty - boxH;
+                                const y2 = ty + 3 * invZoom;
+                                const collides = placedBoxes.some(
+                                  (b) => !(x2 < b.x1 || x1 > b.x2 || y2 < b.y1 || y1 > b.y2)
+                                );
+                                if (!collides) {
+                                  chosenOffset = cand;
+                                  placedBoxes.push({ x1, y1, x2, y2 });
+                                  break;
+                                }
+                              }
+
+                              return (
+                                <g
+                                  key={cluster.id}
+                                  onClick={() => {
+                                    if (isSingle) {
+                                      setActiveFallbackCluster(null);
+                                      setActiveProject(singleProj);
+                                    } else {
+                                      setFallbackFocus(pt);
+                                      if (fallbackZoomLevel < 3.4) {
+                                        setFallbackZoomLevel((z) =>
+                                          Math.min(4.2, +(z + 1.1).toFixed(1))
+                                        );
+                                        setActiveFallbackCluster(null);
+                                      } else {
+                                        setActiveFallbackCluster(cluster);
+                                      }
+                                    }
+                                  }}
+                                  className="cursor-pointer"
+                                >
+                                  <circle
+                                    cx={pt.x}
+                                    cy={pt.y}
+                                    r={r}
+                                    fill={isSelected ? '#F5F1E8' : '#D4AF72'}
+                                    stroke="#080808"
+                                    strokeWidth={1.5 * invZoom}
+                                  />
+                                  {(chosenOffset || isSelected) && (
+                                    <text
+                                      x={pt.x + (chosenOffset?.dx ?? r + 5 * invZoom)}
+                                      y={pt.y + (chosenOffset?.dy ?? 3 * invZoom)}
+                                      textAnchor={chosenOffset?.anchor ?? 'start'}
+                                      fill={isSelected ? '#F5F1E8' : '#E6C77A'}
+                                      fontSize={9.5 * invZoom}
+                                      fontWeight="600"
+                                    >
+                                      {label}
+                                    </text>
+                                  )}
+                                </g>
+                              );
+                            }
+                          )}
+                        </>
+                      );
                     })()}
                   </svg>
 

@@ -128,7 +128,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
       </div>
 
       {/* Core Search Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[minmax(260px,2.1fr)_repeat(5,minmax(0,1fr))] gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[minmax(200px,1.35fr)_minmax(178px,1.25fr)_minmax(148px,1.05fr)_minmax(130px,0.9fr)_minmax(125px,0.9fr)_minmax(168px,1.15fr)] gap-3">
         <div className="sm:col-span-2 md:col-span-2 xl:col-span-1 relative min-w-0">
           <Search className="w-4 h-4 text-[#A5A19A] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
@@ -144,7 +144,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.emirate}
           onChange={(e) => update('emirate', e.target.value)}
           aria-label="Filter by Emirate"
-          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">All Active Emirates</option>
           {emirateOptions.map((em) => (
@@ -158,7 +158,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.propertyType}
           onChange={(e) => update('propertyType', e.target.value)}
           aria-label="Filter by Property Type"
-          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">{t.allTypes}</option>
           {PROPERTY_TYPES.map((pt) => (
@@ -172,7 +172,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.bedroomCount}
           onChange={(e) => update('bedroomCount', e.target.value)}
           aria-label="Filter by Bedroom Configuration"
-          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">Any Bedrooms</option>
           <option value="Studio">Studio</option>
@@ -187,7 +187,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.category}
           onChange={(e) => update('category', e.target.value)}
           aria-label="Filter by Construction Status"
-          className="w-full min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/25 text-sm text-[#F5F1E8] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="">All Statuses</option>
           {CATEGORIES.map((cat) => (
@@ -201,7 +201,7 @@ export const SearchEngineBar: React.FC<SearchEngineBarProps> = ({
           value={filters.sortBy}
           onChange={(e) => update('sortBy', e.target.value as SortOption)}
           aria-label={t.sortLabel}
-          className="w-full min-w-0 h-10 px-3 bg-[#080808] border border-[#D4AF72]/45 text-sm font-medium text-[#D4AF72] focus:outline-none focus:border-[#D4AF72]"
+          className="w-full min-w-0 h-10 px-2.5 bg-[#080808] border border-[#D4AF72]/45 text-sm font-medium text-[#D4AF72] focus:outline-none focus:border-[#D4AF72]"
         >
           <option value="featured">Sort: Featured</option>
           <option value="lowest_price">Sort: Lowest Price</option>
