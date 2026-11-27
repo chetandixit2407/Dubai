@@ -1808,7 +1808,7 @@ export function createApiApp(): Express {
 
   // Sliding-Window Rate Limiter for AI Dubai Property Advisor (25 req/min per IP)
   const advisorRateWindow = new Map<string, number[]>();
-  app.post('/api/ai/property-recommendations', async (req, res) => {
+  const handleAdvisorRecommendations = async (req: Request, res: Response) => {
     const clientIp = String(
       req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown'
     )
@@ -1865,7 +1865,7 @@ export function createApiApp(): Express {
         : 'auto';
 
     logServerEvent('info', 'route_execution_started', {
-      route: '/api/ai/property-recommendations',
+      route: req.path,
       hasMessage: Boolean(msg),
       language: sanitizedLanguage,
       currency: body.preferences?.currency || 'AED',
@@ -1885,7 +1885,7 @@ export function createApiApp(): Express {
       res.json(result);
     } catch (err) {
       logServerError('advisor_route_error', err, {
-        route: '/api/ai/property-recommendations',
+        route: req.path,
       });
       res.status(500).json({
         ok: false,
@@ -1895,7 +1895,9 @@ export function createApiApp(): Express {
             : 'Unable to generate Dubai property recommendations right now.',
       });
     }
-  });
+  };
+  app.post('/api/ai/property-recommendations', handleAdvisorRecommendations);
+  app.post('/api/property-recommendations', handleAdvisorRecommendations);
 
   // Automated Tour Discovery Scanner across all 182 projects
   app.post('/api/tours/scan-all', async (req, res) => {
