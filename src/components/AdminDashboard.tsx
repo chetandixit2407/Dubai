@@ -73,6 +73,7 @@ import {
   broadcastRealtimeEvent,
   geocodeAddressOnServer,
   parseBulkCsvOnServer,
+  refreshProjectTelemetryOnServer,
   triggerServerSyncRun,
   triggerWebhookTest,
 } from '../services/apiClient.ts';
@@ -216,18 +217,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleRefreshAllTelemetry = async () => {
     setRefreshingTelemetry(true);
     try {
-      const resp = await fetch('/api/projects/refresh-telemetry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
-      });
-      const data = await resp.json();
-      if (resp.ok) {
-        notify('ok', `Successfully refreshed live telemetry & DLD/RERA metadata across all ${projects.length} properties.`);
-        await broadcastRealtimeEvent('sync:completed', { totalRefreshed: projects.length });
-      } else {
-        notify('err', data.error || 'Failed to refresh telemetry.');
-      }
+      await refreshProjectTelemetryOnServer();
+      notify('ok', `Successfully refreshed live telemetry & DLD/RERA metadata across all ${projects.length} properties.`);
+      await broadcastRealtimeEvent('sync:completed', { totalRefreshed: projects.length });
     } catch (e: any) {
       notify('err', e.message || 'Connection error while refreshing telemetry.');
     } finally {

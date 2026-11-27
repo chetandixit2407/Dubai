@@ -1,6 +1,119 @@
 import { auth } from '../lib/firebase.ts';
 import { ExcelImportReport, Project } from '../types/realEstate.ts';
 
+export class ApiClientError extends Error {
+  status: number;
+  contentType: string;
+
+  constructor(message: string, status: number, contentType: string) {
+    super(message);
+    this.name = 'ApiClientError';
+    this.status = status;
+    this.contentType = contentType;
+  }
+}
+
+export async function parseApiResponse<T>(
+  res: Response,
+  fallbackErrorMessage = 'API request failed'
+): Promise<T> {
+  const contentType = (res.headers.get('content-type') || '').toLowerCase();
+  let rawText = '';
+
+  try {
+    rawText = await res.text();
+  } catch {
+    throw new ApiClientError(
+      `${fallbackErrorMessage}: unable to read server response (HTTP ${res.status}).`,
+      res.status,
+      contentType
+    );
+  }
+
+  const trimmed = rawText.trim();
+  const isJsonContentType =
+    contentType.includes('application/json') || contentType.includes('+json');
+  const looksLikeHtml =
+    contentType.includes('text/html') ||
+    /^<!doctype\s+html/i.test(trimmed) ||
+    /^<html[\s>]/i.test(trimmed);
+  const looksLikeVercelNotFound =
+    /the page could not be found/i.test(trimmed) ||
+    /vercel.*not[_\s-]?found/i.test(trimmed);
+
+  if (looksLikeHtml || looksLikeVercelNotFound) {
+    if (res.status === 404 || looksLikeVercelNotFound) {
+      throw new ApiClientError(
+        `${fallbackErrorMessage}: API endpoint not found (HTTP 404). Please verify the backend API routing.`,
+        res.status || 404,
+        contentType
+      );
+    }
+    throw new ApiClientError(
+      `${fallbackErrorMessage}: server returned an HTML page instead of JSON (HTTP ${res.status}).`,
+      res.status,
+      contentType
+    );
+  }
+
+  if (!trimmed) {
+    throw new ApiClientError(
+      res.ok
+        ? `${fallbackErrorMessage}: server returned an empty response.`
+        : `${fallbackErrorMessage} (HTTP ${res.status}${res.statusText ? ` ${res.statusText}` : ''}).`,
+      res.status,
+      contentType
+    );
+  }
+
+  if (!isJsonContentType) {
+    try {
+      const parsed = JSON.parse(trimmed) as T & { error?: unknown; message?: unknown };
+      if (!res.ok) {
+        const serverMsg =
+          typeof parsed?.error === 'string' && parsed.error.trim()
+            ? parsed.error
+            : typeof parsed?.message === 'string' && parsed.message.trim()
+            ? parsed.message
+            : `${fallbackErrorMessage} (HTTP ${res.status})`;
+        throw new ApiClientError(serverMsg, res.status, contentType);
+      }
+      return parsed;
+    } catch (err) {
+      if (err instanceof ApiClientError) throw err;
+      const preview = trimmed.replace(/\s+/g, ' ').slice(0, 120);
+      throw new ApiClientError(
+        `${fallbackErrorMessage}: expected JSON response but received "${contentType || 'unknown'}" (HTTP ${res.status}${preview ? ` — ${preview}` : ''}).`,
+        res.status,
+        contentType
+      );
+    }
+  }
+
+  let parsed: T & { error?: unknown; message?: unknown };
+  try {
+    parsed = JSON.parse(trimmed) as T & { error?: unknown; message?: unknown };
+  } catch {
+    throw new ApiClientError(
+      `${fallbackErrorMessage}: received invalid JSON from server (HTTP ${res.status}).`,
+      res.status,
+      contentType
+    );
+  }
+
+  if (!res.ok) {
+    const serverMsg =
+      typeof parsed?.error === 'string' && parsed.error.trim()
+        ? parsed.error
+        : typeof parsed?.message === 'string' && parsed.message.trim()
+        ? parsed.message
+        : `${fallbackErrorMessage} (HTTP ${res.status})`;
+    throw new ApiClientError(serverMsg, res.status, contentType);
+  }
+
+  return parsed;
+}
+
 async function getOptionalAuthHeaders(): Promise<Record<string, string>> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -19,8 +132,10 @@ export async function fetchClientConfig(): Promise<{ mapsApiKey: string }> {
   }
   try {
     const res = await fetch('/api/client-config');
-    if (!res.ok) return { mapsApiKey: '' };
-    return await res.json();
+    return await parseApiResponse<{ mapsApiKey: string }>(
+      res,
+      'Failed to load client configuration'
+    );
   } catch {
     return { mapsApiKey: '' };
   }
@@ -71,11 +186,7 @@ export async function triggerServerSyncRun(params: {
     headers,
     body: JSON.stringify(params),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Sync execution failed');
-  }
-  return data;
+  return parseApiResponse<any>(res, 'Sync execution failed');
 }
 
 export async function triggerWebhookTest(params: {
@@ -92,11 +203,7 @@ export async function triggerWebhookTest(params: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Webhook push failed');
-  }
-  return data;
+  return parseApiResponse<any>(res, 'Webhook push failed');
 }
 
 export async function parseBulkCsvOnServer(csvText: string, existingSlugs: string[]) {
@@ -106,11 +213,7 @@ export async function parseBulkCsvOnServer(csvText: string, existingSlugs: strin
     headers,
     body: JSON.stringify({ csvText, existingSlugs }),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'CSV parsing failed');
-  }
-  return data;
+  return parseApiResponse<any>(res, 'CSV parsing failed');
 }
 
 export interface ExcelUploadResponse {
@@ -131,11 +234,7 @@ export async function uploadExcelWorkbookOnServer(params: {
     headers,
     body: JSON.stringify(params),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Excel import parsing failed');
-  }
-  return data as ExcelUploadResponse;
+  return parseApiResponse<ExcelUploadResponse>(res, 'Excel import parsing failed');
 }
 
 export interface ProjectUrlRetrievalResponse {
@@ -168,11 +267,10 @@ export async function retrieveProjectFromUrlOnServer(params: {
     headers,
     body: JSON.stringify(params),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to retrieve project metadata from URL');
-  }
-  return data as ProjectUrlRetrievalResponse;
+  return parseApiResponse<ProjectUrlRetrievalResponse>(
+    res,
+    'Failed to retrieve project metadata from URL'
+  );
 }
 
 export interface InvestmentAnalysisResponse {
@@ -207,11 +305,7 @@ export async function analyzeInvestmentOnServer(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Investment calculation failed');
-  }
-  return data;
+  return parseApiResponse<InvestmentAnalysisResponse>(res, 'Investment calculation failed');
 }
 
 export interface TourScanItem {
@@ -245,11 +339,7 @@ export async function scanAllProjectTours(probeNetwork = false): Promise<TourSca
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ probeNetwork }),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to scan project tours');
-  }
-  return data;
+  return parseApiResponse<TourScanResponse>(res, 'Failed to scan project tours');
 }
 
 export interface TourLinkCheckResult {
@@ -269,17 +359,12 @@ export async function checkTourLink(url: string): Promise<TourLinkCheckResult> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url }),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to check tour link');
-  }
-  return data;
+  return parseApiResponse<TourLinkCheckResult>(res, 'Failed to check tour link');
 }
 
 export async function fetchCompanyInfoServer(): Promise<any> {
   const res = await fetch('/api/company-info');
-  if (!res.ok) throw new Error('Failed to fetch company info');
-  return res.json();
+  return parseApiResponse<any>(res, 'Failed to fetch company info');
 }
 
 export async function refreshProjectTelemetryOnServer(projectId?: string): Promise<{
@@ -298,11 +383,17 @@ export async function refreshProjectTelemetryOnServer(projectId?: string): Promi
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ projectId }),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to refresh telemetry');
-  }
-  return data;
+  return parseApiResponse<{
+    ok: boolean;
+    projectId?: string;
+    projectName?: string;
+    totalRefreshed?: number;
+    lastVerifiedAt?: string;
+    source?: string;
+    status: string;
+    message?: string;
+    inventory?: LiveInventoryOverlayRecord | null;
+  }>(res, 'Failed to refresh telemetry');
 }
 
 export async function fetchCompletenessReportServer(): Promise<{
@@ -319,8 +410,7 @@ export async function fetchCompletenessReportServer(): Promise<{
   standards: string;
 }> {
   const res = await fetch('/api/projects/completeness-report');
-  if (!res.ok) throw new Error('Failed to fetch completeness report');
-  return res.json();
+  return parseApiResponse(res, 'Failed to fetch completeness report');
 }
 
 export interface GeocodeResultItem {
@@ -345,11 +435,7 @@ export async function geocodeAddressOnServer(
     region,
   });
   const res = await fetch(`/api/geocode?${params.toString()}`);
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Unable to locate address via Google Geocoding');
-  }
-  return data;
+  return parseApiResponse(res, 'Unable to locate address via Google Geocoding');
 }
 
 export interface LiveInventoryOverlayRecord {
@@ -374,8 +460,10 @@ export async function fetchLiveInventoryUpdates(): Promise<{
 }> {
   try {
     const res = await fetch('/api/inventory/live-updates');
-    if (!res.ok) return { updates: {}, telemetryCheckedAt: {} };
-    return await res.json();
+    return await parseApiResponse<{
+      updates: Record<string, LiveInventoryOverlayRecord>;
+      telemetryCheckedAt: Record<string, string>;
+    }>(res, 'Failed to fetch live inventory updates');
   } catch {
     return { updates: {}, telemetryCheckedAt: {} };
   }
@@ -391,11 +479,7 @@ export async function fetchProjectInventoryStatus(projectId: string): Promise<{
   contactMessage: string;
 }> {
   const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/inventory`);
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to fetch project inventory');
-  }
-  return data;
+  return parseApiResponse(res, 'Failed to fetch project inventory');
 }
 
 export interface ServerFxRatesResponse {
@@ -467,11 +551,7 @@ export interface DubaiAdvisorResponse {
 
 export async function fetchServerFxRates(): Promise<ServerFxRatesResponse> {
   const res = await fetch('/api/fx-rates');
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to fetch FX rates');
-  }
-  return data as ServerFxRatesResponse;
+  return parseApiResponse<ServerFxRatesResponse>(res, 'Failed to fetch FX rates');
 }
 
 export async function fetchDubaiAdvisorRecommendations(params: {
@@ -492,13 +572,8 @@ export async function fetchDubaiAdvisorRecommendations(params: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
   });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to get property recommendations');
-  }
-  return data as DubaiAdvisorResponse;
+  return parseApiResponse<DubaiAdvisorResponse>(
+    res,
+    'Failed to get property recommendations'
+  );
 }
-
-
-
-
