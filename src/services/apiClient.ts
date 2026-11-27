@@ -1,5 +1,10 @@
 import { auth } from '../lib/firebase.ts';
-import { ExcelImportReport, Project } from '../types/realEstate.ts';
+import {
+  AdvisorLanguagePreference,
+  AdvisorResolvedLanguage,
+  ExcelImportReport,
+  Project,
+} from '../types/realEstate.ts';
 
 export class ApiClientError extends Error {
   status: number;
@@ -535,6 +540,7 @@ export interface DubaiAdvisorResponse {
   aiNotice?: string;
   recommendations: AdvisorRecommendationCard[];
   hasExactMatches: boolean;
+  detectedLanguage?: AdvisorResolvedLanguage;
   fxInfo: {
     selectedCurrency: 'AED' | 'USD' | 'INR' | 'GBP' | 'EUR' | 'SAR';
     rateFromAed: number;
@@ -551,6 +557,8 @@ export interface DubaiAdvisorResponse {
     location: string;
     propertyType: string;
     purpose: string;
+    language?: AdvisorLanguagePreference;
+    detectedLanguage?: AdvisorResolvedLanguage;
   };
   followUpSuggestions: string[];
   dataSource: 'firebase_firestore_merged' | 'verified_catalog_baseline';
@@ -573,6 +581,7 @@ export async function fetchDubaiAdvisorRecommendations(params: {
   };
   history: Array<{ role: 'user' | 'assistant'; content: string }>;
   previousProjectIds: string[];
+  language?: AdvisorLanguagePreference;
 }): Promise<DubaiAdvisorResponse> {
   const res = await fetch('/api/ai/property-recommendations', {
     method: 'POST',

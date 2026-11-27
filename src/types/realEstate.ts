@@ -1,5 +1,9 @@
 export type Language = 'en' | 'ar';
 
+export type AdvisorLanguagePreference = 'auto' | 'en' | 'hi' | 'hinglish';
+
+export type AdvisorResolvedLanguage = 'en' | 'hi' | 'hinglish';
+
 export type CurrencyCode = 'AED' | 'USD' | 'INR' | 'GBP' | 'EUR' | 'SAR';
 
 export type EmiratesName =

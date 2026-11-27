@@ -8,6 +8,7 @@ import {
   Compass,
   CreditCard,
   Info,
+  Languages,
   MapPin,
   MessageSquare,
   RotateCcw,
@@ -18,7 +19,12 @@ import {
   User as UserIcon,
   X,
 } from 'lucide-react';
-import { CurrencyCode, Project } from '../types/realEstate.ts';
+import {
+  AdvisorLanguagePreference,
+  AdvisorResolvedLanguage,
+  CurrencyCode,
+  Project,
+} from '../types/realEstate.ts';
 import {
   AdvisorRecommendationCard,
   DubaiAdvisorResponse,
@@ -26,6 +32,7 @@ import {
   fetchServerFxRates,
   ServerFxRatesResponse,
 } from '../services/apiClient.ts';
+import { ADVISOR_CHAT_TRANSLATIONS } from '../i18n/translations.ts';
 import { CURRENCY_RATES_FROM_AED, EXCHANGE_RATE_UPDATED_AT } from '../utils/currency.ts';
 
 interface DubaiAdvisorChatbotProps {
@@ -49,16 +56,21 @@ interface ChatMessage {
   fxSnapshotNote?: string;
 }
 
-const WELCOME_MESSAGE =
-  "Hello! I'm your Dubai Property Advisor. Tell me your investment budget and preferred location, and I'll help you discover suitable property projects.";
+const DEVANAGARI_PATTERN = /[\u0900-\u097F]/;
+const HINGLISH_PATTERN =
+  /\b(mujhe|mujhko|chahiye|chaahiye|dikhao|dikhaiye|batao|bataiye|bataye|kaunsa|kaunse|konsa|konse|kitna|kitne|kya|hai|hain|nahi|nahin|mein|karod|karor|hazar|hazaar|rupaye|rupye|mera|meri|mere|ghar|kiraya|kiraye|nivesh|lena|khareedna|behtar|accha|achha|sasta|sabse|milega|milegi|dega|kist|kab|rehne|karo|ke andar|se kam|ke liye|ke beech|se zyada|se jyada)\b/i;
 
-const SUGGESTED_QUESTIONS: string[] = [
-  'I have ₹1 crore. Suggest Dubai properties.',
-  'Show me projects under AED 800,000 in JVC.',
-  'I want a 2-bedroom apartment in Business Bay.',
-  'Which projects are suitable for rental investment?',
-  'Can I invest with a budget of AED 500K?',
-];
+function detectClientAdvisorLanguage(
+  text: string,
+  fallback: AdvisorResolvedLanguage = 'en'
+): AdvisorResolvedLanguage {
+  const trimmed = (text || '').trim();
+  if (!trimmed) return fallback;
+  if (DEVANAGARI_PATTERN.test(trimmed)) return 'hi';
+  if (HINGLISH_PATTERN.test(trimmed)) return 'hinglish';
+  if (/[a-zA-Z]{2,}/.test(trimmed)) return 'en';
+  return fallback;
+}
 
 const DUBAI_LOCATION_OPTIONS: string[] = [
   'Dubai Marina',
@@ -78,25 +90,27 @@ const PROPERTY_TYPE_OPTIONS: string[] = [
   '1 Bedroom',
   '2 Bedroom',
   '3 Bedroom',
+  'Apartment',
   'Villa',
   'Townhouse',
   'Penthouse',
 ];
 
 const PURPOSE_OPTIONS: Array<
-  '' | 'Investment' | 'Personal living' | 'Rental income' | 'Capital appreciation'
+  'Investment' | 'Personal living' | 'Rental income' | 'Capital appreciation'
 > = ['Investment', 'Personal living', 'Rental income', 'Capital appreciation'];
 
 const CURRENCIES: CurrencyCode[] = ['AED', 'INR', 'USD', 'GBP', 'EUR', 'SAR'];
 
-function createInitialMessages(): ChatMessage[] {
+function createInitialMessages(lang: AdvisorResolvedLanguage = 'en'): ChatMessage[] {
+  const copy = ADVISOR_CHAT_TRANSLATIONS[lang];
   return [
     {
       id: 'welcome-msg',
       role: 'assistant',
-      content: WELCOME_MESSAGE,
+      content: copy.welcomeMessage,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      followUpSuggestions: SUGGESTED_QUESTIONS.slice(0, 3),
+      followUpSuggestions: copy.suggestedQuestions.slice(0, 3),
     },
   ];
 }
@@ -110,10 +124,18 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
-  const [messages, setMessages] = useState<ChatMessage[]>(() => createInitialMessages());
+  const [languagePreference, setLanguagePreference] =
+    useState<AdvisorLanguagePreference>('auto');
+  const [detectedLanguage, setDetectedLanguage] =
+    useState<AdvisorResolvedLanguage>('en');
+  const [messages, setMessages] = useState<ChatMessage[]>(() => createInitialMessages('en'));
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorBanner, setErrorBanner] = useState<string | null>(null);
+
+  const activeLanguage: AdvisorResolvedLanguage =
+    languagePreference === 'auto' ? detectedLanguage : languagePreference;
+  const ui = ADVISOR_CHAT_TRANSLATIONS[activeLanguage];
 
   // Structured Preferences State (kept synced with conversational turns)
   const [currency, setCurrency] = useState<CurrencyCode>(defaultCurrency);
@@ -165,8 +187,44 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
     fxData?.ratesFromAed?.[currency] ?? CURRENCY_RATES_FROM_AED[currency] ?? 1;
   const activeFxDate = fxData?.lastUpdatedAt || EXCHANGE_RATE_UPDATED_AT;
 
+  const handleLanguageChange = (nextPref: AdvisorLanguagePreference) => {
+    setLanguagePreference(nextPref);
+
+    let nextResolved: AdvisorResolvedLanguage = detectedLanguage;
+    if (nextPref === 'en' || nextPref === 'hi' || nextPref === 'hinglish') {
+      nextResolved = nextPref;
+      setDetectedLanguage(nextPref);
+    } else {
+      const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+      nextResolved = lastUser
+        ? detectClientAdvisorLanguage(lastUser.content, 'en')
+        : 'en';
+      setDetectedLanguage(nextResolved);
+    }
+
+    // Never reset conversation history; only localize initial welcome card if chat has not begun
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].id === 'welcome-msg') {
+        const copy = ADVISOR_CHAT_TRANSLATIONS[nextResolved];
+        return [
+          {
+            ...prev[0],
+            content: copy.welcomeMessage,
+            followUpSuggestions: copy.suggestedQuestions.slice(0, 3),
+          },
+        ];
+      }
+      return prev;
+    });
+  };
+
   const handleClearChat = () => {
-    setMessages(createInitialMessages());
+    const resetLang: AdvisorResolvedLanguage =
+      languagePreference === 'auto' ? 'en' : languagePreference;
+    if (languagePreference === 'auto') {
+      setDetectedLanguage('en');
+    }
+    setMessages(createInitialMessages(resetLang));
     setLastRecommendedIds([]);
     setMinBudget('');
     setMaxBudget('');
@@ -191,33 +249,40 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
       !propertyType &&
       !purpose
     ) {
-      setErrorBanner('Select a budget, Dubai location, property type, or purpose first.');
+      setErrorBanner(ui.validationSelectCriteria);
       return;
     }
 
     if (minVal !== null && (!Number.isFinite(minVal) || minVal <= 0)) {
-      setErrorBanner('Minimum budget must be a valid positive number.');
+      setErrorBanner(ui.validationMinPositive);
       return;
     }
     if (maxVal !== null && (!Number.isFinite(maxVal) || maxVal <= 0)) {
-      setErrorBanner('Maximum budget must be a valid positive number.');
+      setErrorBanner(ui.validationMaxPositive);
       return;
     }
     if (minVal !== null && maxVal !== null && minVal > maxVal) {
-      setErrorBanner('Minimum budget cannot exceed maximum budget.');
+      setErrorBanner(ui.validationMinExceedsMax);
       return;
     }
 
     setErrorBanner(null);
 
+    const requestLangForTurn: AdvisorLanguagePreference =
+      fromFilterApply && !trimmed ? activeLanguage : languagePreference;
+
+    if (languagePreference === 'auto' && trimmed) {
+      setDetectedLanguage(detectClientAdvisorLanguage(trimmed, detectedLanguage));
+    }
+
     const displayUserPrompt =
       trimmed ||
       [
-        location || 'All Dubai',
-        propertyType || 'All property types',
-        maxVal ? `Up to ${currency} ${maxVal.toLocaleString()}` : '',
-        minVal ? `From ${currency} ${minVal.toLocaleString()}` : '',
-        purpose ? `Purpose: ${purpose}` : '',
+        location || ui.allLocationsLabel,
+        propertyType || ui.anyPropertyTypeLabel,
+        maxVal ? `<= ${currency} ${maxVal.toLocaleString()}` : '',
+        minVal ? `>= ${currency} ${minVal.toLocaleString()}` : '',
+        purpose ? ui.purposeLabels[purpose] : '',
       ]
         .filter(Boolean)
         .join(' · ');
@@ -253,7 +318,14 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
         },
         history: recentHistory,
         previousProjectIds: lastRecommendedIds,
+        language: requestLangForTurn,
       });
+
+      const resolvedLang =
+        response.resolvedContext?.detectedLanguage || response.detectedLanguage;
+      if (resolvedLang) {
+        setDetectedLanguage(resolvedLang);
+      }
 
       // Keep UI preference controls synchronized with extracted NLU context
       const ctx = response.resolvedContext;
@@ -297,10 +369,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
 
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : 'Unable to reach Dubai Property Advisor right now.';
+      const msg = err instanceof Error ? err.message : ui.genericNetworkError;
       setErrorBanner(msg);
     } finally {
       setIsLoading(false);
@@ -346,10 +415,10 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
           </span>
           <span className="text-left leading-tight">
             <span className="block text-xs font-semibold text-[#F5F1E8] tracking-wide">
-              Dubai Property Advisor
+              {ui.advisorTitle}
             </span>
             <span className="hidden sm:block text-[10px] text-[#D4AF72]">
-              AI Investment Consultant
+              {ui.launcherSubtitle}
             </span>
           </span>
         </button>
@@ -360,7 +429,8 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
         {isOpen && (
           <motion.aside
             role="dialog"
-            aria-label="Dubai Property Advisor"
+            lang={activeLanguage === 'hi' ? 'hi' : 'en'}
+            aria-label={ui.advisorTitle}
             initial={{ opacity: 0, y: 24, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.97 }}
@@ -368,26 +438,51 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
             className="fixed inset-x-2 bottom-2 top-14 sm:inset-auto sm:right-6 sm:bottom-6 z-50 sm:w-[460px] md:w-[500px] sm:h-[min(82vh,760px)] bg-[#080808] border border-[#D4AF72]/45 shadow-[0_24px_80px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <header className="px-4 py-3 bg-[#121212] border-b border-[#D4AF72]/25 flex items-center justify-between gap-2 shrink-0">
+            <header className="px-3 sm:px-4 py-3 bg-[#121212] border-b border-[#D4AF72]/25 flex items-center justify-between gap-2 shrink-0">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="w-9 h-9 bg-[#D4AF72] text-[#080808] flex items-center justify-center shrink-0">
                   <Building2 className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="font-display text-lg sm:text-xl font-medium text-[#F5F1E8] leading-tight truncate">
-                    Dubai Property Advisor
+                  <h2 className="font-display text-base sm:text-xl font-medium text-[#F5F1E8] leading-tight truncate">
+                    {ui.advisorTitle}
                   </h2>
-                  <p className="text-[11px] text-[#D4AF72] truncate">
-                    Verified UAE Catalog · Multi-Currency AI Consultant
+                  <p className="text-[10px] sm:text-[11px] text-[#D4AF72] truncate">
+                    {ui.headerSubtitle}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-1 shrink-0">
+                <div className="relative flex items-center h-8 bg-[#1B1B1B] border border-[#D4AF72]/30 hover:border-[#D4AF72]/60 transition-colors">
+                  <Languages className="w-3.5 h-3.5 text-[#D4AF72] ml-2 pointer-events-none shrink-0" />
+                  <select
+                    aria-label={ui.languageAriaLabel}
+                    title={ui.languageAriaLabel}
+                    value={languagePreference}
+                    onChange={(e) =>
+                      handleLanguageChange(e.target.value as AdvisorLanguagePreference)
+                    }
+                    className="h-full pl-1 pr-1.5 bg-transparent text-[11px] font-medium text-[#F5F1E8] focus:outline-none cursor-pointer"
+                  >
+                    <option value="auto" className="bg-[#121212] text-[#F5F1E8]">
+                      {ui.autoLabel}
+                    </option>
+                    <option value="en" className="bg-[#121212] text-[#F5F1E8]">
+                      English
+                    </option>
+                    <option value="hi" className="bg-[#121212] text-[#F5F1E8]">
+                      हिंदी
+                    </option>
+                    <option value="hinglish" className="bg-[#121212] text-[#F5F1E8]">
+                      Hinglish
+                    </option>
+                  </select>
+                </div>
                 <button
                   type="button"
                   onClick={() => setShowFilters((v) => !v)}
-                  title={showFilters ? 'Hide Search Preferences' : 'Show Search Preferences'}
+                  title={showFilters ? ui.hideCriteriaTitle : ui.showCriteriaTitle}
                   aria-label="Toggle search preferences"
                   className={`h-8 px-2 text-[11px] font-medium border flex items-center gap-1 transition-colors cursor-pointer ${
                     showFilters
@@ -396,17 +491,17 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                   }`}
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
-                  <span className="hidden xs:inline">Criteria</span>
+                  <span className="hidden xs:inline">{ui.criteriaBtn}</span>
                 </button>
                 <button
                   type="button"
                   onClick={handleClearChat}
-                  title="Clear conversation"
+                  title={ui.clearBtn}
                   aria-label="Clear chat"
                   className="h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/20 text-[11px] text-[#A5A19A] hover:text-[#F5F1E8] hover:border-[#D4AF72]/50 flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span className="hidden xs:inline">Clear</span>
+                  <span className="hidden sm:inline">{ui.clearBtn}</span>
                 </button>
                 <button
                   type="button"
@@ -425,10 +520,10 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 <div className="grid grid-cols-3 gap-2">
                   <div>
                     <label className="block text-[10px] uppercase tracking-wider text-[#A5A19A] mb-1">
-                      Currency
+                      {ui.currencyLabel}
                     </label>
                     <select
-                      aria-label="Preferred currency"
+                      aria-label={ui.currencyLabel}
                       value={currency}
                       onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
                       className="w-full h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] text-xs focus:outline-none focus:border-[#D4AF72]"
@@ -442,14 +537,14 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-[#A5A19A] mb-1">
-                      Min Budget ({currency})
+                    <label className="block text-[10px] uppercase tracking-wider text-[#A5A19A] mb-1 truncate">
+                      {ui.minBudgetLabel} ({currency})
                     </label>
                     <input
                       type="number"
                       min={0}
-                      placeholder="Optional"
-                      aria-label="Minimum budget"
+                      placeholder={ui.optionalPlaceholder}
+                      aria-label={ui.minBudgetLabel}
                       value={minBudget}
                       onChange={(e) => setMinBudget(e.target.value)}
                       className="w-full h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] text-xs font-mono-tabular placeholder:text-[#7C7871] focus:outline-none focus:border-[#D4AF72]"
@@ -457,14 +552,14 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-[#A5A19A] mb-1">
-                      Max Budget ({currency})
+                    <label className="block text-[10px] uppercase tracking-wider text-[#A5A19A] mb-1 truncate">
+                      {ui.maxBudgetLabel} ({currency})
                     </label>
                     <input
                       type="number"
                       min={0}
                       placeholder={currency === 'INR' ? 'e.g. 10000000' : 'e.g. 1500000'}
-                      aria-label="Maximum budget"
+                      aria-label={ui.maxBudgetLabel}
                       value={maxBudget}
                       onChange={(e) => setMaxBudget(e.target.value)}
                       className="w-full h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] text-xs font-mono-tabular placeholder:text-[#7C7871] focus:outline-none focus:border-[#D4AF72]"
@@ -479,7 +574,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     onChange={(e) => setLocation(e.target.value)}
                     className="w-full h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] text-xs focus:outline-none focus:border-[#D4AF72]"
                   >
-                    <option value="">All Dubai Locations</option>
+                    <option value="">{ui.allLocationsLabel}</option>
                     {DUBAI_LOCATION_OPTIONS.map((loc) => (
                       <option key={loc} value={loc}>
                         {loc}
@@ -493,7 +588,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     onChange={(e) => setPropertyType(e.target.value)}
                     className="w-full h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] text-xs focus:outline-none focus:border-[#D4AF72]"
                   >
-                    <option value="">Any Property Type</option>
+                    <option value="">{ui.anyPropertyTypeLabel}</option>
                     {PROPERTY_TYPE_OPTIONS.map((pt) => (
                       <option key={pt} value={pt}>
                         {pt}
@@ -516,10 +611,10 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     }
                     className="w-full h-8 px-2 bg-[#1B1B1B] border border-[#D4AF72]/25 text-[#F5F1E8] text-xs focus:outline-none focus:border-[#D4AF72]"
                   >
-                    <option value="">Any Purpose</option>
+                    <option value="">{ui.anyPurposeLabel}</option>
                     {PURPOSE_OPTIONS.map((purp) => (
                       <option key={purp} value={purp}>
-                        {purp}
+                        {ui.purposeLabels[purp]}
                       </option>
                     ))}
                   </select>
@@ -537,7 +632,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     onClick={() => submitQuery(undefined, true)}
                     className="h-7 px-3 bg-[#D4AF72] hover:bg-[#E6C77A] disabled:opacity-50 text-[#080808] text-[11px] font-semibold whitespace-nowrap cursor-pointer transition-colors"
                   >
-                    Find Matches
+                    {ui.findMatchesBtn}
                   </button>
                 </div>
               </div>
@@ -602,9 +697,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                       {!msg.hasExactMatches && (
                         <div className="px-2.5 py-1.5 bg-[#1B1B1B] border border-[#D4AF72]/35 text-[11px] text-[#D4AF72] flex items-center gap-1.5">
                           <Info className="w-3.5 h-3.5 shrink-0" />
-                          <span>
-                            No exact matches found — showing verified nearby or flexible-budget alternatives:
-                          </span>
+                          <span>{ui.noExactMatchesBanner}</span>
                         </div>
                       )}
 
@@ -653,7 +746,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                       : 'bg-[#1B1B1B]/95 text-[#FCD34D] border-[#FCD34D]/40'
                                   }`}
                                 >
-                                  {card.matchType === 'exact' ? 'Best Match' : 'Alternative'}
+                                  {card.matchType === 'exact' ? ui.bestMatchBadge : ui.alternativeBadge}
                                 </span>
                                 <span className="px-2 py-0.5 bg-[#080808]/85 border border-[#D4AF72]/30 text-[10px] text-[#F5F1E8]">
                                   {card.category}
@@ -688,7 +781,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                               <div className="p-2 bg-[#1B1B1B] border border-[#D4AF72]/15 flex flex-wrap items-baseline justify-between gap-2">
                                 <div>
                                   <span className="block text-[10px] uppercase tracking-wider text-[#A5A19A]">
-                                    Starting Price (AED)
+                                    {ui.startingPriceLabel}
                                   </span>
                                   <span className="font-mono-tabular text-sm font-semibold text-[#F5F1E8]">
                                     {card.formattedStartingPriceAed}
@@ -697,7 +790,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                 {card.currency !== 'AED' && (
                                   <div className="text-right">
                                     <span className="block text-[10px] text-[#D4AF72]">
-                                      Est. ({card.currency})
+                                      {ui.estLabel} ({card.currency})
                                     </span>
                                     <span className="font-mono-tabular text-xs font-semibold text-[#D4AF72]">
                                       {card.formattedStartingPriceSelected}
@@ -710,7 +803,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                               <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]">
                                 <div>
                                   <span className="text-[#7C7871] block text-[10px]">
-                                    Property Type
+                                    {ui.propertyTypeCardLabel}
                                   </span>
                                   <span className="text-[#F5F1E8] font-medium line-clamp-1">
                                     {card.propertyTypes.slice(0, 2).join(', ')}
@@ -718,7 +811,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                 </div>
                                 <div>
                                   <span className="text-[#7C7871] block text-[10px]">
-                                    Bedrooms
+                                    {ui.bedroomsCardLabel}
                                   </span>
                                   <span className="text-[#F5F1E8] font-medium line-clamp-1">
                                     {card.bedroomOptions}
@@ -728,7 +821,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                   <CreditCard className="w-3 h-3 text-[#D4AF72] shrink-0 mt-0.5" />
                                   <div className="min-w-0">
                                     <span className="text-[#7C7871] block text-[10px]">
-                                      Payment Plan
+                                      {ui.paymentPlanCardLabel}
                                     </span>
                                     <span className="text-[#F5F1E8] font-medium line-clamp-1">
                                       {card.paymentPlan}
@@ -739,7 +832,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                   <Calendar className="w-3 h-3 text-[#D4AF72] shrink-0 mt-0.5" />
                                   <div className="min-w-0">
                                     <span className="text-[#7C7871] block text-[10px]">
-                                      Handover
+                                      {ui.handoverCardLabel}
                                     </span>
                                     <span className="text-[#F5F1E8] font-medium line-clamp-1">
                                       {card.handoverDate}
@@ -752,7 +845,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                               <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-[#D4AF72]/15 text-[11px]">
                                 <span className="flex items-center gap-1 text-[#A5A19A]">
                                   <TrendingUp className="w-3.5 h-3.5 text-[#6EE7B7]" />
-                                  <span>Est. Yield:</span>
+                                  <span>{ui.estYieldLabel}</span>
                                 </span>
                                 <span className="font-mono-tabular font-semibold text-[#6EE7B7]">
                                   {hasVerifiedYield
@@ -770,7 +863,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                           ? `Gross ${card.verifiedGrossYieldPct}%`
                                           : ''
                                       }`
-                                    : 'Not available'}
+                                    : ui.notAvailableLabel}
                                 </span>
                               </div>
 
@@ -786,7 +879,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                   className="h-8 px-2.5 bg-[#1B1B1B] border border-[#D4AF72]/40 hover:border-[#D4AF72] text-[#F5F1E8] hover:text-[#D4AF72] text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors cursor-pointer"
                                 >
                                   <Compass className="w-3 h-3" />
-                                  <span>View Details</span>
+                                  <span>{ui.viewDetailsBtn}</span>
                                 </button>
                                 <button
                                   type="button"
@@ -794,7 +887,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                                   className="h-8 px-2.5 bg-[#D4AF72] hover:bg-[#E6C77A] text-[#080808] text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors cursor-pointer"
                                 >
                                   <MessageSquare className="w-3 h-3" />
-                                  <span>Contact / Enquire</span>
+                                  <span>{ui.contactEnquireBtn}</span>
                                   <ArrowUpRight className="w-3 h-3" />
                                 </button>
                               </div>
@@ -833,7 +926,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                     <Sparkles className="w-3.5 h-3.5 animate-pulse" />
                   </div>
                   <div className="px-3.5 py-2.5 bg-[#121212] border border-[#D4AF72]/25 text-xs text-[#A5A19A] flex items-center gap-2">
-                    <span>Searching verified Dubai projects</span>
+                    <span>{ui.searchingIndicator}</span>
                     <span className="inline-flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-[#D4AF72] rounded-full animate-bounce [animation-delay:-0.2s]" />
                       <span className="w-1.5 h-1.5 bg-[#D4AF72] rounded-full animate-bounce [animation-delay:-0.1s]" />
@@ -847,10 +940,10 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
               {messages.length <= 1 && !isLoading && (
                 <div className="pt-1 space-y-1.5">
                   <p className="text-[10px] uppercase tracking-wider text-[#A5A19A]">
-                    Popular Advisor Queries
+                    {ui.popularQueriesLabel}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
-                    {SUGGESTED_QUESTIONS.map((q) => (
+                    {ui.suggestedQuestions.map((q) => (
                       <button
                         key={q}
                         type="button"
@@ -899,8 +992,8 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 maxLength={600}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Ask e.g. '₹1 crore budget in JVC' or '2BR Business Bay'..."
-                aria-label="Ask Dubai Property Advisor"
+                placeholder={ui.inputPlaceholder}
+                aria-label={ui.advisorTitle}
                 className="flex-1 min-w-0 h-10 px-3 bg-[#1B1B1B] border border-[#D4AF72]/25 text-xs text-[#F5F1E8] placeholder:text-[#7C7871] focus:outline-none focus:border-[#D4AF72]"
               />
               <button
@@ -910,7 +1003,7 @@ export const DubaiAdvisorChatbot: React.FC<DubaiAdvisorChatbotProps> = ({
                 className="h-10 px-3.5 bg-[#D4AF72] hover:bg-[#E6C77A] disabled:opacity-45 text-[#080808] text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shrink-0 cursor-pointer"
               >
                 <Send className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Ask</span>
+                <span className="hidden xs:inline">{ui.askBtn}</span>
               </button>
             </form>
           </motion.aside>

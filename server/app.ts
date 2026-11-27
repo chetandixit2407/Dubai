@@ -1858,9 +1858,16 @@ export function createApiApp(): Express {
       return;
     }
 
+    const rawLanguage = typeof body.language === 'string' ? body.language.trim().toLowerCase() : 'auto';
+    const sanitizedLanguage =
+      rawLanguage === 'en' || rawLanguage === 'hi' || rawLanguage === 'hinglish'
+        ? rawLanguage
+        : 'auto';
+
     logServerEvent('info', 'route_execution_started', {
       route: '/api/ai/property-recommendations',
       hasMessage: Boolean(msg),
+      language: sanitizedLanguage,
       currency: body.preferences?.currency || 'AED',
       location: body.preferences?.location || '',
       propertyType: body.preferences?.propertyType || '',
@@ -1871,7 +1878,10 @@ export function createApiApp(): Express {
     });
 
     try {
-      const result = await runDubaiAdvisorRecommendation(body, liveInventoryOverlay);
+      const result = await runDubaiAdvisorRecommendation(
+        { ...body, language: sanitizedLanguage },
+        liveInventoryOverlay
+      );
       res.json(result);
     } catch (err) {
       logServerError('advisor_route_error', err, {
